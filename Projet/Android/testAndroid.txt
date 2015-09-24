@@ -1,1 +1,9 @@
+<<<<<<< HEAD
+tets
+=======
+<<<<<<< HEAD
+aaaaa
+=======
 kikou 2
+>>>>>>> Android
+>>>>>>> origin/master
