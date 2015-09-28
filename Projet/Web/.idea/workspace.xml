@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5241a79-8ca1-4f38-a16a-3c32805214e3" name="Default" comment="Création de l'index ainsi que l'implémentation de la récupération des Entités">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Library/constante.lib.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index.php" />
+    <list default="true" id="e5241a79-8ca1-4f38-a16a-3c32805214e3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Web.iws" />
@@ -251,7 +249,13 @@
       <option name="project" value="LOCAL" />
       <updated>1443432147139</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Création de l'index ainsi que l'implémentation de la récupération des Entités">
+      <created>1443433079135</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1443433079135</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -298,7 +302,8 @@
     </option>
     <MESSAGE value="Contructeur + hydratation de la classe&#10;&#10;=&gt; A faire encore, définir les champs de la base de donnée de l'utilisateur" />
     <MESSAGE value="Création du manager des utilisateurs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Création du manager des utilisateurs" />
+    <MESSAGE value="Création de l'index ainsi que l'implémentation de la récupération des Entités" />
+    <option name="LAST_COMMIT_MESSAGE" value="Création de l'index ainsi que l'implémentation de la récupération des Entités" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
