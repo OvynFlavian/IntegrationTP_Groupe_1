@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5241a79-8ca1-4f38-a16a-3c32805214e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="e5241a79-8ca1-4f38-a16a-3c32805214e3" name="Default" comment="" />
     <ignored path="Web.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -65,10 +63,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="User.class.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="User.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Entity/User.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.17814371" vertical-offset="0" max-vertical-offset="668">
+            <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="221">
               <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
               <folding>
                 <element signature="n#__hydrate#0;n#User#0;n#!!top" expanded="false" />
@@ -90,10 +88,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="constante.lib.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="constante.lib.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Library/constante.lib.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="323">
+            <state vertical-scroll-proportion="0.30538923" vertical-offset="0" max-vertical-offset="668">
               <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
               <folding />
             </state>
@@ -422,24 +420,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Library/constante.lib.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="323">
-          <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="340">
-          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
-          <folding>
-            <element signature="e#6#94#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://db-console:/47b45ea7/036780c2-9916-4379-b0d5-7b77b3d380f3/">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="694">
@@ -491,12 +471,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Entity/User.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17814371" vertical-offset="0" max-vertical-offset="668">
+        <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="221">
           <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
           <folding>
             <element signature="n#__hydrate#0;n#User#0;n#!!top" expanded="false" />
             <element signature="n#__construct#0;n#User#0;n#!!top" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="340">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+          <folding>
+            <element signature="e#6#94#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Library/constante.lib.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30538923" vertical-offset="0" max-vertical-offset="668">
+          <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>
