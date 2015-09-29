@@ -6,7 +6,15 @@
  * Time: 11:14
  */
 
-class User {
+class User{
+    private $id;
+    private $UserName;
+    private $Mdp;
+    private $DateInscription;
+    private $DateLastIdea;
+    private $DateLastConnect;
+    private $droit = array();
+
     private function __hydrate(array $tab)
     {
         foreach($tab as $key => $value)
@@ -15,9 +23,67 @@ class User {
             if(method_exists($this,$method))$this->$method($value);
         }
     }
-    public function __construct(array $tab)
+    public function __construct(array $user)
     {
-        $this->__hydrate($tab);
+        $this->__hydrate($user);
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getUserName()
+    {
+        return $this->UserName;
+    }
+    public function getMdp()
+    {
+        return $this->Mdp;
+    }
+    public function getDateInscription()
+    {
+        return $this->DateInscription;
+    }
+    public function getDateLastIdea()
+    {
+        return $this->DateLastIdea;
+    }
+    public function getDateLastConnect()
+    {
+        return $this->DateLastConnect;
+    }
+    public function getDroit($element)
+    {
+        return $this->droit[$element]->getLibelle();
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    public function setUserName($UserName)
+    {
+        $this->UserName = $UserName;
+    }
+    public function setMdp($Mdp)
+    {
+        $this->Mdp = $Mdp;
+    }
+    public function setDateInscription($DateInscription)
+    {
+        $this->DateInscription = $DateInscription;
+    }
+    public function setDateLastIdea($DateLastIdea)
+    {
+        $this->DateLastIdea = $DateLastIdea;
+    }
+    public function setDateLastConnect($DateLastConnect)
+    {
+        $this->DateLastConnect = $DateLastConnect;
+    }
+    public function setDroit(array $droit)
+    {
+        $this->droit = $droit;
     }
 
 }
