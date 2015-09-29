@@ -219,4 +219,4 @@ pip-log.txt
 ## PHPStorm
 ###############
 
-Projet/Web/.idea/*
+Projet/Web/.idea/*.xml
