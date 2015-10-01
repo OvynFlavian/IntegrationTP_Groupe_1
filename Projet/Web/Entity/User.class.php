@@ -52,9 +52,9 @@ class User{
     {
         return $this->DateLastConnect;
     }
-    public function getDroit($element)
+    public function getDroit()
     {
-        return $this->droit[$element]->getLibelle();
+        return $this->droit;
     }
 
     public function setId($id)

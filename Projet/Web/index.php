@@ -2,16 +2,24 @@
 /**
  * Created by PhpStorm.
  * User: Flavian Ovyn
- * Date: 28/09/2015
- * Time: 11:33
+ * Date: 1/10/2015
+ * Time: 13:58
  */
 
-require_once "./Library/constante.lib.php";
+require_once "./Library/session.lib.php";
+?>
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<header>
+    <a href="Page/connexion.page.php">Connexion</a> |
+    <a href="Page/inscription.page.php">Inscription</a>
+</header>
+<?php if(!isConnect())echo "<p>Il n\'y a pas de user de connecté</p>"?>
 
-$listEntity = unserialize(LIST_ENTITY);
-foreach($listEntity as $key => $value)
-{
-    require_once $value;
-}
-
-include_once ("./Page/home.page.php");
+</body>
+</html>

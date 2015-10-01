@@ -9,7 +9,7 @@
 class UserManager {
     private $db;
 
-    public function __construct($database)
+    public function __construct(PDO $database)
     {
         $this->db = $database;
     }
@@ -58,8 +58,8 @@ class UserManager {
     {
         $query = $this->db->prepare("INSERT INTO user(UserName, Mdp, DateInscription) VALUES (:username , :mdp , NOW())");
         $query->execute(array(
-            ":userName" => $user->getUserName(),
-            ":mdp" => hash("sha256", $user->getMdp()),
+            ":username" => $user->getUserName(),
+            ":mdp" => $user->getMdp(),
         ));
     }
 
