@@ -13,3 +13,5 @@ foreach($listEntity as $key => $value)
 {
     require_once $value;
 }
+
+include_once ("./Page/home.page.php");
