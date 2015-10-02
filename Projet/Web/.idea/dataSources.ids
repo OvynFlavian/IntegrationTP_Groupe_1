@@ -2130,6 +2130,7 @@
       <column name="DateInscription" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="DateLastIdea" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="DateLastConnect" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="Tel" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="activation_ibfk_1" table="activation" schema="" catalog="projetintegration" columns="id_user"/>
       <exported-key name="amis_ibfk_2" table="amis" schema="" catalog="projetintegration" columns="id_user_2"/>

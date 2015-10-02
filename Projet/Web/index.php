@@ -18,6 +18,7 @@ require_once "./Library/session.lib.php";
 <header>
     <a href="Page/connexion.page.php">Connexion</a> |
     <a href="Page/inscription.page.php">Inscription</a>
+    <a href="Page/profil.page.php">Profil</a>
 </header>
 <?php if(!isConnect())echo "<p>Il n\'y a pas de user de connecté</p>"?>
 

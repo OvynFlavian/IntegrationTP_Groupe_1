@@ -10,6 +10,7 @@ class User{
     private $id;
     private $UserName;
     private $Mdp;
+    private $tel;
     private $DateInscription;
     private $DateLastIdea;
     private $DateLastConnect;
@@ -56,6 +57,10 @@ class User{
     {
         return $this->droit;
     }
+    public function getTel()
+    {
+        return $this->tel;
+    }
 
     public function setId($id)
     {
@@ -84,6 +89,10 @@ class User{
     public function setDroit(array $droit)
     {
         $this->droit = $droit;
+    }
+    public function setTel($tel)
+    {
+        $this->tel = $tel;
     }
 
 }

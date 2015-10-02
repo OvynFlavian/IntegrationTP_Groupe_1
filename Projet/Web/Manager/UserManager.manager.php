@@ -23,7 +23,11 @@ class UserManager {
 
         $tabUser = $query->fetch(PDO::FETCH_ASSOC);
 
-        return new User($tabUser);
+        $userToConnect = new User($tabUser);
+        $tabDroit = $this->getUserDroit($userToConnect);
+        $userToConnect->setDroit($tabDroit);
+
+        return $userToConnect;
     }
     public function getUserByUserName($userName)
     {
@@ -34,7 +38,11 @@ class UserManager {
 
         $tabUser = $query->fetch(PDO::FETCH_ASSOC);
 
-        return new User($tabUser);
+        $userToConnect = new User($tabUser);
+        $tabDroit = $this->getUserDroit($userToConnect);
+        $userToConnect->setDroit($tabDroit);
+
+        return $userToConnect;
     }
     public function getUserDroit(User $user)
     {
@@ -51,16 +59,34 @@ class UserManager {
             $tab[] = new Droit($elem);
         }
 
-        $user->setDroit($tab);
+        return $tab;
     }
 
     public function addUser(User $user)
     {
-        $query = $this->db->prepare("INSERT INTO user(UserName, Mdp, DateInscription) VALUES (:username , :mdp , NOW())");
+        $query = $this
+            ->db
+            ->prepare("INSERT INTO user(UserName, Mdp, DateInscription) VALUES (:username , :mdp , NOW())");
+
         $query->execute(array(
             ":username" => $user->getUserName(),
             ":mdp" => $user->getMdp(),
         ));
+    }
+
+    public function updateUserProfil(User $user)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , Tel = :tel WHERE id = :id");
+
+        $query
+            ->execute(array(
+                ":id" => $user->getId(),
+                ":username" => $user->getUserName(),
+                ":mdp" => $user->getMdp(),
+                ":tel" => $user->getTel(),
+            ));
     }
 
 }

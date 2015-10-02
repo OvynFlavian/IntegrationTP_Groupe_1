@@ -16,6 +16,11 @@ function getSessionUser()
     return (isConnect() ? $_SESSION['User'] : '');
 }
 
+function postSessionForm()
+{
+    return isset($_SESSION['modif']);
+}
+
 /*function isAllow()
 {
     $user = getSessionUser();
