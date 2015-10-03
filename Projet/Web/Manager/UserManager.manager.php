@@ -14,6 +14,18 @@ class UserManager {
         $this->db = $database;
     }
 
+    /**
+     *
+     */
+    public function getAllUser() {
+        $resultats = $this->db->query("SELECT * FROM USER");
+        $resultats->execute();
+        $tabUser = $resultats->fetchAll(PDO::FETCH_ASSOC);
+
+        return $tbUser;
+
+    }
+
     public function getUserById($id)
     {
         $query = $this->db->prepare("SELECT * FROM user WHERE id = :id");
