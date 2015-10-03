@@ -52,47 +52,16 @@
     <meta charset="UTF-8">
     <title>Inscription</title>
     <script type="text/javascript">
-        function verification_inscription() {
-            if (document.formulaire.userName.value == "") {
-                alert("Le login est obligatoire, rentrez-le !");
-                document.formulaire.userName.focus();
-                return false;
-            }
-            if (document.formulaire.email.value == "") {
-                alert("L'email est obligatoire, rentrez-le !");
-                document.formulaire.email.focus();
-                return false;
-            }
-            if (document.formulaire.mdp.value == "") {
-                alert("Le mdp est obligatoire, rentrez-le !");
-                document.formulaire.mdp.focus();
-                return false;
-            }
-            if (document.formulaire.emailConfirm.value != document.formulaire.email.value) {
-                alert("La vérification de l'email ne correspond pas, corrigez-le !");
-                document.formulaire.emailConfirm.focus();
-                return false;
-            }
-            if (document.formulaire.mdpConfirm.value != document.formulaire.mdp.value) {
-                alert("La vérification du mot de passe ne correspond pas, corrigez-le !");
-                document.formulaire.mdpConfirm.focus();
-                return false;
-            }
-        }
+        <?php
+            include("../Script/inscription.js");
+        ?>
     </script>
 </head>
-<?php
-    echo "<p>Page Inscription</p>";
-?>
 <body>
-    <form name="formulaire" action="inscription.page.php" method="post" onSubmit="return verification_inscription()">
-        <label for="userName">Login (6 caractères min) : </label><input type="text" id="userName" name="userName" <?php if (isset($_POST['userName'])) { echo "value='".htmlentities($_POST['userName'])."'"; } ?>><br>
-        <label for="mdp">Mot de passe (5 caractères min): </label><input type="password" id="mdp" name="mdp"><br>
-        <label for="mdpConfirm">Confirmation mot de passe : </label><input type="password" id="mdpConf" name="mdpConf"><br>
-        <label for="email">Email : </label><input type="email" id="email" name="email" <?php if (isset($_POST['email'])) { echo "value='".htmlentities($_POST['email'])."'"; } ?>><br>
-        <label for="emailConfirm">Confirmation Email : </label><input type="email" id="emailConfirm" name="emailConfirm" <?php if (isset($_POST['emailConfirm'])) { echo "value='".htmlentities($_POST['emailConfirm'])."'"; } ?>><br>
-        <button type="submit" id="formulaire" name="envoyer">Envoyer</button>
-    </form>
+    <?php
+        echo "<p>Page Inscription</p>";
+        include("../Form/inscription.form.php");
+    ?>
 
 </body>
 </html>
