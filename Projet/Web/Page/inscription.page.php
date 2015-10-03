@@ -12,7 +12,6 @@
     require "../Library/Fonctions/Fonctions.php";
     require "../Library/post.lib.php";
     require "../Library/session.lib.php";
-    require "../Library/post.lib.php";
     require "../Manager/ActivationManager.manager.php";
     require "../Entity/Activation.class.php";
 
