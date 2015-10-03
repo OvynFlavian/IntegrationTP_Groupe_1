@@ -110,4 +110,17 @@ class UserManager {
             ));
     }
 
+    public function updateUserConnect(User $user)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE user SET DateLastConnect = NOW() WHERE id = :id");
+
+        $query
+            ->execute(array(
+                ":id" => $user->getId(),
+            ));
+
+    }
+
 }
