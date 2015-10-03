@@ -88,7 +88,7 @@ class UserManager {
         $query = $this
             ->db
             ->prepare("INSERT INTO user(UserName, Mdp, DateInscription) VALUES (:username , :mdp , NOW())");
-
+        $user-> setMdp(hash("sha256", $user->getMdp()));
         $query->execute(array(
             ":username" => $user->getUserName(),
             ":mdp" => $user->getMdp(),

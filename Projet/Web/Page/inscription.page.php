@@ -18,32 +18,9 @@
     require "../Library/Page/inscription.lib.php";
 
     if(isConnect())header("Location:../");
-    if(isPostFormulaire() && isValid())
-    {
-        /** @var $um : un nouvel user qui va être ajouté à la BDD
-         J'ajoute le nouvel user à la BDD*/
-        $um = new UserManager(connexionDb());
-        $um->addUser(new User(array(
-            "UserName" => $_POST['UserName'],
-            "Mdp" => $_POST['Mdp'],
 
-        )));
-        /**
-         * Ici j'ai besoin de savoir quel est le user id du nouveau membre ajouté pour pouvoir le mettre dans l'ajout du code d'activation de cet user
-         * Donc je vais le rechercher en base de donnée où il vient d'être ajouté
-         */
-        $user = $um->getUserByUserName($_POST['userName']);
-        $userid = $user->getId();
-        /**
-         * J'ajoute le nouveau code d'activation à la BDD
-         */
-        $ac = new ActivationManager(connexionDb());
-        $ac->addActivation(new Activation(array(
-            "code" => $code_aleatoire,
-            "id_user" => $userid,
-            "libelle" => "Inscription",
-        )));
-    }
+    if(isPostFormulaire() && isValid())
+        addDB();
 ?>
 
 <!doctype html>
