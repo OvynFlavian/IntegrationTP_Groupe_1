@@ -10,18 +10,39 @@
     require "../Manager/UserManager.manager.php";
     require "../Library/config.lib.php";
     require "../Library/Fonctions/Fonctions.php";
+    require "../Library/post.lib.php";
     require "../Library/session.lib.php";
     require "../Library/post.lib.php";
+    require "../Manager/ActivationManager.manager.php";
+    require "../Entity/Activation.class.php";
 
     require "../Library/Page/inscription.lib.php";
 
     if(isConnect())header("Location:../");
-    if(isPostFormulaire() and isValid())
+    if(isPostFormulaire() && isValid())
     {
+        /** @var $um : un nouvel user qui va être ajouté à la BDD
+         J'ajoute le nouvel user à la BDD*/
         $um = new UserManager(connexionDb());
         $um->addUser(new User(array(
             "UserName" => $_POST['UserName'],
             "Mdp" => $_POST['Mdp'],
+
+        )));
+        /**
+         * Ici j'ai besoin de savoir quel est le user id du nouveau membre ajouté pour pouvoir le mettre dans l'ajout du code d'activation de cet user
+         * Donc je vais le rechercher en base de donnée où il vient d'être ajouté
+         */
+        $user = $um->getUserByUserName($_POST['userName']);
+        $userid = $user->getId();
+        /**
+         * J'ajoute le nouveau code d'activation à la BDD
+         */
+        $ac = new ActivationManager(connexionDb());
+        $ac->addActivation(new Activation(array(
+            "code" => $code_aleatoire,
+            "id_user" => $userid,
+            "libelle" => "Inscription",
         )));
     }
 ?>
@@ -33,29 +54,29 @@
     <title>Inscription</title>
     <script type="text/javascript">
         function verification_inscription() {
-            if (document.inscription.userName.value == "") {
+            if (document.formulaire.userName.value == "") {
                 alert("Le login est obligatoire, rentrez-le !");
-                document.inscription.userName.focus();
+                document.formulaire.userName.focus();
                 return false;
             }
-            if (document.inscription.email.value == "") {
+            if (document.formulaire.email.value == "") {
                 alert("L'email est obligatoire, rentrez-le !");
-                document.inscription.email.focus();
+                document.formulaire.email.focus();
                 return false;
             }
-            if (document.inscription.mdp.value == "") {
+            if (document.formulaire.mdp.value == "") {
                 alert("Le mdp est obligatoire, rentrez-le !");
-                document.inscription.mdp.focus();
+                document.formulaire.mdp.focus();
                 return false;
             }
-            if (document.inscription.emailConfirm.value != document.inscription.email.value) {
-                alert("La v�rification de l'email ne correspond pas, corrigez-le !");
-                document.inscription.emailConfirm.focus();
+            if (document.formulaire.emailConfirm.value != document.formulaire.email.value) {
+                alert("La vérification de l'email ne correspond pas, corrigez-le !");
+                document.formulaire.emailConfirm.focus();
                 return false;
             }
-            if (document.inscription.mdpConfirm.value != document.inscription.mdp.value) {
-                alert("La v�rification du mot de passe ne correspond pas, corrigez-le !");
-                document.inscription.mdpConfirm.focus();
+            if (document.formulaire.mdpConfirm.value != document.formulaire.mdp.value) {
+                alert("La vérification du mot de passe ne correspond pas, corrigez-le !");
+                document.formulaire.mdpConfirm.focus();
                 return false;
             }
         }
@@ -63,68 +84,16 @@
 </head>
 <?php
     echo "<p>Page Inscription</p>";
-    $ini = getConfigFile();
 ?>
 <body>
-    <form name="inscription" action="inscription.page.php" method="post" onSubmit="return verification_inscription()">
+    <form name="formulaire" action="inscription.page.php" method="post" onSubmit="return verification_inscription()">
         <label for="userName">Login (6 caractères min) : </label><input type="text" id="userName" name="userName" <?php if (isset($_POST['userName'])) { echo "value='".htmlentities($_POST['userName'])."'"; } ?>><br>
-        <label for="mdp">Mot de passe (5 caractères min): </label><input type="text" id="mdp" name="mdp"><br>
-        <label for="mdpConfirm">Confirmation mot de passe : </label><input type="text" id="mdpConf" name="mdpConf"><br>
-        <label for="email">Email : </label><input type="text" id="email" name="email" <?php if (isset($_POST['email'])) { echo "value='".htmlentities($_POST['email'])."'"; } ?>><br>
-        <label for="emailConfirm">Confirmation Email : </label><input type="text" id="emailConfirm" name="emailConfirm" <?php if (isset($_POST['emailConfirm'])) { echo "value='".htmlentities($_POST['emailConfirm'])."'"; } ?>><br>
+        <label for="mdp">Mot de passe (5 caractères min): </label><input type="password" id="mdp" name="mdp"><br>
+        <label for="mdpConfirm">Confirmation mot de passe : </label><input type="password" id="mdpConf" name="mdpConf"><br>
+        <label for="email">Email : </label><input type="email" id="email" name="email" <?php if (isset($_POST['email'])) { echo "value='".htmlentities($_POST['email'])."'"; } ?>><br>
+        <label for="emailConfirm">Confirmation Email : </label><input type="email" id="emailConfirm" name="emailConfirm" <?php if (isset($_POST['emailConfirm'])) { echo "value='".htmlentities($_POST['emailConfirm'])."'"; } ?>><br>
         <button type="submit" id="formulaire" name="envoyer">Envoyer</button>
     </form>
-    <?php
-         if(isset($_POST['userName']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['mdpConfirm']) &&
-            isset($_POST['emailConfirm']) && $_POST['mdp'] == $_POST['mdpConfirm'] && $_POST['email'] == $_POST['emailConfirm']) {
-             $userName = strtolower($_POST['userName']);
-             $mdp = $_POST['mdp'];
-             $email = $_POST['email'];
-             if (strlen($userName) < $ini['CONSTANTE']['size_user_name']) {
-                 echo "Votre nom d'utilisateur est trop court, 6 caract�res minimum ! <br>";
-             } else if (strlen($mdp) < $ini['CONSTANTE']['size_user_mdp']) {
-                 echo "Votre mot de passe est trop court, 5 caract�res minimum ! <br>";
-             } else {
-                 $loginValable = 0;
-                 $emailValable = 0;
-                 $tbUser = getAllUser();
-                while ($resultat = $tbUser->fetch()) {
-                    if ($userName == $resultat->userName) {
-                        $loginValable = 1;
-                    }
-                    if ($email == $resultat->email) {
-                        $emailValable = 1;
-                    }
-                }
-                 if ($loginValable == 1) {
-                     echo "Ce login est d�j� pris, veuillez en choisir en autre ! <br>";
-                 }
-                 else if ($emailValable == 1) {
-                     echo "Cette adresse mail est d�j� utilis�e, veuillez en choisir une autre ! <br>";
-                 }
-                 else if (!champsEmailValable($email)) {
-                     echo "Votre adresse mail contient des caract�res ind�sirables !";
-                 }
-                 else if (!champsLoginValable($userName)) {
-                     echo "Votre nom d'utilisateur contient des caract�res ind�sirables !";
-                 }
-                 else if (!champsMdpValable($mdp)) {
-                     echo "Votre mot de passe contient des caract�res ind�sirables !";
-                 }
-                 else if ($loginValable == 0 && $emailValable == 0) {
 
-                 }
-             }
-
-
-             $user = new User(array(
-                 "UserName" => "Flavian",
-                 "Mdp" => "Flavian",
-             ));
-
-             $user->setMdp(hash("sha256", $user->getMdp()));
-             $um->addUser($user);
-         }
-    ?>
 </body>
 </html>

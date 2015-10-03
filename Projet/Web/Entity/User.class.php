@@ -11,6 +11,7 @@ class User{
     private $UserName;
     private $Mdp;
     private $tel;
+    private $email;
     private $DateInscription;
     private $DateLastIdea;
     private $DateLastConnect;
@@ -32,6 +33,14 @@ class User{
     public function getId()
     {
         return $this->id;
+    }
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
     public function getUserName()
     {
