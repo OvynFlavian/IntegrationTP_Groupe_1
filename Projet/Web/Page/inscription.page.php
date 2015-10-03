@@ -6,13 +6,24 @@
  * Time: 14:35
  */
     require "../Library/database.lib.php";
-    $db = connexionDb();
     require "../Entity/User.class.php";
     require "../Manager/UserManager.manager.php";
-    require "../Library/Page/config.lib.php";
+    require "../Library/config.lib.php";
     require "../Library/Fonctions/Fonctions.php";
+    require "../Library/session.lib.php";
+    require "../Library/post.lib.php";
 
-    if(!isConnect())header("Location:../");
+    require "../Library/Page/inscription.lib.php";
+
+    if(isConnect())header("Location:../");
+    if(isPostFormulaire() and isValid())
+    {
+        $um = new UserManager(connexionDb());
+        $um->addUser(new User(array(
+            "UserName" => $_POST['UserName'],
+            "Mdp" => $_POST['Mdp'],
+        )));
+    }
 ?>
 
 <!doctype html>
@@ -38,12 +49,12 @@
                 return false;
             }
             if (document.inscription.emailConfirm.value != document.inscription.email.value) {
-                alert("La vérification de l'email ne correspond pas, corrigez-le !");
+                alert("La vï¿½rification de l'email ne correspond pas, corrigez-le !");
                 document.inscription.emailConfirm.focus();
                 return false;
             }
             if (document.inscription.mdpConfirm.value != document.inscription.mdp.value) {
-                alert("La vérification du mot de passe ne correspond pas, corrigez-le !");
+                alert("La vï¿½rification du mot de passe ne correspond pas, corrigez-le !");
                 document.inscription.mdpConfirm.focus();
                 return false;
             }
@@ -53,12 +64,11 @@
 <?php
     echo "<p>Page Inscription</p>";
     $ini = getConfigFile();
-    $um = new UserManager($db);
 ?>
 <body>
     <form name="inscription" action="inscription.page.php" method="post" onSubmit="return verification_inscription()">
-        <label for="userName">Login (6 caractères min) : </label><input type="text" id="userName" name="userName" <?php if (isset($_POST['userName'])) { echo "value='".htmlentities($_POST['login'])."'"; } ?>><br>
-        <label for="mdp">Mot de passe (5 caractères min): </label><input type="text" id="mdp" name="mdp"><br>
+        <label for="userName">Login (6 caractÃ¨res min) : </label><input type="text" id="userName" name="userName" <?php if (isset($_POST['userName'])) { echo "value='".htmlentities($_POST['userName'])."'"; } ?>><br>
+        <label for="mdp">Mot de passe (5 caractÃ¨res min): </label><input type="text" id="mdp" name="mdp"><br>
         <label for="mdpConfirm">Confirmation mot de passe : </label><input type="text" id="mdpConf" name="mdpConf"><br>
         <label for="email">Email : </label><input type="text" id="email" name="email" <?php if (isset($_POST['email'])) { echo "value='".htmlentities($_POST['email'])."'"; } ?>><br>
         <label for="emailConfirm">Confirmation Email : </label><input type="text" id="emailConfirm" name="emailConfirm" <?php if (isset($_POST['emailConfirm'])) { echo "value='".htmlentities($_POST['emailConfirm'])."'"; } ?>><br>
@@ -71,9 +81,9 @@
              $mdp = $_POST['mdp'];
              $email = $_POST['email'];
              if (strlen($userName) < $ini['CONSTANTE']['size_user_name']) {
-                 echo "Votre nom d'utilisateur est trop court, 6 caractères minimum ! <br>";
+                 echo "Votre nom d'utilisateur est trop court, 6 caractï¿½res minimum ! <br>";
              } else if (strlen($mdp) < $ini['CONSTANTE']['size_user_mdp']) {
-                 echo "Votre mot de passe est trop court, 5 caractères minimum ! <br>";
+                 echo "Votre mot de passe est trop court, 5 caractï¿½res minimum ! <br>";
              } else {
                  $loginValable = 0;
                  $emailValable = 0;
@@ -87,19 +97,19 @@
                     }
                 }
                  if ($loginValable == 1) {
-                     echo "Ce login est déjà pris, veuillez en choisir en autre ! <br>";
+                     echo "Ce login est dï¿½jï¿½ pris, veuillez en choisir en autre ! <br>";
                  }
                  else if ($emailValable == 1) {
-                     echo "Cette adresse mail est déjà utilisée, veuillez en choisir une autre ! <br>";
+                     echo "Cette adresse mail est dï¿½jï¿½ utilisï¿½e, veuillez en choisir une autre ! <br>";
                  }
                  else if (!champsEmailValable($email)) {
-                     echo "Votre adresse mail contient des caractères indésirables !";
+                     echo "Votre adresse mail contient des caractï¿½res indï¿½sirables !";
                  }
                  else if (!champsLoginValable($userName)) {
-                     echo "Votre nom d'utilisateur contient des caractères indésirables !";
+                     echo "Votre nom d'utilisateur contient des caractï¿½res indï¿½sirables !";
                  }
                  else if (!champsMdpValable($mdp)) {
-                     echo "Votre mot de passe contient des caractères indésirables !";
+                     echo "Votre mot de passe contient des caractï¿½res indï¿½sirables !";
                  }
                  else if ($loginValable == 0 && $emailValable == 0) {
 
