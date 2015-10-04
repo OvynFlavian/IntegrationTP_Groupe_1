@@ -15,7 +15,7 @@
     }
 
     function champsLoginValable($champ) {
-     if(preg_match('#^[a-zA-Z0-9 \ �������! ]*$#', $champ)) {
+     if(preg_match('#^[a-zA-Z0-9 \ éàèîêâô! ]*$#', $champ)) {
           return true;
      }
      else {
@@ -24,7 +24,7 @@
     }
 
     function champsMdpValable($champ) {
-     if(preg_match('#^[a-zA-Z0-9 \ �������!? ]*$#', $champ)) {
+     if(preg_match('#^[a-zA-Z0-9 \ éàèîêâô!? ]*$#', $champ)) {
            return true;
         }
      else {

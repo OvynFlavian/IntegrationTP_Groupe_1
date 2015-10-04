@@ -65,6 +65,21 @@ class UserManager {
 
         return $userToConnect;
     }
+    public function getUserByEmail($email)
+    {
+        $query = $this->db->prepare("SELECT * FROM user WHERE email = :email");
+        $query->execute(array(
+            ":email" => $email
+        ));
+
+        $tabUser = $query->fetch(PDO::FETCH_ASSOC);
+
+        $userToConnect = new User($tabUser);
+        $tabDroit = $this->getUserDroit($userToConnect);
+        $userToConnect->setDroit($tabDroit);
+
+        return $userToConnect;
+    }
     public function getUserDroit(User $user)
     {
         $query = $this->db->prepare("SELECT * FROM user_droit WHERE id_User = :idUser");
@@ -123,6 +138,19 @@ class UserManager {
                 ":id" => $user->getId(),
             ));
 
+    }
+
+    public function updateUserMdp (User $user) {
+
+        $query = $this
+            -> db
+            ->prepare("UPDATE user SET Mdp = :mdp where id = :id");
+        $user->setMdp(hash("sha256", $user->getMdp()));
+        $query
+            ->execute(array(
+                ":id" => $user->getId(),
+                ":mdp" => $user->getMdp(),
+            ));
     }
 
 }

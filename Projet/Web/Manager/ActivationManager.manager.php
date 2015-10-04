@@ -79,6 +79,20 @@ class ActivationManager {
 
         return $tab;
     }
+    public function getActivationByCodeAndLibelle($libelle, $code)
+    {
+        $query = $this->db->prepare("SELECT * FROM activation WHERE libelle = :libelle and code = :code");
+        $query->execute(array(
+            ":libelle" => $libelle,
+            ":code" => $code,
+        ));
+
+        $tabActi = $query->fetch(PDO::FETCH_ASSOC);
+
+        $codeRenvoi = new Activation($tabActi);
+
+        return $codeRenvoi;
+    }
 
     public function addActivation(Activation $activation)
     {
