@@ -19,9 +19,11 @@
     connexionDb();
     if(isConnect())header("Location:../");
     if(isPostFormulaire() && isValidBis()['Retour']) {
+
         addDB();
-    } else if (!isValidBis()['Retour']) {
-        foreach (isValidBis()['Erreur'] as $elem) {
+    } else if (isPostFormulaire() and !isValidBis()['Retour']) {
+
+        foreach (isValidBis()['Error'] as $elem) {
             echo $elem;
         }
     }

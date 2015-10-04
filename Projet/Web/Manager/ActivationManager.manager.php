@@ -32,7 +32,7 @@ class ActivationManager {
             ":id" => $id
         ));
 
-        $tabAct = $query->fetch(PDO::FETCH_ASSOC);
+        $tabAct = $query->fetchAll(PDO::FETCH_ASSOC);
         $tab = array();
         foreach($tabAct as $elem)
         {

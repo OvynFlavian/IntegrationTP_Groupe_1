@@ -6,17 +6,25 @@
  * Time: 22:53
  */
 function doConnect() {
+    var_dump($_POST);
     $mdp = $_POST['mdp'];
     $userName = $_POST['userName'];
     $manager = new UserManager(connexionDb());
     $tabUser = $manager->getAllUser();
+    $userToConnect = new User(array(
+        "UserName" => $userName,
+        "Mdp" => $mdp
+    ));
 
     /**
      * Je vérifie sur le user est dans la base de donnée et existe bel et bien
      */
     $echec = false;
     foreach ($tabUser as $elem) {
-        if ($userName == $elem->getUserName() && password_verify($mdp, $elem->getMdp())) {
+
+        //$mdp == hash("sha256", $elem->getMdp());
+        //password_verify($mdp, $elem->getMdp())
+        if ($userName == $elem->getUserName() && hash("sha256", $userToConnect->getMdp()) == $elem->getMdp()) {
             $echec = false;
             $id = $elem->getId();
             $email = $elem->getEmail();
@@ -34,6 +42,8 @@ function doConnect() {
      */
     $needActi = false;
     if (isset($id) && !empty($id)) {
+        require "../Manager/ActivationManager.manager.php";
+        require "../Entity/Activation.class.php";
         $acManager = new ActivationManager(connexionDb());
         $tabActivation = $acManager->getActivationByLibelleAndId("Inscription",$id);
         if (isset($tabActivation) && !empty($tabActivation)) {

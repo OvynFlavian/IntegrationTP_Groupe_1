@@ -85,6 +85,7 @@ class UserManager {
 
     public function addUser(User $user)
     {
+        var_dump($user);
         $query = $this
             ->db
             ->prepare("INSERT INTO user(UserName, Mdp, DateInscription, email) VALUES (:username , :mdp , NOW(), :email)");
