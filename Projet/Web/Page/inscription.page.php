@@ -18,8 +18,14 @@
     require "../Library/Page/inscription.lib.php";
     connexionDb();
     if(isConnect())header("Location:../");
-    if(isPostFormulaire() && isValidBis()['Retour'])
+    if(isPostFormulaire() && isValidBis()['Retour']) {
         addDB();
+    } else if (!isValidBis()['Retour']) {
+        foreach (isValidBis()['Erreur'] as $elem) {
+            echo $elem;
+        }
+    }
+
 
 
 ?>

@@ -41,7 +41,7 @@
 
                 if(!champsEmailValable($email))
                 {
-                    $tabReturn['Error'] = "Votre adresse mail contient des caractères indésirables !";
+                    $tabReturn['Error'][] = "Votre adresse mail contient des caractères indésirables !";
                     $champValid = false;
                 }
                 if (!champsLoginValable($userName))
@@ -115,7 +115,6 @@
             "Mdp" => $_POST['mdp'],
         ));
 
-        $userToAdd->setHashMdp();
         $code_aleatoire = genererCode();
         $adresseAdmin = "andrewblake@hotmail.fr";
         $to = $userToAdd->getEmail();
