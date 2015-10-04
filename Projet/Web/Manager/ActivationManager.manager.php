@@ -107,6 +107,18 @@ class ActivationManager {
         ));
     }
 
+    public function deleteActivationByIdAndLibelle($id, $libelle) {
+        $query = $this
+            ->db
+            ->prepare("DELETE FROM activation where id_user = :id and libelle = :libelle");
+
+        $query
+            ->execute(array(
+                ":id" => $id,
+                ":libelle" => $libelle,
+            ));
+    }
+
     public function deleteActivation(Activation $activation)
     {
         $query = $this

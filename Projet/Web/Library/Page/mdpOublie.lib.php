@@ -50,6 +50,15 @@
                   "libelle" => "Récupération",
               ));
 
+
+              $acDelete = $am->getActivationById($userToSend->getId());
+              /**
+               * Si le user possède déjà un code de récupération de mdp, je le delete pour lui en mettre un nouveau
+               */
+              if (!empty($acDelete)) {
+                  $am->deleteActivationByIdAndLibelle($acDelete->getId(), 'Récupération');
+              }
+
               $am->addActivation($ac);
           }
       }
@@ -100,7 +109,7 @@
  * possédant ce code d'activation et si cela est vrai, il change son mdp en bdd et delete son code d'activation en BDD
  */
     function changementMdp() {
-        if (isset($_POST['userName']) && isset($_POST['mdp']) && $_POST['mdp'] == $_POST['verifmdp']) {
+        if (isset($_POST['userName']) && isset($_POST['mdp']) && $_POST['mdp'] == $_POST['verifmdp'] && goodCode()) {
             $code = $_GET['code'];
             $mdp = $_POST['mdp'];
             $userName = $_POST['userName'];
@@ -124,7 +133,7 @@
             if ($userTest->getUserName() != $userRecup->getUserName() ) {
 
 
-                echo "Votre nom d'utilisateur ne correspond pas à l'utilisateur possédant ce code d'activation";
+                echo "Votre nom d'utilisateur ne correspond pas à l'utilisateur possédant ce code d'activation !";
 
 
             } else {
