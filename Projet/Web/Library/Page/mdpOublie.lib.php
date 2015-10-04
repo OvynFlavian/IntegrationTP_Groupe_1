@@ -105,6 +105,8 @@
             echo "    Vérification du mdp :		<input name='verifmdp' type='password'> <br>";
             echo "    <input type='submit' name='formulaire'>";
             echo "</form>";
+        } else {
+            echo "Revenez avec un code correct ! <br>";
         }
     }
 
