@@ -25,11 +25,22 @@ class ActivationManager {
      * @return Activation
      */
     public function getActivationByLibelleAndId($libelle, $id)
+{
+    $query = $this->db->prepare("SELECT * FROM activation WHERE libelle = :libelle and id_user= :id");
+    $query->execute(array(
+        ":libelle" => $libelle,
+        ":id" => $id
+    ));
+
+    $tabAct = $query->fetch(PDO::FETCH_ASSOC);
+    $act = new Activation($tabAct);
+    return $act;
+}
+    public function getActivationByCode($code)
     {
-        $query = $this->db->prepare("SELECT * FROM activation WHERE libelle = :libelle and id_user= :id");
+        $query = $this->db->prepare("SELECT * FROM activation WHERE code = :code");
         $query->execute(array(
-            ":libelle" => $libelle,
-            ":id" => $id
+            ":code" => $code,
         ));
 
         $tabAct = $query->fetch(PDO::FETCH_ASSOC);

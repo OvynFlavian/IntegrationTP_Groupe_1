@@ -39,7 +39,7 @@
               $entete="From:".$adresseAdmin."\r\n";
               $entete .= "Content-Type: text/html; charset=utf-8\r\n";
               $message = "Nous confirmons que vous avez bien demandé un nouveau mot de passe : <br>
-							Votre lien pour pouvoir le modifier est : <a href='www.everydayidea/mdpOublie.php&code=" . $code_aleatoire . "'>www.everydayidea/mdpOublie.php&code=" . $code_aleatoire . "</a>";
+							Votre lien pour pouvoir le modifier est : <a href='www.everydayidea/mdpOublie.php?code=" . $code_aleatoire . "'>www.everydayidea/mdpOublie.php?code=" . $code_aleatoire . "</a>";
               mail($to, $sujet, $message, $entete);
               echo "Un mail vous a été envoyé avec un code d'activation pour le changement de votre mot de passe !";
 
@@ -99,7 +99,7 @@
     function formulaireChangement() {
         if (goodCode()) {
             $code = $_GET['code'];
-            echo "<form name='validation' action='www.everydayidea/mdpOublie.php&code=$code' method='post' onSubmit='return verification_validation()'>";
+            echo "<form name='validation' action='www.everydayidea/mdpOublie.php?code=$code' method='post' onSubmit='return verification_validation()'>";
             echo "  Nom d'utilisateur :      						<input name='userName' type='text'> <br>";
             echo "   Mot de passe : 				<input name='mdp' type='password'> <br>";
             echo "    Vérification du mdp :		<input name='verifmdp' type='password'> <br>";
