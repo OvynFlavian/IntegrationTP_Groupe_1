@@ -15,7 +15,8 @@ class UserManager {
     }
 
     /**
-     *
+     * Méthode permettant la récupération de tous les utilisateurs
+     * @return array $tab contentant tous les users
      */
     public function getAllUser() {
         $resultats = $this->db->query("SELECT * FROM USER");
@@ -31,7 +32,6 @@ class UserManager {
         }
 
         return $tab;
-
 
     }
 

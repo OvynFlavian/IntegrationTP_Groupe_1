@@ -6,6 +6,10 @@
  * Time: 11:14
  */
 
+/**
+ * Class User
+ * Entité de la base de donnée définissant un utilisateur de l'application et du site.
+ */
 class User{
     private $id;
     private $UserName;
@@ -17,12 +21,15 @@ class User{
     private $DateLastConnect;
     private $droit = array();
 
+    /**
+     * Fonction permettant l'hydratation de la classe.
+     * @param array $tab est un tableau associatif selon les attributs a assigner.
+     */
     private function __hydrate(array $tab)
     {
         foreach($tab as $key => $value)
         {
-            $method = 'set'. $key;
-            if(method_exists($this,$method))$this->$method($value);
+            if(property_exists($this,$key))$this->$key = $value;
         }
     }
     public function __construct(array $user)
@@ -30,6 +37,7 @@ class User{
         $this->__hydrate($user);
     }
 
+    /**GETTER**/
     public function getId()
     {
         return $this->id;
@@ -71,6 +79,7 @@ class User{
         return $this->tel;
     }
 
+    /**SETTER**/
     public function setId($id)
     {
         $this->id = $id;
@@ -104,6 +113,11 @@ class User{
         $this->tel = $tel;
     }
 
+    /**
+     * Fonction permettant le hashage du mots de passe.
+     * @use inscription
+     * @use profil
+     */
     public function setHashMdp()
     {
         $this->setMdp(hash("sha256", $this->getMdp()));

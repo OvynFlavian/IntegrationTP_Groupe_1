@@ -6,14 +6,22 @@
  * Time: 14:52
  */
 
+/**
+ * Fonction permettant la connexion à la base de donnée
+ * @return PDO la base de donnée
+ */
 function connexionDb()
 {
-    $servername = "mysql:host=localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "dbname=projetIntegration";
+    $confDb = getConfigFile()['DATABASE'];
 
-    $db = new PDO("$servername;$dbname", $username, $password);
+    $type = $confDb['type'];
+    $host = $confDb['host'];
+    $servername = "$type:host=$host";
+    $username = $confDb['username'];
+    $password = $confDb['password'];
+    $dbname = $confDb['dbname'];
+
+    $db = new PDO("$servername;dbname=$dbname", $username, $password);
 
     return $db;
 }

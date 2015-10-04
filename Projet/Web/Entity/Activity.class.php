@@ -6,18 +6,25 @@
  * Time: 19:40
  */
 
+/**
+ * Class Activity
+ * Entité de la base de donnée définissant une activité proposé.
+ */
 class Activity {
     private $id;
     private $Libelle;
     private $Signalee;
     private $ByGroup;
 
+    /**
+     * Fonction permettant l'hydratation de la classe.
+     * @param array $tab est un tableau associatif selon les attributs a assigner.
+     */
     private function __hydrate(array $tab)
     {
         foreach($tab as $key => $value)
         {
-            $method = 'set'. $key;
-            if(method_exists($this,$method))$this->$method($value);
+            if(property_exists($this,$key))$this->$key = $value;
         }
     }
     public function __construct(array $activity)
@@ -25,6 +32,7 @@ class Activity {
         $this->__hydrate($activity);
     }
 
+    /**GETTER**/
     public function getId()
     {
         return $this->id;
@@ -42,6 +50,7 @@ class Activity {
         return $this->ByGroup;
     }
 
+    /**SETTER**/
     public function setId($id)
     {
         $this->id = $id;

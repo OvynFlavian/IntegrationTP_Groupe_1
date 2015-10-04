@@ -11,6 +11,10 @@ class Activation {
     private $code;
     private $libelle;
 
+    /**
+     * Fonction permettant l'hydratation de la classe.
+     * @param array $tab est un tableau associatif selon les attributs a assigner.
+     */
     private function __hydrate(array $tab)
     {
         foreach($tab as $key => $value)
@@ -23,6 +27,7 @@ class Activation {
         $this->__hydrate($activation);
     }
 
+    /**GETTER**/
     public function getIdUser()
     {
         return $this->id_user;
@@ -36,6 +41,7 @@ class Activation {
         return $this->libelle;
     }
 
+    /**SETTER**/
     public function setId($id)
     {
         $this->id = $id;

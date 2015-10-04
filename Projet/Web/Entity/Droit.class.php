@@ -10,12 +10,15 @@ class Droit {
     private $id;
     private $Libelle;
 
+    /**
+     * Fonction permettant l'hydratation de la classe.
+     * @param array $tab est un tableau associatif selon les attributs a assigner.
+     */
     private function __hydrate(array $tab)
     {
         foreach($tab as $key => $value)
         {
-            $method = 'set'. $key;
-            if(method_exists($this,$method))$this->$method($value);
+            if(property_exists($this,$key))$this->$key = $value;
         }
     }
     public function __construct(array $droit)
@@ -23,6 +26,7 @@ class Droit {
         $this->__hydrate($droit);
     }
 
+    /**GETTER**/
     public function getId()
     {
         return $this->id;
@@ -32,6 +36,7 @@ class Droit {
         return $this->Libelle;
     }
 
+    /**SETTER**/
     public function setId($id)
     {
         $this->id = $id;

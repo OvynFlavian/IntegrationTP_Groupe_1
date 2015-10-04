@@ -6,6 +6,10 @@
  * Time: 19:46
  */
 
+/**
+ * Class Message
+ * Entité de la base de donnée définissant les messages transmits a partir du site
+ */
 class Message {
     private $id;
     private $idUserSource;
@@ -14,12 +18,15 @@ class Message {
     private $date;
     private $text;
 
+    /**
+     * Fonction permettant l'hydratation de la classe.
+     * @param array $tab est un tableau associatif selon les attributs a assigner.
+     */
     private function __hydrate(array $tab)
     {
         foreach($tab as $key => $value)
         {
-            $method = 'set'. $key;
-            if(method_exists($this,$method))$this->$method($value);
+            if(property_exists($this,$key))$this->$key = $value;
         }
     }
     public function __construct(array $droit)
@@ -27,6 +34,7 @@ class Message {
         $this->__hydrate($droit);
     }
 
+    /**GETTER*/
     public function getId()
     {
         return $this->id;
@@ -52,6 +60,7 @@ class Message {
         return $this->text;
     }
 
+    /**SETTER**/
     public function setId($id)
     {
         $this->id = $id;

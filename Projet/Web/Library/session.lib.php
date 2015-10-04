@@ -6,19 +6,23 @@
  * Time: 14:28
  */
 
+
+/**
+ * Fonction permettant de savoir si un utilisateur est connecter
+ * @return bool
+ */
 function isConnect()
 {
     return (isset($_SESSION['User']));
 }
 
+/**
+ * Fonction permettant de récupérer la variable session lié à un utilisateur
+ * @return string
+ */
 function getSessionUser()
 {
     return (isConnect() ? $_SESSION['User'] : '');
-}
-
-function postSessionForm()
-{
-    return isset($_SESSION['modif']);
 }
 
 /*function isAllow()
