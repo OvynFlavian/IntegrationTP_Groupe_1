@@ -34,7 +34,7 @@ function modifyProfil()
     ));
     if($userTest->getUserName() != $user->getUserName())
         $user->setUserName($UserName);
-    if(!empty($userTest->getMdp()) and hash("sha256", $userTest->getMdp()) != $user->getMdp())
+    if($userTest->getMdp() != "" and hash("sha256", $userTest->getMdp()) != $user->getMdp())
         $user->setMdp($Mdp);
     if($Tel != $user->getTel())
         $user->setTel($Tel);

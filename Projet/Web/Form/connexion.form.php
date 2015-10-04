@@ -8,8 +8,8 @@
 ?>
 <form name="formulaire" action="connexion.page.php" method="post" onSubmit="return verification_connexion()">
 
-    Login : 				<input name="userName" type="text"> <br>
-    Mot de passe :				<input name="mdp" type="password"> <br>
+    <label for="userName">Login : </label><input id="userName" name="userName" type="text"> <br>
+    <label for="mdp">Mot de passe :	</label><input id="mdp" name="mdp" type="password"> <br>
     <input type="submit" name="envoyer">
 
 </form>

@@ -104,4 +104,8 @@ class User{
         $this->tel = $tel;
     }
 
+    public function setHashMdp()
+    {
+        $this->setMdp(hash("sha256", $this->getMdp()));
+    }
 }

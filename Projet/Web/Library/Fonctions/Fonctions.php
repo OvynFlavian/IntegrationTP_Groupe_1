@@ -15,7 +15,7 @@
     }
 
     function champsLoginValable($champ) {
-     if(preg_match('#^[a-zA-Z0-9 \ éàèîêâô! ]*$#', $champ)) {
+     if(preg_match('#^[a-zA-Z0-9 \ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½! ]*$#', $champ)) {
           return true;
      }
      else {
@@ -24,7 +24,7 @@
     }
 
     function champsMdpValable($champ) {
-     if(preg_match('#^[a-zA-Z0-9 \ éàèîêâô!? ]*$#', $champ)) {
+     if(preg_match('#^[a-zA-Z0-9 \ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!? ]*$#', $champ)) {
            return true;
         }
      else {
@@ -38,7 +38,7 @@
         $characts   .= '1234567890';
         $code_aleatoire      = '';
 
-        for($i=0;$i < 10;$i++)    //10 est le nombre de caractères
+        for($i=0;$i < 10;$i++)    //10 est le nombre de caractÃ¨res
         {
             $code_aleatoire .= substr($characts,rand()%(strlen($characts)),1);
         }

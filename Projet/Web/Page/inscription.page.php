@@ -18,9 +18,10 @@
     require "../Library/Page/inscription.lib.php";
 
     if(isConnect())header("Location:../");
-
-    if(isPostFormulaire() && isValid())
+    if(isPostFormulaire() && isValidBis()['Retour'])
         addDB();
+
+
 ?>
 
 <!doctype html>

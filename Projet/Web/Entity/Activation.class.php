@@ -15,8 +15,7 @@ class Activation {
     {
         foreach($tab as $key => $value)
         {
-            $method = 'set'. $key;
-            if(method_exists($this,$method))$this->$method($value);
+            if(property_exists($this,$key))$this->$key = $value;
         }
     }
     public function __construct(array $activation)
