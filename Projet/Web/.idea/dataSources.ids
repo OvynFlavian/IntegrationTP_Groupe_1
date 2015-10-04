@@ -6,6 +6,7 @@
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="bdd2_groupe1"/>
     <schema name="" catalog="information_schema"/>
     <schema name="" catalog="mysql"/>
     <schema name="" catalog="performance_schema"/>
@@ -2067,6 +2068,7 @@
       <column name="id_user" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="code" sqlType="CHAR" precision="6" scale="0" nullable="false" jdbcType="1"/>
       <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="libelle" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id_user,code"/>
       <foreign-key name="activation_ibfk_1" columns="id_user" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
@@ -2084,8 +2086,8 @@
       <column name="id_user_2" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id_user_1,id_user_2"/>
-      <foreign-key name="amis_ibfk_2" columns="id_user_2" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="amis_ibfk_1" columns="id_user_1" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="amis_ibfk_2" columns="id_user_2" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="categorie" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2098,8 +2100,8 @@
       <column name="id_activity" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id_categorie,id_activity"/>
-      <foreign-key name="categorie_activity_ibfk_2" columns="id_activity" ref-table="activity" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="categorie_activity_ibfk_1" columns="id_categorie" ref-table="categorie" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="categorie_activity_ibfk_2" columns="id_activity" ref-table="activity" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="droit" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2131,10 +2133,11 @@
       <column name="DateLastIdea" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="DateLastConnect" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="Tel" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="activation_ibfk_1" table="activation" schema="" catalog="projetintegration" columns="id_user"/>
-      <exported-key name="amis_ibfk_2" table="amis" schema="" catalog="projetintegration" columns="id_user_2"/>
       <exported-key name="amis_ibfk_1" table="amis" schema="" catalog="projetintegration" columns="id_user_1"/>
+      <exported-key name="amis_ibfk_2" table="amis" schema="" catalog="projetintegration" columns="id_user_2"/>
       <exported-key name="message_ibfk_1" table="message" schema="" catalog="projetintegration" columns=" idUserSource"/>
       <exported-key name="message_ibfk_2" table="message" schema="" catalog="projetintegration" columns="idUserDest"/>
       <exported-key name="user_activity_ibfk_1" table="user_activity" schema="" catalog="projetintegration" columns="id_User"/>
@@ -2145,16 +2148,16 @@
       <column name="id_activity" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="ByGroup" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
       <primary-key name="PRIMARY" columns="id_User,id_activity"/>
-      <foreign-key name="user_activity_ibfk_2" columns="id_activity" ref-table="activity" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="user_activity_ibfk_1" columns="id_User" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_activity_ibfk_2" columns="id_activity" ref-table="activity" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="user_droit" schema="" catalog="projetintegration" type="TABLE">
       <column name="id_Droits" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="id_User" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="Date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id_Droits,id_User"/>
-      <foreign-key name="user_droit_ibfk_2" columns="id_User" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="user_droit_ibfk_1" columns="id_Droits" ref-table="droit" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_droit_ibfk_2" columns="id_User" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="user" schema="" catalog="sciencesmaryse" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
