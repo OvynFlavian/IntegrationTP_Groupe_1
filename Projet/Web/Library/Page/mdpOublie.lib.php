@@ -51,12 +51,16 @@
               ));
 
 
-              $acDelete = $am->getActivationById($userToSend->getId());
+
+
               /**
                * Si le user possède déjà un code de récupération de mdp, je le delete pour lui en mettre un nouveau
                */
+
+              $actDelete = $am->getActivationByLibelleAndId('Récupération',$userToSend->getId());
+
               if (!empty($acDelete)) {
-                  $am->deleteActivationByIdAndLibelle($acDelete->getId(), 'Récupération');
+                  $am->deleteActivationByIdAndLibelle($actDelete->getIdUser(), 'Récupération');
               }
 
               $am->addActivation($ac);

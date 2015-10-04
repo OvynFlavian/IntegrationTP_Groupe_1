@@ -22,7 +22,7 @@ class ActivationManager {
      * Méthode permettant la récupération des codes d'activation lié à un libellé et a un user
      * @param string $libelle du code d'activation
      * @param int $id le user lié au code d'activation
-     * @return array associatif dont chaque élément est un code d'activation
+     * @return Activation
      */
     public function getActivationByLibelleAndId($libelle, $id)
     {
@@ -32,14 +32,24 @@ class ActivationManager {
             ":id" => $id
         ));
 
-        $tabAct = $query->fetchAll(PDO::FETCH_ASSOC);
-        $tab = array();
-        foreach($tabAct as $elem)
-        {
-            $tab[] = new Activation($elem);
-        }
+        $tabAct = $query->fetch(PDO::FETCH_ASSOC);
+        $act = new Activation($tabAct);
+        return $act;
+    }
 
-        return $tab;
+    public function getActivationByCodeAndLibelle($libelle, $code)
+    {
+        $query = $this->db->prepare("SELECT * FROM activation WHERE libelle = :libelle and code = :code");
+        $query->execute(array(
+            ":libelle" => $libelle,
+            ":code" => $code,
+        ));
+
+        $tabActi = $query->fetch(PDO::FETCH_ASSOC);
+
+        $codeRenvoi = new Activation($tabActi);
+
+        return $codeRenvoi;
     }
 
     /**
@@ -78,20 +88,6 @@ class ActivationManager {
         }
 
         return $tab;
-    }
-    public function getActivationByCodeAndLibelle($libelle, $code)
-    {
-        $query = $this->db->prepare("SELECT * FROM activation WHERE libelle = :libelle and code = :code");
-        $query->execute(array(
-            ":libelle" => $libelle,
-            ":code" => $code,
-        ));
-
-        $tabActi = $query->fetch(PDO::FETCH_ASSOC);
-
-        $codeRenvoi = new Activation($tabActi);
-
-        return $codeRenvoi;
     }
 
     public function addActivation(Activation $activation)
