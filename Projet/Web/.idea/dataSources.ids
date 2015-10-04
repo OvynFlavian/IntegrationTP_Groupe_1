@@ -2111,19 +2111,19 @@
     </table>
     <table name="message" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name=" idUserSource" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="idUserSource" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="idUserDest" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="idMessageParent" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="text" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="message_ibfk_1" columns=" idUserSource" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="message_ibfk_1" columns="idUserSource" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="message_ibfk_2" columns="idUserDest" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="message_ibfk_3" columns="idMessageParent" ref-table="message" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="message_ibfk_3" table="message" schema="" catalog="projetintegration" columns="idMessageParent"/>
       <index name="id_message_parent" unique="false" columns="idMessageParent"/>
       <index name="id_user_dest" unique="false" columns="idUserDest"/>
-      <index name="id_user_source" unique="false" columns=" idUserSource"/>
+      <index name="id_user_source" unique="false" columns="idUserSource"/>
     </table>
     <table name="user" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2138,7 +2138,7 @@
       <exported-key name="activation_ibfk_1" table="activation" schema="" catalog="projetintegration" columns="id_user"/>
       <exported-key name="amis_ibfk_1" table="amis" schema="" catalog="projetintegration" columns="id_user_1"/>
       <exported-key name="amis_ibfk_2" table="amis" schema="" catalog="projetintegration" columns="id_user_2"/>
-      <exported-key name="message_ibfk_1" table="message" schema="" catalog="projetintegration" columns=" idUserSource"/>
+      <exported-key name="message_ibfk_1" table="message" schema="" catalog="projetintegration" columns="idUserSource"/>
       <exported-key name="message_ibfk_2" table="message" schema="" catalog="projetintegration" columns="idUserDest"/>
       <exported-key name="user_activity_ibfk_1" table="user_activity" schema="" catalog="projetintegration" columns="id_User"/>
       <exported-key name="user_droit_ibfk_2" table="user_droit" schema="" catalog="projetintegration" columns="id_User"/>

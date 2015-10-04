@@ -110,13 +110,11 @@
 
     function addDB()
     {
-        var_dump($_POST);
         $userToAdd = new User(array(
             "UserName" => $_POST['userName'],
             "email" => $_POST['email'],
             "Mdp" => $_POST['mdp'],
         ));
-        var_dump($userToAdd);
 
         $code_aleatoire = genererCode();
         $adresseAdmin = "andrewblake@hotmail.fr";
@@ -138,7 +136,7 @@
          * Donc je vais le rechercher en base de donnée où il vient d'être ajouté
          */
         $user = $um->getUserByUserName($userToAdd->getUserName());
-        var_dump($user);
+
         $userid = $user->getId();
         /**
          * J'ajoute le nouveau code d'activation à la BDD
