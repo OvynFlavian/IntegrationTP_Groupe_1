@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Flavian Ovyn
- * Date: 1/10/2015
- * Time: 14:34
+ * User: JulienTour
+ * Date: 4/10/2015
+ * Time: 21:08
  */
 require "../Library/database.lib.php";
 require "../Entity/User.class.php";
@@ -12,16 +12,10 @@ require "../Library/config.lib.php";
 require "../Library/Fonctions/Fonctions.php";
 require "../Library/post.lib.php";
 require "../Library/session.lib.php";
+require "../Entity/Activation.class.php";
+require "../Manager/ActivationManager.manager.php";
 
-
-require "../Library/Page/connexion.lib.php";
-
-session_start();
-var_dump($_SESSION);
-if(isPostFormulaire()) {
-    doConnect();
-
-}
+require "../Library/Page/mdpOublie.lib.php";
 
 ?>
 
@@ -29,19 +23,24 @@ if(isPostFormulaire()) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
+    <title>MdpOublie</title>
     <script type="text/javascript">
         <?php
-            include("../Script/connexion.js");
+            include("../Script/mdpOublie.js");
         ?>
     </script>
 </head>
 <body>
-    <?php
-        echo "<p>Page Connexion</p>";
-        include("../Form/connexion.form.php");
-    ?>
-    <a href="index.php?page=mdpOublie"> Mot de passe oublié ? </a> <br> <br> <br>
+<?php
+echo "<p>Page Mot de passe oublié</p>";
+if (!isset($_GET['code'])){
+    formulaireMail();
+    envoiCode();
+} else {
+    formulaireChangement();
+    changementMdp();
+}
+?>
 
 </body>
 </html>

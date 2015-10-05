@@ -3,15 +3,12 @@
  * Created by PhpStorm.
  * User: Flavian Ovyn
  * Date: 29/09/2015
- * Time: 19:44
+ * Time: 19:30
  */
 
-/**
- * Class Categorie
- * Entité de la base de donnée définissant une catégorie d'activité de l'application et du site.
- */
-class Categorie {
-    private $id;
+class Activation {
+    private $id_user;
+    private $code;
     private $libelle;
 
     /**
@@ -25,15 +22,19 @@ class Categorie {
             if(property_exists($this,$key))$this->$key = $value;
         }
     }
-    public function __construct(array $droit)
+    public function __construct(array $activation)
     {
-        $this->__hydrate($droit);
+        $this->__hydrate($activation);
     }
 
     /**GETTER**/
-    public function getId()
+    public function getIdUser()
     {
-        return $this->id;
+        return $this->id_user;
+    }
+    public function setIdUser($id_user)
+    {
+        $this->id_user = $id_user;
     }
     public function getLibelle()
     {
@@ -44,6 +45,14 @@ class Categorie {
     public function setId($id)
     {
         $this->id = $id;
+    }
+    public function getCode()
+    {
+        return $this->code;
+    }
+    public function setCode($code)
+    {
+        $this->code = $code;
     }
     public function setLibelle($libelle)
     {

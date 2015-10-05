@@ -6,11 +6,30 @@
  * Time: 14:35
  */
     require "../Library/database.lib.php";
-    $db = connexionDb();
     require "../Entity/User.class.php";
     require "../Manager/UserManager.manager.php";
+    require "../Library/config.lib.php";
+    require "../Library/Fonctions/Fonctions.php";
+    require "../Library/post.lib.php";
+    require "../Library/session.lib.php";
+    require "../Manager/ActivationManager.manager.php";
+    require "../Entity/Activation.class.php";
 
-    if(!isConnect())header("Location:../");
+    require "../Library/Page/inscription.lib.php";
+    connexionDb();
+    if(isConnect())header("Location:../");
+    if(isPostFormulaire() && isValidBis()['Retour']) {
+
+        addDB();
+    } else if (isPostFormulaire() and !isValidBis()['Retour']) {
+
+        foreach (isValidBis()['Error'] as $elem) {
+            echo $elem;
+        }
+    }
+
+
+
 ?>
 
 <!doctype html>
@@ -18,19 +37,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
+    <script type="text/javascript">
+        <?php
+            include("../Script/inscription.js");
+        ?>
+    </script>
 </head>
 <body>
     <?php
         echo "<p>Page Inscription</p>";
-
-        $um = new UserManager($db);
-        $user = new User(array(
-            "UserName" => "Flavian",
-            "Mdp" => "Flavian",
-        ));
-
-        $user->setMdp(hash("sha256", $user->getMdp()));
-        $um->addUser($user);
+        include("../Form/inscription.form.php");
     ?>
+
 </body>
 </html>

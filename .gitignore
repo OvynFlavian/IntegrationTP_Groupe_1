@@ -220,3 +220,5 @@ pip-log.txt
 ###############
 
 Projet/Web/.idea/*.xml
+Projet/Web/.idea/php.xml
+*.xml
