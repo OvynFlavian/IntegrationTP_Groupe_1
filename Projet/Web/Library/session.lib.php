@@ -25,6 +25,11 @@ function getSessionUser()
     return (isConnect() ? $_SESSION['User'] : '');
 }
 
+function setSessionUser(User $user)
+{
+    $_SESSION['User'] = $user;
+}
+
 /*function isAllow()
 {
     $user = getSessionUser();

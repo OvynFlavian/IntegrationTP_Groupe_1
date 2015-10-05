@@ -12,8 +12,9 @@
 
 define("PATH_ENTITY", "./Entity/");
 define("PATH_END_ENTITY", ".class.php");
-define("PATH_PAGE", "./Page/");
-define("PATH_END_PAGE", ".page.php");
+
+define("PATH_LIBRARY", "../Library/");
+define("PATH_END_LIBRARY", ".lib.php");
 
 /*On ajoute une entité dans le tableau pour pouvoir les récupérers automatiquement*/
 define("LIST_ENTITY", serialize(array(
@@ -25,6 +26,20 @@ define("LIST_ENTITY", serialize(array(
     "Activation" => PATH_ENTITY. "Activation". PATH_END_ENTITY,
 )));
 
-define("LIST_PAGE", serialize(array(
-    "Home" => PATH_PAGE. "home". PATH_END_PAGE,
+define("LIST_LIBRARY", serialize(array(
+    "config" => PATH_LIBRARY. "config". PATH_END_LIBRARY,
+    "database" => PATH_LIBRARY. "database". PATH_END_LIBRARY,
+    "post" => PATH_LIBRARY. "post". PATH_END_LIBRARY,
+    "session" => PATH_LIBRARY. "session". PATH_END_LIBRARY,
 )));
+
+
+function initRequire()
+{
+    $listLibrary = unserialize(LIST_LIBRARY);
+
+    foreach($listLibrary as $key => $value)
+    {
+        require $value;
+    }
+}

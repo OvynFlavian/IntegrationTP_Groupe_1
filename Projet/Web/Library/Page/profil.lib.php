@@ -8,13 +8,34 @@
 
 function isValidForm()
 {
-    require "../Library/config.lib.php";
     $config = getConfigFile()['CONSTANTE'];
+    $user = getSessionUser();
     $UserName = $_POST['UserName'];
     $Mdp = $_POST['Mdp'];
+    $MdpBis = $_POST['MdpBis'];
     $Tel = $_POST['Tel'];
+    $tab = array("RETURN" => false, "ERROR" => array());
 
-    return true;
+    $boolean_name = true;
+    $boolean_mdp = true;
+    $boolean_tel = true;
+    if(empty($UserName) or $UserName <= $config['size_user_name'])
+    {
+        $boolean_name = false;
+        $tab['ERROR'][] = "Nom vide ou trop court (min: ". $config['size_user_name']. ")";
+    }
+    if(empty($Mdp) or $Mdp <= $config['size_user_mdp'])
+    {
+        $boolean_mdp = false;
+        $tab['ERROR'][] = "Mots de passe vide ou trop court (min: ". $config['size_user_mdp']. ")";
+    }
+    if(empty($Tel))
+    {
+        $boolean_tel = false;
+        $tab['ERROR'][] = "Numéro de téléphone vide";
+    }
+    $tab['RETURN'] = $boolean_mdp or $boolean_name or $boolean_tel;
+    return $tab;
 }
 function modifyProfil()
 {
@@ -32,12 +53,33 @@ function modifyProfil()
         "Mdp" => $Mdp,
         "Tel" => $Tel,
     ));
-    if($userTest->getUserName() != $user->getUserName())
+    if(!empty($UserName) and $userTest->getUserName() != $user->getUserName())
+    {
         $user->setUserName($UserName);
-    if($userTest->getMdp() != "" and hash("sha256", $userTest->getMdp()) != $user->getMdp())
+    }
+    if(strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp())
+    {
         $user->setMdp($Mdp);
-    if($Tel != $user->getTel())
+    }
+
+    if(!empty($Tel) and $Tel != $user->getTel())
         $user->setTel($Tel);
+    var_dump($user);
+    $user->setHashMdp();
 
     $um->updateUserProfil($user);
+}
+
+function echoError($tabError)
+{
+    $sizeTab = sizeof($tabError);
+    $errorStr = '';
+    for($i = 0; $i < $sizeTab; $i++)
+    {
+        if($i < $sizeTab-1)$errorStr .= $tabError[$i]. "\n";
+        else $errorStr .= $tabError[$i];
+    }
+    echo '<script>
+            var jsTab = <?php ?>
+            alert("'. $tabError. '".join("\n"))</script>';
 }
