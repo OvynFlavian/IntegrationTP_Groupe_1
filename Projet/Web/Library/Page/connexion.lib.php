@@ -46,7 +46,7 @@ function doConnect()
         require "../Entity/Activation.class.php";
         $acManager = new ActivationManager(connexionDb());
         $act = $acManager->getActivationByLibelleAndId("Inscription",$id);
-        if (isset($act) && !empty($act->getLibelle())) {
+        if (isset($act) && !empty($act->getCode())) {
             $needActi = true;
         }
         else {
