@@ -17,18 +17,30 @@ require "../Manager/UserManager.manager.php";
 require "../Library/config.lib.php";*/
 initRequire();
 initRequirePage("profil");
-var_dump($_SERVER['REQUEST_URI']);
 //require "../Library/Page/profil.lib.php";
 require "../Entity/User.class.php";
+require "../Entity/Droit.class.php";
 require "../Manager/UserManager.manager.php";
 
 startSession();
-if(isPostFormulaire() and isValidForm()['RETURN'])modifyProfil();
+if(isPostFormulaire())
+{
+    if(isValidForm()['RETURN'])
+    {
+        modifyProfil();
+    }
+    else
+    {
+        $errorFormulaire = isValidForm()['ERROR'];
+    }
+    unset($_POST['formulaire']);
+}
+
 $um = new UserManager(connexionDb());
 
-//TODO remplacer l'id 9 par getSessionUser()->getId()
-$user = $um->getUserById(9);
-$errorFormulaire = isValidForm()['ERROR'];
+$_SESSION['User'] = $um->getUserById(1);
+//TODO remplacer l'id 1 par getSessionUser()->getId()
+$user = $um->getUserById(1);
 
 ?>
 
@@ -40,12 +52,12 @@ $errorFormulaire = isValidForm()['ERROR'];
 </head>
 <body>
     <?php include("../Form/profil.form.php");?>
-    <script>
-        var jsTab = <?php echo '["'. implode('", "', $errorFormulaire). '"]'?>;
+    <!--<script>
+        var jsTab = <?php echo '["'. implode('", "', isset($errorFormulaire)? $errorFormulaire : array()). '"]'?>;
         if(jsTab.length > 0)
         {
             alert(jsTab.join("\n"));
         }
-    </script>
+    </script>-->
 </body>
 </html>

@@ -1,4 +1,3 @@
-Options +FolloSymlinks
 RewriteEngine On
 RewriteRule ^/connexion connexion.page.php [NC,L]
 

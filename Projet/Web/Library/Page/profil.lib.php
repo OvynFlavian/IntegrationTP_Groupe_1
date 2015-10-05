@@ -9,10 +9,11 @@
 function isValidForm()
 {
     $config = getConfigFile()['CONSTANTE'];
-    $UserName = $_POST['UserName'];
-    $Mdp = $_POST['Mdp'];
-    $MdpBis = $_POST['MdpBis'];
-    $Tel = $_POST['Tel'];
+    $UserName = isset($_POST['UserName']) ? $_POST['UserName'] : '';
+    $Mdp = isset($_POST['Mdp']) ? $_POST['Mdp'] : '';
+    $MdpBis = isset($_POST['MdpBis']) ? $_POST['MdpBis'] : '';
+    $Tel = isset($_POST['Tel']) ? $_POST['Tel'] : '';
+
     $tab = array("RETURN" => false, "ERROR" => array());
 
     $boolean_name = true;
@@ -38,7 +39,8 @@ function isValidForm()
         $boolean_tel = false;
         $tab['ERROR'][] = "Numéro de téléphone vide";
     }
-    $tab['RETURN'] = $boolean_mdp or $boolean_name or $boolean_tel;
+
+    $tab['RETURN'] = ($boolean_mdp or $boolean_tel or $boolean_name);
     return $tab;
 }
 function modifyProfil()
@@ -57,6 +59,7 @@ function modifyProfil()
         "Mdp" => $Mdp,
         "Tel" => $Tel,
     ));
+
     if(!empty($UserName) and $userTest->getUserName() != $user->getUserName())
     {
         $user->setUserName($UserName);
@@ -64,12 +67,11 @@ function modifyProfil()
     if(strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp())
     {
         $user->setMdp($Mdp);
+        $user->setHashMdp();
     }
 
     if(!empty($Tel) and $Tel != $user->getTel())
         $user->setTel($Tel);
-    var_dump($user);
-    $user->setHashMdp();
 
     $um->updateUserProfil($user);
 }

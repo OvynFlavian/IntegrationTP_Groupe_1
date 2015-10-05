@@ -16,7 +16,7 @@ require "../Entity/Activation.class.php";
 require "../Manager/ActivationManager.manager.php";
 
 require "../Library/Page/mdpOublie.lib.php";
-
+startSession();
 ?>
 
 <!doctype html>

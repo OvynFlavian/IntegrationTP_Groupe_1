@@ -7,6 +7,7 @@
  */
 
 require_once "./Library/session.lib.php";
+startSession();
 ?>
 <!doctype html>
 <html lang="fr">

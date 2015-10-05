@@ -100,7 +100,6 @@ class UserManager {
 
     public function addUser(User $user)
     {
-        var_dump($user);
         $query = $this
             ->db
             ->prepare("INSERT INTO user(UserName, Mdp, DateInscription, email) VALUES (:username , :mdp , NOW(), :email)");
@@ -116,7 +115,7 @@ class UserManager {
     {
         $query = $this
             ->db
-            ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , Tel = :tel WHERE id = :id");
+            ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel WHERE id = :id");
 
         $query
             ->execute(array(
