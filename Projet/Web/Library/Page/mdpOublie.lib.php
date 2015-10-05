@@ -25,7 +25,7 @@
           $um = new UserManager(connexionDb());
           $userToSend = $um->getUserByEmail($email);
           $inconnu = false;
-          if (empty($userToSend)) {
+          if (empty($userToSend->getId())) {
               $inconnu = true;
           }
 
@@ -59,7 +59,8 @@
 
               $actDelete = $am->getActivationByLibelleAndId('Récupération',$userToSend->getId());
 
-              if (!empty($acDelete)) {
+              if (!empty($acDelete->getCode()))
+              {
                   $am->deleteActivationByIdAndLibelle($actDelete->getIdUser(), 'Récupération');
               }
 
@@ -78,7 +79,7 @@
             $am = new ActivationManager(connexionDb());
             $ac = $am->getActivationByCodeAndLibelle("Récupération", $code);
 
-            if (empty($ac)) {
+            if (empty($ac->getCode())) {
                 $wrongCode = true;
             }
 
@@ -143,7 +144,6 @@
 
 
             } else {
-
 
                 $userRecup -> setMdp($mdp);
                 $am->deleteActivation($ac);

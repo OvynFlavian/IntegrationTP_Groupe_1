@@ -62,9 +62,14 @@ class ActivationManager {
             ":code" => $code,
         ));
 
-        $tabActi = $query->fetch(PDO::FETCH_ASSOC);
-
-        $codeRenvoi = new Activation($tabActi);
+        if($tabActi = $query->fetch(PDO::FETCH_ASSOC))
+        {
+            $codeRenvoi = new Activation($tabActi);
+        }
+        else
+        {
+            $codeRenvoi = new Activation(array());
+        }
 
         return $codeRenvoi;
     }
