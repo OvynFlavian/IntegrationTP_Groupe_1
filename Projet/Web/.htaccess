@@ -1,0 +1,5 @@
+Options +FolloSymlinks
+RewriteEngine On
+RewriteRule ^/connexion$ /Page/connexion.page.php [NC,L]
+
+#TODO apprendre la réécriture d'url

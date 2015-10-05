@@ -16,14 +16,17 @@ require "../Library/Page/profil.lib.php";
 require "../Manager/UserManager.manager.php";
 require "../Library/config.lib.php";*/
 initRequire();
-require "../Library/Page/profil.lib.php";
+initRequirePage("profil");
+var_dump($_SERVER['REQUEST_URI']);
+//require "../Library/Page/profil.lib.php";
 require "../Entity/User.class.php";
 require "../Manager/UserManager.manager.php";
 
-session_start();
+startSession();
 if(isPostFormulaire() and isValidForm()['RETURN'])modifyProfil();
 $um = new UserManager(connexionDb());
 
+//TODO remplacer l'id 9 par getSessionUser()->getId()
 $user = $um->getUserById(9);
 $errorFormulaire = isValidForm()['ERROR'];
 

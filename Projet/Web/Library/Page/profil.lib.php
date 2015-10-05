@@ -9,7 +9,6 @@
 function isValidForm()
 {
     $config = getConfigFile()['CONSTANTE'];
-    $user = getSessionUser();
     $UserName = $_POST['UserName'];
     $Mdp = $_POST['Mdp'];
     $MdpBis = $_POST['MdpBis'];
@@ -24,10 +23,15 @@ function isValidForm()
         $boolean_name = false;
         $tab['ERROR'][] = "Nom vide ou trop court (min: ". $config['size_user_name']. ")";
     }
-    if(empty($Mdp) or $Mdp <= $config['size_user_mdp'])
+    if(empty($Mdp) or empty($MdpBis) or $Mdp <= $config['size_user_mdp'])
     {
         $boolean_mdp = false;
         $tab['ERROR'][] = "Mots de passe vide ou trop court (min: ". $config['size_user_mdp']. ")";
+    }
+    else if($Mdp != $MdpBis)
+    {
+        $boolean_mdp = false;
+        $tab['ERROR'][] = "Mots de passe et le mots de passe de vérification sont différents";
     }
     if(empty($Tel))
     {

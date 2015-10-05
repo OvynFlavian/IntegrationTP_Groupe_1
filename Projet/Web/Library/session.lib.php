@@ -7,6 +7,12 @@
  */
 
 
+function startSession()
+{
+    session_name("integration");
+    session_start();
+}
+
 /**
  * Fonction permettant de savoir si un utilisateur est connecter
  * @return bool

@@ -43,3 +43,8 @@ function initRequire()
         require $value;
     }
 }
+
+function initRequirePage($namePage)
+{
+    require "../Library/Page/$namePage.lib.php";
+}
