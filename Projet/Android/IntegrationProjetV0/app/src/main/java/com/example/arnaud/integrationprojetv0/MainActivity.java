@@ -1,15 +1,14 @@
 package com.example.arnaud.integrationprojetv0;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 
 public class MainActivity extends AppCompatActivity {
     private Button bLogin = null;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //ajouter securite sur les infos donnée dans les champs
-                Intent secondeActivite = new Intent(MainActivity.this, ActiviteDeux.class);
+                Intent secondeActivite = new Intent(MainActivity.this, AfficheUsers.class);
                 startActivityForResult(secondeActivite, CHOOSE_BUTTON_REQUEST);
             }
         });

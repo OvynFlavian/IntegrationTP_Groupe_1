@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ActiviteDeux">
+        <activity android:name=".AfficheUsers">
 
         </activity>
     </application>
