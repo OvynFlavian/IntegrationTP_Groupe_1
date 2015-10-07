@@ -16,6 +16,7 @@
     require "../Entity/Activation.class.php";
 
     require "../Library/Page/inscription.lib.php";
+    startSession();
     connexionDb();
     if(isConnect())header("Location:../");
     if(isPostFormulaire() && isValidBis()['Retour']) {

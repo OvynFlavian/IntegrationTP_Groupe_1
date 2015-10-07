@@ -6,7 +6,10 @@
  * Time: 13:58
  */
 
-require_once "./Library/session.lib.php";
+require "./Library/constante.lib.php";
+require "./Library/session.lib.php";
+require "./Entity/User.class.php";
+startSession();
 ?>
 <!doctype html>
 <html lang="fr">
@@ -20,7 +23,11 @@ require_once "./Library/session.lib.php";
     <a href="Page/inscription.page.php">Inscription</a>
     <a href="Page/profil.page.php">Profil</a>
 </header>
-<?php if(!isConnect())echo "<p>Il n\'y a pas de user de connecté</p>"?>
+<?php
+    if(!isConnect())
+        echo "<p>Il n\'y a pas de user de connecté</p>";
+    else
+        echo "<p>Le user de connecter est : ". getSessionUser()->getUserName(). "</p>" ?>
 
 </body>
 </html>

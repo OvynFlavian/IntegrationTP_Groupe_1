@@ -72,11 +72,16 @@ class UserManager {
             ":email" => $email
         ));
 
-        $tabUser = $query->fetch(PDO::FETCH_ASSOC);
-
-        $userToConnect = new User($tabUser);
-        $tabDroit = $this->getUserDroit($userToConnect);
-        $userToConnect->setDroit($tabDroit);
+        if($tabUser = $query->fetch(PDO::FETCH_ASSOC))
+        {
+            $userToConnect = new User($tabUser);
+            $tabDroit = $this->getUserDroit($userToConnect);
+            $userToConnect->setDroit($tabDroit);
+        }
+        else
+        {
+            $userToConnect = new User(array());
+        }
 
         return $userToConnect;
     }
@@ -100,7 +105,6 @@ class UserManager {
 
     public function addUser(User $user)
     {
-        var_dump($user);
         $query = $this
             ->db
             ->prepare("INSERT INTO user(UserName, Mdp, DateInscription, email) VALUES (:username , :mdp , NOW(), :email)");
@@ -116,7 +120,7 @@ class UserManager {
     {
         $query = $this
             ->db
-            ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , Tel = :tel WHERE id = :id");
+            ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel WHERE id = :id");
 
         $query
             ->execute(array(

@@ -6,15 +6,11 @@
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
-    <schema name="" catalog="bdd2_groupe1"/>
     <schema name="" catalog="information_schema"/>
     <schema name="" catalog="mysql"/>
     <schema name="" catalog="performance_schema"/>
-    <schema name="" catalog="perso"/>
-    <schema name="" catalog="pmmerwan"/>
     <schema name="" catalog="projetintegration"/>
-    <schema name="" catalog="sciencesmaryse"/>
-    <schema name="" catalog="symfony"/>
+    <schema name="" catalog="test"/>
     <table name="CHARACTER_SETS" schema="" catalog="information_schema" type="SYSTEM VIEW">
       <column name="CHARACTER_SET_NAME" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
       <column name="DEFAULT_COLLATE_NAME" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
@@ -1976,94 +1972,6 @@
       <column name="CURRENT_CONNECTIONS" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="TOTAL_CONNECTIONS" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
     </table>
-    <table name="captial" schema="" catalog="perso" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="depart_salaire" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="depart_compte" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="ajout_mensuel" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="revenu" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="garde_debut_remboursement" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="captial_depenses_ibfk_1" table="captial_depenses" schema="" catalog="perso" columns="capitalId"/>
-    </table>
-    <table name="captial_depenses" schema="" catalog="perso" type="TABLE">
-      <column name="capitalId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="depenseId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="label" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <primary-key name="PRIMARY" columns="capitalId,depenseId"/>
-      <foreign-key name="captial_depenses_ibfk_1" columns="capitalId" ref-table="captial" ref-schema="" ref-catalog="perso" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="captial_depenses_ibfk_2" columns="depenseId" ref-table="depense" ref-schema="" ref-catalog="perso" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-    </table>
-    <table name="depense" schema="" catalog="perso" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="loyer" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="nourriture" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="logement" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="captial_depenses_ibfk_2" table="captial_depenses" schema="" catalog="perso" columns="depenseId"/>
-    </table>
-    <table name="emprunt" schema="" catalog="perso" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="montant" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="taux" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="investissement_emprunt_ibfk_2" table="investissement_emprunt" schema="" catalog="perso" columns="empruntId"/>
-    </table>
-    <table name="investissement_emprunt" schema="" catalog="perso" type="TABLE">
-      <column name="investissementId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="empruntId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="label" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <primary-key name="PRIMARY" columns="investissementId,empruntId"/>
-      <foreign-key name="investissement_emprunt_ibfk_1" columns="investissementId" ref-table="investissmeent" ref-schema="" ref-catalog="perso" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="investissement_emprunt_ibfk_2" columns="empruntId" ref-table="emprunt" ref-schema="" ref-catalog="perso" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-    </table>
-    <table name="investissmeent" schema="" catalog="perso" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="surface_habitable" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="prix_achat" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="surface_terrain" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="capital_propre" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <column name="emprunt" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="geologie" sqlType="DECIMAL" precision="9" scale="2" nullable="false" jdbcType="3"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="investissement_emprunt_ibfk_1" table="investissement_emprunt" schema="" catalog="perso" columns="investissementId"/>
-    </table>
-    <table name="profil" schema="" catalog="perso" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="label" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="level" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="user_profil_ibfk_2" table="user_profil" schema="" catalog="perso" columns="profilId"/>
-    </table>
-    <table name="tbuser" schema="" catalog="perso" type="TABLE">
-      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="userPseudo" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="userPassword" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="dateInscriptio" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="dateConnexion" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="userId"/>
-      <exported-key name="user_profil_ibfk_1" table="user_profil" schema="" catalog="perso" columns="userId"/>
-    </table>
-    <table name="user_profil" schema="" catalog="perso" type="TABLE">
-      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="profilId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="dateCreation" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="userId,profilId"/>
-      <foreign-key name="user_profil_ibfk_1" columns="userId" ref-table="tbuser" ref-schema="" ref-catalog="perso" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="user_profil_ibfk_2" columns="profilId" ref-table="profil" ref-schema="" ref-catalog="perso" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-    </table>
-    <table name="tbuser" schema="" catalog="pmmerwan" type="TABLE">
-      <column name="id_user" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="Pseudo" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="Password" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="Email" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="LvlPerm" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="QuestionSecret" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="AnswerSecret" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="DateInscription" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="DateConnexion" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id_user"/>
-    </table>
     <table name="activation" schema="" catalog="projetintegration" type="TABLE">
       <column name="id_user" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="code" sqlType="CHAR" precision="6" scale="0" nullable="false" jdbcType="1"/>
@@ -2086,8 +1994,8 @@
       <column name="id_user_2" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id_user_1,id_user_2"/>
-      <foreign-key name="amis_ibfk_1" columns="id_user_1" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="amis_ibfk_2" columns="id_user_2" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="amis_ibfk_1" columns="id_user_1" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="categorie" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2100,8 +2008,8 @@
       <column name="id_activity" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id_categorie,id_activity"/>
-      <foreign-key name="categorie_activity_ibfk_1" columns="id_categorie" ref-table="categorie" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="categorie_activity_ibfk_2" columns="id_activity" ref-table="activity" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="categorie_activity_ibfk_1" columns="id_categorie" ref-table="categorie" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="droit" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2111,19 +2019,16 @@
     </table>
     <table name="message" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="idUserSource" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="idUserDest" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="idMessageParent" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="id_user_source" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="id_user_dest" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="id_message_parent" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="text" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="message_ibfk_1" columns="idUserSource" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="message_ibfk_2" columns="idUserDest" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="message_ibfk_3" columns="idMessageParent" ref-table="message" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="message_ibfk_3" table="message" schema="" catalog="projetintegration" columns="idMessageParent"/>
-      <index name="id_message_parent" unique="false" columns="idMessageParent"/>
-      <index name="id_user_dest" unique="false" columns="idUserDest"/>
-      <index name="id_user_source" unique="false" columns="idUserSource"/>
+      <foreign-key name="message_ibfk_3" columns="id_message_parent" ref-table="message" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="message_ibfk_1" columns="id_user_source" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="message_ibfk_2" columns="id_user_dest" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="message_ibfk_3" table="message" schema="" catalog="projetintegration" columns="id_message_parent"/>
     </table>
     <table name="user" schema="" catalog="projetintegration" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2132,14 +2037,14 @@
       <column name="DateInscription" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="DateLastIdea" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="DateLastConnect" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="tel" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="tel" sqlType="VARCHAR" precision="40" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="activation_ibfk_1" table="activation" schema="" catalog="projetintegration" columns="id_user"/>
-      <exported-key name="amis_ibfk_1" table="amis" schema="" catalog="projetintegration" columns="id_user_1"/>
       <exported-key name="amis_ibfk_2" table="amis" schema="" catalog="projetintegration" columns="id_user_2"/>
-      <exported-key name="message_ibfk_1" table="message" schema="" catalog="projetintegration" columns="idUserSource"/>
-      <exported-key name="message_ibfk_2" table="message" schema="" catalog="projetintegration" columns="idUserDest"/>
+      <exported-key name="amis_ibfk_1" table="amis" schema="" catalog="projetintegration" columns="id_user_1"/>
+      <exported-key name="message_ibfk_1" table="message" schema="" catalog="projetintegration" columns="id_user_source"/>
+      <exported-key name="message_ibfk_2" table="message" schema="" catalog="projetintegration" columns="id_user_dest"/>
       <exported-key name="user_activity_ibfk_1" table="user_activity" schema="" catalog="projetintegration" columns="id_User"/>
       <exported-key name="user_droit_ibfk_2" table="user_droit" schema="" catalog="projetintegration" columns="id_User"/>
     </table>
@@ -2148,108 +2053,16 @@
       <column name="id_activity" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="ByGroup" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
       <primary-key name="PRIMARY" columns="id_User,id_activity"/>
-      <foreign-key name="user_activity_ibfk_1" columns="id_User" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="user_activity_ibfk_2" columns="id_activity" ref-table="activity" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_activity_ibfk_1" columns="id_User" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="user_droit" schema="" catalog="projetintegration" type="TABLE">
       <column name="id_Droits" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="id_User" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="Date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id_Droits,id_User"/>
-      <foreign-key name="user_droit_ibfk_1" columns="id_Droits" ref-table="droit" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="user_droit_ibfk_2" columns="id_User" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-    </table>
-    <table name="user" schema="" catalog="sciencesmaryse" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="Pseudo" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="Password" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="dateInscription" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="role" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1" remarks="KERDMlR5cGU6YXJyYXkp"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="advert" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="author" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="content" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="published" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <column name="image_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="nb_applications" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="slug" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_54F1F40B3DA5256D" columns="image_id" ref-table="image" ref-schema="" ref-catalog="symfony" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="FK_84EEA340D07ECCB6" table="advert_category" schema="" catalog="symfony" columns="advert_id"/>
-      <exported-key name="FK_5619F91BD07ECCB6" table="advert_skill" schema="" catalog="symfony" columns="advert_id"/>
-      <exported-key name="FK_A45BDDC1D07ECCB6" table="application" schema="" catalog="symfony" columns="advert_id"/>
-      <index name="UNIQ_54F1F40B2B36786B" unique="true" columns="title"/>
-      <index name="UNIQ_54F1F40B3DA5256D" unique="true" columns="image_id"/>
-      <index name="UNIQ_54F1F40B989D9B62" unique="true" columns="slug"/>
-    </table>
-    <table name="advert_category" schema="" catalog="symfony" type="TABLE">
-      <column name="advert_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="category_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="advert_id,category_id"/>
-      <foreign-key name="FK_84EEA34012469DE2" columns="category_id" ref-table="category" ref-schema="" ref-catalog="symfony" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <foreign-key name="FK_84EEA340D07ECCB6" columns="advert_id" ref-table="advert" ref-schema="" ref-catalog="symfony" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <index name="IDX_84EEA34012469DE2" unique="false" columns="category_id"/>
-      <index name="IDX_84EEA340D07ECCB6" unique="false" columns="advert_id"/>
-    </table>
-    <table name="advert_skill" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="advert_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="skill_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="level" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_5619F91B5585C142" columns="skill_id" ref-table="skill" ref-schema="" ref-catalog="symfony" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_5619F91BD07ECCB6" columns="advert_id" ref-table="advert" ref-schema="" ref-catalog="symfony" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="IDX_5619F91B5585C142" unique="false" columns="skill_id"/>
-      <index name="IDX_5619F91BD07ECCB6" unique="false" columns="advert_id"/>
-    </table>
-    <table name="application" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="advert_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="author" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="content" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_A45BDDC1D07ECCB6" columns="advert_id" ref-table="advert" ref-schema="" ref-catalog="symfony" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="IDX_A45BDDC1D07ECCB6" unique="false" columns="advert_id"/>
-    </table>
-    <table name="category" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="FK_84EEA34012469DE2" table="advert_category" schema="" catalog="symfony" columns="category_id"/>
-    </table>
-    <table name="image" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="alt" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="FK_54F1F40B3DA5256D" table="advert" schema="" catalog="symfony" columns="image_id"/>
-    </table>
-    <table name="skill" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="FK_5619F91B5585C142" table="advert_skill" schema="" catalog="symfony" columns="skill_id"/>
-    </table>
-    <table name="test_user" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="Pseudo" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="Password" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="DateInscription" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="user" schema="" catalog="symfony" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="role" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1" remarks="KERDMlR5cGU6YXJyYXkp"/>
-      <column name="Pseudo" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="dateInscription" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="user_droit_ibfk_1" columns="id_Droits" ref-table="droit" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
   </data-source>
 </component>

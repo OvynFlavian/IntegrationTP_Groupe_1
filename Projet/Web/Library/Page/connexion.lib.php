@@ -5,8 +5,8 @@
  * Date: 3/10/2015
  * Time: 22:53
  */
-function doConnect() {
-    var_dump($_POST);
+function doConnect()
+{
     $mdp = $_POST['mdp'];
     $userName = $_POST['userName'];
     $manager = new UserManager(connexionDb());
@@ -46,7 +46,7 @@ function doConnect() {
         require "../Entity/Activation.class.php";
         $acManager = new ActivationManager(connexionDb());
         $act = $acManager->getActivationByLibelleAndId("Inscription",$id);
-        if (isset($act) && !empty($act)) {
+        if (isset($act) && !empty($act->getCode())) {
             $needActi = true;
         }
         else {
