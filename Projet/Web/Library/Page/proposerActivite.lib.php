@@ -19,6 +19,9 @@ function proposerActivite($cat) {
         echo "<p>".$tabActivite[$cat][$idx]."</p> \n";
 
         include "../Form/proposerActivite.form.php" ;
+    } else {
+        echo "Vous n'avez pas de catégorie !";
+
     }
 }
 

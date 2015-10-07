@@ -36,7 +36,7 @@ startSession();
         gererReponse($cat);
         proposerActivite($cat);
     } else {
-        header ('Location : choisirCategorie.page.php');
+        echo "Vous n'avez pas de catégorie !";
     }
 
 ?>
