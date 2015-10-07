@@ -17,6 +17,9 @@ require "../Entity/Activation.class.php";
 require "../Manager/ActivationManager.manager.php";
 
 startSession();
+
+if(isConnect())header("Locaation:../");
+$configIni = getConfigFile();
 ?>
 
 <!doctype html>
@@ -24,6 +27,7 @@ startSession();
 <head>
     <meta charset="UTF-8">
     <title>MdpOublie</title>
+    <link rel="stylesheet" type="text/css" href="../Style/presentationCss.css">
     <script type="text/javascript">
         <?php
             include("../Script/mdpOublie.js");
@@ -31,16 +35,33 @@ startSession();
     </script>
 </head>
 <body>
-<?php
-echo "<p>Page Mot de passe oublié</p>";
-if (!isset($_GET['code'])){
-    formulaireMail();
-    envoiCode();
-} else {
-    formulaireChangement();
-    changementMdp();
-}
-?>
+    <header>
+        <?php
+            include("..". MENU_ANONYME_PAGE);
+        ?>
+    </header>
+    <section id="section_corps">
+        <div id="div_left">&nbsp;</div>
+        <div id="div_center">
+            <h1>Page Mot de passe oublié</h1>
+            <?php
+                if (!isset($_GET['code']))
+                {
+                    formulaireMail();
+                    envoiCode();
+                }
+                else
+                {
+                    formulaireChangement();
+                    changementMdp();
+                }
+            ?>
+        </div>
+        <div id="div_right">&nbsp;</div>
+    </section>
+    <footer>
+        &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
+    </footer>
 
 </body>
 </html>
