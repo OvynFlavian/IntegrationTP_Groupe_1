@@ -15,6 +15,7 @@
     require "../Entity/Activation.class.php";
     require "../Manager/ActivationManager.manager.php";
 
+    $configIni = getConfigFile();
     startSession();
     connexionDb();
     $isConnect = isConnect();
