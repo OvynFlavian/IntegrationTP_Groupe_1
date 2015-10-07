@@ -23,6 +23,7 @@ require "../Entity/Droit.class.php";
 require "../Manager/UserManager.manager.php";
 
 startSession();
+if(!isConnect())header("Location:index.php");
 if(isPostFormulaire())
 {
     if(isValidForm()['RETURN'])
@@ -38,9 +39,8 @@ if(isPostFormulaire())
 
 $um = new UserManager(connexionDb());
 
-$_SESSION['User'] = $um->getUserById(1);
 //TODO remplacer l'id 1 par getSessionUser()->getId()
-$user = $um->getUserById(1);
+$user = $um->getUserById(getSessionUser()->getId());
 
 ?>
 

@@ -17,6 +17,7 @@ require "../Library/session.lib.php";
 require "../Library/Page/connexion.lib.php";
 
 startSession();
+if(isConnect())session_destroy();
 if(isPostFormulaire()) {
     doConnect();
 }

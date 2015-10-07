@@ -17,6 +17,7 @@ require "../Manager/ActivationManager.manager.php";
 
 require "../Library/Page/activationInscription.lib.php";
 
+startSession();
 ?>
 
 <!doctype html>
