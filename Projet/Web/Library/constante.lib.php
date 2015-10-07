@@ -33,6 +33,10 @@ define("LIST_LIBRARY", serialize(array(
     "session" => PATH_LIBRARY. "session". PATH_END_LIBRARY,
 )));
 
+define("MENU_ANONYME", "/Library/Menu/menuAnonyme.lib.php");
+define("MENU_CONNECTER", "/Library/Menu/menuConnecter.lib.php");
+define("MENU_ANONYME_PAGE", "/Library/Menu/menuAnonymePage.lib.php");
+define("MENU_CONNECTER_PAGE", "/Library/Menu/menuConnecterPage.lib.php");
 
 function initRequire()
 {

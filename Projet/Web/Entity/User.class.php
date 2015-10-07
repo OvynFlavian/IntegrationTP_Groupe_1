@@ -122,4 +122,9 @@ class User{
     {
         $this->setMdp(hash("sha256", $this->getMdp()));
     }
+
+    public function toStringList()
+    {
+        return "<tr><td>".$this->getUserName()."</td><td>". $this->getTel()."</td></tr>";
+    }
 }

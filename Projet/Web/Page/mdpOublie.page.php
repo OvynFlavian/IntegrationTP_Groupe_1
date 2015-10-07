@@ -5,17 +5,17 @@
  * Date: 4/10/2015
  * Time: 21:08
  */
-require "../Library/database.lib.php";
+require "../Library/constante.lib.php";
+require "../Library/Page/mdpOublie.lib.php";
+require "../Library/Fonctions/Fonctions.php";
+initRequire();
+
 require "../Entity/User.class.php";
 require "../Manager/UserManager.manager.php";
-require "../Library/config.lib.php";
-require "../Library/Fonctions/Fonctions.php";
-require "../Library/post.lib.php";
-require "../Library/session.lib.php";
+
 require "../Entity/Activation.class.php";
 require "../Manager/ActivationManager.manager.php";
 
-require "../Library/Page/mdpOublie.lib.php";
 startSession();
 ?>
 
