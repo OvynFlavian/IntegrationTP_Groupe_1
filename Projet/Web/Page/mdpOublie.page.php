@@ -6,15 +6,11 @@
  * Time: 21:08
  */
 require "../Library/constante.lib.php";
-require "../Library/Page/mdpOublie.lib.php";
 require "../Library/Fonctions/Fonctions.php";
+
 initRequire();
-
-require "../Entity/User.class.php";
-require "../Manager/UserManager.manager.php";
-
-require "../Entity/Activation.class.php";
-require "../Manager/ActivationManager.manager.php";
+initRequirePage("mdpOublie");
+initRequireEntityManager();
 
 startSession();
 

@@ -89,8 +89,7 @@ class UserManager {
     }
     public function getUserDroit(User $user)
     {
-        require "../Manager/DroitManager.manager.php";
-        $dm = new DroitManager($this->db);
+        $dm = new DroitManager(connexionDb());
         $query = $this->db->prepare("SELECT * FROM user_droit WHERE id_User = :idUser");
         $query->execute(array(
             ":idUser" => $user->getId()

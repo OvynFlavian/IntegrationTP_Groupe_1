@@ -6,11 +6,10 @@
  * Time: 14:34
  */
 require "../Library/constante.lib.php";
+
 initRequire();
 initRequirePage("connexion");
-
-require "../Entity/User.class.php";
-require "../Manager/UserManager.manager.php";
+initRequireEntityManager();
 
 startSession();
 $isConnect = isConnect();

@@ -7,12 +7,10 @@
  */
 
 require "../Library/constante.lib.php";
+
 initRequire();
 initRequirePage("profil");
-
-require "../Entity/User.class.php";
-require "../Entity/Droit.class.php";
-require "../Manager/UserManager.manager.php";
+initRequireEntityManager();
 
 startSession();
 $isConnect = isConnect();

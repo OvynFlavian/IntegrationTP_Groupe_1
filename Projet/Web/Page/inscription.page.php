@@ -8,12 +8,7 @@
     require "../Library/constante.lib.php";
     initRequire();
     initRequirePage("inscription");
-
-    require "../Entity/User.class.php";
-    require "../Manager/UserManager.manager.php";
-
-    require "../Entity/Activation.class.php";
-    require "../Manager/ActivationManager.manager.php";
+    initRequireEntityManager();
 
     $configIni = getConfigFile();
     startSession();

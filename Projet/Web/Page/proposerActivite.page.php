@@ -6,18 +6,12 @@
  * Time: 20:30
  */
 
-require "../Library/database.lib.php";
-require "../Entity/Categorie.class.php";
-require "../Manager/CategorieManager.manager.php";
-require "../Entity/Activity.class.php";
-require "../Manager/ActivityManager.manager.php";
-require "../Library/config.lib.php";
+require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
-require "../Library/post.lib.php";
-require "../Library/session.lib.php";
 
-
-require "../Library/Page/proposerActivite.lib.php";
+initRequire();
+initRequirePage("proposerActivite");
+initRequireEntityManager();
 
 startSession();
 ?>
