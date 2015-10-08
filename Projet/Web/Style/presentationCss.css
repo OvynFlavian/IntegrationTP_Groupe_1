@@ -1,0 +1,47 @@
+body{
+    background-color: white;
+}
+
+#section_corps{
+    width: 100%;
+}
+    #div_left{
+    position: relative;
+    float: left;
+    width: 10%;
+    background-color: red;
+}
+    #div_center{
+    display: inline-block;
+    margin: 0 auto;
+    width: 80%;
+    background-color: black;
+    color: white;
+}
+        #div_center h1{
+        background-color: green;
+        margin: 0 auto;
+        text-align: center;
+    }
+    #div_right{
+    position: relative;
+    float: right;
+    width: 10%;
+    background-color: red;
+}
+
+#nav_main{
+    text-align: center;
+    background-color: blue;
+}
+    #nav_main a{
+        color: white;
+    }
+
+footer{
+    width: 80%;
+    margin: 0 auto;
+    background-color: gold;
+    color: black;
+    text-align: center;
+}

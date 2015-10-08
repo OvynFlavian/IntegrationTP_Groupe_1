@@ -28,6 +28,7 @@ function doConnect()
             $echec = false;
             $id = $elem->getId();
             $email = $elem->getEmail();
+            $tel = $elem->getTel();
             break;
         } else {
             $echec = true;
@@ -65,7 +66,7 @@ function doConnect()
             "Mdp" => $mdp,
             "id" => $id,
             "email" => $email,
-
+            "tel" => $tel,
         ));
 
         $manager->updateUserConnect($user);

@@ -43,11 +43,8 @@ function isValidForm()
     $tab['RETURN'] = ($boolean_mdp or $boolean_tel or $boolean_name);
     return $tab;
 }
-function modifyProfil()
+function modifyProfil(User $user)
 {
-    $userSession = getSessionUser();
-    $user = getType($userSession) == "object" ? $userSession : new User(array());
-
     $UserName = $_POST['UserName'];
     $Mdp = $_POST['Mdp'];
     $Tel = $_POST['Tel'];
@@ -57,14 +54,14 @@ function modifyProfil()
     $userTest = new User(array(
         "UserName" => $UserName,
         "Mdp" => $Mdp,
-        "Tel" => $Tel,
+        "tel" => $Tel,
     ));
 
     if(!empty($UserName) and $userTest->getUserName() != $user->getUserName())
     {
         $user->setUserName($UserName);
     }
-    if(strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp())
+    if(!empty($Mdp) and strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp())
     {
         $user->setMdp($Mdp);
         $user->setHashMdp();
@@ -74,18 +71,6 @@ function modifyProfil()
         $user->setTel($Tel);
 
     $um->updateUserProfil($user);
-}
-
-function echoError($tabError)
-{
-    $sizeTab = sizeof($tabError);
-    $errorStr = '';
-    for($i = 0; $i < $sizeTab; $i++)
-    {
-        if($i < $sizeTab-1)$errorStr .= $tabError[$i]. "\n";
-        else $errorStr .= $tabError[$i];
-    }
-    echo '<script>
-            var jsTab = <?php ?>
-            alert("'. $tabError. '".join("\n"))</script>';
+    $userToReconnect = $um->getUserById($user->getId());
+    setSessionUser($userToReconnect);
 }

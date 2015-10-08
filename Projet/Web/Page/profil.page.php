@@ -7,28 +7,25 @@
  */
 
 require "../Library/constante.lib.php";
-/*require "../Library/session.lib.php";
-require "../Library/post.lib.php";
-require ".". PATH_ENTITY. "User". PATH_END_ENTITY;
-
-require "../Library/database.lib.php";
-require "../Library/Page/profil.lib.php";
-require "../Manager/UserManager.manager.php";
-require "../Library/config.lib.php";*/
 initRequire();
 initRequirePage("profil");
-//require "../Library/Page/profil.lib.php";
+
 require "../Entity/User.class.php";
 require "../Entity/Droit.class.php";
 require "../Manager/UserManager.manager.php";
 
 startSession();
-if(!isConnect())header("Location:index.php");
+$isConnect = isConnect();
+if(!$isConnect)header("Location:../index.php");
+
+$um = new UserManager(connexionDb());
+$user = $um->getUserById(getSessionUser()->getId());
+
 if(isPostFormulaire())
 {
     if(isValidForm()['RETURN'])
     {
-        modifyProfil();
+        modifyProfil($user);
     }
     else
     {
@@ -37,11 +34,6 @@ if(isPostFormulaire())
     unset($_POST['formulaire']);
 }
 
-$um = new UserManager(connexionDb());
-
-//TODO remplacer l'id 1 par getSessionUser()->getId()
-$user = $um->getUserById(getSessionUser()->getId());
-
 ?>
 
 <!doctype html>
@@ -49,15 +41,34 @@ $user = $um->getUserById(getSessionUser()->getId());
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
+    <link rel="stylesheet" type="text/css" href="../Style/presentationCss.css">
 </head>
 <body>
-    <?php include("../Form/profil.form.php");?>
-    <!--<script>
+    <header>
+        <?php
+            if(!$isConnect)include("..". MENU_ANONYME_PAGE);
+            else include("..". MENU_CONNECTER_PAGE);
+        ?>
+    </header>
+    <section id="section_corps">
+        <div id="div_left">
+            &nbsp;
+        </div>
+        <div id="div_center">
+            <h1>Page de gestion de profil</h1>
+            <?php include("../Form/profil.form.php");?>
+        </div>
+        <div id="div_right">
+            &nbsp;
+        </div>
+    </section>
+
+    <script>
         var jsTab = <?php echo '["'. implode('", "', isset($errorFormulaire)? $errorFormulaire : array()). '"]'?>;
-        if(jsTab.length > 0)
+        if(jsTab.length > 1)
         {
             alert(jsTab.join("\n"));
         }
-    </script>-->
+    </script>
 </body>
 </html>

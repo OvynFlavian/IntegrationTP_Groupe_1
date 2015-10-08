@@ -7,7 +7,7 @@
  */
 ?>
 
-<form name='emailMdp' action='index.php?page=mdpOublie' method='post' onSubmit='return verification_emailMdp()'>
+<form name='emailMdp' action='mdpOublie.page.php' method='post' onSubmit='return verification_emailMdp()'>
 Email : 				<input name='email' type='email'> <br>
 <input type='submit' name='formulaire'>
 </form>

@@ -67,7 +67,9 @@ class UserManager {
     }
     public function getUserByEmail($email)
     {
-        $query = $this->db->prepare("SELECT * FROM user WHERE email = :email");
+        $query = $this
+            ->db
+            ->prepare("SELECT * FROM user WHERE email = :email");
         $query->execute(array(
             ":email" => $email
         ));
@@ -87,6 +89,8 @@ class UserManager {
     }
     public function getUserDroit(User $user)
     {
+        require "../Manager/DroitManager.manager.php";
+        $dm = new DroitManager($this->db);
         $query = $this->db->prepare("SELECT * FROM user_droit WHERE id_User = :idUser");
         $query->execute(array(
             ":idUser" => $user->getId()
@@ -97,9 +101,10 @@ class UserManager {
         $tab = array();
         foreach($tabDroit as $elem)
         {
-            $tab[] = new Droit($elem);
-        }
+            $droitUser = $dm->getDroitById($elem['id_Droits']);
+            $tab[] = $droitUser;
 
+        }
         return $tab;
     }
 

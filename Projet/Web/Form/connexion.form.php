@@ -6,7 +6,7 @@
  * Time: 22:07
  */
 ?>
-<form name="formulaire" action="connexion.page.php" method="post" onSubmit="return verification_connexion()">
+<form name="formulaire" action="connexion.page.php" method="post" onSubmit="return verification_connexion()" class="class_form">
 
     <label for="userName">Login : </label><input id="userName" name="userName" type="text"> <br>
     <label for="mdp">Mot de passe :	</label><input id="mdp" name="mdp" type="password"> <br>

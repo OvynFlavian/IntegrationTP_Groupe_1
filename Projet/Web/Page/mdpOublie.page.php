@@ -5,18 +5,21 @@
  * Date: 4/10/2015
  * Time: 21:08
  */
-require "../Library/database.lib.php";
+require "../Library/constante.lib.php";
+require "../Library/Page/mdpOublie.lib.php";
+require "../Library/Fonctions/Fonctions.php";
+initRequire();
+
 require "../Entity/User.class.php";
 require "../Manager/UserManager.manager.php";
-require "../Library/config.lib.php";
-require "../Library/Fonctions/Fonctions.php";
-require "../Library/post.lib.php";
-require "../Library/session.lib.php";
+
 require "../Entity/Activation.class.php";
 require "../Manager/ActivationManager.manager.php";
 
-require "../Library/Page/mdpOublie.lib.php";
 startSession();
+
+if(isConnect())header("Locaation:../");
+$configIni = getConfigFile();
 ?>
 
 <!doctype html>
@@ -24,6 +27,7 @@ startSession();
 <head>
     <meta charset="UTF-8">
     <title>MdpOublie</title>
+    <link rel="stylesheet" type="text/css" href="../Style/presentationCss.css">
     <script type="text/javascript">
         <?php
             include("../Script/mdpOublie.js");
@@ -31,16 +35,33 @@ startSession();
     </script>
 </head>
 <body>
-<?php
-echo "<p>Page Mot de passe oublié</p>";
-if (!isset($_GET['code'])){
-    formulaireMail();
-    envoiCode();
-} else {
-    formulaireChangement();
-    changementMdp();
-}
-?>
+    <header>
+        <?php
+            include("..". MENU_ANONYME_PAGE);
+        ?>
+    </header>
+    <section id="section_corps">
+        <div id="div_left">&nbsp;</div>
+        <div id="div_center">
+            <h1>Page Mot de passe oublié</h1>
+            <?php
+                if (!isset($_GET['code']))
+                {
+                    formulaireMail();
+                    envoiCode();
+                }
+                else
+                {
+                    formulaireChangement();
+                    changementMdp();
+                }
+            ?>
+        </div>
+        <div id="div_right">&nbsp;</div>
+    </section>
+    <footer>
+        &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
+    </footer>
 
 </body>
 </html>

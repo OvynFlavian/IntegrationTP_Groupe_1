@@ -10,24 +10,43 @@ require "./Library/constante.lib.php";
 require "./Library/session.lib.php";
 require "./Entity/User.class.php";
 startSession();
+
+$isConnect = isConnect();
+$configIni = parse_ini_file("config.ini", true);
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="./Style/presentationCss.css">
 </head>
 <body>
 <header>
-    <a href="Page/connexion.page.php">Connexion</a> |
-    <a href="Page/inscription.page.php">Inscription</a>
-    <a href="Page/profil.page.php">Profil</a>
+    <?php
+        if(!$isConnect)include(".". MENU_ANONYME);
+        else include(".". MENU_CONNECTER);
+    ?>
 </header>
-<?php
-    if(!isConnect())
-        echo "<p>Il n\'y a pas de user de connecté</p>";
-    else
-        echo "<p>Le user de connecter est : ". getSessionUser()->getUserName(). "</p>" ?>
+<section id="section_corps">
+    <div id="div_left">
+        &nbsp;
+    </div>
+    <div id="div_center">
+        <h1>Page d'accueil</h1>
+        <?php
+        if(!isConnect())
+            echo "<p style='text-align: center'>Il n'y a pas de user de connecté</p>";
+        else
+            echo "<p style='text-align: center'>Le user connecté est : </p><table>". getSessionUser()->toStringList(). "</table>" ?>
+    </div>
+    <div id="div_right">
+        &nbsp;
+    </div>
+</section>
+<footer>
+    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
+</footer>
 
 </body>
 </html>
