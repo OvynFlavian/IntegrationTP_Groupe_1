@@ -6,10 +6,24 @@
  * Time: 22:07
  */
 ?>
-<form name="formulaire" action="connexion.page.php" method="post" onSubmit="return verification_connexion()" class="class_form">
 
-    <label for="userName">Login : </label><input id="userName" name="userName" type="text"> <br>
-    <label for="mdp">Mot de passe :	</label><input id="mdp" name="mdp" type="password"> <br>
-    <input type="submit" id="formulaire" name="formulaire">
-
+<form class="form-horizontal" role="form">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="userName">Login:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="userName" placeholder="Votre pseudo">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="mdp">Password:</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="mdp" placeholder="Enter password">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default" name="formulaire" id="formulaire">Submit</button>
+            <a href="./mdpOublie.page.php"> Mot de passe oublié ? </a>
+        </div>
+    </div>
 </form>

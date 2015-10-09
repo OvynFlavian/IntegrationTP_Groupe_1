@@ -127,4 +127,11 @@ class User{
     {
         return "<tr><td>".$this->getUserName()."</td><td>". $this->getTel()."</td></tr>";
     }
+    public function toStringArray()
+    {
+        $array = array();
+        $array["User_name"] = $this->getUserName();
+        $array["Derniere_connexion"] = new DateTime($this->getDateLastConnect());
+        return $array;
+    }
 }

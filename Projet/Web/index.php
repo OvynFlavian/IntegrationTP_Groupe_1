@@ -13,6 +13,7 @@ startSession();
 
 $isConnect = isConnect();
 $configIni = parse_ini_file("config.ini", true);
+//var_dump(getSessionUser());
 ?>
 <!doctype html>
 <html lang="fr">
@@ -67,6 +68,29 @@ $configIni = parse_ini_file("config.ini", true);
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
         </article>
     </section>
+    <?php if(isConnect()){?>
+    <section class="row">
+        <article class="col-sm-6">
+            <h3>L'utilisateur connecté</h3>
+            <table>
+                <tr><th>Pseudo</th><th>Dernière connexion</th></tr>
+                <tr>
+                    <?php foreach(getSessionUser()->toStringArray() as $key => $value){?>
+                        <td>
+                            <?php
+                                if($key == "Derniere_connexion")
+                                    echo $value->format("H:i => d/m/Y");
+                                else echo $value
+                            ?>
+                        </td>
+                    <?php }?>
+                </tr>
+            </table>
+
+
+        </article>
+    </section>
+    <?php }?>
 </section>
 <footer class="panel-footer">
     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
