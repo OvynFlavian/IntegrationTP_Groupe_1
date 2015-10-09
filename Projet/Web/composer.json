@@ -11,6 +11,5 @@
   ],
   "require": {
     "twitter/bootstrap": "3.3.x-dev",
-    "twig/twig": "1.6.5"
   }
 }
