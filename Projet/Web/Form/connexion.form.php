@@ -7,17 +7,17 @@
  */
 ?>
 
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" action="connexion.page.php" method="post">
     <div class="form-group">
         <label class="control-label col-sm-2" for="userName">Login:</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="userName" placeholder="Votre pseudo">
+            <input type="text" class="form-control" id="userName" name="userName" placeholder="Votre pseudo">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-sm-2" for="mdp">Password:</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="mdp" placeholder="Enter password">
+            <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Enter password">
         </div>
     </div>
     <div class="form-group">
@@ -27,3 +27,11 @@
         </div>
     </div>
 </form>
+
+<!--<form action="./connexion.page.php" method="post">
+    <label for="userName">Login :</label>
+    <input type="text" name="userName" id="userName">
+    <label for="mdp">Password :</label>
+    <input type="password" name="mdp" id="mdp">
+    <button type="submit" name="formulaire">Connexion</button>
+</form>-->
