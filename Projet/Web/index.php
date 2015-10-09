@@ -19,7 +19,7 @@ $configIni = parse_ini_file("config.ini", true);
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="./Style/presentationCss.css">
+    <link rel="stylesheet" type="text/css" href="./vendor/twitter/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
 <header>
