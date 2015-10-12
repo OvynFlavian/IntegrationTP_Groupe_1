@@ -19,6 +19,7 @@ class User{
     private $DateInscription;
     private $DateLastIdea;
     private $DateLastConnect;
+    private $isPrivate;
     private $droit = array();
 
     /**
@@ -78,6 +79,11 @@ class User{
     {
         return $this->tel;
     }
+    public function getIsPrivate()
+    {
+        return $this->isPrivate;
+    }
+
 
     /**SETTER**/
     public function setId($id)
@@ -111,6 +117,10 @@ class User{
     public function setTel($tel)
     {
         $this->tel = $tel;
+    }
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = $isPrivate;
     }
 
     /**

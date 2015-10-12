@@ -2171,6 +2171,7 @@
       <column name="DateLastConnect" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="email" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <column name="tel" sqlType="VARCHAR" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="isPrivate" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="activation_ibfk_1" table="activation" schema="" catalog="projetintegration" columns="id_user"/>
       <exported-key name="amis_ibfk_1" table="amis" schema="" catalog="projetintegration" columns="id_user_1"/>
