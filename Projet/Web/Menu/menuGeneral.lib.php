@@ -9,7 +9,6 @@ $runningFile = $_SERVER['PHP_SELF'];
 $url = explode("/", $runningFile);
 $pages = explode(".", $url[3]);
 $page = $pages[0];
-var_dump($page);
 ?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
