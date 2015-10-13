@@ -5,6 +5,7 @@
  * Date: 29/09/2015
  * Time: 19:30
  */
+namespace Entity;
 
 class Droit {
     private $id;

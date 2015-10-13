@@ -5,6 +5,7 @@
  * Date: 28/09/2015
  * Time: 11:14
  */
+namespace Entity;
 
 /**
  * Class User
