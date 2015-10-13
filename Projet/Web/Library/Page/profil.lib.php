@@ -9,45 +9,51 @@
 function isValidForm()
 {
     $config = getConfigFile()['CONSTANTE'];
-    $UserName = isset($_POST['UserName']) ? $_POST['UserName'] : '';
+    $UserName = isset($_POST['userName']) ? $_POST['userName'] : '';
     $Mdp = isset($_POST['Mdp']) ? $_POST['Mdp'] : '';
     $MdpBis = isset($_POST['MdpBis']) ? $_POST['MdpBis'] : '';
-    $Tel = isset($_POST['Tel']) ? $_POST['Tel'] : '';
 
     $tab = array("RETURN" => false, "ERROR" => array());
 
-    $boolean_name = true;
-    $boolean_mdp = true;
-    $boolean_tel = true;
-    if(empty($UserName) or $UserName <= $config['size_user_name'])
+    $boolean_name = false;
+    $boolean_mdp = false;
+    if(!empty($UserName) and strlen($UserName) > $config['size_user_name'])
     {
-        $boolean_name = false;
-        $tab['ERROR'][] = "Nom vide ou trop court (min: ". $config['size_user_name']. ")";
+        $boolean_name = true;
     }
-    if(empty($Mdp) or empty($MdpBis) or $Mdp <= $config['size_user_mdp'])
+    else
     {
-        $boolean_mdp = false;
-        $tab['ERROR'][] = "Mots de passe vide ou trop court (min: ". $config['size_user_mdp']. ")";
+        $tab['ERROR']['UserName'] = "Nom vide ou trop court (min: ". $config['size_user_name']. ")";
     }
-    else if($Mdp != $MdpBis)
+    if(!empty($Mdp) and !empty($MdpBis) and $Mdp == $MdpBis)
     {
-        $boolean_mdp = false;
-        $tab['ERROR'][] = "Mots de passe et le mots de passe de vérification sont différents";
+        if($Mdp > $config['size_user_mdp'])
+        {
+            $boolean_mdp = true;
+        }
+        else
+        {
+            $tab['ERROR']['Mdp'] = "Mots de passe trop court (min: ". $config['size_user_mdp']. ")";
+        }
     }
-    if(empty($Tel))
+    else if(!empty($Mdp) and !empty($MdpBis) and $Mdp != $MdpBis)
     {
-        $boolean_tel = false;
-        $tab['ERROR'][] = "Numéro de téléphone vide";
+        $tab['ERROR']['Mdp'] = "Mots de passe et le mots de passe de vérification sont différents";
+    }
+    else
+    {
+        $boolean_mdp = true;
     }
 
-    $tab['RETURN'] = ($boolean_mdp or $boolean_tel or $boolean_name);
+    $tab['RETURN'] = ($boolean_mdp and $boolean_name);
     return $tab;
 }
 function modifyProfil(User $user)
 {
-    $UserName = $_POST['UserName'];
+    $UserName = $_POST['userName'];
     $Mdp = $_POST['Mdp'];
     $Tel = $_POST['Tel'];
+    $config = getConfigFile()['CONSTANTE'];
 
     $um = new UserManager(connexionDb());
 
@@ -57,11 +63,11 @@ function modifyProfil(User $user)
         "tel" => $Tel,
     ));
 
-    if(!empty($UserName) and $userTest->getUserName() != $user->getUserName())
+    if(!empty($UserName) and $userTest->getUserName() != $user->getUserName() and $UserName > $config["size_user_name"])
     {
         $user->setUserName($UserName);
     }
-    if(!empty($Mdp) and strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp())
+    if(!empty($Mdp) and strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp() and $config["size_user_mdp"])
     {
         $user->setMdp($Mdp);
         $user->setHashMdp();

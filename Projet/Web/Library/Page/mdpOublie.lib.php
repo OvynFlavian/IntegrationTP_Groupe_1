@@ -59,7 +59,7 @@
 
               $actDelete = $am->getActivationByLibelleAndId('Récupération',$userToSend->getId());
 
-              if (!empty($acDelete->getCode()))
+              if (!empty($actDelete->getCode()))
               {
                   $am->deleteActivationByIdAndLibelle($actDelete->getIdUser(), 'Récupération');
               }

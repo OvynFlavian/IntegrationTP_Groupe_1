@@ -5,16 +5,12 @@
  * Date: 4/10/2015
  * Time: 21:08
  */
-require "../Library/database.lib.php";
-require "../Entity/Categorie.class.php";
-require "../Manager/CategorieManager.manager.php";
-require "../Library/config.lib.php";
+require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
-require "../Library/post.lib.php";
-require "../Library/session.lib.php";
 
-
-require "../Library/Page/choisirCategorie.lib.php";
+initRequire();
+initRequirePage("choisirCategorie");
+initRequireEntityManager();
 
 startSession();
 ?>

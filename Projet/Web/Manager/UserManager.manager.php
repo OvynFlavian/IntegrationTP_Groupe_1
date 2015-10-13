@@ -58,11 +58,11 @@ class UserManager {
         ));
 
         $tabUser = $query->fetch(PDO::FETCH_ASSOC);
-
+        //var_dump($tabUser);
         $userToConnect = new User($tabUser);
         $tabDroit = $this->getUserDroit($userToConnect);
         $userToConnect->setDroit($tabDroit);
-
+        //var_dump($userToConnect);
         return $userToConnect;
     }
     public function getUserByEmail($email)
@@ -89,8 +89,7 @@ class UserManager {
     }
     public function getUserDroit(User $user)
     {
-        require "../Manager/DroitManager.manager.php";
-        $dm = new DroitManager($this->db);
+        $dm = new DroitManager(connexionDb());
         $query = $this->db->prepare("SELECT * FROM user_droit WHERE id_User = :idUser");
         $query->execute(array(
             ":idUser" => $user->getId()
@@ -123,17 +122,36 @@ class UserManager {
 
     public function updateUserProfil(User $user)
     {
-        $query = $this
-            ->db
-            ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel WHERE id = :id");
+        if(!empty($_POST['Private']))
+        {
+            $query = $this
+                ->db
+                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel , isPrivate = :private WHERE id = :id");
 
-        $query
-            ->execute(array(
-                ":id" => $user->getId(),
-                ":username" => $user->getUserName(),
-                ":mdp" => $user->getMdp(),
-                ":tel" => $user->getTel(),
-            ));
+            $query
+                ->execute(array(
+                    ":id" => $user->getId(),
+                    ":username" => $user->getUserName(),
+                    ":mdp" => $user->getMdp(),
+                    ":tel" => $user->getTel(),
+                    ":private" => $_POST['Private'],
+                ));
+        }
+        else
+        {
+            $query = $this
+                ->db
+                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel, isPrivate = 0 WHERE id = :id");
+
+            $query
+                ->execute(array(
+                    ":id" => $user->getId(),
+                    ":username" => $user->getUserName(),
+                    ":mdp" => $user->getMdp(),
+                    ":tel" => $user->getTel(),
+                ));
+        }
+
     }
 
     public function updateUserConnect(User $user)

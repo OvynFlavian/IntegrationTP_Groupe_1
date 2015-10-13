@@ -219,6 +219,13 @@ pip-log.txt
 ## PHPStorm
 ###############
 
-Projet/Web/.idea/*.xml
+Projet/Web/.idea/
 Projet/Web/.idea/php.xml
 *.xml
+
+####################
+## AndroidStudio
+####################
+Projet/Android/IntegrationProjetV0/.idea/
+Projet/Android/IntegrationProjetV0/app/app.iml
+Projet/Android/IntegrationProjetV0/*.iml

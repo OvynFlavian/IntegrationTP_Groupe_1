@@ -10,11 +10,14 @@
  * Fichier regroupant l'ensemble des constantes globales du site.
  */
 
-define("PATH_ENTITY", "./Entity/");
+define("PATH_ENTITY", "../Entity/");
 define("PATH_END_ENTITY", ".class.php");
 
 define("PATH_LIBRARY", "../Library/");
 define("PATH_END_LIBRARY", ".lib.php");
+
+define("PATH_MANAGER", "../Manager/");
+define("PATH_END_MANAGER", "Manager.manager.php");
 
 /*On ajoute une entité dans le tableau pour pouvoir les récupérers automatiquement*/
 define("LIST_ENTITY", serialize(array(
@@ -24,6 +27,14 @@ define("LIST_ENTITY", serialize(array(
     "Categorie" => PATH_ENTITY. "Categorie". PATH_END_ENTITY,
     "Activity" => PATH_ENTITY. "Activity". PATH_END_ENTITY,
     "Activation" => PATH_ENTITY. "Activation". PATH_END_ENTITY,
+)));
+
+define("LIST_MANAGER", serialize(array(
+    "User" => PATH_MANAGER. "User". PATH_END_MANAGER,
+    "Droit" => PATH_MANAGER. "Droit". PATH_END_MANAGER,
+    "Categorie" => PATH_MANAGER. "Categorie". PATH_END_MANAGER,
+    "Activity" => PATH_MANAGER. "Activity". PATH_END_MANAGER,
+    "Activation" => PATH_MANAGER. "Activation". PATH_END_MANAGER,
 )));
 
 define("LIST_LIBRARY", serialize(array(
@@ -51,4 +62,15 @@ function initRequire()
 function initRequirePage($namePage)
 {
     require "../Library/Page/$namePage.lib.php";
+}
+
+function initRequireEntityManager()
+{
+    $listEntity = unserialize(LIST_ENTITY);
+
+    foreach($listEntity as $key => $value)
+    {
+        require $value;
+        if($key != "Message")require PATH_MANAGER. $key. PATH_END_MANAGER;
+    }
 }

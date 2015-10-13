@@ -19,6 +19,7 @@ class User{
     private $DateInscription;
     private $DateLastIdea;
     private $DateLastConnect;
+    private $isPrivate;
     private $droit = array();
 
     /**
@@ -78,6 +79,11 @@ class User{
     {
         return $this->tel;
     }
+    public function getIsPrivate()
+    {
+        return $this->isPrivate;
+    }
+
 
     /**SETTER**/
     public function setId($id)
@@ -112,6 +118,10 @@ class User{
     {
         $this->tel = $tel;
     }
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = $isPrivate;
+    }
 
     /**
      * Fonction permettant le hashage du mots de passe.
@@ -126,5 +136,12 @@ class User{
     public function toStringList()
     {
         return "<tr><td>".$this->getUserName()."</td><td>". $this->getTel()."</td></tr>";
+    }
+    public function toStringArray()
+    {
+        $array = array();
+        $array["User_name"] = $this->getUserName();
+        $array["Derniere_connexion"] = new DateTime($this->getDateLastConnect());
+        return $array;
     }
 }

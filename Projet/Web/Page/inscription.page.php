@@ -8,12 +8,7 @@
     require "../Library/constante.lib.php";
     initRequire();
     initRequirePage("inscription");
-
-    require "../Entity/User.class.php";
-    require "../Manager/UserManager.manager.php";
-
-    require "../Entity/Activation.class.php";
-    require "../Manager/ActivationManager.manager.php";
+    initRequireEntityManager();
 
     $configIni = getConfigFile();
     startSession();
@@ -36,8 +31,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
-    <link rel="stylesheet" type="text/css" href="../Style/presentationCss.css">
-    <!--<link rel="script" type="text/javascript" href="../Script/inscription.js">-->
+    <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <script type="text/javascript">
         <?php
             include("../Script/inscription.js");
@@ -45,30 +39,41 @@
     </script>
 </head>
 <body>
-    <header>
-        <?php
-            if(!$isConnect)include("..". MENU_ANONYME_PAGE);
-            else include("..". MENU_CONNECTER_PAGE);
-        ?>
-    </header>
-    <section id="section_corps">
-        <div id="div_left">
-            &nbsp;
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">EveryDayIdea</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="../">Home</a></li>
+                    <li><a href="../Page/connexion.page.php">Connexion</a></li>
+                    <li class="active"><a href="../Page/inscription.page.php">Inscription</a></li>
+                </ul>
+            </div>
         </div>
-
-        <div id="div_center">
-            <h1>Page d'inscription</h1>
-            <?php
-                include("../Form/inscription.form.php");
-            ?>
-        </div>
-        <div id="div_right">
-            &nbsp;
-        </div>
+    </nav>
+</header>
+<section class="container">
+    <section class="jumbotron">
+        <h1>Page d'inscription</h1>
     </section>
-    <footer>
-        &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
-    </footer>
-
+    <section class="row">
+        <article class="col-sm-12">
+            <?php
+            include("../Form/inscription.form.php");
+            ?>
+        </article>
+    </section>
+    <?php if(isset($tabRetour['Error'])){?>
+        <section class="alert-dismissible">
+            <p><?php echo $tabRetour['Error']?></p>
+        </section>
+    <?php }?>
+</section>
+<footer class="panel-footer">
+    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
+</footer>
 </body>
 </html>

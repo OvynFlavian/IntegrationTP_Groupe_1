@@ -7,12 +7,10 @@
  */
 
 require "../Library/constante.lib.php";
+
 initRequire();
 initRequirePage("profil");
-
-require "../Entity/User.class.php";
-require "../Entity/Droit.class.php";
-require "../Manager/UserManager.manager.php";
+initRequireEntityManager();
 
 startSession();
 $isConnect = isConnect();
@@ -21,19 +19,22 @@ if(!$isConnect)header("Location:../index.php");
 $um = new UserManager(connexionDb());
 $user = $um->getUserById(getSessionUser()->getId());
 
+$configIni = getConfigFile();
+$isValidForm = array();
+$errorFormulaire = array();
 if(isPostFormulaire())
 {
-    if(isValidForm()['RETURN'])
+    $isValidForm = isValidForm();
+    if($isValidForm['RETURN'])
     {
         modifyProfil($user);
+        $errorFormulaire['SUCCES'] = "Modification réalisée avec succes";
     }
     else
     {
-        $errorFormulaire = isValidForm()['ERROR'];
+        $errorFormulaire = $isValidForm['ERROR'];
     }
-    unset($_POST['formulaire']);
 }
-
 ?>
 
 <!doctype html>
@@ -41,34 +42,40 @@ if(isPostFormulaire())
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
-    <link rel="stylesheet" type="text/css" href="../Style/presentationCss.css">
+    <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
+    <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 </head>
 <body>
-    <header>
-        <?php
-            if(!$isConnect)include("..". MENU_ANONYME_PAGE);
-            else include("..". MENU_CONNECTER_PAGE);
-        ?>
-    </header>
-    <section id="section_corps">
-        <div id="div_left">
-            &nbsp;
-        </div>
-        <div id="div_center">
-            <h1>Page de gestion de profil</h1>
-            <?php include("../Form/profil.form.php");?>
-        </div>
-        <div id="div_right">
-            &nbsp;
-        </div>
+<header>
+    <?php include("../Menu/menuGeneral.lib.php");?>
+</header>
+<section class="container">
+    <section class="jumbotron">
+        <h1>Page de gestion de profil</h1>
+        <p>Entrer les informations qui seront changée (les informations, n'ayant pas été changée, ne seront pas prises en compte)</p>
     </section>
-
-    <script>
-        var jsTab = <?php echo '["'. implode('", "', isset($errorFormulaire)? $errorFormulaire : array()). '"]'?>;
-        if(jsTab.length > 1)
-        {
-            alert(jsTab.join("\n"));
-        }
-    </script>
+    <section class="alert-dismissible">
+        <?php foreach($errorFormulaire as $toPrint){?>
+            <?php echo "<span class='alert-dismissable'>$toPrint</span>"?>
+        <?php }?>
+    </section>
+    <section class="row">
+        <article class="col-sm-12">
+            <?php
+                if(isset($_GET['to']) and $_GET['to'] == "edit")
+                    include("../Form/profil.form.php");
+                else
+                    include ("../Form/profil_view.form.php");
+            ?>
+        </article>
+    </section>
+</section>
+<footer class="panel-footer">
+    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
+</footer>
 </body>
 </html>
+<?php unset($_POST); ?>
