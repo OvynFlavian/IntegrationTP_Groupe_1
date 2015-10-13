@@ -41,6 +41,7 @@ $configIni = getConfigFile();
 </head>
 <body>
 <header>
+    <!--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -55,6 +56,8 @@ $configIni = getConfigFile();
             </div>
         </div>
     </nav>
+    -->
+    <?php include("../Menu/menuGeneral.lib.php") ?>
 </header>
     <section class="container">
         <section class="jumbotron">

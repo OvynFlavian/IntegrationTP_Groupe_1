@@ -24,25 +24,7 @@ $configIni = parse_ini_file("config.ini", true);
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">EveryDayIdea</a>
-            </div>
-            <div>
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="./">Home</a></li>
-                    <?php if(!$isConnect){?>
-                        <li><a href="./Page/connexion.page.php">Connexion</a></li>
-                        <li><a href="./Page/inscription.page.php">Inscription</a></li>
-                    <?php }else{ ?>
-                        <li><a href="./Page/connexion.page.php">Déconnexion</a></li>
-                        <li><a href="./Page/profil.page.php">Profil</a></li>
-                    <?php }?>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include("./Menu/menuGeneral.lib.php"); ?>
 </header>
 <section class="container">
     <section class="jumbotron">
@@ -92,7 +74,7 @@ $configIni = parse_ini_file("config.ini", true);
     </section>
     <?php }?>
 </section>
-<footer class="panel-footer">
+<footer class="panel-footer ">
     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
 </footer>
 

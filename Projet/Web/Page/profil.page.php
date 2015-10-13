@@ -50,27 +50,7 @@ if(isPostFormulaire())
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">EveryDayIdea</a>
-            </div>
-            <div>
-                <ul class="nav navbar-nav">
-                    <li><a href="../">Home</a></li>
-                    <li class="active dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="../Page/profil.page.php">Profil
-                        <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../Page/profil.page.php?to=print">Afficher</a> </li>
-                            <li><a href="../Page/profil.page.php?to=edit">Modifier</a> </li>
-                        </ul>
-                    </li>
-                    <li><a href="../Page/connexion.page.php">Déconnexion</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include("../Menu/menuGeneral.lib.php");?>
 </header>
 <section class="container">
     <section class="jumbotron">
