@@ -5,6 +5,8 @@
  * Date: 3/10/2015
  * Time: 22:53
  */
+use \Entity\User as User;
+
 function doConnect()
 {
     $tabRetour = array();
@@ -58,8 +60,7 @@ function doConnect()
     else if ($needActi == true)
         $tabRetour['Activation'] = "Vous devez activer votre compte avant la connexion !";
     else {
-        $user = $userConnect;
-
+        $user = $manager->getUserById($id);
         $manager->updateUserConnect($user);
         $_SESSION['User'] = $user;
         echo "Bienvenue sur EveryDayIdea !";

@@ -51,6 +51,12 @@ if(isPostFormulaire())
 <body>
 <header>
     <?php include("../Menu/menuGeneral.lib.php");?>
+    <aside class="col-md-1">
+        <ul class="nav nav-pills nav-stacked">
+            <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="profil.page.php">View profil</a></li>
+            <li <?php if(!empty($_GET)){echo 'class="active"';}?>><a href="?to=edit">Edit profil</a></li>
+        </ul>
+    </aside>
 </header>
 <section class="container">
     <section class="jumbotron">

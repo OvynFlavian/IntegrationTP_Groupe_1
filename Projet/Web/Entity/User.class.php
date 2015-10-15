@@ -5,7 +5,9 @@
  * Date: 28/09/2015
  * Time: 11:14
  */
+namespace Entity;
 
+use DateTime;
 /**
  * Class User
  * Entité de la base de donnée définissant un utilisateur de l'application et du site.

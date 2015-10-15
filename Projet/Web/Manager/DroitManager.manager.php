@@ -5,6 +5,7 @@
  * Date: 29/09/2015
  * Time: 19:51
  */
+use \Entity\Droit as Droit;
 
 class DroitManager {
     private $db;

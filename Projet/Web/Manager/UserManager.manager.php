@@ -6,6 +6,8 @@
  * Time: 11:21
  */
 
+use \Entity\User as User;
+
 class UserManager {
     private $db;
 
@@ -61,6 +63,7 @@ class UserManager {
         //var_dump($tabUser);
         $userToConnect = new User($tabUser);
         $tabDroit = $this->getUserDroit($userToConnect);
+        var_dump($tabDroit);
         $userToConnect->setDroit($tabDroit);
         //var_dump($userToConnect);
         return $userToConnect;
