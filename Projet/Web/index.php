@@ -13,7 +13,6 @@ startSession();
 
 $isConnect = isConnect();
 $configIni = parse_ini_file("config.ini", true);
-//var_dump(getSessionUser());
 ?>
 <!doctype html>
 <html lang="fr">

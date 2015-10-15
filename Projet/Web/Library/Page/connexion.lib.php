@@ -60,8 +60,7 @@ function doConnect()
     else if ($needActi == true)
         $tabRetour['Activation'] = "Vous devez activer votre compte avant la connexion !";
     else {
-        $user = $userConnect;
-
+        $user = $manager->getUserById($id);
         $manager->updateUserConnect($user);
         $_SESSION['User'] = $user;
         echo "Bienvenue sur EveryDayIdea !";
