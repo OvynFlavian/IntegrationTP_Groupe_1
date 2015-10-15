@@ -72,16 +72,15 @@ public class MainActivity extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://192.168.0.9/my_folder_inside_htdocs/check.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://10.99.4.208/my_folder_inside_htdocs/check.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            nameValuePairs.add(new BasicNameValuePair("username",et.getText().toString().trim()));  // $Edittext_value = $_POST['Edittext_value'];
-            nameValuePairs.add(new BasicNameValuePair("password",pass.getText().toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("username", et.getText().toString().trim()));  // $Edittext_value = $_POST['Edittext_value'];
+            nameValuePairs.add(new BasicNameValuePair("password", pass.getText().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             //Execute HTTP Post Request
             response=httpclient.execute(httppost);
-            // edited by James from coderzheaven.. from here....
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
@@ -99,7 +98,7 @@ public class MainActivity extends Activity {
                     }
                 });
 
-                startActivity(new Intent(MainActivity.this, LogIn.class));
+                startActivity(new Intent(MainActivity.this, User.class));
             }else{
                 showAlert();
             }
