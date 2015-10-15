@@ -5,6 +5,8 @@
  * Date: 3/10/2015
  * Time: 22:53
  */
+use \Entity\User as User;
+
 function doConnect()
 {
     $tabRetour = array();

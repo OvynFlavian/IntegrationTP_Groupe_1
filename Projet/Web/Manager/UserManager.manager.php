@@ -6,6 +6,8 @@
  * Time: 11:21
  */
 
+use \Entity\User as User;
+
 class UserManager {
     private $db;
 

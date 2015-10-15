@@ -5,6 +5,7 @@
  * Date: 3/10/2015
  * Time: 19:21
  */
+use \Entity\Activation as Activation;
 
 /**
  * Class ActivationManager
