@@ -21,7 +21,7 @@ class UserManager {
      * @return array $tab contentant tous les users
      */
     public function getAllUser() {
-        $resultats = $this->db->query("SELECT * FROM USER");
+        $resultats = $this->db->query("SELECT * FROM user");
         $resultats->execute();
 
         $tabUser = $resultats->fetchAll(PDO::FETCH_ASSOC);
