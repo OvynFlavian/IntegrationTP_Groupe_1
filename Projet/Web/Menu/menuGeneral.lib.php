@@ -7,7 +7,8 @@
  */
 $runningFile = $_SERVER['PHP_SELF'];
 $url = explode("/", $runningFile);
-$pages = explode(".", $url[3]);
+if(sizeof($url) > 2)$pages = explode(".", $url[3]);
+else $pages = explode(".", $url[2]);
 $page = $pages[0];
 ?>
 <nav class="navbar navbar-default">
@@ -17,7 +18,7 @@ $page = $pages[0];
         </div>
     <div>
         <ul class="nav navbar-nav">
-<?php if($url[3] == "index.php"){?>
+<?php if($page == "index" or $page == ''){?>
 
                 <li <?php if($page == "index") echo "class='active'"?>><a href="">Home</a></li>
                 <?php if(!$isConnect){?>
