@@ -8,7 +8,7 @@
  function activationNewUser() {
      $code = $_GET['code'];
      $am = new ActivationManager(connexionDb());
-     $ac = $am -> $this->getActivationByCode($code);
+     $ac = $am ->getActivationByCode($code);
 
      $noCode = false;
      if (empty($ac)) {

@@ -5,6 +5,8 @@
  * Date: 4/10/2015
  * Time: 21:08
  */
+
+use \Entity\Activation as Activation;
 /**
  * Si l'user arrive sur la page sans code dans l'url, la page lui met le formulaire demandant son email et
  * permettant l'envoi d'un code de changement de mdp

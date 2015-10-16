@@ -6,9 +6,10 @@
  * Time: 14:35
  */
     require "../Library/constante.lib.php";
+    require "../Library/Fonctions/Fonctions.php";
     initRequire();
-    initRequirePage("inscription");
     initRequireEntityManager();
+    initRequirePage("inscription");
 
     $configIni = getConfigFile();
     startSession();

@@ -5,6 +5,9 @@
  * Date: 3/10/2015
  * Time: 16:59
  */
+    use \Entity\User as User;
+    use \Entity\Activation as Activation;
+
     function isValidBis()
     {
         $tabReturn = array("Retour" => false, "Error" => array());
