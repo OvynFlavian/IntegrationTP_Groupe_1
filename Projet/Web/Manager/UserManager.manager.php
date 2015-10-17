@@ -59,13 +59,16 @@ class UserManager {
             ":userName" => $userName
         ));
 
-        $tabUser = $query->fetch(PDO::FETCH_ASSOC);
-        //var_dump($tabUser);
-        $userToConnect = new User($tabUser);
-        $tabDroit = $this->getUserDroit($userToConnect);
-        var_dump($tabDroit);
-        $userToConnect->setDroit($tabDroit);
-        //var_dump($userToConnect);
+        if($tabUser = $query->fetch(PDO::FETCH_ASSOC))
+        {
+            $userToConnect = new User($tabUser);
+            $tabDroit = $this->getUserDroit($userToConnect);
+            $userToConnect->setDroit($tabDroit);
+        }
+        else
+        {
+            $userToConnect = new User(array());
+        }
         return $userToConnect;
     }
     public function getUserByEmail($email)

@@ -14,7 +14,7 @@ initRequireEntityManager();
 
 startSession();
 
-if(isConnect())header("Locaation:../");
+if(isConnect())header("Location:../");
 $configIni = getConfigFile();
 ?>
 
