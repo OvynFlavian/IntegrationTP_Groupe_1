@@ -35,6 +35,7 @@ define("LIST_MANAGER", serialize(array(
     "Categorie" => PATH_MANAGER. "Categorie". PATH_END_MANAGER,
     "Activity" => PATH_MANAGER. "Activity". PATH_END_MANAGER,
     "Activation" => PATH_MANAGER. "Activation". PATH_END_MANAGER,
+    "Categorie_Activity" => PATH_MANAGER. "Categorie_Activity". PATH_END_MANAGER,
 )));
 
 define("LIST_LIBRARY", serialize(array(

@@ -19,11 +19,11 @@ class CategorieManager {
         $resultats = $this->db->query("SELECT * FROM categorie");
         $resultats->execute();
 
-        $tabUser = $resultats->fetchAll(PDO::FETCH_ASSOC);
+        $tabCat = $resultats->fetchAll(PDO::FETCH_ASSOC);
 
         $tab = array();
 
-        foreach($tabUser as $elem)
+        foreach($tabCat as $elem)
         {
             $tab[] = new Categorie($elem);
         }
@@ -41,5 +41,17 @@ class CategorieManager {
         $tabCategorie = $query->fetch(PDO::FETCH_ASSOC);
 
         return new Categorie($tabCategorie);
+    }
+
+    public function getCategorieByLibelle($lib)
+    {
+        $query = $this->db->prepare("SELECT * FROM categorie WHERE libelle = :lib");
+        $query->execute(array(
+            ":lib" => $lib
+        ));
+
+        $tabCat = $query->fetch(PDO::FETCH_ASSOC);
+
+        return new Categorie($tabCat);
     }
 }

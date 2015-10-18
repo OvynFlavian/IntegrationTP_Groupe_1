@@ -14,6 +14,12 @@ initRequireEntityManager();
 
 startSession();
 $isConnect = isConnect();
+#TODO N'autoriser cette page que pour les inscrits et rediriger les autres
+#TODO Un membre ne peut proposer une idée que toutes les semaines, penser à vérifier son délai (sauf si il est premium)
+#TODO Si il est ok, penser à update sa date de dernière activité ajoutée
+if (isPostFormulaire()) {
+    ajouterActivite();
+}
 ?>
 
 <!doctype html>
@@ -27,6 +33,11 @@ $isConnect = isConnect();
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
+    <script type="text/javascript">
+        <?php
+            include "../Script/ajouterActivite.js";
+        ?>
+    </script>
 </head>
 <body>
 <header>
@@ -40,7 +51,7 @@ $isConnect = isConnect();
     </section>
     <section class="row">
         <?php
-        afficherCategorie();
+        include "../Form/ajouterActivite.form.php";
         ?>
     </section>
 </section>

@@ -1,22 +1,32 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: JulienTour
- * Date: 18/10/2015
- * Time: 15:31
- */
-<form method="post" action="ajouterActivite.page.php">
+
+<form method="post" action="ajouterActivite.page.php" onSubmit='return verification_ajouterActivite()'>
    <p>
-       <label for="pays">Dans quel pays habitez-vous ?</label><br />
-       <select name="pays" id="pays">
-           <option value="france">France</option>
-           <option value="espagne">Espagne</option>
-           <option value="italie">Italie</option>
-           <option value="royaume-uni">Royaume-Uni</option>
-           <option value="canada">Canada</option>
-           <option value="etats-unis">États-Unis</option>
-           <option value="chine">Chine</option>
-           <option value="japon">Japon</option>
-       </select>
+       <label for="cat">Dans quelle catégorie voulez vous ajouter l'activité ?</label><br />
+        <div class="form-group">
+        <label class="control-label col-sm-2" for="categorie">Catégorie:</label>
+             <div class="col-sm-10">
+              <select name="categorie" id="categorie">
+           <?php
+            $cm = new CategorieManager(connexionDb());
+            $tab = $cm->getAllCategorie();
+            foreach($tab as $elem) {
+                $cat= $elem->getLibelle();
+                echo "<option value='$cat'>$cat</option>";
+            }
+           ?>
+             </select>
+            </div>
+        </div>
+        <div class="form-group">
+        <label class="control-label col-sm-2" for="activite">Activité:</label>
+            <div class="col-sm-10">
+           <input type="text" class="form-control" id="activite" name="activite" placeholder="Votre activité">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                 <br><button type="submit" class="btn btn-default" name="formulaire" id="formulaire">Submit</button>
+            </div>
+        </div>
    </p>
 </form>
