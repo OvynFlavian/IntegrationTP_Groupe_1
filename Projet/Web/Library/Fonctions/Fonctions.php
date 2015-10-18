@@ -32,6 +32,21 @@
      }
     }
 
+    function comparerDate($date, $delai) {
+    if ($delai == 0) {
+        return false;
+    } else {
+        $datejour = date('Y-m-d H:i:s');
+        $datejour = strtotime($datejour);
+        $date = strtotime(date("Y-m-d", strtotime($date))."+$delai day");
+        if ($datejour > $date) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+}
     function genererCode() {
         $characts    = 'abcdefghijklmnopqrstuvwxyz';
         $characts   .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

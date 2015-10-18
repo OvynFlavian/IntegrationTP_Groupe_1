@@ -5,26 +5,45 @@
  * Date: 07-10-15
  * Time: 20:30
  */
+use \Entity\Categorie as Categorie;
+use \Entity\Activity as Activity;
 
 function proposerActivite($cat) {
-    if ($_GET['categorie'] == 'visite' || $_GET['categorie'] == 'film' ) {
 
-        $tabActivite = array(
-            "visite" => array("Musée de la Sambre", "Zoo d'Anvers", "Pairy Daisa", "Place de Bruxelles", "Atomium"),
-            "film" => array("Gladiator", "Mad max", "Au nom de la rose", "Ghostbusters", "Le père Noel est une ordure"),
-        );
-        $s = 0;
-        $c = 4;
-        $idx=mt_rand($s, $c);
-        echo "<p>".$tabActivite[$cat][$idx]."</p> \n";
+            $cm = new CategorieManager(connexionDb());
+            $categorie = $cm->getCategorieByLibelle($cat);
 
-        include "../Form/proposerActivite.form.php" ;
-    } else {
-        echo "Vous n'avez pas de catégorie !";
+            include "../Manager/Categorie_ActivityManager.manager.php";
+            $cam = new Categorie_ActivityManager(connexionDb());
 
-    }
+            $tabActivities = $cam->getActIdByCatId($categorie);
+            $s = 0;
+            $c = sizeof($tabActivities)-1;
+
+            $idx=mt_rand($s, $c);
+            $id = $tabActivities[$idx]['id_activity'];
+
+
+            $am = new ActivityManager(connexionDb());
+            $activity = $am->getActivityById($id);
+            echo "<p>".$activity->getLibelle()."</p> \n";
+
+            include "../Form/proposerActivite.form.php" ;
+
+
+
+
 }
+function verifCat($cat) {
+    $cm = new CategorieManager(connexionDb());
+    $catVerif = $cm->getCategorieByLibelle($cat);
+    if ($catVerif->getLibelle() != $cat) {
+        return false;
+    } else {
+        return true;
+    }
 
+}
 function gererReponse($cat) {
     if (isset($_POST['Accepter'])) {
         header('Location: choisirCategorie.page.php');

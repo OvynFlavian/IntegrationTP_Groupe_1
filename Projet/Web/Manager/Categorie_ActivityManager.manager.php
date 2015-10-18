@@ -17,6 +17,20 @@ class Categorie_ActivityManager
         $this->db = $database;
     }
 
+    public function getActIdByCatId(Categorie $cat) {
+        $query = $this
+            ->db
+            ->prepare("SELECT * FROM categorie_activity WHERE id_categorie = :id_cat");
+
+        $query->execute(array(
+            "id_cat" => $cat->getId()
+        ));
+
+        $tabAct = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
+        return $tabAct;
+    }
     public function addToTable(Activity $act, Categorie $cat)
     {
         $query = $this

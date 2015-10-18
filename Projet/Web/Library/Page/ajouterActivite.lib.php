@@ -28,8 +28,6 @@ function ajouterActivite() {
             $am->addActivity($activityToAdd);
 
             $activityToRecup = $am->getActivityByLibelle($act);
-            echo $activityToRecup->getId();
-            echo $categorie->getId();
             include "../Manager/Categorie_ActivityManager.manager.php";
             $cam = new Categorie_ActivityManager(connexionDb());
             $cam->addToTable($activityToRecup, $categorie);

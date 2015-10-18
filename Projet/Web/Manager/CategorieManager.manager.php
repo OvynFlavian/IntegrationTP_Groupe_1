@@ -50,8 +50,12 @@ class CategorieManager {
             ":lib" => $lib
         ));
 
-        $tabCat = $query->fetch(PDO::FETCH_ASSOC);
+        if ($tabCat = $query->fetch(PDO::FETCH_ASSOC)) {
+           $cat = new Categorie($tabCat);
+        } else {
+            $cat = new Categorie(array());
+        }
 
-        return new Categorie($tabCat);
+        return $cat;
     }
 }

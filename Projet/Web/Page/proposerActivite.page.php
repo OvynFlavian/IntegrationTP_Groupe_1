@@ -43,8 +43,12 @@ $isConnect = isConnect();
             <?php
             if (isset($_GET['categorie'])) {
                 $cat = $_GET['categorie'];
-                gererReponse($cat);
-                proposerActivite($cat);
+                if (verifCat($cat)) {
+                    gererReponse($cat);
+                    proposerActivite($cat);
+                } else {
+                    echo "Votre catégorie est fausse, cliquez sur un des boutons proposés !";
+                }
             } else {
                 echo "Vous n'avez pas de catégorie !";
             }
