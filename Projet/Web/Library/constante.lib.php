@@ -40,6 +40,7 @@ define("LIST_MANAGER", serialize(array(
 define("LIST_LIBRARY", serialize(array(
     "config" => PATH_LIBRARY. "config". PATH_END_LIBRARY,
     "database" => PATH_LIBRARY. "database". PATH_END_LIBRARY,
+    "get" => PATH_LIBRARY. "get". PATH_END_LIBRARY,
     "post" => PATH_LIBRARY. "post". PATH_END_LIBRARY,
     "session" => PATH_LIBRARY. "session". PATH_END_LIBRARY,
 )));
@@ -48,6 +49,7 @@ define("MENU_ANONYME", "/Library/Menu/menuAnonyme.lib.php");
 define("MENU_CONNECTER", "/Library/Menu/menuConnecter.lib.php");
 define("MENU_ANONYME_PAGE", "/Library/Menu/menuAnonymePage.lib.php");
 define("MENU_CONNECTER_PAGE", "/Library/Menu/menuConnecterPage.lib.php");
+
 
 function initRequire()
 {

@@ -7,8 +7,12 @@
  */
 
 require "./Library/constante.lib.php";
+require "./Library/get.lib.php";
 require "./Library/session.lib.php";
 require "./Entity/User.class.php";
+require "./Entity/Droit.class.php";
+
+
 startSession();
 
 $isConnect = isConnect();

@@ -12,6 +12,8 @@ initRequire();
 initRequirePage("profil");
 initRequireEntityManager();
 
+require "../Form/profil.form.php";
+
 startSession();
 $isConnect = isConnect();
 if(!$isConnect)header("Location:../index.php");
@@ -43,6 +45,7 @@ if(isPostFormulaire())
     <meta charset="UTF-8">
     <title>Profil</title>
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../Style/general.css">
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
@@ -71,15 +74,13 @@ if(isPostFormulaire())
     <section class="row">
         <article class="col-sm-12">
             <?php
-                if(isset($_GET['to']) and $_GET['to'] == "edit")
-                    include("../Form/profil.form.php");
-                else
-                    include ("../Form/profil_view.form.php");
+                if(isset($_GET['to']) and $_GET['to'] == "edit")editProfil($errorFormulaire);
+                else viewProfil();
             ?>
         </article>
     </section>
 </section>
-<footer class="panel-footer">
+<footer class="footer panel-footer">
     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
 </footer>
 </body>

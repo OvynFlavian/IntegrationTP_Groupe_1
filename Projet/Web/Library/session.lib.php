@@ -5,7 +5,7 @@
  * Date: 1/10/2015
  * Time: 14:28
  */
-
+use \Entity\User as User;
 
 function startSession()
 {
@@ -28,12 +28,24 @@ function isConnect()
  */
 function getSessionUser()
 {
-    return (isConnect() ? $_SESSION['User'] : '');
+    return (isConnect() ? $_SESSION['User'] : new User(array()));
 }
 
 function setSessionUser(User $user)
 {
     $_SESSION['User'] = $user;
+}
+
+function checkAdminPwd()
+{
+    $userSession = getSessionUser();
+    $userMdpTest = new User(array(
+        "Mdp" => $_POST['mdpAdmin'],
+    ));
+    $userMdpTest->setHashMdp();
+
+    if($userSession->getDroit()[0]->getLibelle() and $userSession->getMdp() == $userMdpTest->getMdp())return true;
+    return false;
 }
 
 /*function isAllow()

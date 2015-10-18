@@ -17,8 +17,36 @@ function hasErrorClass($errorFormulaire, $field)
     }
 
 }
+function viewProfil()
+{
+    $user = getSessionUser();?>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="userName">Pseudo:</label>
+        <div class="col-sm-10">
+            <p class="form-control-static"><?php echo $user->getUserName()?></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="Tel">Téléphone:</label>
+        <div class="col-sm-10">
+            <p class="form-control-static"><?php echo $user->getTel()?></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="Private" name="Private" value="true" <?php if($user->getIsPrivate()){?>checked<?php } ?> disabled>Visible ?
+                </label>
+            </div>
+        </div>
+    </div>
+<?php
+}
 ?>
-
+<?php function editProfil($errorFormulaire)
+{
+    $user = getSessionUser();?>
 <form class="form-horizontal" action="profil.page.php?to=edit" method="post">
     <div class="form-group <?php hasErrorClass($errorFormulaire, "UserName")?>">
         <label class="control-label col-sm-2" for="userName">Pseudo:</label>
@@ -89,3 +117,4 @@ function hasErrorClass($errorFormulaire, $field)
         </div>
     </div>
 </form>
+<?php }?>

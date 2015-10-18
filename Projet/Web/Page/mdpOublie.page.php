@@ -23,7 +23,12 @@ $configIni = getConfigFile();
 <head>
     <meta charset="UTF-8">
     <title>MdpOublie</title>
-    <link rel="stylesheet" type="text/css" href="../Style/presentationCss.css">
+    <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../Style/general.css">
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
+    <script src="dist/js/bootstrap-submenu.min.js" defer></script>
     <script type="text/javascript">
         <?php
             include("../Script/mdpOublie.js");
