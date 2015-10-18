@@ -8,6 +8,6 @@
 ?>
 
 <form name='emailMdp' action='mdpOublie.page.php' method='post' onSubmit='return verification_emailMdp()'>
-Email : 				<input name='email' type='email'> <br>
+Email : 				<input name='email' type='email' placeholder="Votre email"> <br>
 <input type='submit' name='formulaire'>
 </form>
