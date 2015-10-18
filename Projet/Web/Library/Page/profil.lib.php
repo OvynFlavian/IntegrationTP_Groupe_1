@@ -17,7 +17,7 @@ function isValidForm()
 
     $boolean_name = false;
     $boolean_mdp = false;
-    if(!empty($UserName) and strlen($UserName) > $config['size_user_name'])
+    if(!empty($UserName) and strlen($UserName) >= $config['size_user_name'])
     {
         $boolean_name = true;
     }

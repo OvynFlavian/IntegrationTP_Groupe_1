@@ -104,7 +104,7 @@
       <foreign-key name="model_voiture_ibfk_1" columns="id_voiture" ref-table="voiture" ref-schema="" ref-catalog="bdd2" ref-columns="nime" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="model_voiture_ibfk_2" columns="id_model" ref-table="model" ref-schema="" ref-catalog="bdd2" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
-    <table name="optionVoiture" schema="" catalog="bdd2" type="TABLE">
+    <table name="optionvoiture" schema="" catalog="bdd2" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="Libelle" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
