@@ -7,7 +7,6 @@
  */
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
-
 initRequire();
 initRequirePage("choisirCategorie");
 initRequireEntityManager();
@@ -36,14 +35,12 @@ $isConnect = isConnect();
     <section class="jumbotron">
         <h1>Choisir une catégorie</h1>
         <p>Choisissez une catégorie pour votre activité du jour :</p>
+
     </section>
     <section class="row">
-        <article class="col-sm-6">
-            <a href="proposerActivite.page.php?categorie=visite" title="Visite"><img src="../Images/visite.png" alt="visite"/></a>
-        </article>
-        <article class="col-sm-6">
-            <a href="proposerActivite.page.php?categorie=film" title="film"><img src="../Images/film.jpg" alt="film"/></a>
-        </article>
+        <?php
+        afficherCategorie();
+        ?>
     </section>
 </section>
 </body>
