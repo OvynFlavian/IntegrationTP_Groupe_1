@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.4.208/my_folder_inside_htdocs/check.php");
+            httppost= new HttpPost("http://10.99.4.208/my_folder_inside_htdocs/login.php");
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
 
