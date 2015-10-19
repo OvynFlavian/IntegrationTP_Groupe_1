@@ -43,3 +43,23 @@
         </div>
     </form>
 <?php }?>
+
+<?php function administrationEditUser(UserManager $um){
+    $listUser = $um->getAllUser();
+    ?>
+        <div class="form-group">
+            <?php foreach($listUser as $user){
+                $user->setDroit($um->getUserDroit($user))?>
+            <div class="col-sm-12">
+                <form class="form-horizontal" action="profil.page.php?to=viewProfilAdmin" method="post" id="view_user_<?php echo $user->getId();?>">
+                <a onclick="doSubmit(<?php echo $user->getId();?>);">
+                <span class="col-sm-4"><?php echo $user->getUserName();?></span>
+                <span class="col-sm-4"><?php echo $user->getDroit()[0]->getLibelle();?></span>
+                <span class="col-sm-4"><?php echo $user->getDateLastConnect();?></span>
+                <input type="hidden" id="id_user" name="id_user" value="<?php echo $user->getId();?>">
+                </a>
+                </form>
+            </div>
+            <?php }?>
+        </div>
+<?php }?>

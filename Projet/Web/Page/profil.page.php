@@ -75,6 +75,10 @@ if(isPostFormulaire())
         <article class="col-sm-12">
             <?php
                 if(isset($_GET['to']) and $_GET['to'] == "edit")editProfil($errorFormulaire);
+                else if(isset($_GET['to']) and $_GET['to'] == "viewProfilAdmin")
+                {
+                    viewProfilAdmin($um);
+                }
                 else viewProfil();
             ?>
         </article>
