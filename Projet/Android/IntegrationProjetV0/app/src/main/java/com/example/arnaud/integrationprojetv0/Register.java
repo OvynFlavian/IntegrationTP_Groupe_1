@@ -41,7 +41,6 @@ public class Register extends Activity {
         setContentView(R.layout.register_layout);
 
         b = (Button) findViewById(R.id.button);
-        //b2 = (Button) findViewById(R.id.Button02);
         usr = (EditText) findViewById(R.id.username);
         email = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.password);
@@ -69,7 +68,7 @@ public class Register extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.4.208/my_folder_inside_htdocs/inscription.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://10.99.4.208/my_folder_inside_htdocs/inscription.php");
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));

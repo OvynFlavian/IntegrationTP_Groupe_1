@@ -4,10 +4,14 @@
   define('USER','root');
   define('PASS','LUCIENNE1223');
   define('DB','projetintegration');
+  
+ 
 
 $con = mysqli_connect(HOST,USER,PASS,DB);
 
-
+	 //include 'fonction.php';
+	 //probleme, il dis qu'il ne connait pas les fonction, qu'elles ne sont pas définies...
+	 
         $return = "error";
        // if(isset($_POST['mdp'] == $_POST['mdpConfirm'])
         if(1==1)
@@ -15,32 +19,36 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
             //$ini = getConfigFile();
             $userName = strtolower($_POST['userName']);
             $mdp = $_POST['mdp'];
+			$mdpConf = $_POST['mdpConfirm'];
             $email = $_POST['email'];
+			$return= "true";
 
             if(strlen($userName) < 6)
                 $return= "Votre nom d'utilisateur est trop court, 6 caractères minimum ! <br>";
 
             if(strlen($mdp) < 5)
                 $return .="Votre mot de passe est trop court, 5 caractères minimum ! <br>";
+			if($mdp!=$mdpConf)
+				$return .="Vos mots de passes sont différents ! <br>";
             else
             {
                 //$um = new UserManager(connexionDb());
-               // $tabUser = $um->getAllUser();
-               /* $validUserName = true;
+                //$tabUser = getAllUser();
+                $validUserName = true;
                 $validUserMail = true;
                 $champValid = true;
-                foreach($tabUser as $userTest)
-                {
-                    if($userName == strtolower($userTest->getUserName()))
+             
+				if (nbUserByUsername($userName)>0)
                         $validUserName = false;
-                    if($email == $userTest->getEmail())
+				if (nbUserByEmail($email)>0)
                         $validUserMail = false;
-                }
+					
+                
                 if(!$validUserMail)
                     $return .= "Cette adresse mail est déjà utilisée, veuillez en choisir une autre ! <br>";
                 if(!$validUserName)
                     $return .= "Ce login est déjà pris, veuillez en choisir en autre ! <br>";
-
+				/*
                 if(!champsEmailValable($email))
                 {
                     $return .= "Votre adresse mail contient des caractères indésirables !";
@@ -57,14 +65,38 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
                     $champValid = false;
                 }
                 if($validUserMail and $validUserName and $champValid)
-                  */  $return= "true";
+                  */ 
 			  
-				$sql="INSERT INTO user(userName, password, email) VALUES('".$userName."', '".$mdp."', '".$email."')";
-				mysqli_query ($con,$sql);
+				if($return== "true"){
+			  
+					$sql="INSERT INTO user(userName, password, email) VALUES('".$userName."', '".$mdp."', '".$email."')";
+					mysqli_query ($con,$sql);
+				}
 				
             }
 			echo $return;
+			
         }
+		
+		function nbUserByUsername($userName){	
+			$con = mysqli_connect(HOST,USER,PASS,DB);
+			$query="SELECT * FROM user WHERE userName ='".$userName."' ";
+			if($result=mysqli_query($con,$query)){
+				$nbResult=mysqli_num_rows($result);
+				return $nbResult;		
+		
+			}
+		}
+		
+		
+		function nbUserByEmail($email){
+			$con = mysqli_connect(HOST,USER,PASS,DB);
+			$query="SELECT * FROM user WHERE email = '".$email."'";
+			if($result=mysqli_query($con,$query)){
+				$nbResult=mysqli_num_rows($result);
+				return $nbResult;		
+			}
+		}
 		
 		/*
 		if ($return=="true"){

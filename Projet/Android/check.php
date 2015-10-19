@@ -1,7 +1,7 @@
 <?php
   define('HOST','localhost');
   define('USER','root');
-  define('PASS','mdp');
+  define('PASS','LUCIENNE1223');
   define('DB','projetintegration');
 
 $con = mysqli_connect(HOST,USER,PASS,DB);
@@ -11,7 +11,7 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$sql = "select * from user where username = '".$username."' AND password = '".$password. "'";
+$sql = "select * from user where userName = '".$username."' AND password = '".$password. "'";
 
 $res = mysqli_query($con,$sql);
 
