@@ -8,7 +8,7 @@
 
 ?>
 
-<form class="form-horizontal" action="inscription.page.php" method="post">
+<form class="form-horizontal" action="inscription.page.php" method="post" onSubmit='return verification_inscription()'>
     <div class="form-group">
         <label class="control-label col-sm-2" for="userName">Pseudo:</label>
         <div class="col-sm-10">

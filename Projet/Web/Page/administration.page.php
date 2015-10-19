@@ -8,6 +8,7 @@
 require "../Library/constante.lib.php";
 initRequire();
 initRequireEntityManager();
+require "../Form/administration.form.php";
 
 $configIni = getConfigFile();
 startSession();
@@ -20,8 +21,9 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Profil</title>
+    <title>Administration</title>
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../Style/general.css">
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
@@ -30,10 +32,13 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 <body>
 <header>
     <?php include("../Menu/menuGeneral.lib.php");?>
-    <aside class="col-md-1">
+    <aside class="col-md-2">
         <ul class="nav nav-pills nav-stacked">
-            <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="administration.page.php">Acceuil admin</a></li>
-            <li <?php if(!empty($_GET)){echo 'class="active"';}?>><a href="?to=editConfig">Édition fichier de config</a></li>
+            <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="administration.page.php">Accueil admin</a></li>
+            <li <?php if(!empty($_GET) and $_GET['to'] == "viewUser"){echo 'class="active"';}?>><a href="?to=viewUser">Voir les utilisateurs</a></li>
+            <li <?php if(!empty($_GET) and $_GET['to'] == "editUser"){echo 'class="active"';}?>><a href="?to=editUser">Édition des utilisateurs</a></li>
+            <li <?php if(!empty($_GET) and $_GET['to'] == "viewConfig"){echo 'class="active"';}?>><a href="?to=viewConfig">Voir le fichier de config</a></li>
+            <li <?php if(!empty($_GET) and $_GET['to'] == "editConfig"){echo 'class="active"';}?>><a href="?to=editConfig">Édition fichier de config</a></li>
         </ul>
     </aside>
 </header>
@@ -47,11 +52,14 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
     </section>
     <section class="row">
         <article class="col-sm-12">
-            <?php include("../Form/administrationConfig.form.php");?>
+            <?php
+                if(isset($_GET['to']) and $_GET['to'] == "editConfig") administrationEditConfig();
+                else administrationViewConfig();
+            ?>
         </article>
     </section>
 </section>
-<footer class="panel-footer">
+<footer class="footer panel-footer">
     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
 </footer>
 </body>

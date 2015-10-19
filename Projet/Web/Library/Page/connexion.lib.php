@@ -62,7 +62,8 @@ function doConnect()
     else {
         $user = $manager->getUserById($id);
         $manager->updateUserConnect($user);
-        $_SESSION['User'] = $user;
+        //$_SESSION['User'] = $user;
+        setSessionUser($user);
         echo "Bienvenue sur EveryDayIdea !";
 
     }

@@ -7,7 +7,7 @@
  */
 ?>
 
-<form class="form-horizontal" action="connexion.page.php" method="post">
+<form class="form-horizontal" action="connexion.page.php" method="post" onSubmit='return verification_connexion()'>
     <div class="form-group">
         <label class="control-label col-sm-2" for="userName">Login:</label>
         <div class="col-sm-10">
