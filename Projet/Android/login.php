@@ -10,17 +10,26 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 
 $username = $_POST['username'];
 $password = $_POST['password'];
+$userId=NULL;
+$response["error"] ="TRUE";
 
 $sql = "select * from user where userName = '".$username."' AND password = '".$password. "'";
 
-$res = mysqli_query($con,$sql);
-
-$rows = mysqli_num_rows($res);
-//echo $rows;
- if($rows == 0) { 
- echo "No Such User Found"; 
- }
- else  {
-	echo "User Found"; 
-}
+	$query = mysqli_query($con,$sql);
+		$row = mysqli_fetch_assoc($query);
+		$userId = $row['id'];
+		$userNameBdd = $row['userName'];
+		$passwordBdd= $row['password'];
+		$emailBdd= $row['email'];
+		
+		if($userId!=NULL){
+			$response["error"] ="FALSE";
+			$response["id"] = $userId;
+			$response["userName"]= $userNameBdd;
+			$response["password"] = $passwordBdd;
+			$response["email"]= $emailBdd;
+        
+			echo json_encode($response);
+		}
+		
 ?>

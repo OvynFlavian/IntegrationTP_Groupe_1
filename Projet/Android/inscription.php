@@ -13,10 +13,9 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 	 //probleme, il dis qu'il ne connait pas les fonction, qu'elles ne sont pas définies...
 	 
         $return = "error";
-       // if(isset($_POST['mdp'] == $_POST['mdpConfirm'])
-        if(1==1)
+        if(null !==$_POST['mdp'] OR null !==$_POST['mdpConfirm'])
 		{
-            //$ini = getConfigFile();
+      
             $userName = strtolower($_POST['userName']);
             $mdp = $_POST['mdp'];
 			$mdpConf = $_POST['mdpConfirm'];
@@ -32,8 +31,7 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 				$return .="Vos mots de passes sont différents ! <br>";
             else
             {
-                //$um = new UserManager(connexionDb());
-                //$tabUser = getAllUser();
+
                 $validUserName = true;
                 $validUserMail = true;
                 $champValid = true;
@@ -66,10 +64,7 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
                     $champValid = false;
                 }
                 if($validUserMail and $validUserName and $champValid and ($return== "true")){
-                  
-			  
-					//if($return== "true"){
-			  
+
 					$sql="INSERT INTO user(userName, password, email) VALUES('".$userName."', '".$mdp."', '".$email."')";
 					mysqli_query ($con,$sql);
 				}
