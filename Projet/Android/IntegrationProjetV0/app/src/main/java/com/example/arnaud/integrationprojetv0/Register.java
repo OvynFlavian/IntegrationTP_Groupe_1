@@ -70,7 +70,7 @@ public class Register extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.4.231/my_folder_inside_htdocs/inscription.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://192.168.1.15/my_folder_inside_htdocs/inscription.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
@@ -98,7 +98,7 @@ public class Register extends Activity {
 
                 startActivity(new Intent(Register.this, MainActivity.class));
             }else{
-                showAlert();
+                showAlert(response);
             }
 
         }catch(Exception e){
@@ -106,12 +106,12 @@ public class Register extends Activity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
-    public void showAlert(){
+    public void showAlert(final String response){
         Register.this.runOnUiThread(new Runnable() {
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
                 builder.setTitle("erreur inscription.");
-                builder.setMessage("erreur dans les champs.")
+                builder.setMessage(""+response)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

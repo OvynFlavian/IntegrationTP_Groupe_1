@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.4.231/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://192.168.1.15/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
@@ -108,7 +108,7 @@ public class MainActivity extends Activity {
             });
 
             //if(response.equalsIgnoreCase("User Found")){
-            if(error!="TRUE"){
+            if(error=="FALSE"){
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(MainActivity.this,"Connexion réussie", Toast.LENGTH_SHORT).show();
@@ -118,6 +118,7 @@ public class MainActivity extends Activity {
 
                 startActivity(new Intent(MainActivity.this, User.class));
             }else{
+                System.out.println("reponse2: "+ id+userName+ password + email);
                 showAlert();
             }
 

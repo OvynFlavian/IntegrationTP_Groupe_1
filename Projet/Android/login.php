@@ -10,8 +10,9 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 
 $username = $_POST['username'];
 $password = $_POST['password'];
+$password= hash("sha256", $password);
 $userId=NULL;
-$response["error"] ="TRUE";
+$response["error"] ="erreur";
 
 $sql = "select * from user where userName = '".$username."' AND password = '".$password. "'";
 

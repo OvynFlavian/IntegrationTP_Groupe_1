@@ -17,18 +17,22 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 		{
       
             $userName = strtolower($_POST['userName']);
-            $mdp = $_POST['mdp'];
+           // $mdp = hash("sha256", $_POST['mdp']);
+			//$mdpConf = hash("sha256",$_POST['mdpConfirm']);
+			
+			$mdp = $_POST['mdp'];
 			$mdpConf = $_POST['mdpConfirm'];
+			
+			
             $email = $_POST['email'];
-			$return= "true";
-
+			$return= "erreur.";
             if(strlen($userName) < 6)
-                $return= "Votre nom d'utilisateur est trop court, 6 caractères minimum ! <br>";
+                $return= "Votre nom d'utilisateur est trop court, 6 caracteres minimum ! ";
 
             if(strlen($mdp) < 5)
-                $return .="Votre mot de passe est trop court, 5 caractères minimum ! <br>";
+                $return .="Votre mot de passe est trop court, 5 caracteres minimum ! ";
 			if($mdp!=$mdpConf)
-				$return .="Vos mots de passes sont différents ! <br>";
+				$return .="Vos mots de passes sont differents ! ";
             else
             {
 
@@ -43,28 +47,29 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 					
                 
                 if(!$validUserMail)
-                    $return .= "Cette adresse mail est déjà utilisée, veuillez en choisir une autre ! <br>";
+                    $return .= "Cette adresse mail est deja utilisee, veuillez en choisir une autre ! ";
                 if(!$validUserName)
-                    $return .= "Ce login est déjà pris, veuillez en choisir en autre ! <br>";
+                    $return .= "Ce login est deja pris, veuillez en choisir en autre ! ";
 				
                 if(!champsEmailValable($email))
                 {
-                    $return .= "Votre adresse mail contient des caractères indésirables !";
+                    $return .= "Votre adresse mail contient des caracteres indesirables !";
                     $champValid = false;
                 }
 				
                 if (!champsLoginValable($userName))
                 {
-                    $return .= "Votre nom d'utilisateur contient des caractères indésirables !";
+                    $return .= "Votre nom d'utilisateur contient des caracteres indesirables !";
                     $champValid = false;
                 }
                 if (!champsMdpValable($mdp))
                 {
-                    $return .= "Votre mot de passe contient des caractères indésirables !";
+                    $return .= "Votre mot de passe contient des caracteres indesirables !";
                     $champValid = false;
                 }
-                if($validUserMail and $validUserName and $champValid and ($return== "true")){
+                if($validUserMail and $validUserName and $champValid and ($return=="erreur.") ){
 
+					$mdp= hash("sha256", $mdp);
 					$sql="INSERT INTO user(userName, password, email) VALUES('".$userName."', '".$mdp."', '".$email."')";
 					mysqli_query ($con,$sql);
 				}
