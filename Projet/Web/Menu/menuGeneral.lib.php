@@ -36,7 +36,7 @@ $isIndex = ($page == '' or $page == "index");
             <?php if(!$isConnect){?>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="connexion.page.php">Connexion</a></li>
             <li <?php if($page == "inscription") echo "class='active'"?>><a href="inscription.page.php">Inscription</a></li>
-            <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="Page/choisirCategorie.page.php">Catégorie</a></li>
+            <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="choisirCategorie.page.php">Catégorie</a></li>
             <?php }else{ ?>
             <li <?php if($page == "ajouterActivite") echo "class='active'"?>><a href="Page/ajouterActivite.page.php">Ajouter une activité</a></li>
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="choisirCategorie.page.php">Catégorie</a></li>

@@ -32,7 +32,7 @@ $configIni = parse_ini_file("config.ini", true);
 </header>
 <section class="container">
     <section class="jumbotron">
-        <h1>Accueil Page</h1>
+        <h1>Page d'accueil</h1>
         <p>
             <?php if($isConnect){ ?>
                 Bienvenu(e) <?php echo getSessionUser()->getUserName() ?> sur le site de EveryDayIdea
@@ -43,15 +43,17 @@ $configIni = parse_ini_file("config.ini", true);
     </section>
     <section class="row">
         <article class="col-sm-6">
-            <h3>Activité du jours</h3>
-            <?php foreach($configIni['SERVEUR_ADDRESS'] as $key => $value){ ?>
-                <p><?php echo $key. "->". $value; ?></p>
-            <?php }?>
+            <h3>Activité du jour</h3>
+                <p><?php echo "Nous n'avons pas encore configuré cette option, ce sera pour bientôt !";?></p>
+
         </article>
         <article class="col-sm-6">
-            <h3>Activité de groupe du jours</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            <h3>Qu'est-ce que EveryDayIdea ?</h3>
+            <p>Vous vous ennuyez et vous ne savez absolument pas quoi faire ? <b>Nous avons la solution</b> pour vous !</p>
+            <p>EveryDayIdea vous permet de <a href="Page/choisirCategorie.page.php"><b>trouver une activité selon une catégorie choisie !</b></a></p>
+            <p>Si elle vous plait, acceptez-la, sinon vous pouvez continuer à fouiller jusqu'à trouver celle qui vous plait !</p>
+            <p>Si vous avez envie de participer à la vie du site, <a href="Page/inscription.page.php"><b>inscrivez-vous !</b></a></p>
+            <p>Vous pourrez ainsi proposer vos propres idées et permettre à d'autres personnes d'y participer !</p>
         </article>
     </section>
     <?php if(isConnect()){?>
