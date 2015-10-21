@@ -24,6 +24,7 @@ $configIni = parse_ini_file("config.ini", true);
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="./vendor/twitter/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./Style/general.css">
 </head>
 <body>
 <header>
@@ -77,7 +78,7 @@ $configIni = parse_ini_file("config.ini", true);
     </section>
     <?php }?>
 </section>
-<footer class="panel-footer ">
+<footer class="footer panel-footer navbar-fixed-bottom">
     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
 </footer>
 

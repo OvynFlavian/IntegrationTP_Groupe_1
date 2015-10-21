@@ -48,18 +48,25 @@
     $listUser = $um->getAllUser();
     ?>
         <div class="form-group">
+            <div class="col-sm-12">
+                <span class="col-sm-4" style="text-align: center">Pseudo</span>
+                <span class="col-sm-4" style="text-align: center">Droit</span>
+                <span class="col-sm-4" style="text-align: center">Date dernière connexion</span>
+            </div>
+            <div class="col-sm-12">&nbsp;</div>
             <?php foreach($listUser as $user){
                 $user->setDroit($um->getUserDroit($user))?>
-            <div class="col-sm-12">
                 <form class="form-horizontal" action="profil.page.php?to=viewProfilAdmin" method="post" id="view_user_<?php echo $user->getId();?>">
-                <a onclick="doSubmit(<?php echo $user->getId();?>);">
-                <span class="col-sm-4"><?php echo $user->getUserName();?></span>
-                <span class="col-sm-4"><?php echo $user->getDroit()[0]->getLibelle();?></span>
-                <span class="col-sm-4"><?php echo $user->getDateLastConnect();?></span>
-                <input type="hidden" id="id_user" name="id_user" value="<?php echo $user->getId();?>">
-                </a>
+                <?php if($user->getId() != 1){?>
+                <button class="btn btn-link col-sm-12" id="id_user" name="id_user" value="<?php echo $user->getId()?>">
+                <?php }?>
+                <span class="col-sm-4" style="text-align: center"><?php echo $user->getUserName();?></span>
+                <span class="col-sm-4" style="text-align: center"><?php echo $user->getDroit()[0]->getLibelle();?></span>
+                <span class="col-sm-4" style="text-align: center"><?php echo $user->getDateLastConnect();?></span>
+                <?php if($user->getId() != 1){?>
+                </button>
+                <?php }?>
                 </form>
-            </div>
             <?php }?>
         </div>
 <?php }?>

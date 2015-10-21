@@ -1,15 +1,27 @@
-html, body {
-    margin:0;
-    padding:0;
-    height:100%;
+
+html body .container {
+    position: absolute;
+    top: 60px;
+    bottom: 30px;
+    right: 0;
+    left: 0;
 }
-.containerModif {
-    min-height: 100%;
-    height: auto !important;
-    margin: 0 auto -50px;
-    position:relative;
-    padding-bottom:-50px;   /* Height of the footer element */
+
+html body aside {
+    position: absolute;
+    top: 60px;
+    bottom: 30px;
+    right: 0;
+    left: 0;
 }
-.footer {
-    height: auto;
+@media (max-width: 500px)
+{
+    html body aside{
+        position: absolute;
+        top: 60px;
+        bottom: 30px;
+        right: 0;
+        left: 0;
+        display: inline;
+    }
 }

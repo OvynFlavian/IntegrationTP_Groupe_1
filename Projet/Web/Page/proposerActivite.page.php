@@ -57,5 +57,8 @@ $isConnect = isConnect();
         </article>
     </section>
 </section>
+<footer class="footer panel-footer navbar-fixed-bottom">
+    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
+</footer>
 </body>
 </html>
