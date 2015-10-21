@@ -18,7 +18,7 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="mdp">Mot de passe:</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="mdp" name="mdp" placeholder="Entrer votre password">
+            <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Entrer votre password">
         </div>
     </div>
     <div class="form-group">
