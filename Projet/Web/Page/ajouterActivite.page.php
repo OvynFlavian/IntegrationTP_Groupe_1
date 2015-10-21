@@ -51,7 +51,6 @@ $configIni = getConfigFile();
 
     </section>
     <section class="row">
-        <p class="col-sm-12">Dans quelle catégorie voulez vous ajouter l'activité ?</p>
         <?php
         include "../Form/ajouterActivite.form.php";
         ?>

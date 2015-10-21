@@ -103,10 +103,10 @@ use \Entity\Activation as Activation;
         if (goodCode()) {
             $code = $_GET['code'];
             echo "<form class='form-horizontal' name='validation' action='www.everydayidea/mdpOublie.php?code=$code' method='post' onSubmit='return verification_validation()'>";
-            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='userName'>Nom d'utilisateur :</label><input class='col-sm-10' id='userName' name='userName' type='text'></div>";
-            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='mdp'>Mot de passe :</label><input class='col-sm-10' id='mdp' name='mdp' type='password'></div>";
-            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='verifmdp'>Vérification du mdp :</label><input class='col-sm-10' id='verifmdp' name='verifmdp' type='password'></div>";
-            echo "<div class='form-group col-sm-12'><input type='submit' name='formulaire'></div> ";
+            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='userName'>Nom d'utilisateur :</label><div class='col-sm-10'><input class='form-control' id='userName' name='userName' type='text'></div></div>";
+            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='mdp'>Mot de passe :</label><div class='col-sm-10'><input class='form-control' id='mdp' name='mdp' type='password'></div></div>";
+            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='verifmdp'>Vérification du mdp :</label><div class='col-sm-10'><input class='form-control' id='verifmdp' name='verifmdp' type='password'></div></div>";
+            echo "<div class='form-group col-sm-12'><div class='col-sm-10'><button type='submit' class='btn btn-default'>Soumettre</button></div></div> ";
             echo "</form>";
         } else {
             echo "Revenez avec un code correct ! <br>";

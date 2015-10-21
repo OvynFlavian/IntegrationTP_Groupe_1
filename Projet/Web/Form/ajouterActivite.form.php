@@ -4,7 +4,7 @@
     <div class="form-group col-sm-12">
         <label class="control-label col-sm-2" for="categorie">Catégorie:</label>
         <div class="col-sm-10">
-            <select name="categorie" id="categorie">
+            <select class="col-sm-2 form-control" name="categorie" id="categorie" style="text-align: center">
            <?php
             $cm = new CategorieManager(connexionDb());
             $tab = $cm->getAllCategorie();
@@ -14,6 +14,7 @@
             }
            ?>
             </select>
+            <span class="col-sm-8" style="text-align: right">Dans quelle catégorie voulez vous ajouter l'activité ?</span>
         </div>
     </div>
     <div class="form-group col-sm-12">

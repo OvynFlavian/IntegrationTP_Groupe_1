@@ -26,13 +26,9 @@ function proposerActivite($cat) {
 
             $am = new ActivityManager(connexionDb());
             $activity = $am->getActivityById($id);
-            echo "<p>".$activity->getLibelle()."</p> \n";
+            echo "<h1 style='text-align: center'>".$activity->getLibelle()."</h1>";
 
             include "../Form/proposerActivite.form.php" ;
-
-
-
-
 }
 function verifCat($cat) {
     $cm = new CategorieManager(connexionDb());
