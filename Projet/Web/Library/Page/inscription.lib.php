@@ -154,6 +154,6 @@
             "libelle" => "Inscription",
             ));
         $am->addActivation($activation);
-        echo "Votre inscription est dorénavant complète ! Un email vous a été envoyé avec vos informations et votre code d'activation !";
+
 
     }

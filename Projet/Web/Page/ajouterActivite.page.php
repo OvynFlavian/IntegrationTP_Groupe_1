@@ -20,6 +20,7 @@ $isConnect = isConnect();
 if (isPostFormulaire()) {
     ajouterActivite();
 }
+$configIni = getConfigFile();
 ?>
 
 <!doctype html>
@@ -50,6 +51,7 @@ if (isPostFormulaire()) {
 
     </section>
     <section class="row">
+        <p class="col-sm-12">Dans quelle catégorie voulez vous ajouter l'activité ?</p>
         <?php
         include "../Form/ajouterActivite.form.php";
         ?>

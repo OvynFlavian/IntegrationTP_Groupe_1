@@ -102,11 +102,11 @@ use \Entity\Activation as Activation;
     function formulaireChangement() {
         if (goodCode()) {
             $code = $_GET['code'];
-            echo "<form name='validation' action='www.everydayidea/mdpOublie.php?code=$code' method='post' onSubmit='return verification_validation()'>";
-            echo "  Nom d'utilisateur :      						<input name='userName' type='text'> <br>";
-            echo "   Mot de passe : 				<input name='mdp' type='password'> <br>";
-            echo "    Vérification du mdp :		<input name='verifmdp' type='password'> <br>";
-            echo "    <input type='submit' name='formulaire'>";
+            echo "<form class='form-horizontal' name='validation' action='www.everydayidea/mdpOublie.php?code=$code' method='post' onSubmit='return verification_validation()'>";
+            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='userName'>Nom d'utilisateur :</label><input class='col-sm-10' id='userName' name='userName' type='text'></div>";
+            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='mdp'>Mot de passe :</label><input class='col-sm-10' id='mdp' name='mdp' type='password'></div>";
+            echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='verifmdp'>Vérification du mdp :</label><input class='col-sm-10' id='verifmdp' name='verifmdp' type='password'></div>";
+            echo "<div class='form-group col-sm-12'><input type='submit' name='formulaire'></div> ";
             echo "</form>";
         } else {
             echo "Revenez avec un code correct ! <br>";

@@ -15,6 +15,7 @@ initRequireEntityManager();
 
 startSession();
 $isConnect = isConnect();
+$configIni = getConfigFile();
 ?>
 
 <!doctype html>

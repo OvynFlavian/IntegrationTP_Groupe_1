@@ -115,7 +115,7 @@ class UserManager {
 
     public function setUserDroit(User $user, $droits)
     {
-        $query = $this->db->prepare("INSERT INTO user_droit(id_Droits, id_User, Date) values (:idDroits, idUser, NOW())");
+        $query = $this->db->prepare("INSERT INTO user_droit(id_Droits, id_User, Date) values (:idDroits, :idUser, NOW())");
         $query->execute(array(
             ":idUser" => $user->getId(),
             ":idDroits" => $droits
