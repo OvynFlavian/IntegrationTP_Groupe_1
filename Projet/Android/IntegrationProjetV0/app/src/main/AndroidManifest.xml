@@ -21,6 +21,11 @@
         </activity>
         <activity android:name=".Register">
         </activity>
+        <activity android:name=".ChoixCategorie">
+        </activity>
+        <activity android:name=".AfficherActivite">
+        </activity>
+
     </application>
 
 </manifest>
