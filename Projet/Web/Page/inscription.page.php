@@ -17,12 +17,11 @@
     $isConnect = isConnect();
     if($isConnect)header("Location:../");
     if(isPostFormulaire() && isValidBis()['Retour']) {
-
         addDB();
+        $tabRetour['Error'][] = "Votre inscription est effective";
     } else if (isPostFormulaire() and !isValidBis()['Retour']) {
-
         foreach (isValidBis()['Error'] as $elem) {
-            echo $elem;
+            $tabRetour['Error'][] = $elem;
         }
     }
 ?>
@@ -61,11 +60,13 @@
     </section>
     <?php if(isset($tabRetour['Error'])){?>
         <section class="alert-dismissible">
-            <p><?php echo $tabRetour['Error']?></p>
+            <?php foreach($tabRetour['Error'] as $error){?>
+                <p><?php echo $error?></p>
+            <?php }?>
         </section>
     <?php }?>
 </section>
-<footer class="panel-footer">
+<footer class="footer panel-footer navbar-fixed-bottom">
     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
 </footer>
 </body>

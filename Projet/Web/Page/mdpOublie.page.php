@@ -16,6 +16,7 @@ startSession();
 
 if(isConnect())header("Location:../");
 $configIni = getConfigFile();
+$isConnect = isConnect();
 ?>
 
 <!doctype html>
@@ -38,29 +39,34 @@ $configIni = getConfigFile();
 <body>
     <header>
         <?php
-            include("..". MENU_ANONYME_PAGE);
+            include("../Menu/menuGeneral.lib.php");
         ?>
     </header>
-    <section id="section_corps">
-        <div id="div_left">&nbsp;</div>
-        <div id="div_center">
-            <h1>Page Mot de passe oublié</h1>
+    <section class="container">
+        <section class="jumbotron">
+            <h1>Page d'administration</h1>
+            <p></p>
+        </section>
+        <section class="alert-dismissible">
+
+        </section>
+        <section class="row">
             <?php
-                if (!isset($_GET['code']))
-                {
-                    formulaireMail();
-                    envoiCode();
-                }
-                else
-                {
-                    formulaireChangement();
-                    changementMdp();
-                }
+            if (!isset($_GET['code']))
+            {
+                formulaireMail();
+                envoiCode();
+            }
+            else
+            {
+                formulaireChangement();
+                changementMdp();
+            }
             ?>
-        </div>
-        <div id="div_right">&nbsp;</div>
+        </section>
     </section>
-    <footer>
+
+    <footer class="footer panel-footer navbar-fixed-bottom">
         &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
     </footer>
 

@@ -18,11 +18,11 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="mdp">Mot de passe:</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="mdp" name="mdp" placeholder="Entrer votre password">
+            <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Entrer votre mot de passe">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2" for="mdpConfirm">Mot de passe de confirmation:</label>
+        <label class="control-label col-sm-2" for="mdpConfirm">Réentrez votre mot de passe:</label>
         <div class="col-sm-10">
             <input type="password" class="form-control" id="mdpConfirm" name="mdpConfirm" placeholder="Encore une fois">
         </div>
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2" for="emailConfirm">Mail de confirmation:</label>
+        <label class="control-label col-sm-2" for="emailConfirm">Réentrez votre mail:</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" id="emailConfirm" name="emailConfirm" placeholder="Encore une fois">
         </div>

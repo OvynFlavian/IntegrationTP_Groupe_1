@@ -128,12 +128,13 @@
 									Votre login est : " . $userToAdd->getUserName() . " <br>
 									Votre email est : " . $userToAdd->getEmail() . " <br>
 									Votre lien d'activation est : <a href='www.everydayidea/activation.php?code=" . $code_aleatoire . "'>www.everydayidea/activation.php?code=" . $code_aleatoire . "</a>";
-        mail($to, $sujet, $message, $entete);
-        echo "Votre inscription est dorénavant complète ! Un email vous a été envoyé avec vos informations et votre code d'activation !";
+       mail($to, $sujet, $message, $entete);
+
         /** @var $um : un nouvel user qui va être ajouté à la BDD
         J'ajoute le nouvel user à la BDD*/
         $um = new UserManager(connexionDb());
         $um->addUser($userToAdd);
+
         /**
          * Ici j'ai besoin de savoir quel est le user id du nouveau membre ajouté pour pouvoir le mettre dans l'ajout du code d'activation de cet user
          * Donc je vais le rechercher en base de donnée où il vient d'être ajouté
@@ -141,6 +142,8 @@
         $user = $um->getUserByUserName($userToAdd->getUserName());
 
         $userid = $user->getId();
+
+        $um->setUserDroit($user, 4);
         /**
          * J'ajoute le nouveau code d'activation à la BDD
          */
@@ -151,5 +154,6 @@
             "libelle" => "Inscription",
             ));
         $am->addActivation($activation);
+
 
     }

@@ -75,12 +75,16 @@ if(isPostFormulaire())
         <article class="col-sm-12">
             <?php
                 if(isset($_GET['to']) and $_GET['to'] == "edit")editProfil($errorFormulaire);
+                else if(isset($_GET['to']) and $_GET['to'] == "viewProfilAdmin")
+                {
+                    viewProfilAdmin($um);
+                }
                 else viewProfil();
             ?>
         </article>
     </section>
 </section>
-<footer class="footer panel-footer">
+<footer class="footer panel-footer navbar-fixed-bottom">
     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
 </footer>
 </body>
