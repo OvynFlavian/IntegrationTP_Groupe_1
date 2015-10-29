@@ -15,18 +15,39 @@ public class ChoixCategorie extends AppCompatActivity {
     private Button famille = null;
     private Button film = null;
     private Button visite = null;
+    private Button profil = null;
+    private Button btnLogout = null;
     private String categorie = null;
     private static final String test = "categorie";
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categorie_layout);
 
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+        if (!session.isLoggedIn()) {
+            logoutUser();
+        }
+
+
         animaux = (Button) findViewById(R.id.animaux);
         famille = (Button) findViewById(R.id.famille);
         film = (Button) findViewById(R.id.film);
         visite = (Button) findViewById(R.id.visite);
+        profil = (Button) findViewById(R.id.profil);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
 
         animaux.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,11 +84,19 @@ public class ChoixCategorie extends AppCompatActivity {
             public void onClick(View v) {
                 categorie = "visite";
                 Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
+                //intent.putExtra(test, categorie);
                 startActivity(intent);
             }
         });
 
+        profil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChoixCategorie.this, Profil.class);
+                intent.putExtra(test, categorie);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -88,5 +117,14 @@ public class ChoixCategorie extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logoutUser() {
+        session.setLogin(false);
+
+        // Launching the login activity
+        Intent intent = new Intent(ChoixCategorie.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

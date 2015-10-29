@@ -1,5 +1,6 @@
 package com.example.arnaud.integrationprojetv0;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -38,6 +39,7 @@ public class MainActivity extends Activity {
     HttpClient httpclient;
     List<NameValuePair> nameValuePairs;
     ProgressDialog dialog = null;
+    private SessionManager session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,18 @@ public class MainActivity extends Activity {
         et = (EditText)findViewById(R.id.username);
         pass= (EditText)findViewById(R.id.password);
         tv = (TextView)findViewById(R.id.tv);
+
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+        // Check if user is already logged in or not
+        if (session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(MainActivity.this, ChoixCategorie.class);
+            startActivity(intent);
+            System.out.println("réponse: " + session.id);
+            finish();
+        }
 
         b.setOnClickListener(new OnClickListener() {
             @Override
@@ -76,7 +90,7 @@ public class MainActivity extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.0.224/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://10.99.4.181/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
@@ -92,11 +106,18 @@ public class MainActivity extends Activity {
             System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
 
+            session.setLogin(true);
+
             final String error = jObj.getString("error");
             final String id = jObj.getString("id");
             final String userName = jObj.getString("userName");
             final String password = jObj.getString("password");
             final String email = jObj.getString("email");
+            session.setId(id);
+            session.setEmail(email);
+            session.setUsername(userName);
+
+            System.out.println("réponse: " + session.id);
 
             System.out.println("Response : " + error + id + userName + password + email);
 

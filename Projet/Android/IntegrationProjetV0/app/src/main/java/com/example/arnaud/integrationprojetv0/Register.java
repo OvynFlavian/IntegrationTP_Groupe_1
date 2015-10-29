@@ -35,21 +35,33 @@ public class Register extends Activity {
     HttpClient httpclient;
     List<NameValuePair> nameValuePairs;
     ProgressDialog dialog = null;
+    private SessionManager session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
 
-        b = (Button) findViewById(R.id.button);
+        b = (Button) findViewById(R.id.btnAppli);
         //b2 = (Button) findViewById(R.id.Button02);
         usr = (EditText) findViewById(R.id.username);
         email = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.password);
         confPass = (EditText) findViewById(R.id.confPass);
 
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+
 
         tv = (TextView) findViewById(R.id.tv);
+
+        if (session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(Register.this,ChoixCategorie.class);
+            startActivity(intent);
+            finish();
+        }
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +82,7 @@ public class Register extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.0.224/my_folder_inside_htdocs/inscription.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://10.99.4.181/my_folder_inside_htdocs/inscription.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
