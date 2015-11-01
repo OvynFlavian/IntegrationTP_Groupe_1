@@ -12,12 +12,20 @@ $isIndex = ($page == '' or $page == "index");
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/Web/">EveryDayIdea</a>
+            <?php
+            if ($isIndex) {
+                $lien = "index.php";
+            } else {
+                $lien = "../index.php";
+            }
+
+            echo "<a class='navbar-brand' href='$lien'>EveryDayIdea</a>";
+            ?>
         </div>
     <div>
         <ul class="nav navbar-nav">
 <?php if($isIndex){?>
-            <li <?php if($isIndex) echo "class='active'"?>><a href="/Web/">Home</a></li>
+            <li <?php if($isIndex) echo "class='active'"?>><a href="index.php">Home</a></li>
             <?php if(!$isConnect){?>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="Page/connexion.page.php">Connexion</a></li>
             <li <?php if($page == "inscription") echo "class='active'"?>><a href="Page/inscription.page.php">Inscription</a></li>
@@ -32,7 +40,7 @@ $isIndex = ($page == '' or $page == "index");
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="Page/connexion.page.php">Déconnexion</a></li>
             <?php }?>
 <?php }else{?>
-            <li <?php if($page == "index") echo "class='active'"?>><a href="/Web/">Home</a></li>
+            <li <?php if($page == "index") echo "class='active'"?>><a href="../index.php">Home</a></li>
             <?php if(!$isConnect){?>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="connexion.page.php">Connexion</a></li>
             <li <?php if($page == "inscription") echo "class='active'"?>><a href="inscription.page.php">Inscription</a></li>
