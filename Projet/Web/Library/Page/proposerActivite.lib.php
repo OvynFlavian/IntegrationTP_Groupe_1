@@ -51,8 +51,10 @@ function gererReponse($cat)
 {
     if (isset($_POST['Accepter'])) {
         header('Location: choisirCategorie.page.php');
-
+        #TODO mettre l'activité choisie en tant qu'activité du jour dans le profil du user + l'ajouter dans user_activity
     } else if (isset($_POST['Refuser'])) {
         header("Location: proposerActivite.page.php?categorie=" . $cat);
+    } else if (isset ($_POST['Inscription'])) {
+        header('Location: inscription.page.php');
     }
 }

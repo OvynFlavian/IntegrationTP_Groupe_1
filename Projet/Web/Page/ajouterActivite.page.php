@@ -14,7 +14,7 @@ initRequireEntityManager();
 
 startSession();
 $isConnect = isConnect();
-#TODO N'autoriser cette page que pour les inscrits et rediriger les autres
+if(!$isConnect )header("Location:../");
 #TODO Un membre ne peut proposer une idée que toutes les semaines, penser à vérifier son délai (sauf si il est premium)
 #TODO Si il est ok, penser à update sa date de dernière activité ajoutée
 if (isPostFormulaire()) {
