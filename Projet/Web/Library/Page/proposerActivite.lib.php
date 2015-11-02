@@ -27,6 +27,13 @@ function proposerActivite($cat) {
             $am = new ActivityManager(connexionDb());
             $activity = $am->getActivityById($id);
             echo "<h1 style='text-align: center'>".$activity->getLibelle()."</h1>";
+            if($activity->getNote() == NULL) {
+                $note = "N/A (Elle n'a pas encore été notée)";
+                $activity->setNote($note);
+                echo "<h2 style='text-align: center'>Sa note est de : ".$activity->getNote()."</h2>";
+            } else {
+                echo "<h2 style='text-align: center'>Sa note est de : ".$activity->getNote()."/5</h2>";
+            }
 
             include "../Form/proposerActivite.form.php" ;
 }

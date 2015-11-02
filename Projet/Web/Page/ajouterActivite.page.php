@@ -18,7 +18,7 @@ $isConnect = isConnect();
 #TODO Un membre ne peut proposer une idée que toutes les semaines, penser à vérifier son délai (sauf si il est premium)
 #TODO Si il est ok, penser à update sa date de dernière activité ajoutée
 if (isPostFormulaire()) {
-    ajouterActivite();
+    $tabRetour = ajouterActivite();
 }
 $configIni = getConfigFile();
 ?>
@@ -54,6 +54,17 @@ $configIni = getConfigFile();
         <?php
         include "../Form/ajouterActivite.form.php";
         ?>
+        <section class="alert-dismissible">
+        <?php
+        if (isset($tabRetour['Error'])) {
+            echo $tabRetour['Error'];
+        } else if (isset($tabRetour['Ok'])) {
+            echo $tabRetour['Ok'];
+        }
+        ?>
+        </section>
+
+
     </section>
 </section>
 <footer class="footer panel-footer navbar-fixed-bottom">

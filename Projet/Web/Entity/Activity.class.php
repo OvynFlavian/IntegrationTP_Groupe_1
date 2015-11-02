@@ -16,6 +16,7 @@ class Activity {
     private $Libelle;
     private $Signalee;
     private $ByGroup;
+    private $note;
 
     /**
      * Fonction permettant l'hydratation de la classe.
@@ -50,11 +51,18 @@ class Activity {
     {
         return $this->ByGroup;
     }
-
+    public function getNote()
+    {
+        return $this->note;
+    }
     /**SETTER**/
     public function setId($id)
     {
         $this->id = $id;
+    }
+    public function setNote($note)
+    {
+        $this->note = $note;
     }
     public function setLibelle($Libelle)
     {

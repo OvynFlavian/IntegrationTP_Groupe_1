@@ -9,10 +9,14 @@ require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
-initRequirePage("activationInscription");
 initRequireEntityManager();
+initRequirePage("inscription");
 
+$configIni = getConfigFile();
 startSession();
+connexionDb();
+$isConnect = isConnect();
+if($isConnect)header("Location:../");
 ?>
 
 <!doctype html>
@@ -28,6 +32,10 @@ startSession();
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 </head>
 <body>
+<header>
+    <?php include("../Menu/menuGeneral.lib.php");?>
+</header>
+
 <section class="container">
     <section class="jumbotron">
         <h1>Page d'activation</h1>
