@@ -37,6 +37,25 @@ class UserManager {
 
     }
 
+    public function searchAllUserByName($name) {
+
+        $resultats = $this->db->prepare("SELECT * FROM user WHERE UserName like :userName");
+        $resultats->execute(array(
+            ":userName" => "%".$name."%"
+        ));
+
+        $tabUser = $resultats->fetchAll(PDO::FETCH_ASSOC);
+
+        $tab = array();
+
+        foreach($tabUser as $elem)
+        {
+            $tab[] = new User($elem);
+        }
+
+        return $tab;
+    }
+
     public function getUserById($id)
     {
         $query = $this->db->prepare("SELECT * FROM user WHERE id = :id");
