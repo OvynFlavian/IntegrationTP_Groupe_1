@@ -47,8 +47,10 @@ $configIni = getConfigFile();
                 if (verifCat($cat)) {
                     $idActivite = proposerActivite($cat);
                     gererReponse($cat, $idActivite);
-                    if (isset($_GET['to']) && $_GET['to'] == 'modif') {
+                    if (isset($_GET['to']) && $_GET['to'] == 'modif' && isConnect()) {
                         modifActivite();
+                    } else if ((isset($_GET['to']) && !isConnect()) ||(isset($_GET['to']) && $_GET['to'] != 'modif' && isConnect()) ) {
+                        header('Location: ../');
                     }
                 } else {
                     echo "<h1>Votre catégorie est fausse, cliquez sur un des boutons proposés !</h1>";
