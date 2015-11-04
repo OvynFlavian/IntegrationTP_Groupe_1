@@ -64,7 +64,7 @@ function choixActivite($id, $cat) {
         $uam = new User_ActivityManager(connexionDb());
         $tab = $uam->getActIdByUserId($_SESSION['User']);
         if (isset($tab[0]['id_activity'])) {
-            echo "<h2 align='center'> Vous avez déjà une activité, êtes vous sûr de vouloir la <a href='proposerActivite.page.php?categorie=$cat&act=$id&to=modif'>remplacer</a> ? </h2>";
+            echo "<h2 align='center'> Vous avez déjà une activité,<a href='proposerActivite.page.php?categorie=$cat&act=$id&to=modif'> cliquez ici pour la remplacer</a> </h2>";
         } else {
             $act = new Activity(array(
                 "id" => $id,
@@ -75,14 +75,30 @@ function choixActivite($id, $cat) {
     }
 
 }
+function verifIdAct() {
+    if (isset($_GET['act'])) {
+        $id = $_GET['act'];
+        $am = new ActivityManager(connexionDb());
+        $act = $am->getActivityById($id);
+        if ($act->getLibelle() == NULL){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
 
 function modifActivite() {
-    $act = $_GET['act'];
-    $uam = new User_ActivityManager(connexionDb());
-    $uam->deleteFromTable($_SESSION['User']);
-    $activity = new Activity(array(
-        "id" => $act,
-    ));
-    $uam->addToTable($activity, $_SESSION['User']);
-    header('Location: ../');
+    if (verifIdAct()) {
+        $act = $_GET['act'];
+        $uam = new User_ActivityManager(connexionDb());
+        $uam->deleteFromTable($_SESSION['User']);
+        $activity = new Activity(array(
+            "id" => $act,
+        ));
+        $uam->addToTable($activity, $_SESSION['User']);
+        header('Location: ../');
+    } else {
+        header('Location: ../');
+    }
 }

@@ -37,6 +37,7 @@ $isIndex = ($page == '' or $page == "index");
             <?php }else{ ?>
             <li <?php if($page == "ajouterActivite") echo "class='active'"?>><a href="Page/ajouterActivite.page.php">Ajouter une activité</a></li>
             <li <?php if($page == "listeMembres") echo "class='active'"?>><a href="Page/listeMembres.page.php">Membres</a></li>
+            <li <?php if($page == "amis") echo "class='active'"?>><a href="Page/amis.page.php">Amis</a></li>
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="Page/choisirCategorie.page.php">Catégorie</a></li>
             <?php if($userSession->getDroit()[0]->getLibelle() == "Administrateur"){?>
             <li <?php if($page == "administration") echo "class='active'"?>><a href="Page/administration.page.php">Administration</a></li>
@@ -61,6 +62,7 @@ $isIndex = ($page == '' or $page == "index");
             <?php }else{ ?>
             <li <?php if($page == "ajouterActivite") echo "class='active'"?>><a href="ajouterActivite.page.php">Ajouter une activité</a></li>
             <li <?php if($page == "listeMembres") echo "class='active'"?>><a href="listeMembres.page.php">Membres</a></li>
+            <li <?php if($page == "amis") echo "class='active'"?>><a href="amis.page.php">Amis</a></li>
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="choisirCategorie.page.php">Catégorie</a></li>
 
             <?php if($userSession->getDroit()[0]->getLibelle() == "Administrateur"){?>

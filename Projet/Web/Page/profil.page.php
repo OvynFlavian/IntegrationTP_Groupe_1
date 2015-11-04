@@ -64,7 +64,7 @@ if(isPostFormulaire())
 <section class="container">
     <section class="jumbotron">
         <h1>Page de gestion de profil</h1>
-        <p>Entrer les informations qui seront changée (les informations, n'ayant pas été changée, ne seront pas prises en compte)</p>
+        <p>Entrez les informations qui seront changées (les informations n'ayant pas été changées ne seront pas prises en compte)</p>
     </section>
     <section class="alert-dismissible">
         <?php foreach($errorFormulaire as $toPrint){?>

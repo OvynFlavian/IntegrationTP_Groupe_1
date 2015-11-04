@@ -47,7 +47,7 @@ $configIni = getConfigFile();
                 if (verifCat($cat)) {
                     $idActivite = proposerActivite($cat);
                     gererReponse($cat, $idActivite);
-                    if (isset($_GET['to']) && $_GET['to'] == 'modif' && isConnect()) {
+                    if (isset($_GET['to']) && $_GET['to'] == 'modif' && isConnect() && isset($_GET['act'])) {
                         modifActivite();
                     } else if ((isset($_GET['to']) && !isConnect()) ||(isset($_GET['to']) && $_GET['to'] != 'modif' && isConnect()) ) {
                         header('Location: ../');

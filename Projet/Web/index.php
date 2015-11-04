@@ -62,7 +62,7 @@ $configIni = getConfigFile();
                            $act = $am->getActivityById($tab[0]['id_activity']);
                            echo "Votre activité choisie du jour est <h3>".$act->getLibelle()."</h3>";
                            echo "<br> Sa description est <h4>".$act->getDescription()."</h4>";
-                           echo "<br> Il est toujours possible de la changer via <a href='Page/choisirCategorie.page.php'>le choix d'activités</a> !";
+                           echo "<br> Il est toujours possible de la changer via <b><a href='Page/choisirCategorie.page.php'>le choix d'activités</a></b> !";
                            echo "<br> Bon amusement !";
                        }
 
