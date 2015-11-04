@@ -13,6 +13,7 @@ namespace Entity;
  */
 class Activity {
     private $id;
+    private $description;
     private $Libelle;
     private $Signalee;
     private $ByGroup;
@@ -55,7 +56,14 @@ class Activity {
     {
         return $this->note;
     }
+    public function getDescription(){
+        return $this->description;
+    }
     /**SETTER**/
+    public function setDescription($description){
+
+        $this->description = $description;
+    }
     public function setId($id)
     {
         $this->id = $id;

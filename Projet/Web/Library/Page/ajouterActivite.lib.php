@@ -11,6 +11,7 @@ use \Entity\Categorie as Categorie;
 function ajouterActivite() {
         $cat = $_POST['categorie'];
         $act = $_POST['activite'];
+        $desc = $_POST['description'];
 
         $cm = new CategorieManager(connexionDb());
         $am = new ActivityManager(connexionDb());
@@ -23,7 +24,8 @@ function ajouterActivite() {
             $tabRetour['Error'] = "Cette activité existe déjà, ajoutez-en une autre !";
         } else {
             $activityToAdd = new Activity(array(
-                "Libelle" => $act
+                "Libelle" => $act,
+                "description" => $desc,
             ));
             $am->addActivity($activityToAdd);
 
