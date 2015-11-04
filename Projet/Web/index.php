@@ -11,13 +11,16 @@ require "./Library/get.lib.php";
 require "./Library/session.lib.php";
 require "./Entity/User.class.php";
 require "./Entity/Droit.class.php";
-
+require "Manager/ActivityManager.manager.php";
+require "Manager/User_ActivityManager.manager.php";
+require "Entity/Activity.class.php";
+require "Library/database.lib.php";
+require "Library/config.lib.php";
 
 startSession();
 
-
 $isConnect = isConnect();
-$configIni = parse_ini_file("config.ini", true);
+$configIni = getConfigFile();
 ?>
 <!doctype html>
 <html lang="fr">
@@ -44,8 +47,29 @@ $configIni = parse_ini_file("config.ini", true);
     </section>
     <section class="row">
         <article class="col-sm-6">
-            <h3>Activité du jour</h3>
-                <p><?php echo "Nous n'avons pas encore configuré cette option, ce sera pour bientôt !";?></p>
+            <h2>Activité du jour</h2>
+                <p><?php
+                   if (!isConnect()) {
+                       echo "Pour bénéficier de cette fonctionnalité, vous devez <a href='Page/connexion.page.php'>être connecté !</a>";
+                   } else {
+                       $uam = new User_ActivityManager(connexionDb());
+                       $tab = $uam->getActIdByUserId($_SESSION['User']);
+                       $am = new ActivityManager(connexionDb());
+
+                       if (!isset($tab[0]['id_activity'])) {
+                           echo "Vous n'avez pas encore choisi d'activité aujourd'hui ! <a href='Page/choisirCategorie.page.php'>Choississez-en une</a> !";
+                       } else {
+                           $act = $am->getActivityById($tab[0]['id_activity']);
+                           echo "Votre activité choisie du jour est <h3>".$act->getLibelle()."</h3>";
+                           echo "<br> Sa description est <h4>".$act->getDescription()."</h4>";
+                           echo "<br> Il est toujours possible de la changer via <a href='Page/choisirCategorie.page.php'>le choix d'activités</a> !";
+                           echo "<br> Bon amusement !";
+                       }
+
+                    }
+
+
+                    ?></p>
 
         </article>
         <article class="col-sm-6">

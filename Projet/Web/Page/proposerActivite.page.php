@@ -12,7 +12,7 @@ require "../Library/Fonctions/Fonctions.php";
 initRequire();
 initRequirePage("proposerActivite");
 initRequireEntityManager();
-
+require "../Manager/User_ActivityManager.manager.php";
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
@@ -45,13 +45,19 @@ $configIni = getConfigFile();
             if (isset($_GET['categorie'])) {
                 $cat = $_GET['categorie'];
                 if (verifCat($cat)) {
-                    gererReponse($cat);
-                    proposerActivite($cat);
+                    $idActivite = proposerActivite($cat);
+                    gererReponse($cat, $idActivite);
+                    if (isset($_GET['to']) && $_GET['to'] == 'modif') {
+                        modifActivite();
+                    }
                 } else {
-                    echo "Votre catégorie est fausse, cliquez sur un des boutons proposés !";
+                    echo "<h1>Votre catégorie est fausse, cliquez sur un des boutons proposés !</h1>";
+                    echo "<meta http-equiv='refresh' content='1; URL=choisirCategorie.page.php'>";
                 }
             } else {
-                echo "Vous n'avez pas de catégorie !";
+                echo "<h1>Vous n'avez pas de catégorie !</h1>";
+                echo "<meta http-equiv='refresh' content='1; URL=choisirCategorie.page.php'>";
+
             }
 
             ?>

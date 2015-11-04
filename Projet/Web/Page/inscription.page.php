@@ -50,6 +50,7 @@
 <section class="container">
     <section class="jumbotron">
         <h1>Page d'inscription</h1>
+        <p>Rentrez vos données personnelles afin de recevoir un code d'activation par mail !</p>
     </section>
     <section class="row">
         <article class="col-sm-12">

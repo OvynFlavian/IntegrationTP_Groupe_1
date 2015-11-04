@@ -7,6 +7,7 @@
  */
 use \Entity\Categorie as Categorie;
 use \Entity\Activity as Activity;
+use \Entity\User as User;
 
 function proposerActivite($cat) {
 
@@ -35,6 +36,7 @@ function proposerActivite($cat) {
             }
 
             include "../Form/proposerActivite.form.php" ;
+            return $id;
 }
 function verifCat($cat) {
     $cm = new CategorieManager(connexionDb());
@@ -46,14 +48,41 @@ function verifCat($cat) {
     }
 
 }
-function gererReponse($cat)
+function gererReponse($cat, $idAct)
 {
     if (isset($_POST['Accepter'])) {
-        header('Location: choisirCategorie.page.php');
-        #TODO mettre l'activité choisie en tant qu'activité du jour dans le profil du user + l'ajouter dans user_activity
+        choixActivite($idAct, $cat);
     } else if (isset($_POST['Refuser'])) {
         header("Location: proposerActivite.page.php?categorie=" . $cat);
     } else if (isset ($_POST['Inscription'])) {
         header('Location: inscription.page.php');
     }
+}
+
+function choixActivite($id, $cat) {
+    if (isConnect()) {
+        $uam = new User_ActivityManager(connexionDb());
+        $tab = $uam->getActIdByUserId($_SESSION['User']);
+        if (isset($tab[0]['id_activity'])) {
+            echo "<h2 align='center'> Vous avez déjà une activité, êtes vous sûr de vouloir la <a href='proposerActivite.page.php?categorie=$cat&act=$id&to=modif'>remplacer</a> ? </h2>";
+        } else {
+            $act = new Activity(array(
+                "id" => $id,
+            ));
+            $uam->addToTable($act, $_SESSION['User']);
+            header('Location: ../');
+        }
+    }
+
+}
+
+function modifActivite() {
+    $act = $_GET['act'];
+    $uam = new User_ActivityManager(connexionDb());
+    $uam->deleteFromTable($_SESSION['User']);
+    $activity = new Activity(array(
+        "id" => $act,
+    ));
+    $uam->addToTable($activity, $_SESSION['User']);
+    header('Location: ../');
 }

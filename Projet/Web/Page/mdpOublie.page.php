@@ -44,8 +44,8 @@ $isConnect = isConnect();
     </header>
     <section class="container">
         <section class="jumbotron">
-            <h1>Page d'administration</h1>
-            <p></p>
+            <h1>Récuperer son mot de passe</h1>
+            <p>Entrez votre l'adresse e-mail de votre compte afin de recevoir un message de récupération !</p>
         </section>
         <section class="alert-dismissible">
 

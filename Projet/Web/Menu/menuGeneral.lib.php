@@ -25,7 +25,7 @@ $isIndex = ($page == '' or $page == "index");
     <div>
         <ul class="nav navbar-nav">
 <?php if($isIndex){?>
-            <li <?php if($isIndex) echo "class='active'"?>><a href="index.php">Home</a></li>
+            <li <?php if($isIndex) echo "class='active'"?>><a href="index.php">Accueil</a></li>
             <?php if(!$isConnect){?>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -49,7 +49,7 @@ $isIndex = ($page == '' or $page == "index");
         </ul>
 <?php }else{?>
 
-            <li <?php if($page == "index") echo "class='active'"?>><a href="../index.php">Home</a></li>
+            <li <?php if($page == "index") echo "class='active'"?>><a href="../index.php">Accueil</a></li>
             <?php if(!$isConnect){?>
         </ul>
         <ul class="nav navbar-nav navbar-right">
