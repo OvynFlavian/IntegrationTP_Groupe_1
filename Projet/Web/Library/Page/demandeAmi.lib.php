@@ -9,20 +9,20 @@ use \Entity\User as User;
 use \Entity\Amis as Amis;
 
 function gererDemande() {
-    if (isPostFormulaire()) {
+
         if (isset($_POST['Accepter'])) {
             ajoutDemande();
             return "Votre demande a bien été envoyée à l'utilisateur concerné !";
-        } else {
-            header("Location: listeMembres.page.php");
+        } else if (isset($_POST['Refuser'])) {
+            return "Erreur";
         }
-    }
+
 }
 
 function ajoutDemande() {
-    $user = new User($_SESSION['User']);
+
     $id = $_GET['membre'];
-    $idUser = $user->getId();
+    $idUser = $_SESSION['User']->getId();
 
     $demandeAmis = new Amis(array(
         "id_user_1" => $idUser,

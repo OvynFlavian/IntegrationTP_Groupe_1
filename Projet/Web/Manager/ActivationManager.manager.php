@@ -50,8 +50,14 @@ class ActivationManager {
             ":code" => $code,
         ));
 
-        $tabAct = $query->fetch(PDO::FETCH_ASSOC);
-        $act = new Activation($tabAct);
+        if($tabAct = $query->fetch(PDO::FETCH_ASSOC))
+        {
+            $act = new Activation($tabAct);
+        }
+        else
+        {
+            $act = new Activation(array());
+        }
         return $act;
     }
 

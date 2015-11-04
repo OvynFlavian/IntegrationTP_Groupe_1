@@ -68,5 +68,6 @@ function doConnect()
 
     }
     $tabRetour['Retour'] = !$echec;
+    $tabRetour['Valide'] = !$needActi;
     return $tabRetour;
 }

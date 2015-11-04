@@ -9,6 +9,8 @@ require "../Library/constante.lib.php";
 
 initRequire();
 require "../Library/Page/demandeAmi.lib.php";
+require "../Entity/Amis.class.php";
+require "../Manager/AmisManager.manager.php";
 initRequireEntityManager();
 
 startSession();
@@ -18,8 +20,21 @@ if(!$isConnect)
     session_destroy();
     header("Location:../");
 }
+
 $id = $_GET['membre'];
-$message = gererDemande();
+if ($id == $_SESSION['User']->getId()) {
+    header("Location:../");
+
+}
+    if (isset($_POST['Accepter']) || isset($_POST['Refuser'])) {
+        $message = gererDemande();
+        if ($message == "Erreur") {
+            header('Location: listeMembres.page.php');
+        }
+    }
+
+
+
 $configIni = getConfigFile();
 ?>
 
@@ -53,12 +68,13 @@ $configIni = getConfigFile();
     </section>
     <section class="row">
         <article class="col-sm-12">
+            <h2 align="center">
             <?php
                 if (isset($message)) {
                   echo $message;
                 }
-
             ?>
+            </h2>
         </article>
     </section>
 </section>

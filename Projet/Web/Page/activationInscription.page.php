@@ -11,6 +11,7 @@ require "../Library/Fonctions/Fonctions.php";
 initRequire();
 initRequireEntityManager();
 initRequirePage("inscription");
+require "../Library/Page/activationInscription.lib.php";
 
 $configIni = getConfigFile();
 startSession();

@@ -22,7 +22,7 @@ if($isConnect)
 if(isPostFormulaire())
 {
     $tabRetour = doConnect();
-    if($tabRetour['Retour'])header("Location:../");
+    if($tabRetour['Retour']&& $tabRetour['Valide'])header("Location:../");
 }
 $configIni = getConfigFile();
 ?>
@@ -79,6 +79,11 @@ $configIni = getConfigFile();
         <?php if(isset($tabRetour['Error'])){?>
             <section class="alert-dismissible">
                 <p><?php echo $tabRetour['Error']?></p>
+            </section>
+        <?php }?>
+        <?php if(isset($tabRetour['Activation'])){?>
+            <section class="alert-dismissible">
+                <p><?php echo $tabRetour['Activation']?></p>
             </section>
         <?php }?>
     </section>

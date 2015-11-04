@@ -35,7 +35,9 @@ function afficherMembres($tab) {
              <?php
                 foreach ($tab as $elem) {
                     $id = $elem->getId();
-                    echo "<tr> <td>".$elem->getUserName()." </td><td>".$elem->getDateLastConnect()."</td><td>".$elem->getDateInscription()."</td><td><a href='demandeAmi.page.php?membre=$id'> Ajouter comme ami</a></td></tr>";
+                    if ($id != $_SESSION['User']->getId()) {
+                        echo "<tr> <td>" . $elem->getUserName() . " </td><td>" . $elem->getDateLastConnect() . "</td><td>" . $elem->getDateInscription() . "</td><td><a href='demandeAmi.page.php?membre=$id'> Ajouter comme ami</a></td></tr>";
+                    }
                 }
                 if ($tab == NULL) {
                     echo "<tr> <td> Aucun utilisateur trouvé !</td></tr>";
