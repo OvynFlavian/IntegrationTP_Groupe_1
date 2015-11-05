@@ -125,7 +125,7 @@ $configIni = getConfigFile();
 <div class="footer-container">
     <div class="row">
     <footer class="footer panel-footer navbar-fixed-bottom">
-     &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
+     &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
     </footer>
     </div>
 </div>
