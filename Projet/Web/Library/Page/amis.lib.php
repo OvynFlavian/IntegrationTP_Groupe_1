@@ -229,7 +229,6 @@ function choixActivite($id) {
 
 }
 function modifActivite() {
-    #TODO Verifier si l'id de l'acitivité est bonne (si un petit con s'amuse à en rentrer une fausse)
     $act = $_GET['id'];
     $uam = new User_ActivityManager(connexionDb());
     $uam->deleteFromTable($_SESSION['User']);
