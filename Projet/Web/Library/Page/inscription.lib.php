@@ -128,7 +128,7 @@
 									Votre login est : " . $userToAdd->getUserName() . " <br>
 									Votre email est : " . $userToAdd->getEmail() . " <br>
 									Votre lien d'activation est : <a href='www.everydayidea/activation.php?code=" . $code_aleatoire . "'>www.everydayidea/activation.php?code=" . $code_aleatoire . "</a>";
-       mail($to, $sujet, $message, $entete);
+        mail($to, $sujet, $message, $entete);
 
         /** @var $um : un nouvel user qui va être ajouté à la BDD
         J'ajoute le nouvel user à la BDD*/

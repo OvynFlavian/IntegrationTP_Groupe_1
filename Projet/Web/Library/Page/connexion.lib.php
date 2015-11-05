@@ -46,10 +46,10 @@ function doConnect()
      * deux code (inscription et mdp oublié), je vérifie que c'est bien le code d'inscription
      */
     $needActi = false;
-    if (isset($id) && !empty($id)) {
+    if (isset($id)) {
         $acManager = new ActivationManager(connexionDb());
         $act = $acManager->getActivationByLibelleAndId("Inscription",$id);
-        if (isset($act) && !empty($act->getCode()))
+        if (isset($act) && $act->getCode() != NULL)
             $needActi = true;
         else
             $needActi = false;

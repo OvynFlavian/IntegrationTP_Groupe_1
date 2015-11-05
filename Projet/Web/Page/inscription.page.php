@@ -19,6 +19,7 @@
     if(isPostFormulaire() && isValidBis()['Retour']) {
         addDB();
         $tabRetour['Error'][] = "Votre inscription est effective";
+
     } else if (isPostFormulaire() and !isValidBis()['Retour']) {
         foreach (isValidBis()['Error'] as $elem) {
             $tabRetour['Error'][] = $elem;

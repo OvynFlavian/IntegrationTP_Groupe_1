@@ -13,6 +13,7 @@ initRequire();
 initRequirePage("proposerActivite");
 initRequireEntityManager();
 require "../Manager/User_ActivityManager.manager.php";
+require "../Manager/Categorie_ActivityManager.manager.php";
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
@@ -33,6 +34,30 @@ $configIni = getConfigFile();
 <body>
 <header>
     <?php include("../Menu/menuGeneral.lib.php");?>
+    <aside class="col-md-2" style="max-width: 200px;">
+        <ul class="nav nav-pills nav-stacked">
+            <?php
+            if (isset($_GET['categorie'])) {
+                $cat = $_GET['categorie'];
+                echo "<li ";
+                if(!isset($_GET['choix'])){
+                    echo "class='active'";
+                    }
+                echo "><a href='proposerActivite.page.php?categorie=$cat''>Génération aléatoire</a></li>";
+                if (isConnect()) {
+                    echo "<li ";
+                    if (isset($_GET['choix']) and $_GET['choix'] == "personnel") {
+                        echo "class='active'";
+                    }
+                    echo "><a href='?categorie=$cat&choix=personnel'>Choix dans la liste</a></li>";
+                } else {
+                    echo "<li><a href='connexion.page.php'> Plus d'options ? </a></li> ";
+                }
+            }
+            ?>
+
+        </ul>
+    </aside>
 </header>
 <section class="container">
     <section class="jumbotron">
@@ -45,12 +70,22 @@ $configIni = getConfigFile();
             if (isset($_GET['categorie'])) {
                 $cat = $_GET['categorie'];
                 if (verifCat($cat)) {
-                    $idActivite = proposerActivite($cat);
-                    gererReponse($cat, $idActivite);
-                    if (isset($_GET['to']) && $_GET['to'] == 'modif' && isConnect() && isset($_GET['act'])) {
-                        modifActivite();
-                    } else if ((isset($_GET['to']) && !isConnect()) ||(isset($_GET['to']) && $_GET['to'] != 'modif' && isConnect()) ) {
-                        header('Location: ../');
+                    if (isset($_GET['choix']) && ($_GET['choix'] == 'personnel') && isConnect()) {
+                        require "../Form/choixPersonnel.form.php";
+                        $tab = rechercheActivite();
+                        afficherActivites($tab, $cat);
+                    } else {
+                        if (isset($_GET['activite']) && !verifIdAct()) {
+                            header("Location:../");
+                        } else {
+                            $idActivite = proposerActivite($cat);
+                            gererReponse($cat, $idActivite);
+                            if (isset($_GET['to']) && $_GET['to'] == 'modif' && isConnect() && isset($_GET['activite'])) {
+                                modifActivite();
+                            } else if ((isset($_GET['to']) && !isConnect()) || (isset($_GET['to']) && $_GET['to'] != 'modif' && isConnect())) {
+                                header('Location: ../');
+                            }
+                        }
                     }
                 } else {
                     echo "<h1>Votre catégorie est fausse, cliquez sur un des boutons proposés !</h1>";

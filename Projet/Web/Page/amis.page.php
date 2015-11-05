@@ -57,7 +57,15 @@ $configIni = getConfigFile();
     </section>
     <section class="row">
         <?php
-        if(empty($_GET)) listeAmi();
+        if(empty($_GET)) {
+            if (isset($_POST['supprimerAmi'])) {
+                gererSuppression();
+            } else if (isset($_POST['AccepterSup']) || isset($_POST['RefuserSup'])) {
+                gererReponseSup();
+            } else {
+                listeAmi();
+            }
+        }
         else if(isset($_GET['to']) and $_GET['to'] == "friendList") demande();
         else if (isset($_GET['to']) and $_GET['to'] == "modifAct") {
             if (verifIdAct()) {

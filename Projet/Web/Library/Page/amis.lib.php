@@ -117,6 +117,8 @@ function listeAmi() {
     $am = new AmisManager(connexionDb());
     $tab1 = $am->getAmisByIdUser1($userId);
     $tab2 = $am->getAmisByIdUser2($userId);
+    $tabRecap[0] = $tab1;
+    $tabRecap[1] = $tab2;
     $um = new UserManager(connexionDb());
     $actm = new ActivityManager(connexionDb());
     $uam = new User_ActivityManager(connexionDb());
@@ -131,50 +133,40 @@ function listeAmi() {
                 <th> Téléphone </th>
                 <th> Dernière connexion </th>
                 <th> Activité du jour  </th>
+                <th> Action  </th>
             </tr>
     <?php
-    foreach ($tab1 as $elem) {
-        if ($elem->getAccepte() == 1) {
-            $user = $um->getUserById($elem->getIdUser2());
-            $tabAct = $uam->getActIdByUserId($user);
-            if ($tabAct) {
-                $actId = $tabAct[0]['id_activity'];
-                $activity = $actm->getActivityById($actId);
-                $activity->setLibelle("<a href='amis.page.php?to=modifAct&id=$actId'>".$activity->getLibelle()."</a>");
-            } else {
-                $activity = new Activity(array(
-                    "Libelle" => "N/A",
-                ));
+    foreach ($tabRecap as $elem) {
+        foreach ($elem as $amis) {
+            if ($amis->getAccepte() == 1) {
+                if ($elem == $tab1) {
+                    $user = $um->getUserById($amis->getIdUser2());
+                } else if ($elem == $tab2) {
+                    $user = $um->getUserById($amis->getIdUser1());
+                }
+
+                $tabAct = $uam->getActIdByUserId($user);
+                if ($tabAct) {
+                    $actId = $tabAct[0]['id_activity'];
+                    $activity = $actm->getActivityById($actId);
+                    $activity->setLibelle("<a href='amis.page.php?to=modifAct&id=$actId'>" . $activity->getLibelle() . "</a>");
+                } else {
+                    $activity = new Activity(array(
+                        "Libelle" => "N/A",
+                    ));
+                }
+                if ($user->getTel() == NULL) {
+                    $tel = "N/A";
+                } else {
+                    $tel = $user->getTel();
+                }
+                echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getEmail() . " </td><td> " . $tel . "</td><td> " . $user->getDateLastConnect() . "</td><td> " . $activity->getLibelle() . "</td>";
+                echo "<td><form class='form-horizontal col-sm-12' name='suppression' action='amis.page.php' method='post'>";
+                echo "<input type='hidden'  name='idAmi'  value='" . $user->getId() . "''>";
+                echo "<button class='btn btn-danger col-sm-8' type='submit' id='formulaire' name='supprimerAmi'>Supprimer cet ami</button>";
+                echo "</tr>";
+                $existe = true;
             }
-            if ($user->getTel() == NULL) {
-                $tel = "N/A";
-            } else {
-                $tel = $user->getTel();
-            }
-            echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getEmail() . " </td><td> ". $tel ."</td><td> ". $user->getDateLastConnect() ."</td><td> ". $activity->getLibelle() ."</td></tr>";
-            $existe = true;
-        }
-    }
-    foreach ($tab2 as $elem) {
-        if ($elem->getAccepte() == 1) {
-            $user = $um->getUserById($elem->getIdUser1());
-            $tabAct = $uam->getActIdByUserId($user);
-            if ($tabAct) {
-                $actId = $tabAct[0]['id_activity'];
-                $activity = $actm->getActivityById($actId);
-                $activity->setLibelle("<a href='amis.page.php?to=modifAct&id=$actId'>".$activity->getLibelle()."</a>");
-            } else {
-                $activity = new Activity(array(
-                    "Libelle" => "N/A",
-                ));
-            }
-            if ($user->getTel() == NULL) {
-                $tel = "N/A";
-            } else {
-                $tel = $user->getTel();
-            }
-            echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getEmail() . " </td><td> ". $tel ."</td><td> ". $user->getDateLastConnect() ."</td><td> ". $activity->getLibelle() ."</td></tr>";
-            $existe = true;
         }
     }
     if (!$existe) {
@@ -184,6 +176,42 @@ function listeAmi() {
         </table>
     </div>
     <?php
+}
+function gererSuppression() {
+    if (isset($_POST['supprimerAmi'])) {
+        echo "<form class='form-horizontal col-sm-12' name='verifSupr' action='amis.page.php' method='post'>";
+        echo "<h1 align='center'> Voulez-vous vraiment supprimer cet ami ? C'est irréversible !</h1><br>";
+        echo "<input type='hidden'  name='idAmi'  value='" . $_POST['idAmi'] . "''>";
+        echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='AccepterSup'>Oui, je veux supprimer cet ami !</button>";
+        echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='RefuserSup'>Je me suis trompé !</button>";
+        echo "</form>";
+    }
+}
+
+function gererReponseSup() {
+    if (isset($_POST['AccepterSup'])) {
+        $id = $_POST['idAmi'];
+        supprimerAmi($id);
+        echo "<h2 align='center'>Cet ami ne fait dorénavant plus partie de votre liste d'amis !</h2>";
+        echo "<meta http-equiv='refresh' content='1; URL=amis.page.php'>";
+    } else if (isset($_POST['RefuserSup'])) {
+        header("Location:amis.page.php");
+    }
+}
+
+function supprimerAmi($id) {
+    $am = new AmisManager(connexionDb());
+    $friendToDelete1 = new Amis(array(
+        "id_user_1" => $id,
+        "id_user_2" => $_SESSION['User']->getId(),
+    ));
+    $friendToDelete2 = new Amis(array(
+        "id_user_2" => $id,
+        "id_user_1" => $_SESSION['User']->getId(),
+    ));
+    $am->deleteAmis($friendToDelete1);
+    $am->deleteAmis($friendToDelete2);
+
 }
 
 function modifAct() {
@@ -198,8 +226,8 @@ function modifAct() {
         echo "<h3 style='text-align: center'>Sa note est de : ".$activity->getNote()."/5</h3>";
     }
     echo "<form class='form-horizontal col-sm-12' name='activite' action='amis.page.php?to=modifAct&id=$id' method='post'>";
-    echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='AccepterAct'>Choisir cette activité</button>"; ;
-    echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='RefuserAct'>Je me suis trompé</button>"; ;
+    echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='AccepterAct'>Choisir cette activité</button>";
+    echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='RefuserAct'>Je me suis trompé</button>";
     echo "</form>";
 }
 
