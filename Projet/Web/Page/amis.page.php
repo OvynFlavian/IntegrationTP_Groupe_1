@@ -6,6 +6,7 @@
  * Time: 19:21
  */
 require "../Library/constante.lib.php";
+require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
 require "../Library/Page/amis.lib.php";

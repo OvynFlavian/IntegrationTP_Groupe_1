@@ -16,6 +16,7 @@ require "Manager/User_ActivityManager.manager.php";
 require "Entity/Activity.class.php";
 require "Library/database.lib.php";
 require "Library/config.lib.php";
+require "Library/Fonctions/Fonctions.php";
 
 startSession();
 

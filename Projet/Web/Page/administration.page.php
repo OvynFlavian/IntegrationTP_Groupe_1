@@ -6,6 +6,7 @@
  * Time: 15:24
  */
 require "../Library/constante.lib.php";
+require "../Library/Fonctions/Fonctions.php";
 initRequire();
 initRequireEntityManager();
 require "../Form/administration.form.php";

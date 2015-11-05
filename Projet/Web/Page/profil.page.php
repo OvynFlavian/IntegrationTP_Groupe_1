@@ -7,6 +7,7 @@
  */
 
 require "../Library/constante.lib.php";
+require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
 initRequirePage("profil");

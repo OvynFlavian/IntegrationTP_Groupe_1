@@ -6,6 +6,7 @@
  * Time: 14:34
  */
 require "../Library/constante.lib.php";
+require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
 initRequirePage("connexion");
