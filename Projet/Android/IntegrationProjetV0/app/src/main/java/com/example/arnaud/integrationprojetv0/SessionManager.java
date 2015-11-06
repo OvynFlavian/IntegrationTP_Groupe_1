@@ -1,6 +1,5 @@
 package com.example.arnaud.integrationprojetv0;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -15,7 +14,7 @@ public class SessionManager {
 
     Editor editor;
     Context _context;
-    String id,username,email;
+    String id,username,email,publics;
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -48,7 +47,7 @@ public class SessionManager {
     }
 
     public void setUsername(String username) {
-       editor.putString("USERNAME", username);
+        editor.putString("USERNAME", username);
         editor.commit();
 
     }
@@ -77,6 +76,17 @@ public class SessionManager {
 
     public String getId(){
         return pref.getString("ID",null);
+
+    }
+
+    public void setPublics(String publics) {
+        editor.putString("publics",publics );
+        editor.commit();
+
+    }
+
+    public String getPublics(){
+        return pref.getString("publics",null);
 
     }
 }

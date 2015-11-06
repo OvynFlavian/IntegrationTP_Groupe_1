@@ -1,6 +1,5 @@
 package com.example.arnaud.integrationprojetv0;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -90,7 +89,7 @@ public class MainActivity extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.4.181/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://192.168.0.9/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
@@ -113,11 +112,14 @@ public class MainActivity extends Activity {
             final String userName = jObj.getString("userName");
             final String password = jObj.getString("password");
             final String email = jObj.getString("email");
+            final String publics = jObj.getString("publics");
             session.setId(id);
             session.setEmail(email);
             session.setUsername(userName);
+            session.setPublics(publics);
 
-            System.out.println("réponse: " + session.id);
+            System.out.println("réponse: " + session.getId());
+            System.out.println("réponse22: " + session.getPublics());
 
             System.out.println("Response : " + error + id + userName + password + email);
 
