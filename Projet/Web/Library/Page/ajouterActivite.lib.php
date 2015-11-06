@@ -11,6 +11,7 @@ use \Entity\Categorie as Categorie;
 function ajouterActivite() {
         $cat = $_POST['categorie'];
         $act = $_POST['activite'];
+        $desc = $_POST['description'];
 
         $cm = new CategorieManager(connexionDb());
         $am = new ActivityManager(connexionDb());
@@ -20,10 +21,11 @@ function ajouterActivite() {
         $activityVerif = $am->getActivityByLibelle($act);
 
         if ($activityVerif->getLibelle() == $act) {
-            echo "Cette activité existe déjà, ajoutez-en une autre !";
+            $tabRetour['Error'] = "Cette activité existe déjà, ajoutez-en une autre !";
         } else {
             $activityToAdd = new Activity(array(
-                "Libelle" => $act
+                "Libelle" => $act,
+                "description" => $desc,
             ));
             $am->addActivity($activityToAdd);
 
@@ -31,10 +33,11 @@ function ajouterActivite() {
             include "../Manager/Categorie_ActivityManager.manager.php";
             $cam = new Categorie_ActivityManager(connexionDb());
             $cam->addToTable($activityToRecup, $categorie);
-            echo "Votre activité a bien été ajoutée au contenu du site, merci de votre participation !";
+            $tabRetour['Ok'] = "Votre activité a bien été ajoutée au contenu du site, merci de votre participation !";
 
 
         }
+        return $tabRetour;
 
 
 

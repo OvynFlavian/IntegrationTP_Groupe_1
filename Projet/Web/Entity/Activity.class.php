@@ -13,9 +13,11 @@ namespace Entity;
  */
 class Activity {
     private $id;
+    private $description;
     private $Libelle;
     private $Signalee;
     private $ByGroup;
+    private $note;
 
     /**
      * Fonction permettant l'hydratation de la classe.
@@ -50,11 +52,25 @@ class Activity {
     {
         return $this->ByGroup;
     }
-
+    public function getNote()
+    {
+        return $this->note;
+    }
+    public function getDescription(){
+        return $this->description;
+    }
     /**SETTER**/
+    public function setDescription($description){
+
+        $this->description = $description;
+    }
     public function setId($id)
     {
         $this->id = $id;
+    }
+    public function setNote($note)
+    {
+        $this->note = $note;
     }
     public function setLibelle($Libelle)
     {

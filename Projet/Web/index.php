@@ -15,6 +15,7 @@ require "./Entity/Droit.class.php";
 
 startSession();
 
+
 $isConnect = isConnect();
 $configIni = parse_ini_file("config.ini", true);
 ?>

@@ -5,6 +5,7 @@
  * Date: 2/10/2015
  * Time: 18:01
  */
+use \Entity\User as User;
 
 function isValidForm()
 {

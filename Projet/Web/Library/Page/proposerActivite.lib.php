@@ -27,6 +27,12 @@ function proposerActivite($cat) {
             $am = new ActivityManager(connexionDb());
             $activity = $am->getActivityById($id);
             echo "<h1 style='text-align: center'>".$activity->getLibelle()."</h1>";
+            echo "<h2 style='text-align: center'>".$activity->getDescription()."</h2>";
+            if($activity->getNote() == NULL) {
+                echo "<h3 style='text-align: center'>Cette activité n'a pas encore été notée !</h3>";
+            } else {
+                echo "<h3 style='text-align: center'>Sa note est de : ".$activity->getNote()."/5</h3>";
+            }
 
             include "../Form/proposerActivite.form.php" ;
 }
@@ -44,8 +50,10 @@ function gererReponse($cat)
 {
     if (isset($_POST['Accepter'])) {
         header('Location: choisirCategorie.page.php');
-
+        #TODO mettre l'activité choisie en tant qu'activité du jour dans le profil du user + l'ajouter dans user_activity
     } else if (isset($_POST['Refuser'])) {
         header("Location: proposerActivite.page.php?categorie=" . $cat);
+    } else if (isset ($_POST['Inscription'])) {
+        header('Location: inscription.page.php');
     }
 }

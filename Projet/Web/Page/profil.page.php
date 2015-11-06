@@ -80,6 +80,7 @@ if(isPostFormulaire())
                     viewProfilAdmin($um);
                 }
                 else viewProfil();
+
             ?>
         </article>
     </section>

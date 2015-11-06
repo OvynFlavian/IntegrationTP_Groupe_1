@@ -67,10 +67,11 @@ class ActivityManager {
     {
         $query = $this
             ->db
-            ->prepare("INSERT INTO activity(Libelle) VALUES (:lib)");
+            ->prepare("INSERT INTO activity(Libelle, description) VALUES (:lib, :desc)");
 
         $query->execute(array(
-            ":lib" => $act->getLibelle()
+            ":lib" => $act->getLibelle(),
+            ":desc" => $act->getDescription(),
         ));
     }
 }
