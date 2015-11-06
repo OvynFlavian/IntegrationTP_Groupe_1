@@ -33,6 +33,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <b>Profil est une classe qui permet d'afficher le profil de l'utilisateur connecté.</b>
+ * <p>
+ * la classe affiche les informations suivantes :
+ * <ul>
+ * <li>Un nom d'utilisateur.</li>
+ * <li>Un email.</li>
+ * <li>Si l'utilisateur veut être public ou privé.</li>
+ * </ul>
+ * </p>
+ * @author Willame Arnaud
+ */
+
 public class Profil extends ActionBarActivity {
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -158,7 +171,9 @@ public class Profil extends ActionBarActivity {
         });
 
     }
-
+    /**
+     * Ajoute des option dans le menu
+     */
     private void addDrawerItems() {
         String[] osArray = { "profil", "activités", "test", "test1", "Test2" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
@@ -181,6 +196,9 @@ public class Profil extends ActionBarActivity {
         });
     }
 
+    /**
+     * Initialise le menu
+     */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -203,6 +221,10 @@ public class Profil extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+
+    /**
+     * Action après la création du menu
+     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -210,12 +232,19 @@ public class Profil extends ActionBarActivity {
         mDrawerToggle.syncState();
     }
 
+    /**
+     * Action si la configuration est changée
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+
+    /**
+     * Création du menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -223,6 +252,9 @@ public class Profil extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * Action en fonction de l'onglet selectionné
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

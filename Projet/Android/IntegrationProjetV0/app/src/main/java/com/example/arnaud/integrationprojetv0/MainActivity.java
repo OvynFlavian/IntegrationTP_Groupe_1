@@ -27,7 +27,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
+ * <p>
+ * Une personne se connecte grâce aux informations suivantes :
+ * <ul>
+ * <li>Un nom d'utilisateur.</li>
+ * <li>Un mot de passe.</li>
+ * </ul>
+ * </p>
+ * @author Willame Arnaud
+ */
 public class MainActivity extends Activity {
     Button b,b2;
     EditText et,pass;
@@ -85,6 +95,9 @@ public class MainActivity extends Activity {
         });
     }
 
+    /**
+     * connection d'un utilisateur
+     */
     void login(){
         try{
 
@@ -150,6 +163,10 @@ public class MainActivity extends Activity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
+
+    /**
+     * Affiche les erreurs
+     */
     public void showAlert(){
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {

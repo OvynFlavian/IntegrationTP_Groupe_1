@@ -25,6 +25,21 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * <b>Regiter est une classe qui permet d'inscrire un utilisateur.</b>
+ * <p>
+ * Une personne s'inscrit grâce aux informations suivantes :
+ * <ul>
+ * <li>Un nom d'utilisateur.</li>
+ * <li>Un email.</li>
+ * <li>Un Mot de passe .</li>
+ * <li>Une confirmation du mot de passe.</li>
+ * </ul>
+ * </p>
+ * @author Willame Arnaud
+ */
+
 public class Register extends Activity {
     Button b,b2;
     EditText usr,pass,email,confPass;
@@ -77,7 +92,9 @@ public class Register extends Activity {
         });
     }
 
-
+    /**
+     * Inscription d'un nouvel utilisateur
+     */
     void register(){
         try{
 
@@ -118,6 +135,10 @@ public class Register extends Activity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
+
+    /**
+     * Affiche les erreurs
+     */
     public void showAlert(final String response){
         Register.this.runOnUiThread(new Runnable() {
             public void run() {

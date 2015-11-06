@@ -25,7 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nauna on 29-10-15.
+ * <b>ModifProfil  est une classe qui permet de modifier le profil d'un utilisateur.</b>
+ * <p>
+ * Une personne peut modifier les informations suivantes :
+ * <ul>
+ * <li>nom d'utilisateur.</li>
+ * <li>email.</li>
+ * <li>Mot de passe .</li>
+ * </ul>
+ * </p>
+ * @author Willame Arnaud
  */
 public class ModifProfil extends Activity {
 
@@ -71,6 +80,9 @@ public class ModifProfil extends Activity {
 
     }
 
+    /**
+     * modification du profil d'un utilisateur
+     */
     void modifProfil(){
         try{
 
@@ -120,6 +132,10 @@ public class ModifProfil extends Activity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
+
+    /**
+     * Affiche les erreurs
+     */
     public void showAlert(final String response){
         ModifProfil.this.runOnUiThread(new Runnable() {
             public void run() {
