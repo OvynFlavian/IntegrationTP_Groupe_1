@@ -200,6 +200,18 @@ class UserManager {
             ));
 
     }
+    public function updateUserLastIdea(User $user)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE user SET DateLastIdea = NOW() WHERE id = :id");
+
+        $query
+            ->execute(array(
+                ":id" => $user->getId(),
+            ));
+
+    }
 
     public function updateUserMdp (User $user) {
 
