@@ -5,10 +5,57 @@ html body .container {
     bottom: 30px;
     right: 0;
     left: 0;
+
+}
+.container {
+    background-color : #FFFFFF;
+    border : 1px solid grey;
+    border-radius : 10px;
+
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color:black;
+    background-color:#FFFFFF;
+    border : 1px solid black;
+}
+
+aside {
+    border : 1px solid grey;
+    margin : 1em;
+    padding: 1em;
+    background-color :#EEEEEE;
+    border-radius : 10px;
+}
+.nav-pills a{
+    color:black;
+}
+.jumbotron {
+    margin-top : 1em;
+    background-color : #EEEEEE;
+    border : 1px solid black;
+
+
+}
+table caption {
+    text-align : center;
+}
+html {
+    background-color : #C5CAE9;
+    color : black;
 }
 .marge {
     margin-left : 50em;
 }
+.navbar-fixed-bottom {
+    background-color : #EEEEEE;
+}
+.navbar-default {
+    background-color:#EEEEEE;
+    font-color : black;
+    background-image: none;
+    background-repeat: no-repeat;
+}
+
 html body aside {
     position: absolute;
     top: 60px;
