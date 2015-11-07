@@ -50,7 +50,18 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 <section class="container" id="administration">
     <section class="jumbotron">
         <h1>Page d'administration</h1>
-        <p></p>
+        <?php
+        if (!isset($_GET['to'])) {
+            echo "<p>Affichage de la liste des membres présents sur votre site. Vous pouvez voir leur profil ou modifier leur grade. Il est aussi possible de leur envoyer un message.</p>";
+        } else if (isset($_GET['to'])) {
+            if ($_GET['to'] == 'viewConfig') {
+                echo "<p>Affichage de la configuration de votre site.</p>";
+            } else if ($_GET['to'] == 'editConfig') {
+                echo "<p>Vous pouvez modifier la configuration de base de votre site.</p>";
+            }
+        }
+
+        ?>
     </section>
     <section class="alert-dismissible">
 
@@ -69,9 +80,7 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 
                 }
                 else if(isset($_GET['to']) and $_GET['to'] == "viewConfig") administrationViewConfig();
-                else if (isset($_GET['to']) and $_GET['to'] == 'modifGrade' ) {
-                    changerGrade();
-                }
+
                 else if(!isset($_GET['to'])) {
                     if (isset($_POST['voirProfil'])) {
                         $id = $_POST['idMembre'];
@@ -81,9 +90,12 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                         echo "<h1 align='center'><span class='success'>Le grade de l'utilsateur a bien été changé !</span></h1>";
                         echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
 
-                    } else {
+                    }
+                    else  {
                         afficherMembres();
                     }
+                } else {
+                    header("Location:../");
                 }
             ?>
         </article>

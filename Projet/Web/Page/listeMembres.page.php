@@ -44,6 +44,7 @@ $configIni = getConfigFile();
 <section class="container">
     <section class="jumbotron">
         <h1>Liste des membres</h1>
+        <p> Affichage de la liste des membres présents actuellement sur le site.</p>
     </section>
     <section class="row">
         <article class="col-sm-12">

@@ -53,7 +53,7 @@ $configIni = getConfigFile();
             <h2>Activité du jour</h2>
                 <p><?php
                    if (!isConnect()) {
-                       echo "Pour bénéficier de cette fonctionnalité, vous devez <a href='Page/connexion.page.php'>être connecté !</a>";
+                       echo "Pour bénéficier de cette fonctionnalité, vous devez <a href='Page/connexion.page.php'><b>être connecté !</b></a>";
                    } else {
                        $uam = new User_ActivityManager(connexionDb());
                        $tab = $uam->getActIdByUserId($_SESSION['User']);
