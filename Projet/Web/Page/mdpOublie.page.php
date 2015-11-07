@@ -44,8 +44,8 @@ $isConnect = isConnect();
     </header>
     <section class="container">
         <section class="jumbotron">
-            <h1>Page d'administration</h1>
-            <p></p>
+            <h1>Récuperer son mot de passe</h1>
+            <p>Entrez votre l'adresse e-mail de votre compte afin de recevoir un message de récupération !</p>
         </section>
         <section class="alert-dismissible">
 
@@ -66,9 +66,13 @@ $isConnect = isConnect();
         </section>
     </section>
 
-    <footer class="footer panel-footer navbar-fixed-bottom">
-        &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
-    </footer>
+    <div class="footer-container">
+        <div class="row">
+            <footer class="footer panel-footer navbar-fixed-bottom">
+                &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+            </footer>
+        </div>
+    </div>
 
 </body>
 </html>

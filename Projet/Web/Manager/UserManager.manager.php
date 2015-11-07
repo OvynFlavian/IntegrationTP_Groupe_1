@@ -145,7 +145,7 @@ class UserManager {
     {
         $query = $this
             ->db
-            ->prepare("INSERT INTO user(UserName, Mdp, DateInscription, email) VALUES (:username , :mdp , NOW(), :email)");
+            ->prepare("INSERT INTO user(UserName, Mdp, DateInscription, DateLastConnect, email) VALUES (:username , :mdp , NOW(),NOW(), :email)");
         $user-> setMdp(hash("sha256", $user->getMdp()));
         $query->execute(array(
             ":username" => $user->getUserName(),
@@ -156,35 +156,20 @@ class UserManager {
 
     public function updateUserProfil(User $user)
     {
-        if(!empty($_POST['Private']))
-        {
+
             $query = $this
                 ->db
-                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel , isPrivate = :private WHERE id = :id");
+                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , email = :email, tel = :tel WHERE id = :id");
 
             $query
                 ->execute(array(
                     ":id" => $user->getId(),
                     ":username" => $user->getUserName(),
+                    ":email" => $user->getEmail(),
                     ":mdp" => $user->getMdp(),
                     ":tel" => $user->getTel(),
-                    ":private" => $_POST['Private'],
                 ));
-        }
-        else
-        {
-            $query = $this
-                ->db
-                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel, isPrivate = 0 WHERE id = :id");
 
-            $query
-                ->execute(array(
-                    ":id" => $user->getId(),
-                    ":username" => $user->getUserName(),
-                    ":mdp" => $user->getMdp(),
-                    ":tel" => $user->getTel(),
-                ));
-        }
 
     }
 
@@ -193,6 +178,18 @@ class UserManager {
         $query = $this
             ->db
             ->prepare("UPDATE user SET DateLastConnect = NOW() WHERE id = :id");
+
+        $query
+            ->execute(array(
+                ":id" => $user->getId(),
+            ));
+
+    }
+    public function updateUserLastIdea(User $user)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE user SET DateLastIdea = NOW() WHERE id = :id");
 
         $query
             ->execute(array(

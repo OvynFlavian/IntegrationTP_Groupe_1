@@ -12,5 +12,11 @@
  */
 function getConfigFile()
 {
-    return parse_ini_file("../config.ini", true);
+    $page = getCurrentPage();
+    $isIndex = ($page == '' or $page == "index");
+    if ($isIndex) {
+        return parse_ini_file("config.ini.php", true);
+    } else {
+        return parse_ini_file("../config.ini.php", true);
+    }
 }

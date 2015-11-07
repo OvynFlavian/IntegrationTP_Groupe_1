@@ -6,6 +6,7 @@
  * Time: 14:34
  */
 require "../Library/constante.lib.php";
+require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
 initRequirePage("connexion");
@@ -67,7 +68,8 @@ $configIni = getConfigFile();
 </header>
     <section class="container">
         <section class="jumbotron">
-            <h1>Page Connexion</h1>
+            <h1>Page de connexion</h1>
+            <p>Entrez votre nom d'utilisateur et votre mot de passe !</p>
         </section>
         <section class="row">
             <article class="col-sm-12">
@@ -87,8 +89,12 @@ $configIni = getConfigFile();
             </section>
         <?php }?>
     </section>
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
-</footer>
+<div class="footer-container">
+    <div class="row">
+        <footer class="footer panel-footer navbar-fixed-bottom">
+            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+        </footer>
+    </div>
+</div>
 </body>
 </html>

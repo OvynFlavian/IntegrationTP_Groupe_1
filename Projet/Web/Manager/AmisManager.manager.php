@@ -44,7 +44,7 @@ class AmisManager
 
         $resultats = $this->db->prepare("SELECT * FROM amis WHERE id_user_2 = :id2");
         $resultats->execute(array(
-            ":id1" => $id2,
+            ":id2" => $id2,
         ));
 
         $tabUser = $resultats->fetchAll(PDO::FETCH_ASSOC);

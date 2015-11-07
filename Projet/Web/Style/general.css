@@ -5,6 +5,88 @@ html body .container {
     bottom: 30px;
     right: 0;
     left: 0;
+
+}
+.container {
+    background-color : #FFFFFF;
+    border : 1px solid grey;
+    border-radius : 10px;
+
+
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color:black;
+    background-color:#FFFFFF;
+    border : 1px solid grey;
+}
+#administration {
+    height : 76em;
+}
+.formProfil {
+    margin-left : 30em;
+}
+.formGrade {
+    margin : 10%;
+    margin-left : 30%;
+}
+.formGrade button {
+    margin-left : 13%;
+}
+.formGrade select {
+    margin-left : 23%;
+}
+.error{
+
+    color : red;
+    font-weight : bold;
+}
+
+.success{
+
+    color : green;
+    font-weight : bold;
+}
+.profil {
+    text-align : center;
+    border : 1px solid grey;
+    border-radius : 10px;
+
+}
+aside {
+    border : 1px solid grey;
+    margin : 1em;
+    padding: 1em;
+    background-color :#EEEEEE;
+    border-radius : 10px;
+}
+.nav-pills a{
+    color:black;
+}
+.jumbotron {
+    margin-top : 1em;
+    background-color : #EEEEEE;
+    border : 1px solid grey;
+
+
+}
+table caption {
+    text-align : center;
+}
+html {
+    background-color :#BBDEFB ;
+    color : black;
+}
+.marge {
+    margin-left : 50em;
+}
+.navbar-fixed-bottom {
+    background-color : #EEEEEE;
+}
+.navbar-default {
+    background-color:#EEEEEE;
+    font-color : black;
+    background-image: none;
+    background-repeat: no-repeat;
 }
 
 html body aside {

@@ -11,7 +11,7 @@
      $ac = $am ->getActivationByCode($code);
 
      $noCode = false;
-     if (empty($ac->getCode())) {
+     if ($ac->getCode() == NULL) {
          $noCode = true;
      }
 

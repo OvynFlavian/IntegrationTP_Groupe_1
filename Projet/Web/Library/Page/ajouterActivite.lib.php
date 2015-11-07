@@ -7,6 +7,7 @@
  */
 use \Entity\Activity as Activity;
 use \Entity\Categorie as Categorie;
+use \Entity\User as User;
 
 function ajouterActivite() {
         $cat = $_POST['categorie'];
@@ -20,7 +21,7 @@ function ajouterActivite() {
 
         $activityVerif = $am->getActivityByLibelle($act);
 
-        if ($activityVerif->getLibelle() == $act) {
+        if (strtolower($activityVerif->getLibelle()) == strtolower($act)) {
             $tabRetour['Error'] = "Cette activité existe déjà, ajoutez-en une autre !";
         } else {
             $activityToAdd = new Activity(array(
@@ -32,6 +33,8 @@ function ajouterActivite() {
             $activityToRecup = $am->getActivityByLibelle($act);
             include "../Manager/Categorie_ActivityManager.manager.php";
             $cam = new Categorie_ActivityManager(connexionDb());
+            $um = new UserManager(connexionDb());
+            $um->updateUserLastIdea($_SESSION['User']);
             $cam->addToTable($activityToRecup, $categorie);
             $tabRetour['Ok'] = "Votre activité a bien été ajoutée au contenu du site, merci de votre participation !";
 

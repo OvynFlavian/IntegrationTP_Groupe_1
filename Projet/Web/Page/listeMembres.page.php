@@ -6,6 +6,7 @@
  * Time: 19:25
  */
 require "../Library/constante.lib.php";
+require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
 require "../Library/Page/listeMembres.lib.php";
@@ -43,6 +44,7 @@ $configIni = getConfigFile();
 <section class="container">
     <section class="jumbotron">
         <h1>Liste des membres</h1>
+        <p> Affichage de la liste des membres présents actuellement sur le site.</p>
     </section>
     <section class="row">
         <article class="col-sm-12">
@@ -59,8 +61,12 @@ $configIni = getConfigFile();
         </article>
     </section>
 </section>
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
-</footer>
+<div class="footer-container">
+    <div class="row">
+        <footer class="footer panel-footer navbar-fixed-bottom">
+            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+        </footer>
+    </div>
+</div>
 </body>
 </html>

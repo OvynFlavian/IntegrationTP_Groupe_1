@@ -37,3 +37,19 @@ function ajoutDemande() {
 
     $am->addAmis($demandeAmis);
 }
+
+function verifDejaExistant() {
+    $id = $_GET['membre'];
+    $idUser = $_SESSION['User']->getId();
+
+    $am = new AmisManager(connexionDb());
+    $testExistence1 = $am->getAmisById1AndId2($idUser, $id);
+    $testExistence2 = $am->getAmisById1AndId2($id, $idUser);
+
+    if ($testExistence1->getDate() != NULL || $testExistence2->getDate() != NULL ) {
+        return true;
+    } else {
+        return false;
+    }
+
+}

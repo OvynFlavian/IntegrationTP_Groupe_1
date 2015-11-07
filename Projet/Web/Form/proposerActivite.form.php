@@ -7,7 +7,7 @@
  */
 
 
-echo "<form class='form-horizontal col-sm-12' name='activite' action='proposerActivite.page.php?categorie=$cat' method='post'>";
+echo "<form class='form-horizontal col-sm-12' name='activite' action='proposerActivite.page.php?categorie=$cat&activite=$id' method='post'>";
 ?>
     <?php
     if (!isConnect()) {

@@ -6,6 +6,7 @@
  * Time: 19:25
  */
 require "../Library/constante.lib.php";
+require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
 require "../Library/Page/demandeAmi.lib.php";
@@ -26,10 +27,16 @@ if ($id == $_SESSION['User']->getId()) {
     header("Location:../");
 
 }
-    if (isset($_POST['Accepter']) || isset($_POST['Refuser'])) {
-        $message = gererDemande();
-        if ($message == "Erreur") {
-            header('Location: listeMembres.page.php');
+$existe = false;
+    if (verifDejaExistant()) {
+        $existe = true;
+        $message = "<h1 align='center'>Votre demande d'amis existe déjà, vérifier dans l'onglet amis !</h1>";
+    } else {
+        if (isset($_POST['Accepter']) || isset($_POST['Refuser'])) {
+            $message = gererDemande();
+            if ($message == "Erreur") {
+                header('Location: listeMembres.page.php');
+            }
         }
     }
 
@@ -58,11 +65,14 @@ $configIni = getConfigFile();
 <section class="container">
     <section class="jumbotron">
         <h1>Demande d'ami</h1>
+        <p> Une demande sera envoyée à l'utilisateur aussitôt votre choix fait !</p>
     </section>
     <section class="row">
         <article class="col-sm-12">
             <?php
-            include("../Form/demandeAmi.form.php");
+            if (!$existe) {
+                include("../Form/demandeAmi.form.php");
+            }
             ?>
         </article>
     </section>
@@ -72,14 +82,19 @@ $configIni = getConfigFile();
             <?php
                 if (isset($message)) {
                   echo $message;
+                    echo "<meta http-equiv='refresh' content='1; URL=listeMembres.page.php'>";
                 }
             ?>
             </h2>
         </article>
     </section>
 </section>
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
-</footer>
+<div class="footer-container">
+    <div class="row">
+        <footer class="footer panel-footer navbar-fixed-bottom">
+            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+        </footer>
+    </div>
+</div>
 </body>
 </html>

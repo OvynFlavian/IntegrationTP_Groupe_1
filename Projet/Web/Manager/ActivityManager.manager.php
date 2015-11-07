@@ -47,6 +47,24 @@ class ActivityManager {
 
         return $activity;
     }
+    public function searchAllActivityByLibelle($libelle) {
+
+        $resultats = $this->db->prepare("SELECT * FROM activity WHERE Libelle like :lib");
+        $resultats->execute(array(
+            ":lib" => "%".$libelle."%"
+        ));
+
+        $tabAct = $resultats->fetchAll(PDO::FETCH_ASSOC);
+
+        $tab = array();
+
+        foreach($tabAct as $elem)
+        {
+            $tab[] = new Activity($elem);
+        }
+
+        return $tab;
+    }
 
     public function getActivityByLibelle($lib)
     {

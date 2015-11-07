@@ -19,6 +19,7 @@
     if(isPostFormulaire() && isValidBis()['Retour']) {
         addDB();
         $tabRetour['Error'][] = "Votre inscription est effective";
+
     } else if (isPostFormulaire() and !isValidBis()['Retour']) {
         foreach (isValidBis()['Error'] as $elem) {
             $tabRetour['Error'][] = $elem;
@@ -50,6 +51,7 @@
 <section class="container">
     <section class="jumbotron">
         <h1>Page d'inscription</h1>
+        <p>Rentrez vos données personnelles afin de recevoir un code d'activation par mail !</p>
     </section>
     <section class="row">
         <article class="col-sm-12">
@@ -66,8 +68,12 @@
         </section>
     <?php }?>
 </section>
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com. Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a>
-</footer>
+<div class="footer-container">
+    <div class="row">
+        <footer class="footer panel-footer navbar-fixed-bottom">
+            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+        </footer>
+    </div>
+</div>
 </body>
 </html>
