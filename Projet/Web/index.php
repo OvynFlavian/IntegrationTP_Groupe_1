@@ -32,10 +32,11 @@ $configIni = getConfigFile();
     <link rel="stylesheet" type="text/css" href="./Style/general.css">
 </head>
 <body>
+
 <header>
     <?php include("./Menu/menuGeneral.lib.php"); ?>
 </header>
-
+<div id="wrap">
 <section class="container">
     <section class="jumbotron">
         <h1>Page d'accueil</h1>
@@ -121,14 +122,13 @@ $configIni = getConfigFile();
     </section>
     <?php }?>
 </section>
-
-<div class="footer-container">
-    <div class="row">
-    <footer class="footer panel-footer navbar-fixed-bottom">
-     &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
-    </footer>
-    </div>
+        </div>
 </div>
+
+<footer class="footer panel-footer navbar-fixed-bottom">
+    &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+</footer>
+
 
 
 

@@ -156,35 +156,20 @@ class UserManager {
 
     public function updateUserProfil(User $user)
     {
-        if(!empty($_POST['Private']))
-        {
+
             $query = $this
                 ->db
-                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel , isPrivate = :private WHERE id = :id");
+                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , email = :email, tel = :tel WHERE id = :id");
 
             $query
                 ->execute(array(
                     ":id" => $user->getId(),
                     ":username" => $user->getUserName(),
+                    ":email" => $user->getEmail(),
                     ":mdp" => $user->getMdp(),
                     ":tel" => $user->getTel(),
-                    ":private" => $_POST['Private'],
                 ));
-        }
-        else
-        {
-            $query = $this
-                ->db
-                ->prepare("UPDATE user SET UserName = :username , Mdp = :mdp , tel = :tel, isPrivate = 0 WHERE id = :id");
 
-            $query
-                ->execute(array(
-                    ":id" => $user->getId(),
-                    ":username" => $user->getUserName(),
-                    ":mdp" => $user->getMdp(),
-                    ":tel" => $user->getTel(),
-                ));
-        }
 
     }
 

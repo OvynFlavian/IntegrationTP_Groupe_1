@@ -162,8 +162,8 @@ function listeAmi() {
                 }
                 echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getEmail() . " </td><td> " . $tel . "</td><td> " . $user->getDateLastConnect() . "</td><td> " . $activity->getLibelle() . "</td>";
                 echo "<td><form class='form-horizontal col-sm-12' name='suppression' action='amis.page.php' method='post'>";
-                echo "<input type='hidden'  name='idAmi'  value='" . $user->getId() . "''>";
-                echo "<button class='btn btn-danger col-sm-8' type='submit' id='formulaire' name='supprimerAmi'>Supprimer cet ami</button>";
+                echo "<input type='hidden'  name='id'  value='" . $user->getId() . "''>";
+                echo "<button class='btn btn-danger col-sm-8' type='submit' id='formulaire' name='voirProfil'>Supprimer cet ami</button>";
                 echo "</tr>";
                 $existe = true;
             }

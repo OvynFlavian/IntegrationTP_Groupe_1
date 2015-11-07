@@ -10,14 +10,16 @@ require "../Library/Fonctions/Fonctions.php";
 initRequire();
 initRequireEntityManager();
 require "../Form/administration.form.php";
+require "../Library/Page/administration.lib.php";
+require "../Manager/User_ActivityManager.manager.php";
 
 $configIni = getConfigFile();
 startSession();
 $user = getSessionUser();
 $isConnect = isConnect();
 if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header("Location:../");
-$pdo = connexionDb();
-$um = new UserManager($pdo);
+
+
 ?>
 
 <!doctype html>
@@ -37,16 +39,15 @@ $um = new UserManager($pdo);
 <body>
 <header>
     <?php include("../Menu/menuGeneral.lib.php");?>
-    <aside class="col-md-2" style="max-width: 200px;">
-        <ul class="nav nav-pills nav-stacked">
-            <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="administration.page.php">Accueil admin</a></li>
-            <li <?php if(!empty($_GET) and $_GET['to'] == "editUser"){echo 'class="active"';}?>><a href="?to=editUser">Voir les utilisateurs</a></li>
-            <li <?php if(!empty($_GET) and $_GET['to'] == "viewConfig"){echo 'class="active"';}?>><a href="?to=viewConfig">Voir le fichier de config</a></li>
-            <li <?php if(!empty($_GET) and $_GET['to'] == "editConfig"){echo 'class="active"';}?>><a href="?to=editConfig">Édition fichier de config</a></li>
+    <aside class="col-md-2" style="max-width: 250px;">
+        <ul class="nav nav-pills nav-stacked" >
+            <li <?php if((empty($_GET) || (isset($_GET['to']) && $_GET['to'] == 'profil'))) {echo 'class="active"';}?>><a href="administration.page.php">Voir les utilisateurs</a></li>
+            <li <?php if(!empty($_GET) and $_GET['to'] == "viewConfig"){echo 'class="active"';}?>><a href="?to=viewConfig">Voir la configuration</a></li>
+            <li <?php if(!empty($_GET) and $_GET['to'] == "editConfig"){echo 'class="active"';}?>><a href="?to=editConfig">Éditer la configuration</a></li>
         </ul>
     </aside>
 </header>
-<section class="container">
+<section class="container" id="administration">
     <section class="jumbotron">
         <h1>Page d'administration</h1>
         <p></p>
@@ -57,15 +58,36 @@ $um = new UserManager($pdo);
     <section class="row">
         <article class="col-sm-12">
             <?php
-                if(isset($_GET['to']) and $_GET['to'] == "editConfig") administrationEditConfig();
+                if(isset($_GET['to']) and $_GET['to'] == "editConfig") {
+                    $message = modifConfig();
+                    administrationEditConfig();
+                    if ($message != NULL) {
+                        echo "<div class='col-sm-offset-4 col-sm-6'>";
+                        echo "<span class='error'> $message </span>";
+                        echo "</div>";
+                    }
+
+                }
                 else if(isset($_GET['to']) and $_GET['to'] == "viewConfig") administrationViewConfig();
-                else if(isset($_GET['to']) and $_GET['to'] == "editUser") administrationEditUser($um);
+                else if (isset($_GET['to']) and $_GET['to'] == 'modifGrade' ) {
+                    changerGrade();
+                }
+                else if(!isset($_GET['to'])) {
+                    if (isset($_POST['voirProfil'])) {
+                        $id = $_POST['idMembre'];
+                        voirProfil($id);
+                    } else if (isset($_POST['changerGrade'])) {
+                        modifGrade();
+                        echo "<h1 align='center'><span class='success'>Le grade de l'utilsateur a bien été changé !</span></h1>";
+                        echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
+
+                    } else {
+                        afficherMembres();
+                    }
+                }
             ?>
         </article>
     </section>
 </section>
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
-</footer>
 
 </body>

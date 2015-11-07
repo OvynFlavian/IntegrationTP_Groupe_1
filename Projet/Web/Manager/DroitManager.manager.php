@@ -33,4 +33,23 @@ class DroitManager {
             ":libelle" => $newLabel ,
         ));
     }
+
+    public function getAllDroit() {
+
+            $resultats = $this->db->query("SELECT * FROM droit");
+            $resultats->execute();
+
+            $tabDroit = $resultats->fetchAll(PDO::FETCH_ASSOC);
+
+            $tab = array();
+
+            foreach($tabDroit as $elem)
+            {
+                $tab[] = new Droit($elem);
+            }
+
+            return $tab;
+
+
+    }
 }

@@ -112,6 +112,7 @@ class User{
     {
         $this->DateLastConnect = $DateLastConnect;
     }
+
     public function setDroit(array $droit)
     {
         $this->droit = $droit;

@@ -20,22 +20,21 @@ $isConnect = isConnect();
 if(!$isConnect)header("Location:../index.php");
 
 $um = new UserManager(connexionDb());
-$user = $um->getUserById(getSessionUser()->getId());
+$user = getSessionUser();
 
 $configIni = getConfigFile();
 $isValidForm = array();
 $errorFormulaire = array();
 if(isPostFormulaire())
 {
-    $isValidForm = isValidForm();
+    $isValidForm = isValidForm($user);
     if($isValidForm['RETURN'])
     {
-        modifyProfil($user);
-        $errorFormulaire['SUCCES'] = "Modification réalisée avec succes";
+        $tab[0] = "<span class='success'>Modification réalisée avec succes </span>";
     }
     else
     {
-        $errorFormulaire = $isValidForm['ERROR'];
+        $tab = $isValidForm['ERROR'];
     }
 }
 ?>
@@ -55,32 +54,40 @@ if(isPostFormulaire())
 <body>
 <header>
     <?php include("../Menu/menuGeneral.lib.php");?>
-    <aside class="col-md-1">
+    <aside class="col-md-2" style="max-width: 200px;">
         <ul class="nav nav-pills nav-stacked">
-            <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="profil.page.php">View profil</a></li>
-            <li <?php if(!empty($_GET)){echo 'class="active"';}?>><a href="?to=edit">Edit profil</a></li>
+            <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="profil.page.php">Afficher mon profil</a></li>
+            <li <?php if(!empty($_GET)){echo 'class="active"';}?>><a href="?to=edit">Editer mon profil</a></li>
         </ul>
     </aside>
 </header>
 <section class="container">
     <section class="jumbotron">
         <h1>Page de gestion de profil</h1>
-        <p>Entrez les informations qui seront changées (les informations n'ayant pas été changées ne seront pas prises en compte)</p>
-    </section>
-    <section class="alert-dismissible">
-        <?php foreach($errorFormulaire as $toPrint){?>
-            <?php echo "<span class='alert-dismissable'>$toPrint</span>"?>
-        <?php }?>
+        <?php
+            if (!isset($_GET['to'])) {
+                echo "<p>Visionnez les informations relatives à votre compte</p>";
+            } else {
+                echo "<p>Entrez les informations qui seront changées (les informations n'ayant pas été changées ne seront pas prises en compte)</p>";
+            }
+        ?>
+
     </section>
     <section class="row">
         <article class="col-sm-12">
             <?php
-                if(isset($_GET['to']) and $_GET['to'] == "edit")editProfil($errorFormulaire);
-                else if(isset($_GET['to']) and $_GET['to'] == "viewProfilAdmin")
-                {
-                    viewProfilAdmin($um);
+                if(isset($_GET['to']) and $_GET['to'] == "edit") {
+                    editProfil();
+                    if (isset($tab)) {
+                        echo "<div class='col-sm-offset-4 col-sm-6'>";
+                        foreach ($tab as $elem) {
+                            echo  "<span class='error'>".$elem."</span><br>";
+                        }
+                        echo "</div>";
+                    }
                 }
-                else viewProfil();
+
+                else afficherProfil();
 
             ?>
         </article>

@@ -12,13 +12,46 @@ html body .container {
     border : 1px solid grey;
     border-radius : 10px;
 
+
 }
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
     color:black;
     background-color:#FFFFFF;
-    border : 1px solid black;
+    border : 1px solid grey;
+}
+#administration {
+    height : 101%;
+}
+.formProfil {
+    margin-left : 29em;
+}
+.formGrade {
+    margin : 10%;
+    margin-left : 30%;
+}
+.formGrade button {
+    margin-left : 10%;
+}
+.formGrade select {
+    margin-left : 20%;
+}
+.error{
+
+    color : red;
+    font-weight : bold;
 }
 
+.success{
+
+    color : green;
+    font-weight : bold;
+}
+.profil {
+    text-align : center;
+    border : 1px solid grey;
+    border-radius : 10px;
+
+}
 aside {
     border : 1px solid grey;
     margin : 1em;
@@ -32,7 +65,7 @@ aside {
 .jumbotron {
     margin-top : 1em;
     background-color : #EEEEEE;
-    border : 1px solid black;
+    border : 1px solid grey;
 
 
 }
