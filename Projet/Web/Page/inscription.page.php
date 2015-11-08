@@ -18,10 +18,12 @@
     if($isConnect)header("Location:../");
     if(isPostFormulaire() && isValidBis()['Retour']) {
         addDB();
+        $class = 'success';
         $tabRetour['Error'][] = "Votre inscription est effective";
 
     } else if (isPostFormulaire() and !isValidBis()['Retour']) {
         foreach (isValidBis()['Error'] as $elem) {
+            $class = 'danger';
             $tabRetour['Error'][] = $elem;
         }
     }
@@ -38,11 +40,6 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
-    <script type="text/javascript">
-        <?php
-            include("../Script/inscription.js");
-        ?>
-    </script>
 </head>
 <body>
 <header>
@@ -62,9 +59,13 @@
     </section>
     <?php if(isset($tabRetour['Error'])){?>
         <section class="alert-dismissible">
-            <?php foreach($tabRetour['Error'] as $error){?>
+            <?php
+            echo "<div class='alert alert-$class' role='alert'>";
+
+            foreach($tabRetour['Error'] as $error){?>
                 <p><?php echo $error?></p>
             <?php }?>
+            </div>
         </section>
     <?php }?>
 </section>

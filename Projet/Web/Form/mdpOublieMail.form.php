@@ -11,7 +11,7 @@
     <div class="form-group col-sm-12">
         <label class="col-sm-2" for="email">Email:</label>
         <div class="col-sm-10">
-            <input class="form-control" id="email" name='email' type='email' placeholder="Votre email">
+            <input class="form-control" id="email" name='email' type='email' placeholder="Votre email" required>
         </div>
 
     </div>

@@ -32,7 +32,7 @@ function proposerActivite($cat) {
             }
                 if (isConnect()) formSignalement($activity->getId(), $cat, $activity->getSignalee());
                 echo "<div class='activity'>";
-                if ($activity->getSignalee() == 1 ) echo "<h3 style='color:red; border:1px solid red; width:27%'> Activité déjà signalée </h3>";
+                if ($activity->getSignalee() == 1 ) echo "<h4 style='width:25%'><div class='alert alert-danger' role='alert'> Activité déjà signalée </div></h4>";
                 echo "<h1 style='text-align: center'>" . $activity->getLibelle() . "</h1>";
                 echo "<h2 style='text-align: center'>" . $activity->getDescription() . "</h2>";
                 if ($activity->getNote() == NULL) {
@@ -112,7 +112,7 @@ function reponseSignalement() {
                     $am = new ActivityManager(connexionDb());
                     $am->signalementActivity($id,0);
             }
-            echo "<h1 align='center'><span class='success' align='center'> L'activité a été $do avec succès ! </span></h1>";
+            echo "<div class='alert alert-success' role='alert'> L'activité a été $do avec succès ! </div>";
             echo "<meta http-equiv='refresh' content='1; URL=choisirCategorie.page.php'>";
         } else if (isset($_POST['refuserSignal'])) {
             header('Location: choisirCategorie.page.php');
@@ -146,7 +146,7 @@ function choixActivite($id, $cat) {
         $uam = new User_ActivityManager(connexionDb());
         $tab = $uam->getActIdByUserId($_SESSION['User']);
         if (isset($tab[0]['id_activity'])) {
-            echo "<h2 align='center'> Vous avez déjà une activité,<a href='proposerActivite.page.php?categorie=$cat&activite=$id&to=modif'> cliquez ici pour la remplacer</a> </h2>";
+            echo "<h2 align='center'><div class='alert alert-warning' role='alert'> Vous avez déjà une activité,<a href='proposerActivite.page.php?categorie=$cat&activite=$id&to=modif'> cliquez ici pour la remplacer</a> </div></h2>";
         } else {
             $act = new Activity(array(
                 "id" => $id,

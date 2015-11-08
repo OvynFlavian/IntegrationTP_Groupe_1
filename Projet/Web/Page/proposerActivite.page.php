@@ -94,11 +94,11 @@ $configIni = getConfigFile();
                         }
                     }
                 } else {
-                    echo "<h1 align='center' class='error'>Votre catégorie est fausse, cliquez sur un des boutons proposés !</h1>";
+                    echo "<div class='alert alert-danger' role='alert'>Votre catégorie est fausse, cliquez sur un des boutons proposés !</div>";
                     echo "<meta http-equiv='refresh' content='1; URL=choisirCategorie.page.php'>";
                 }
             } else {
-                echo "<h1 align='center' class='error'>Vous n'avez pas de catégorie !</h1>";
+                echo "<div class='alert alert-danger' role='alert'>Vous n'avez pas de catégorie !</div>";
                 echo "<meta http-equiv='refresh' content='1; URL=choisirCategorie.page.php'>";
 
             }

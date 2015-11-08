@@ -21,7 +21,7 @@
             <tr class="form-group">
                 <td class="col-sm-2"><label style="font-weight: normal" for="mdp"> Votre mot de passe administrateur : </label></td>
                 <td class="col-sm-10">
-                    <input type="text" class="form-control" id="mdp" name="mdp" placeholder="Rentrez votre mot de passe ici"required> <br>
+                    <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Rentrez votre mot de passe ici"required> <br>
                 </td>
             </tr>
         </table>

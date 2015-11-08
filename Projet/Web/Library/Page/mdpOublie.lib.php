@@ -27,7 +27,7 @@ use \Entity\Activation as Activation;
           $um = new UserManager(connexionDb());
           $userToSend = $um->getUserByEmail($email);
           $inconnu = false;
-          if (empty($userToSend->getId())) {
+          if ($userToSend->getId() == NULL) {
               $inconnu = true;
           }
 
@@ -43,7 +43,7 @@ use \Entity\Activation as Activation;
               $message = "Nous confirmons que vous avez bien demandé un nouveau mot de passe : <br>
 							Votre lien pour pouvoir le modifier est : <a href='www.everydayidea/mdpOublie.php?code=" . $code_aleatoire . "'>www.everydayidea/mdpOublie.php?code=" . $code_aleatoire . "</a>";
               mail($to, $sujet, $message, $entete);
-              echo "Un mail vous a été envoyé avec un code d'activation pour le changement de votre mot de passe !";
+              echo "<div class='alert alert-success' role='alert'>Un mail vous a été envoyé avec un code d'activation pour le changement de votre mot de passe !</div>";
 
               $am = new ActivationManager(connexionDb());
               $ac = new Activation(array(
@@ -61,7 +61,7 @@ use \Entity\Activation as Activation;
 
               $actDelete = $am->getActivationByLibelleAndId('Récupération',$userToSend->getId());
 
-              if (!empty($actDelete->getCode()))
+              if ($actDelete->getCode() == NULL)
               {
                   $am->deleteActivationByIdAndLibelle($actDelete->getIdUser(), 'Récupération');
               }
@@ -81,13 +81,13 @@ use \Entity\Activation as Activation;
             $am = new ActivationManager(connexionDb());
             $ac = $am->getActivationByCodeAndLibelle("Récupération", $code);
 
-            if (empty($ac->getCode())) {
+            if ($ac->getCode() == NULL) {
                 $wrongCode = true;
             }
 
             if ($wrongCode) {
-                echo "Votre code n'est pas correct, cliquez bien sur le mail envoyé à cet effet ! <br>";
-                #TODO Ajoutez une redirection vers l'accueil
+                echo "<div class='alert alert-danger' role='alert'> Votre code n'est pas correct, cliquez bien sur le mail envoyé à cet effet ! <br>";
+                echo "<meta http-equiv='refresh' content='1; URL=../'>";
                 return false;
             } else {
                 return true;
@@ -109,7 +109,7 @@ use \Entity\Activation as Activation;
             echo "<div class='form-group col-sm-12'><div class='col-sm-10'><button type='submit' class='btn btn-default'>Soumettre</button></div></div> ";
             echo "</form>";
         } else {
-            echo "Revenez avec un code correct ! <br>";
+            echo " Revenez avec un code correct ! </div><br>";
         }
     }
 
@@ -142,7 +142,7 @@ use \Entity\Activation as Activation;
             if ($userTest->getUserName() != $userRecup->getUserName() ) {
 
 
-                echo "Votre nom d'utilisateur ne correspond pas à l'utilisateur possédant ce code d'activation !";
+                echo "<div class='alert alert-danger' role='alert'>Votre nom d'utilisateur ne correspond pas à l'utilisateur possédant ce code d'activation !</div>";
 
 
             } else {
@@ -150,7 +150,8 @@ use \Entity\Activation as Activation;
                 $userRecup -> setMdp($mdp);
                 $am->deleteActivation($ac);
                 $um->updateUserMdp($userRecup);
-                echo "Votre mot de passe a bien été modifié, vous pouvez vous connecter !";
+                echo "<div class='alert alert-danger' role='success'>Votre mot de passe a bien été modifié, vous pouvez vous connecter !</div>";
+                echo "<meta http-equiv='refresh' content='1; URL=connexion.page.php'>";
 
             }
         }

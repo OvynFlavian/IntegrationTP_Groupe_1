@@ -225,7 +225,7 @@ function gererReponseSup() {
     if (isset($_POST['AccepterSup'])) {
         $id = $_POST['idAmi'];
         supprimerAmi($id);
-        echo "<h2 align='center'>Cet ami ne fait dorénavant plus partie de votre liste d'amis !</h2>";
+        echo "<h2 align='center'><div class='alert alert-danger' role='alert'>Cet ami ne fait dorénavant plus partie de votre liste d'amis !</div></h2>";
         echo "<meta http-equiv='refresh' content='1; URL=amis.page.php'>";
     } else if (isset($_POST['RefuserSup'])) {
         header("Location:amis.page.php");
@@ -278,7 +278,7 @@ function choixActivite($id) {
         $uam = new User_ActivityManager(connexionDb());
         $tab = $uam->getActIdByUserId($_SESSION['User']);
         if (isset($tab[0]['id_activity'])) {
-            echo "<h2 align='center'> Vous avez déjà une activité,<a href='amis.page.php?to=modifAct&id=$id&func=replace'> cliquez ici pour la remplacer</a>  </h2>";
+            echo "<br><br><h2 align='center'> <div class='alert alert-warning' role='alert'>Vous avez déjà une activité,<a href='amis.page.php?to=modifAct&id=$id&func=replace'> cliquez ici pour la remplacer</a> </div> </h2>";
         } else {
             $act = new Activity(array(
                 "id" => $id,

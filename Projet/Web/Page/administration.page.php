@@ -73,7 +73,7 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                     $message = modifConfig();
                     administrationEditConfig();
                     if ($message != NULL) {
-                        echo "<div class='col-sm-offset-4 col-sm-6'>";
+                        echo "<div class='col-sm-offset-3 col-sm-6'>";
                         echo "<span class='error'> $message </span>";
                         echo "</div>";
                     }
@@ -92,7 +92,7 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                 else if(!isset($_GET['to'])) {
                     if (isset($_POST['changerGrade'])) {
                         modifGrade();
-                        echo "<h1 align='center'><span class='success'>Le grade de l'utilisateur a bien été changé !</span></h1>";
+                        echo "<h1 align='center'><div class='alert alert-success' role='alert'>Le grade de l'utilisateur a bien été changé !</div></h1>";
                         echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
 
 

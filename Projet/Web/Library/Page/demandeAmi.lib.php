@@ -12,7 +12,7 @@ function gererDemande() {
 
         if (isset($_POST['Accepter'])) {
             ajoutDemande();
-            return "Votre demande a bien été envoyée à l'utilisateur concerné !";
+            return "<div class='alert alert-success' role='alert'>Votre demande a bien été envoyée à l'utilisateur concerné !</div>";
         } else if (isset($_POST['Refuser'])) {
             return "Erreur";
         }

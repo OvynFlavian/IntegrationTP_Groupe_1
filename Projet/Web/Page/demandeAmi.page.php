@@ -30,7 +30,7 @@ if ($id == $_SESSION['User']->getId()) {
 $existe = false;
     if (verifDejaExistant()) {
         $existe = true;
-        $message = "<h1 align='center'>Votre demande d'amis existe déjà, vérifier dans l'onglet amis !</h1>";
+        $message = "<div class='alert alert-danger' role='alert'>Votre demande d'amis existe déjà, vérifier dans l'onglet amis !</div>";
     } else {
         if (isset($_POST['Accepter']) || isset($_POST['Refuser'])) {
             $message = gererDemande();

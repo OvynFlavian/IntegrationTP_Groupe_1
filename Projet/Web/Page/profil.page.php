@@ -30,10 +30,12 @@ if(isPostFormulaire())
     $isValidForm = isValidForm($user);
     if($isValidForm['RETURN'])
     {
-        $tab[0] = "<span class='success'>Modification réalisée avec succes </span>";
+        $class='success';
+        $tab[0] = "Modification réalisée avec succes";
     }
     else
     {
+        $class = 'danger';
         $tab = $isValidForm['ERROR'];
     }
 }
@@ -75,14 +77,18 @@ if(isPostFormulaire())
     </section>
     <section class="row">
         <article class="col-sm-12">
+
+
             <?php
                 if(isset($_GET['to']) and $_GET['to'] == "edit") {
                     editProfil();
                     if (isset($tab)) {
-                        echo "<div class='col-sm-offset-4 col-sm-6'>";
+                        echo "<div class='col-sm-offset-3 col-sm-5'>";
+                        echo "<div class='alert alert-$class' role='alert'>";
                         foreach ($tab as $elem) {
-                            echo  "<span class='error'>".$elem."</span><br>";
+                            echo  "".$elem."<br>";
                         }
+                        echo "</div>";
                         echo "</div>";
                     }
                 }
@@ -90,6 +96,7 @@ if(isPostFormulaire())
                 else afficherProfil();
 
             ?>
+
         </article>
     </section>
 </section>

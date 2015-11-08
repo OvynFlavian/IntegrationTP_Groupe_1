@@ -164,7 +164,7 @@ function modifConfig()
 
         } else {
 
-            return "Votre password actuel est faux, rééssayez !";
+            return "<div class='alert alert-danger' role='alert'> Votre password actuel est faux, rééssayez ! </div>";
 
         }
 

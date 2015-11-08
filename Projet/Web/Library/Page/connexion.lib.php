@@ -56,9 +56,9 @@ function doConnect()
     }
 
     if ($echec == true)
-        $tabRetour['Error'] = "Erreur lors de la connexion, veuillez rééssayer avec le bon login ou mot de passe !";
+        $tabRetour['Error'] = "<div class='alert alert-danger' role='alert'>Erreur lors de la connexion, veuillez rééssayer avec le bon login ou mot de passe !</div>";
     else if ($needActi == true)
-        $tabRetour['Activation'] = "Vous devez activer votre compte avant la connexion !";
+        $tabRetour['Activation'] = "<div class='alert alert-danger' role='alert'>Vous devez activer votre compte avant la connexion !</div>";
     else {
         $user = $manager->getUserById($id);
         $manager->updateUserConnect($user);
