@@ -97,7 +97,7 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 
 
                     } else  {
-                    $tab = afficherMembres();
+                     afficherMembres();
                     }
                 } else {
                     header("Location:../");

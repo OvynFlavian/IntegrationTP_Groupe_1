@@ -36,7 +36,7 @@ function afficherMembres() {
         </table>
     </div>
     <?php
-    return $tab;
+
 }
 
 function checkMembre() {

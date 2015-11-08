@@ -43,7 +43,7 @@ $configIni = getConfigFile();
 <header>
     <?php include("../Menu/menuGeneral.lib.php") ?>
     <aside class="col-md-2" style="max-width: 200px;">
-        <ul class="nav nav-pills nav-stacked">
+        <ul class="nav nav-pills nav-stacked red">
             <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="amis.page.php">Liste de mes amis</a></li>
             <li <?php if(!empty($_GET) and $_GET['to'] == "friendList"){echo 'class="active"';}?>><a href="?to=friendList">Voir mes demandes</a></li>
 
@@ -58,15 +58,18 @@ $configIni = getConfigFile();
     <section class="row">
         <?php
         if(empty($_GET)) {
-            if (isset($_POST['supprimerAmi'])) {
-                gererSuppression();
+            $id = gererPost();
+            if (isset($_POST['supprimerAmi'.$id.''])) {
+                gererSuppression($id);
             } else if (isset($_POST['AccepterSup']) || isset($_POST['RefuserSup'])) {
                 gererReponseSup();
             } else {
                 listeAmi();
             }
         }
-        else if(isset($_GET['to']) and $_GET['to'] == "friendList") demande();
+        else if(isset($_GET['to']) and $_GET['to'] == "friendList") {
+            demande();
+        }
         else if (isset($_GET['to']) and $_GET['to'] == "modifAct") {
             if (verifIdAct()) {
                 if (isset($_GET['func']) && $_GET['func']=="replace") {

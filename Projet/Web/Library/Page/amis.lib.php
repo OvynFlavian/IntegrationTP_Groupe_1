@@ -27,11 +27,12 @@ function getDemandeToMe() {
         foreach ($tab as $elem) {
             if ($elem->getAccepte() == 0) {
                 $user = $um->getUserById($elem->getIdUser1());
+                $id = $user->getId();
                 echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $elem->getDate() . " </td><td>";
-                echo "<form class='form-horizontal col-sm-12' name='activite' action='amis.page.php?to=friendList' method='post'>";
-                echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='Accepter'>Accepter</button>";
-                echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='Refuser'>Refuser</button>";
-                echo "<input type='hidden'  name='idMembre'  value='" . $user->getId() . "''>";
+                echo "<form class='form-horizontal col-sm-12' name='accepter$id' action='amis.page.php?to=friendList' method='post'>";
+                echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='Accepter$id'>Accepter</button>";
+                echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='Refuser$id'>Refuser</button>";
+                echo "<input type='hidden'  name='idMembre$id'  value='" . $id . "''>";
                 echo "</form>";
                 echo "</td></tr>";
                 $existe = false;
@@ -78,27 +79,44 @@ function getDemandeToThem() {
 <?php
 }
 ?>
-
+<?php
+function gererDemande() {
+    $um = new UserManager(connexionDb());
+    $tabUser = $um->getAllUser();
+    $trueId = 0;
+    foreach ($tabUser as $elem) {
+        $id = $elem->getId();
+        if (isset($_POST['Accepter'.$id.''])){
+            $trueId = $id;
+        } else if (isset($_POST['Refuser'.$id.''])) {
+            $trueId = $id;
+        }
+    }
+    return $trueId;
+}
+?>
 <?php
 function gererValidation()
 {
-    if (isset($_POST['Accepter']) || isset($_POST['Refuser'])) {
+    $id = gererDemande();
+    if (isset($_POST['Accepter'.$id.'']) || isset($_POST['Refuser'.$id.''])) {
         $am = new AmisManager(connexionDb());
-        $idAmi = $_POST['idMembre'];
+        $idAmi = $_POST['idMembre'.$id.''];
         $demande = new Amis(array(
             "id_user_1" => $idAmi,
             "id_user_2" => $_SESSION['User']->getId(),
             "accepte" => 1,
         ));
 
-        if (isset($_POST['Accepter'])) {
+        if (isset($_POST['Accepter'.$id.''])) {
             $am->updateAmisAccepte($demande);
 
-        } else if (isset($_POST['Refuser'])) {
+        } else if (isset($_POST['Refuser'.$id.''])) {
             $am->deleteAmis($demande);
         }
     }
 }
+
 
 function verifIdAct() {
     if (isset($_GET['id'])) {
@@ -160,10 +178,12 @@ function listeAmi() {
                 } else {
                     $tel = $user->getTel();
                 }
+                $id = $user->getId();
                 echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getEmail() . " </td><td> " . $tel . "</td><td> " . $user->getDateLastConnect() . "</td><td> " . $activity->getLibelle() . "</td>";
-                echo "<td><form class='form-horizontal col-sm-12' name='suppression' action='amis.page.php' method='post'>";
-                echo "<input type='hidden'  name='id'  value='" . $user->getId() . "''>";
-                echo "<button class='btn btn-danger col-sm-8' type='submit' id='formulaire' name='voirProfil'>Supprimer cet ami</button></td>";
+                echo "<td><form class='form-horizontal col-sm-12' name='suppression$id' action='amis.page.php' method='post'>";
+                echo "<input type='hidden'  name='idAmi$id'  value='" . $id . "''>";
+                echo "<button class='btn btn-danger col-sm-8' type='submit' id='formulaire' name='supprimerAmi$id'>Supprimer cet ami</button></td>";
+
                 echo "</tr>";
                 $existe = true;
             }
@@ -177,11 +197,24 @@ function listeAmi() {
     </div>
     <?php
 }
-function gererSuppression() {
-    if (isset($_POST['supprimerAmi'])) {
+
+function gererPost() {
+    $um = new UserManager(connexionDb());
+    $tabUser = $um->getAllUser();
+    $trueId = 0;
+    foreach ($tabUser as $elem) {
+        $id = $elem->getId();
+        if (isset($_POST['supprimerAmi'.$id.''])){
+            $trueId = $id;
+        }
+    }
+    return $trueId;
+}
+function gererSuppression($id) {
+    if (isset($_POST['supprimerAmi'.$id.''])) {
         echo "<form class='form-horizontal col-sm-12' name='verifSupr' action='amis.page.php' method='post'>";
         echo "<h1 align='center'> Voulez-vous vraiment supprimer cet ami ? C'est irréversible !</h1><br>";
-        echo "<input type='hidden'  name='idAmi'  value='" . $_POST['idAmi'] . "''>";
+        echo "<input type='hidden'  name='idAmi'  value='" . $_POST['idAmi'.$id.''] . "''>";
         echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='AccepterSup'>Oui, je veux supprimer cet ami !</button>";
         echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='RefuserSup'>Je me suis trompé !</button>";
         echo "</form>";
