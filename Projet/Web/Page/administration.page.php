@@ -96,7 +96,12 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                         echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
 
 
-                    } else  {
+                    } else  if (isset($_POST['EnvoyerMess'])) {
+                        formEnvoiMessage();
+                    } else if (isset($_POST['formulaireEnvoi'])) {
+                        echo envoiMessage();
+                        echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
+                    }else {
                      afficherMembres();
                     }
                 } else {

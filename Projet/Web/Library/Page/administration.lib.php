@@ -85,12 +85,35 @@ function voirProfil($id) {
     echo "<div class='formProfil'>";
     echo "<form class='form-horizontal col-sm-8' name='choixAdmin' action='administration.page.php' method='post'>";
     echo "<input type='hidden'  name='idUser'  value='" . $user->getId() . "''>";
+    echo "<input type='hidden'  name='nameUser'  value='" . $user->getUserName() . "''>";
     echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='EnvoyerMess'>Envoyer un message</button>";
     echo "</form>";
     echo "</div>";
     echo "<div class='formGrade'>";
         formGrade($user);
     echo "</div>";
+}
+
+function formEnvoiMessage() {
+    if (isset($_POST['EnvoyerMess'])) {
+        $id = $_POST['idUser'];
+        $name = $_POST['nameUser'];
+        include "../Form/envoiMessageAdmin.form.php";
+    }
+}
+function envoiMessage() {
+    if (isset($_POST['formulaireEnvoi'])) {
+        $id = $_POST['idUserMess'];
+        $um = new UserManager(connexionDb());
+        $userToSend = $um->getUserById($id);
+        $adresseAdmin = "andrewblake@hotmail.fr";
+        $to = $userToSend->getEmail();
+        $sujet = $_POST['titre'];
+        $entete = "From:" . $adresseAdmin . "\r\n";
+        $message = $_POST['description'];
+        mail($to, $sujet, $message, $entete);
+        return "<div class='alert alert-success' role='alert'> Message envoyé à l'utilisateur concerné ! </div>";
+    }
 }
 
 function formGrade(User $user) {
