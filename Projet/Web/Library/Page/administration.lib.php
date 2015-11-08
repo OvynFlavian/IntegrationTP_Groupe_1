@@ -6,7 +6,7 @@
  * Time: 11:26
  */
 use \Entity\Activity as Activity;
-
+use \Entity\User as User;
 
 function afficherMembres() {
     $um = new UserManager(connexionDb());
@@ -19,17 +19,14 @@ function afficherMembres() {
                 <th> Nom d'utilisateur</th>
                 <th> Dernière connexion</th>
                 <th> Date d'inscription</th>
-                <th> Voir le profil</th>
+                <th> Action</th>
             </tr>
             <?php
             foreach ($tab as $elem) {
                 $id = $elem->getId();
                 if ($id != $_SESSION['User']->getId()) {
                     echo "<tr> <td>" . $elem->getUserName() . " </td><td>" . $elem->getDateLastConnect() . "</td><td>" . $elem->getDateInscription() . "</td>";
-                    echo "<td><form class='form-horizontal col-sm-12' name='voirProfil' action='administration.page.php' method='post'>";
-                    echo "<input type='hidden'  name='idMembre'  value='" . $id . "''>";
-                    echo "<button class='btn btn-success col-sm-8' type='submit' id='formulaire' name='voirProfil'>Voir le profil</button>";
-                    echo "</tr>";
+                    echo "<td><a href='administration.page.php?to=voirProfil&membre=$id'> Voir le profil </a></td></tr>";
                 }
             }
             if ($tab == NULL) {
@@ -39,6 +36,18 @@ function afficherMembres() {
         </table>
     </div>
     <?php
+    return $tab;
+}
+
+function checkMembre() {
+    $id = $_GET['membre'];
+    $um = new UserManager(connexionDb());
+    $user = $um->getUserById($id);
+    if ($user->getUserName() == NULL) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function voirProfil($id) {
@@ -74,28 +83,38 @@ function voirProfil($id) {
     echo " <b>Sa date d'inscription : </b> ".$user->getDateInscription()."<br><br>";
     echo "</div><br><br>";
     echo "<div class='formProfil'>";
-    echo "<form class='form-horizontal col-sm-12' name='choixAdmin' action='administration.page.php' method='post'>";
+    echo "<form class='form-horizontal col-sm-8' name='choixAdmin' action='administration.page.php' method='post'>";
     echo "<input type='hidden'  name='idUser'  value='" . $user->getId() . "''>";
     echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='EnvoyerMess'>Envoyer un message</button>";
     echo "</form>";
     echo "</div>";
     echo "<div class='formGrade'>";
-        formGrade($user->getId());
+        formGrade($user);
     echo "</div>";
 }
 
-function formGrade($id) {
+function formGrade(User $user) {
     $dm = new DroitManager(connexionDb());
     $tabDroit = $dm->getAllDroit();
     echo "<h1> Modifier le grade de l'utilisateur </h1><br>";
     echo "<form class='form-horizontal col-sm-12' name='changerGrade' action='administration.page.php' method='post'>";
     echo "<select name='grade' id='grade'>";
     foreach($tabDroit as $elem) {
-        if ($elem->getId() != 1 && $elem->getId() != 5)
-        echo "<option value='". $elem->getId() ."'>". $elem->getLibelle() ."</option>";
+        if ($elem->getId() != 1 && $elem->getId() != 5) {
+           if ($elem->getId() == $user->getDroit()[0]->getId()) {
+               echo "<option value='". $elem->getId() ."' selected>". $elem->getLibelle() ."</option>";
+
+           } else {
+               echo "<option value='". $elem->getId() ."'>". $elem->getLibelle() ."</option>";
+           }
+        }
+
+
+
     }
+
     echo "</select>";
-    echo "<input type='hidden'  name='idUserGrade'  value='" . $id . "''>";
+    echo "<input type='hidden'  name='idUserGrade'  value='" . $user->getId() . "''>";
     echo "<br><br>";
     echo "<button class='btn btn-success col-sm-4' type='submit' id='formulaire' name='changerGrade'>Changer le grade</button>";
 

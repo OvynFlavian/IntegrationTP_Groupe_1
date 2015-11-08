@@ -80,19 +80,24 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 
                 }
                 else if(isset($_GET['to']) and $_GET['to'] == "viewConfig") administrationViewConfig();
-
-                else if(!isset($_GET['to'])) {
-                    if (isset($_POST['voirProfil'])) {
-                        $id = $_POST['idMembre'];
+                else if (isset($_GET['to']) && $_GET['to'] == "voirProfil") {
+                    if (checkMembre()) {
+                        $id = $_GET['membre'];
                         voirProfil($id);
-                    } else if (isset($_POST['changerGrade'])) {
+                    } else {
+                        header("Location:../");
+                    }
+
+                }
+                else if(!isset($_GET['to'])) {
+                    if (isset($_POST['changerGrade'])) {
                         modifGrade();
-                        echo "<h1 align='center'><span class='success'>Le grade de l'utilsateur a bien été changé !</span></h1>";
+                        echo "<h1 align='center'><span class='success'>Le grade de l'utilisateur a bien été changé !</span></h1>";
                         echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
 
-                    }
-                    else  {
-                        afficherMembres();
+
+                    } else  {
+                    $tab = afficherMembres();
                     }
                 } else {
                     header("Location:../");
