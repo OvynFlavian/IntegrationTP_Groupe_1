@@ -74,7 +74,7 @@ function voirProfil($id) {
     echo " <b>Sa date d'inscription : </b> ".$user->getDateInscription()."<br><br>";
     echo "</div><br><br>";
     echo "<div class='formProfil'>";
-    echo "<form class='form-horizontal col-sm-8' name='choixAdmin' action='administration.page.php' method='post'>";
+    echo "<form class='form-horizontal col-sm-12' name='choixAdmin' action='administration.page.php' method='post'>";
     echo "<input type='hidden'  name='idUser'  value='" . $user->getId() . "''>";
     echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='EnvoyerMess'>Envoyer un message</button>";
     echo "</form>";

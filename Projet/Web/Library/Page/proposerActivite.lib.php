@@ -30,6 +30,9 @@ function proposerActivite($cat) {
 
                 $activity = $am->getActivityById($id);
             }
+                if (isConnect()) formSignalement($activity->getId(), $cat, $activity->getSignalee());
+                echo "<div class='activity'>";
+                if ($activity->getSignalee() == 1 ) echo "<h3 style='color:red; border:1px solid red; width:27%'> Activité déjà signalée </h3>";
                 echo "<h1 style='text-align: center'>" . $activity->getLibelle() . "</h1>";
                 echo "<h2 style='text-align: center'>" . $activity->getDescription() . "</h2>";
                 if ($activity->getNote() == NULL) {
@@ -39,8 +42,82 @@ function proposerActivite($cat) {
                 }
 
                 include "../Form/proposerActivite.form.php";
+                echo "</div>";
                 return $id;
 
+}
+
+function formSignalement($id, $cat, $signalee) {
+
+    echo "<form class='form-horizontal col-sm-12' name='formSignalement' action='proposerActivite.page.php?categorie=$cat&activite=$id&to=signaler' method='post'>";
+    echo "<input type='hidden'  name='idAct'  value='" . $id . "''>";
+    if ($signalee == 0) {
+        echo "<button class='btn btn-danger col-sm-2' type='submit' id='formulaire' name='signaler'>Signaler cette activité</button>";
+    } else {
+        if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2)
+        echo "<button class='btn btn-success col-sm-2' type='submit' id='formulaire' name='designaler'>Enlever le signalement</button>";
+    }
+    if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2)
+    echo "<button class='btn btn-danger col-sm-2' type='submit' id='formulaire' name='supprimer'>Supprimer cette activité</button>";
+    echo "</form>";
+
+}
+
+function gererSignalement() {
+    if (isset($_POST['supprimer']) || isset($_POST['signaler']) || isset($_POST['designaler'])) {
+        $do = '';
+        if (isset($_POST['supprimer'])) {
+            $do = 'supprimer';
+        } else if (isset($_POST['signaler'])) {
+            $do = 'signaler';
+        } else if (isset($_POST['designaler'])) {
+            $do = 'enlever le signalement de ';
+        }
+
+        $cat = $_GET['categorie'];
+        $id = $_GET['activite'];
+        echo "<div align='center'>";
+        echo "<form class='form-horizontal col-sm-12' name='gererSignalement' action='proposerActivite.page.php?categorie=$cat&activite=$id&to=signaler' method='post'>";
+        echo "<h1 align='center'>Êtes-vous sûr de vouloir $do l'activité ?</h1><br><br>";
+        echo "<input type='hidden'  name='idActivity'  value='" . $id . "''>";
+        echo "<input type='hidden' name='reason' value='" . $do . "'>";
+        echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='accepterSignal'>Oui, je suis sûr</button>";
+        echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='refuserSignal'>Je me suis trompé</button>";
+        echo "</form>";
+        echo "</div>";
+    }
+
+
+}
+
+function reponseSignalement() {
+    if (isset($_POST['accepterSignal']) || isset($_POST['refuserSignal'])) {
+        $do = $_POST['reason'];
+        $id = $_POST['idActivity'];
+        $cam = new Categorie_ActivityManager(connexionDb());
+        $am = new ActivityManager(connexionDb());
+        $uam = new User_ActivityManager(connexionDb());
+        if (isset($_POST['accepterSignal'])) {
+            if ($do == 'supprimer') {
+                $do = 'supprimée';
+                $cam->deleteFromTable($id);
+                $uam->deleteActivity($id);
+                $am->deleteActivity($id);
+
+            } else if ($do == 'signaler') {
+                $do = 'signalée';
+                $am->signalementActivity($id, 1);
+            } else if ($do == 'enlever le signalement de ') {
+                    $do = 'désignalée';
+                    $am = new ActivityManager(connexionDb());
+                    $am->signalementActivity($id,0);
+            }
+            echo "<h1 align='center'><span class='success' align='center'> L'activité a été $do avec succès ! </span></h1>";
+            echo "<meta http-equiv='refresh' content='1; URL=choisirCategorie.page.php'>";
+        } else if (isset($_POST['refuserSignal'])) {
+            header('Location: choisirCategorie.page.php');
+        }
+    }
 }
 function verifCat($cat) {
     $cm = new CategorieManager(connexionDb());

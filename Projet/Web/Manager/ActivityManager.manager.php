@@ -92,4 +92,26 @@ class ActivityManager {
             ":desc" => $act->getDescription(),
         ));
     }
+
+    public function deleteActivity($id)
+    {
+        $query = $this
+            ->db
+            ->prepare("DELETE FROM activity where id = :id");
+
+        $query->execute(array(
+            ":id" => $id,
+
+        ));
+    }
+    public function signalementActivity($id, $signalement)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE activity SET Signalee = :signalement WHERE id = :id");
+        $query->execute(array(
+            ":id" => $id,
+            ":signalement" => $signalement,
+        ));
+    }
 }

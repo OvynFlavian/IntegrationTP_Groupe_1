@@ -60,7 +60,7 @@ $configIni = getConfigFile();
                        $am = new ActivityManager(connexionDb());
 
                        if (!isset($tab[0]['id_activity'])) {
-                           echo "Vous n'avez pas encore choisi d'activité aujourd'hui ! <a href='Page/choisirCategorie.page.php'>Choississez-en une</a> !";
+                           echo "Vous n'avez pas encore choisi d'activité aujourd'hui ! <a href='Page/choisirCategorie.page.php'><b>Choississez-en une</b></a> !";
                        } else {
                            $act = $am->getActivityById($tab[0]['id_activity']);
                            echo "<p>Votre activité choisie du jour est <h3>".$act->getLibelle()."</h3></p>";
