@@ -93,14 +93,14 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                     if (isset($_POST['changerGrade'])) {
                         modifGrade();
                         echo "<h1 align='center'><div class='alert alert-success' role='alert'>Le grade de l'utilisateur a bien été changé !</div></h1>";
-                        echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
+                        echo "<meta http-equiv='refresh' content='2; URL=administration.page.php'>";
 
 
                     } else  if (isset($_POST['EnvoyerMess'])) {
                         formEnvoiMessage();
                     } else if (isset($_POST['formulaireEnvoi'])) {
                         echo envoiMessage();
-                        echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
+                        echo "<meta http-equiv='refresh' content='2; URL=administration.page.php'>";
                     }else {
                      afficherMembres();
                     }

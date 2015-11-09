@@ -23,7 +23,7 @@ if($isConnect)
 if(isPostFormulaire())
 {
     $tabRetour = doConnect();
-    if($tabRetour['Retour']&& $tabRetour['Valide'])header("Location:../");
+    if($tabRetour['Retour']&& $tabRetour['Valide'] && $tabRetour['Banni'])header("Location:../");
 }
 $configIni = getConfigFile();
 ?>

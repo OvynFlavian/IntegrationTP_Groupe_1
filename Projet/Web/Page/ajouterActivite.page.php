@@ -61,7 +61,7 @@ $configIni = getConfigFile();
             echo "<div class='alert alert-danger' role='alert'>".$tabRetour['Error']."</div>";
         } else if (isset($tabRetour['Ok'])) {
             echo "<div class='alert alert-success' role='alert'>".$tabRetour['Ok']."</div>";
-            echo "<meta http-equiv='refresh' content='1; URL=../'>";
+            echo "<meta http-equiv='refresh' content='2; URL=../'>";
         }
         ?>
         </section>

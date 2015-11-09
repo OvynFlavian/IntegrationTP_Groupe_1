@@ -22,7 +22,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default" name="formulaire" id="formulaire">Submit</button>
+            <button type="submit" class="btn btn-default" name="formulaire" id="formulaire">Se Connecter</button>
             <a href="./mdpOublie.page.php"> Mot de passe oublié ? </a>
         </div>
     </div>

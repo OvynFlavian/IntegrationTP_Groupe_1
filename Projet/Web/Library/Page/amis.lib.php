@@ -179,12 +179,12 @@ function listeAmi() {
                     $tel = $user->getTel();
                 }
                 $id = $user->getId();
-                echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getEmail() . " </td><td> " . $tel . "</td><td> " . $user->getDateLastConnect() . "</td><td> " . $activity->getLibelle() . "</td>";
+                echo "<tr><td>" . $user->getUserName() . " </td><td>" . $user->getEmail() . " </td><td> " . $tel . "</td><td> " . $user->getDateLastConnect() . "</td><td> " . $activity->getLibelle() . "</td>";
                 echo "<td><form class='form-horizontal col-sm-12' name='suppression$id' action='amis.page.php' method='post'>";
                 echo "<input type='hidden'  name='idAmi$id'  value='" . $id . "''>";
-                echo "<button class='btn btn-danger col-sm-8' type='submit' id='formulaire' name='supprimerAmi$id'>Supprimer cet ami</button></td>";
-
-                echo "</tr>";
+                echo "<button class='btn btn-danger col-sm-9' type='submit' id='formulaire' name='supprimerAmi$id'>Supprimer cet ami</button>";
+                echo "</form>";
+                echo "</td></tr>";
                 $existe = true;
             }
         }
