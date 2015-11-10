@@ -7,12 +7,29 @@ html body .container {
     left: 0;
 
 }
+body {
+    padding-bottom : 70px;
+}
 .container {
     background-color : #FFFFFF;
-    border : 1px solid grey;
     border-radius : 10px;
 
 
+}
+.activityIndex {
+    border : 1px solid lightgrey;
+    text-align : center;
+    border-radius : 10px;
+}
+#info {
+    text-align : center;
+}
+.media-body {
+    padding-left : 3em;
+}
+
+.media {
+    padding-top : 4em;
 }
 .activity {
     padding : 5em;
@@ -81,7 +98,6 @@ table caption {
     text-align : center;
 }
 html {
-    background-color :#BBDEFB ;
     color : black;
 }
 .marge {
@@ -89,6 +105,7 @@ html {
 }
 .navbar-fixed-bottom {
     background-color : #EEEEEE;
+    height : 35px;
 }
 .navbar-default {
     background-color:#EEEEEE;
