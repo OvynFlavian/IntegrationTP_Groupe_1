@@ -32,7 +32,7 @@ function doConnect()
         //password_verify($mdp, $elem->getMdp())
         if ($userName == $elem->getUserName() && hash("sha256", $userToConnect->getMdp()) == $elem->getMdp()) {
             $echec = false;
-            $userConnect = $elem;
+            $userToConnect = $elem;
             $id = $elem->getId();
             break;
         } else {
@@ -46,6 +46,7 @@ function doConnect()
      * deux code (inscription et mdp oublié), je vérifie que c'est bien le code d'inscription
      */
     $needActi = false;
+    $banni = false;
     if (isset($id)) {
         $acManager = new ActivationManager(connexionDb());
         $act = $acManager->getActivationByLibelleAndId("Inscription",$id);
@@ -54,12 +55,16 @@ function doConnect()
         else
             $needActi = false;
     }
-
-    if ($echec == true)
-        $tabRetour['Error'] = "Erreur lors de la connexion, veuillez rééssayer avec le bon login ou mot de passe !";
+    $userToConnect = $manager->getUserById($userToConnect->getId());
+    if ($echec == true) {
+        $tabRetour['Error'] = "<div class='alert alert-danger' role='alert'>Erreur lors de la connexion, veuillez rééssayer avec le bon login ou mot de passe !</div>";
+    } else if ($userToConnect->getDroit()[0]->getId() == 6) {
+        $tabRetour['Error'] = "<div class='alert alert-danger' role='alert'>Vous êtes banni, impossible de vous connecter !</div>";
+        $banni = true;
+    }
     else if ($needActi == true)
-        $tabRetour['Activation'] = "Vous devez activer votre compte avant la connexion !";
-    else {
+        $tabRetour['Activation'] = "<div class='alert alert-danger' role='alert'>Vous devez activer votre compte avant la connexion !</div>";
+    else  {
         $user = $manager->getUserById($id);
         $manager->updateUserConnect($user);
         //$_SESSION['User'] = $user;
@@ -69,5 +74,6 @@ function doConnect()
     }
     $tabRetour['Retour'] = !$echec;
     $tabRetour['Valide'] = !$needActi;
+    $tabRetour['Banni'] = !$banni;
     return $tabRetour;
 }

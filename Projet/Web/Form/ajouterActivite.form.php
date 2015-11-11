@@ -1,5 +1,5 @@
 
-<form method="post" action="ajouterActivite.page.php" onSubmit='return verification_ajouterActivite()'>
+<form method="post" action="ajouterActivite.page.php">
 
     <div class="form-group col-sm-12">
         <label class="control-label col-sm-2" for="categorie">Catégorie:</label>
@@ -20,7 +20,7 @@
     <div class="form-group col-sm-12">
         <label class="control-label col-sm-2" for="activite">Activité:</label>
         <div class="col-sm-10">
-           <input type="text" class="form-control" id="activite" name="activite" placeholder="Votre activité">
+           <input type="text" class="form-control" id="activite" name="activite" placeholder="Votre activité" required>
         </div>
     </div>
     <div class="form-group col-sm-12">

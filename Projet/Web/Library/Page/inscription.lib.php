@@ -11,58 +11,63 @@
     function isValidBis()
     {
         $tabReturn = array("Retour" => false, "Error" => array());
-        if(isset($_POST['emailConfirm']) && $_POST['mdp'] == $_POST['mdpConfirm'] && $_POST['email'] == $_POST['emailConfirm'])
-        {
+
             $ini = getConfigFile();
             $userName = strtolower($_POST['userName']);
             $mdp = $_POST['mdp'];
             $email = $_POST['email'];
+            $emailConfirm = $_POST['emailConfirm'];
+            $mdpConfirm = $_POST['mdpConfirm'];
 
-            if(strlen($userName) < $ini['CONSTANTE']['size_user_name'])
+            if (strlen($userName) < $ini['CONSTANTE']['size_user_name']) {
                 $tabReturn['Error'][] = "Votre nom d'utilisateur est trop court, 6 caractères minimum ! <br>";
+            }
 
-            if(strlen($mdp) < $ini['CONSTANTE']['size_user_mdp'])
+            if (strlen($mdp) < $ini['CONSTANTE']['size_user_mdp']) {
                 $tabReturn['Error'][] = "Votre mot de passe est trop court, 5 caractères minimum ! <br>";
-            else
-            {
+            }
+            if ($mdp != $mdpConfirm) {
+                $tabReturn['Error'][] = "Les mots de passe ne correspondent pas ! <br>";
+           }
+            if ($email != $emailConfirm) {
+                $tabReturn['Error'][] = "Les adresses mail ne correspondent pas ! <br>";
+            }
                 $um = new UserManager(connexionDb());
                 $tabUser = $um->getAllUser();
                 $validUserName = true;
                 $validUserMail = true;
                 $champValid = true;
-                foreach($tabUser as $userTest)
-                {
-                    if($userName == strtolower($userTest->getUserName()))
+                foreach ($tabUser as $userTest) {
+                    if ($userName == strtolower($userTest->getUserName()))
                         $validUserName = false;
-                    if($email == $userTest->getEmail())
+                    if ($email == $userTest->getEmail())
                         $validUserMail = false;
                 }
-                if(!$validUserMail)
+                if (!$validUserMail)
                     $tabReturn['Error'][] = "Cette adresse mail est déjà utilisée, veuillez en choisir une autre ! <br>";
-                if(!$validUserName)
+                if (!$validUserName)
                     $tabReturn['Error'][] = "Ce login est déjà pris, veuillez en choisir en autre ! <br>";
 
-                if(!champsEmailValable($email))
-                {
-                    $tabReturn['Error'][] = "Votre adresse mail contient des caractères indésirables !";
+                if (!champsEmailValable($email)) {
+                    $tabReturn['Error'][] = "Votre adresse mail contient des caractères indésirables !<br>";
                     $champValid = false;
                 }
-                if (!champsLoginValable($userName))
-                {
-                    $tabReturn['Error'][] = "Votre nom d'utilisateur contient des caractères indésirables !";
+                if (!champsLoginValable($userName)) {
+                    $tabReturn['Error'][] = "Votre nom d'utilisateur contient des caractères indésirables !<br>";
                     $champValid = false;
                 }
-                if (!champsMdpValable($mdp))
-                {
-                    $tabReturn['Error'][] = "Votre mot de passe contient des caractères indésirables !";
+                if (!champsMdpValable($mdp)) {
+                    $tabReturn['Error'][] = "Votre mot de passe contient des caractères indésirables !<br>";
                     $champValid = false;
                 }
-                if($validUserMail and $validUserName and $champValid)
+                if ($validUserMail and $validUserName and $champValid)
                     $tabReturn['Retour'] = true;
 
-            }
-        }
-        return $tabReturn;
+                return $tabReturn;
+
+
+
+
     }
     function isValid()
     {

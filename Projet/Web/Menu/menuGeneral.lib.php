@@ -42,7 +42,10 @@ $isIndex = ($page == '' or $page == "index");
             <li <?php if($page == "amis") echo "class='active'"?>><a href="Page/amis.page.php">Amis</a></li>
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="Page/choisirCategorie.page.php">Catégorie</a></li>
             <?php if($userSession->getDroit()[0]->getLibelle() == "Administrateur"){?>
-            <li <?php if($page == "administration") echo "class='active'"?>><a href="Page/administration.page.php">Administration</a></li>
+                <li <?php if($page == "administration") echo "class='active'"?>><a href="Page/administration.page.php">Administration</a></li>
+            <?php }?>
+            <?php if($userSession->getDroit()[0]->getId() == 1 || $userSession->getDroit()[0]->getId() == 2){?>
+                <li <?php if($page == "activiteSignalee") echo "class='active'"?>><a href="Page/activiteSignalee.page.php">Signalement</a></li>
             <?php }?>
 
         </ul>
@@ -72,6 +75,10 @@ $isIndex = ($page == '' or $page == "index");
             <?php if($userSession->getDroit()[0]->getLibelle() == "Administrateur"){?>
             <li <?php if($page == "administration") echo "class='active'"?>><a href="administration.page.php">Administration</a></li>
             <?php }?>
+            <?php if($userSession->getDroit()[0]->getId() == 1 || $userSession->getDroit()[0]->getId() == 2){?>
+            <li <?php if($page == "activiteSignalee") echo "class='active'"?>><a href="activiteSignalee.page.php">Signalement</a></li>
+            <?php }?>
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><?php buttonPaypal()?></li>

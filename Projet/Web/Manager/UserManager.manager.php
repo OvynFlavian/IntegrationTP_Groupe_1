@@ -63,11 +63,15 @@ class UserManager {
             ":id" => $id
         ));
 
-        $tabUser = $query->fetch(PDO::FETCH_ASSOC);
+        if ($tabUser = $query->fetch(PDO::FETCH_ASSOC)) {
+            $userToConnect = new User($tabUser);
+            $tabDroit = $this->getUserDroit($userToConnect);
+            $userToConnect->setDroit($tabDroit);
+        } else {
+            $userToConnect = new User(array());
+        }
 
-        $userToConnect = new User($tabUser);
-        $tabDroit = $this->getUserDroit($userToConnect);
-        $userToConnect->setDroit($tabDroit);
+
 
         return $userToConnect;
     }

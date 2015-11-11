@@ -44,7 +44,8 @@ class User_ActivityManager
         ));
     }
 
-    public function deleteFromTable(User $user) {
+    public function deleteFromTable(User $user)
+    {
         $query = $this
             ->db
             ->prepare("DELETE FROM user_activity where id_User = :id");
@@ -54,5 +55,18 @@ class User_ActivityManager
 
         ));
     }
+
+        public function deleteActivity($id)
+        {
+            $query = $this
+                ->db
+                ->prepare("DELETE FROM user_activity where id_activity = :id");
+
+            $query->execute(array(
+                ":id" => $id,
+
+            ));
+        }
+
 
 }

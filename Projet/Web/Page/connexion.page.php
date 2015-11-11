@@ -23,7 +23,7 @@ if($isConnect)
 if(isPostFormulaire())
 {
     $tabRetour = doConnect();
-    if($tabRetour['Retour']&& $tabRetour['Valide'])header("Location:../");
+    if($tabRetour['Retour']&& $tabRetour['Valide'] && $tabRetour['Banni'])header("Location:../");
 }
 $configIni = getConfigFile();
 ?>
@@ -40,11 +40,6 @@ $configIni = getConfigFile();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 
-    <script type="text/javascript">
-        <?php
-            include("../Script/connexion.js");
-        ?>
-    </script>
 </head>
 <body>
 <header>

@@ -54,18 +54,18 @@ $configIni = getConfigFile();
         <?php
         include "../Form/ajouterActivite.form.php";
         ?>
+        </section>
         <section class="alert-dismissible">
         <?php
         if (isset($tabRetour['Error'])) {
-            echo $tabRetour['Error'];
+            echo "<div class='alert alert-danger' role='alert'>".$tabRetour['Error']."</div>";
         } else if (isset($tabRetour['Ok'])) {
-            echo $tabRetour['Ok'];
+            echo "<div class='alert alert-success' role='alert'>".$tabRetour['Ok']."</div>";
+            echo "<meta http-equiv='refresh' content='2; URL=../'>";
         }
         ?>
         </section>
 
-
-    </section>
 </section>
 <div class="footer-container">
     <div class="row">

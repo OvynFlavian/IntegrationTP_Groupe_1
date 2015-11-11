@@ -73,26 +73,36 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                     $message = modifConfig();
                     administrationEditConfig();
                     if ($message != NULL) {
-                        echo "<div class='col-sm-offset-4 col-sm-6'>";
+                        echo "<div class='col-sm-offset-3 col-sm-6'>";
                         echo "<span class='error'> $message </span>";
                         echo "</div>";
                     }
 
                 }
                 else if(isset($_GET['to']) and $_GET['to'] == "viewConfig") administrationViewConfig();
-
-                else if(!isset($_GET['to'])) {
-                    if (isset($_POST['voirProfil'])) {
-                        $id = $_POST['idMembre'];
+                else if (isset($_GET['to']) && $_GET['to'] == "voirProfil") {
+                    if (checkMembre()) {
+                        $id = $_GET['membre'];
                         voirProfil($id);
-                    } else if (isset($_POST['changerGrade'])) {
-                        modifGrade();
-                        echo "<h1 align='center'><span class='success'>Le grade de l'utilsateur a bien été changé !</span></h1>";
-                        echo "<meta http-equiv='refresh' content='1; URL=administration.page.php'>";
-
+                    } else {
+                        header("Location:../");
                     }
-                    else  {
-                        afficherMembres();
+
+                }
+                else if(!isset($_GET['to'])) {
+                    if (isset($_POST['changerGrade'])) {
+                        modifGrade();
+                        echo "<h1 align='center'><div class='alert alert-success' role='alert'>Le grade de l'utilisateur a bien été changé !</div></h1>";
+                        echo "<meta http-equiv='refresh' content='2; URL=administration.page.php'>";
+
+
+                    } else  if (isset($_POST['EnvoyerMess'])) {
+                        formEnvoiMessage();
+                    } else if (isset($_POST['formulaireEnvoi'])) {
+                        echo envoiMessage();
+                        echo "<meta http-equiv='refresh' content='2; URL=administration.page.php'>";
+                    }else {
+                     afficherMembres();
                     }
                 } else {
                     header("Location:../");

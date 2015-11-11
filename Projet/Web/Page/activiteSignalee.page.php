@@ -2,45 +2,25 @@
 /**
  * Created by PhpStorm.
  * User: JulienTour
- * Date: 3/11/2015
- * Time: 19:25
+ * Date: 8/11/2015
+ * Time: 01:57
  */
+
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
-require "../Library/Page/demandeAmi.lib.php";
-require "../Entity/Amis.class.php";
-require "../Manager/AmisManager.manager.php";
+require "../Library/Page/activiteSignalee.lib.php";
+require "../Manager/Categorie_ActivityManager.manager.php";
 initRequireEntityManager();
 
 startSession();
 $isConnect = isConnect();
-if(!$isConnect)
+if(!$isConnect || ($_SESSION['User']->getDroit()[0]->getId() != 1 && $_SESSION['User']->getDroit()[0]->getId() != 2))
 {
-    session_destroy();
+
     header("Location:../");
 }
-
-$id = $_GET['membre'];
-if ($id == $_SESSION['User']->getId()) {
-    header("Location:../");
-
-}
-$existe = false;
-    if (verifDejaExistant()) {
-        $existe = true;
-        $message = "<div class='alert alert-danger' role='alert'>Votre demande d'amis existe déjà, vérifier dans l'onglet amis !</div>";
-    } else {
-        if (isset($_POST['Accepter']) || isset($_POST['Refuser'])) {
-            $message = gererDemande();
-            if ($message == "Erreur") {
-                header('Location: listeMembres.page.php');
-            }
-        }
-    }
-
-
 
 $configIni = getConfigFile();
 ?>
@@ -49,7 +29,7 @@ $configIni = getConfigFile();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Demande d'ami</title>
+    <title>Liste des activités signalées</title>
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
 
@@ -64,28 +44,14 @@ $configIni = getConfigFile();
 </header>
 <section class="container">
     <section class="jumbotron">
-        <h1>Demande d'ami</h1>
-        <p> Une demande sera envoyée à l'utilisateur aussitôt votre choix fait !</p>
+        <h1>Liste des activités signalées</h1>
+        <p> Affichage de la liste des activités signalées actuellement sur le site.</p>
     </section>
     <section class="row">
         <article class="col-sm-12">
             <?php
-            if (!$existe) {
-                include("../Form/demandeAmi.form.php");
-            }
+            afficherActivite();
             ?>
-        </article>
-    </section>
-    <section class="row">
-        <article class="col-sm-12">
-            <h2 align="center">
-            <?php
-                if (isset($message)) {
-                  echo $message;
-                    echo "<meta http-equiv='refresh' content='1; URL=listeMembres.page.php'>";
-                }
-            ?>
-            </h2>
         </article>
     </section>
 </section>

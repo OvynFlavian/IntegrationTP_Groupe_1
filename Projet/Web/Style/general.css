@@ -7,11 +7,35 @@ html body .container {
     left: 0;
 
 }
+body {
+    padding-bottom : 70px;
+}
 .container {
     background-color : #FFFFFF;
-    border : 1px solid grey;
     border-radius : 10px;
 
+
+}
+.activityIndex {
+    border : 1px solid lightgrey;
+    text-align : center;
+    border-radius : 10px;
+}
+#info {
+    text-align : center;
+}
+.media-body {
+    padding-left : 3em;
+}
+
+.media {
+    padding-top : 4em;
+}
+.activity {
+    padding : 5em;
+    margin : 5em;
+    border : 1px solid grey;
+    border-radius : 10px;
 
 }
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
@@ -20,17 +44,17 @@ html body .container {
     border : 1px solid grey;
 }
 #administration {
-    height : 76em;
+    height : 108%;
 }
-.formProfil {
-    margin-left : 30em;
+.formProfil button {
+    margin-left : 50%;
 }
 .formGrade {
     margin : 10%;
     margin-left : 30%;
 }
 .formGrade button {
-    margin-left : 13%;
+    margin-left : 16%;
 }
 .formGrade select {
     margin-left : 23%;
@@ -46,6 +70,7 @@ html body .container {
     color : green;
     font-weight : bold;
 }
+
 .profil {
     text-align : center;
     border : 1px solid grey;
@@ -73,7 +98,6 @@ table caption {
     text-align : center;
 }
 html {
-    background-color :#BBDEFB ;
     color : black;
 }
 .marge {
@@ -81,6 +105,7 @@ html {
 }
 .navbar-fixed-bottom {
     background-color : #EEEEEE;
+    height : 35px;
 }
 .navbar-default {
     background-color:#EEEEEE;
