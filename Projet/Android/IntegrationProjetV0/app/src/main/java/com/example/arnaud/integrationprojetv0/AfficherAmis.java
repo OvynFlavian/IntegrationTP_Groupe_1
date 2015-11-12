@@ -1,7 +1,8 @@
 package com.example.arnaud.integrationprojetv0;
 
+
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,9 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,132 +27,171 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <b>ModifProfil  est une classe qui permet de modifier le profil d'un utilisateur.</b>
+ * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
  * <p>
- * Une personne peut modifier les informations suivantes :
+ * Une personne se connecte grâce aux informations suivantes :
  * <ul>
- * <li>nom d'utilisateur.</li>
- * <li>email.</li>
- * <li>Mot de passe .</li>
+ * <li>Un nom d'utilisateur.</li>
+ * <li>Un mot de passe.</li>
  * </ul>
  * </p>
  * @author Willame Arnaud
  */
-public class ModifProfil extends ActionBarActivity {
+public class AfficherAmis extends ActionBarActivity {
+    HttpPost httppost;
+    HttpResponse response;
+    HttpClient httpclient;
+    List<NameValuePair> nameValuePairs;
 
+    private SessionManager session;
     //menu
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+    private Button addAmis = null;
 
-    private SessionManager session;
-    Button btnAppli;
-    ProgressDialog dialog = null;
-    HttpPost httppost;
-    StringBuffer buffer;
-    HttpResponse response;
-    HttpClient httpclient;
-    List<NameValuePair> nameValuePairs;
-    EditText usr,pass,email,confPass;
+    //lister les amis
+
+    private ListView amisList;
+    private DrawerLayout mDrawerAmisLayout;
+    private ArrayAdapter<String> mAmisAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.modif_layout);
+        setContentView(R.layout.afficher_amis_layout);
 
-        usr = (EditText)findViewById(R.id.username);
-        email = (EditText)findViewById(R.id.email);
-        pass= (EditText)findViewById(R.id.password);
-        confPass = (EditText)findViewById(R.id.confPass);
-        btnAppli = (Button) findViewById(R.id.btnAppli);
+        addAmis = (Button) findViewById(R.id.btnAdd);
         //menu
-        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
-
         addDrawerItems();
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        //liste amis
+        amisList = (ListView)findViewById(R.id.amisList);
+        mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        final Context context=getApplicationContext();
+        // Session manager
         session = new SessionManager(getApplicationContext());
 
-        usr.setText(session.getUsername());
-        email.setText((session.getEmail()));
-
-        btnAppli.setOnClickListener(new View.OnClickListener() {
+        addAmis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = ProgressDialog.show(ModifProfil.this, "",
-                        "Validation de l'inscription...", true);
-                new Thread(new Runnable() {
-                    public void run() {
-                        modifProfil();
-                    }
-                }).start();
+                Intent intent = new Intent(AfficherAmis.this, AjoutAmis.class);
+                startActivity(intent);
             }
         });
 
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                ArrayList<String> liste = afficherAmis(context);
+              //  addOptionOnClick(context, liste);
+            }
+
+
+        });
+        thread.start();
     }
 
-    /**
-     * modification du profil d'un utilisateur
-     */
-    void modifProfil(){
+
+
+    private void addOptionOnClick(Context context, final ArrayList<String> list) {
+
+        amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                       // ajouterAmis(position,list);
+                    }
+                }).start();
+
+
+                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public ArrayList<String> afficherAmis(Context context){
+
         try{
 
-            session = new SessionManager(getApplicationContext());
-
-            String id = null;
-            id = session.getId();
-
-
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://192.168.0.9/my_folder_inside_htdocs/modifProfil.php"); // make sure the url is correct.
-            //add your data
-            nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
-            nameValuePairs.add(new BasicNameValuePair("email", email.getText().toString().trim()));
-            nameValuePairs.add(new BasicNameValuePair("mdp", pass.getText().toString().trim()));
-            nameValuePairs.add(new BasicNameValuePair("mdpConfirm", confPass.getText().toString().trim()));
-            nameValuePairs.add(new BasicNameValuePair("id", id.toString().trim()));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httppost= new HttpPost("http://192.168.0.13/my_folder_inside_htdocs/afficherAmis.php"); // make sure the url is correct.
+
             //Execute HTTP Post Request
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    //  tv.setText("Response from PHP : " + response);
-                    dialog.dismiss();
-                }
-            });
+            JSONArray JsonArray = new JSONArray(response);
 
-            if(response.equalsIgnoreCase("erreur.")){
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(ModifProfil.this, "Modification Effectuees", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                session.setUsername(usr.getText().toString().trim());
-                session.setEmail(email.getText().toString().trim());
+            System.out.println("Response : " + JsonArray);
+            System.out.println("taille : " + JsonArray.length());
 
-                startActivity(new Intent(ModifProfil.this, MainActivity.class));
-            }else{
-                showAlert(response);
+
+            final ArrayList<String> list = new ArrayList<String>();
+            final String[] tbAmis = new String[35];
+
+            for (int i=0;i<JsonArray.length();i++) {
+                JSONObject jsonObject = JsonArray.getJSONObject(i);
+                System.out.println("taille : " + JsonArray.getJSONObject(i));
+                tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
+                list.add(tbAmis[i]);
+
             }
+            mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
+            amisList.setAdapter(mAmisAdapter);
+
+            return list;
+
+
+
+
 
         }catch(Exception e){
-            dialog.dismiss();
+           /* dialog.dismiss();*/
             System.out.println("Exception : " + e.getMessage());
         }
+        return null;
+    }
+
+    /**
+     * Affiche les erreurs
+     */
+    public void showAlert(){
+        AfficherAmis.this.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AfficherAmis.this);
+                builder.setTitle("connexion erreur.");
+                builder.setMessage("utilisateur non trouvé.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
     }
 
 
@@ -166,36 +204,27 @@ public class ModifProfil extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent intent = new Intent(ModifProfil.this, Profil.class);
+                if (position == 0) {
+                    Intent intent = new Intent(AfficherAmis.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
-                    Intent intent = new Intent(ModifProfil.this, ChoixCategorie.class);
-                    startActivity(intent);
-
-                }
-                if(position==2){
-                    Intent intent = new Intent(ModifProfil.this, AfficherAmis.class);
+                if (position == 1) {
+                    Intent intent = new Intent(AfficherAmis.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
-                if(position==3){
+                if (position == 2) {
+                    Intent intent = new Intent(AfficherAmis.this, AfficherAmis.class);
+                    startActivity(intent);
+
+                }
+                if (position == 3) {
                     logoutUser();
 
                 }
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void logoutUser() {
-        session.setLogin(false);
-
-        // Launching the login activity
-        Intent intent = new Intent(ModifProfil.this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void setupDrawer() {
@@ -260,24 +289,14 @@ public class ModifProfil extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void logoutUser() {
+        session.setLogin(false);
 
-    /**
-     * Affiche les erreurs
-     */
-    public void showAlert(final String response){
-        ModifProfil.this.runOnUiThread(new Runnable() {
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ModifProfil.this);
-                builder.setTitle("erreur modification.");
-                builder.setMessage("" + response)
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
+        // Launching the login activity
+        Intent intent = new Intent(AfficherAmis.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
+
+
 }

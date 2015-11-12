@@ -29,6 +29,10 @@
         </activity>
         <activity android:name=".ModifProfil">
         </activity>
+        <activity android:name=".AjoutAmis">
+        </activity>
+        <activity android:name=".AfficherAmis">
+        </activity>
 
     </application>
 

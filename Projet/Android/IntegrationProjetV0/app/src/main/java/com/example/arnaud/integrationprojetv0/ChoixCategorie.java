@@ -54,7 +54,7 @@ public class ChoixCategorie extends AppCompatActivity {
         btnLogout = (Button) findViewById(R.id.btnLogout);
 
         //menu
-        mDrawerList = (ListView)findViewById(R.id.navList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -122,7 +122,7 @@ public class ChoixCategorie extends AppCompatActivity {
     }
 
 
-    private void logoutUser() {
+    public void logoutUser() {
         session.setLogin(false);
 
         // Launching the login activity
@@ -133,7 +133,7 @@ public class ChoixCategorie extends AppCompatActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "test", "test1", "Test2" };
+        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -147,6 +147,15 @@ public class ChoixCategorie extends AppCompatActivity {
                 if(position==1){
                     Intent intent = new Intent(ChoixCategorie.this, ChoixCategorie.class);
                     startActivity(intent);
+
+                }
+                if(position==2){
+                    Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
+                    startActivity(intent);
+
+                }
+                if(position==3){
+                    logoutUser();
 
                 }
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();

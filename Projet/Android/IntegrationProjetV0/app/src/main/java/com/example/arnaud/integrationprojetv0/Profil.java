@@ -83,7 +83,7 @@ public class Profil extends ActionBarActivity {
 
 
         //menu
-        mDrawerList = (ListView)findViewById(R.id.navList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -124,7 +124,7 @@ public class Profil extends ActionBarActivity {
                 try {
                     httpclient = new DefaultHttpClient();
                     String id = session.getId();
-                    httppost = new HttpPost("http://192.168.0.9/my_folder_inside_htdocs/modifPublic.php"); // make sure the url is correct.
+                    httppost = new HttpPost("http://192.168.0.13/my_folder_inside_htdocs/modifPublic.php"); // make sure the url is correct.
                     //add your data
                     nameValuePairs = new ArrayList<NameValuePair>(2);
                     if (cbPublic.isChecked()) {
@@ -175,7 +175,7 @@ public class Profil extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "test", "test1", "Test2" };
+        String[] osArray = { "profil", "activités", "Amis", "se déconecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -191,6 +191,18 @@ public class Profil extends ActionBarActivity {
                     startActivity(intent);
 
                 }
+                if(position==2){
+                    Intent intent = new Intent(Profil.this, AfficherAmis.class);
+                    startActivity(intent);
+
+                }
+
+                if(position==3){
+                    logoutUser();
+
+                }
+
+
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -273,6 +285,15 @@ public class Profil extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void logoutUser() {
+        session.setLogin(false);
+
+        // Launching the login activity
+        Intent intent = new Intent(Profil.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
