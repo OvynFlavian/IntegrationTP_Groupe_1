@@ -308,11 +308,15 @@ public ArrayList<String> afficheUserPublic(Context context){
         return super.onOptionsItemSelected(item);
     }
 
-    public void logoutUser() {
+    private void logoutUser() {
         session.setLogin(false);
+        session.setEmail(null);
+        session.setPublics(null);
+        session.setUsername(null);
+        session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(AjoutAmis.this, MainActivity.class);
+        Intent intent = new Intent(AjoutAmis.this, Accueil.class);
         startActivity(intent);
         finish();
     }

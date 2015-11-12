@@ -221,7 +221,7 @@ pip-log.txt
 
 Projet/Web/.idea/
 Projet/Web/.idea/php.xml
-*.xml
+Projet/Web/*.xml
 
 ####################
 ## AndroidStudio

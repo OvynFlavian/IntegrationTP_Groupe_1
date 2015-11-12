@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">EverydayIdea</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="titreCat">Choisissez une catégorie d activité</string>
+    <string name="proposition">EveryDay Idea vous propose : </string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+</resources>

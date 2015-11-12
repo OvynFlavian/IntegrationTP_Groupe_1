@@ -287,11 +287,15 @@ public class Profil extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void logoutUser() {
+    private void logoutUser() {
         session.setLogin(false);
+        session.setEmail(null);
+        session.setPublics(null);
+        session.setUsername(null);
+        session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(Profil.this, MainActivity.class);
+        Intent intent = new Intent(Profil.this, Accueil.class);
         startActivity(intent);
         finish();
     }
