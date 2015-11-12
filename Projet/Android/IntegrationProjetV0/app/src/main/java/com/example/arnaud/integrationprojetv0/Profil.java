@@ -124,7 +124,7 @@ public class Profil extends ActionBarActivity {
                 try {
                     httpclient = new DefaultHttpClient();
                     String id = session.getId();
-                    httppost = new HttpPost("http://192.168.0.13/my_folder_inside_htdocs/modifPublic.php"); // make sure the url is correct.
+                    httppost = new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/modifPublic.php"); // make sure the url is correct.
                     //add your data
                     nameValuePairs = new ArrayList<NameValuePair>(2);
                     if (cbPublic.isChecked()) {

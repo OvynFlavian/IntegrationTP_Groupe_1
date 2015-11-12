@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://192.168.0.13/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,

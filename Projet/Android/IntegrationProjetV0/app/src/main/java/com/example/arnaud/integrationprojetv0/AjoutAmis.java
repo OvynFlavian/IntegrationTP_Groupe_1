@@ -111,21 +111,7 @@ public class AjoutAmis extends ActionBarActivity {
                    }
                }).start();
 
-                /*
-                if (position == 0) {
-                    Intent intent = new Intent(AjoutAmis.this, Profil.class);
-                    startActivity(intent);
-                }
-                if (position == 1) {
-                    Intent intent = new Intent(AjoutAmis.this, ChoixCategorie.class);
-                    startActivity(intent);
 
-                }
-                if (position == 2) {
-                    Intent intent = new Intent(AjoutAmis.this, AjoutAmis.class);
-                    startActivity(intent);
-
-                }*/
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -137,7 +123,7 @@ public class AjoutAmis extends ActionBarActivity {
 
 
            httpclient=new DefaultHttpClient();
-           httppost= new HttpPost("http://192.168.0.13/my_folder_inside_htdocs/ajouterAmis.php"); // make sure the url is correct.
+           httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/ajouterAmis.php"); // make sure the url is correct.
 
            nameValuePairs = new ArrayList<NameValuePair>(2);
            nameValuePairs.add(new BasicNameValuePair("userName", list.get(position).toString().trim()));
@@ -170,7 +156,7 @@ public ArrayList<String> afficheUserPublic(Context context){
     try{
 
         httpclient=new DefaultHttpClient();
-        httppost= new HttpPost("http://192.168.0.13/my_folder_inside_htdocs/afficherUserPublic.php"); // make sure the url is correct.
+        httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/afficherUserPublic.php"); // make sure the url is correct.
 
         //Execute HTTP Post Request
         response=httpclient.execute(httppost);
