@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,21 +37,33 @@ public class Register extends Activity {
     HttpClient httpclient;
     List<NameValuePair> nameValuePairs;
     ProgressDialog dialog = null;
+    private SessionManager session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
 
-        b = (Button) findViewById(R.id.button);
+        b = (Button) findViewById(R.id.btnAppli);
         //b2 = (Button) findViewById(R.id.Button02);
         usr = (EditText) findViewById(R.id.username);
         email = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.password);
         confPass = (EditText) findViewById(R.id.confPass);
 
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+
 
         tv = (TextView) findViewById(R.id.tv);
+
+        if (session.isLoggedIn()) {
+            // Users is already logged in. Take him to main activity
+            Intent intent = new Intent(Register.this,ChoixCategorie.class);
+            startActivity(intent);
+            finish();
+        }
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +84,7 @@ public class Register extends Activity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://192.168.1.15/my_folder_inside_htdocs/inscription.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://91.121.151.137/scripts_android/inscription.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
@@ -89,7 +103,7 @@ public class Register extends Activity {
                 }
             });
 
-            if(response.equalsIgnoreCase("true")){
+            if(response.equalsIgnoreCase("erreur.")){
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(Register.this, "Inscription Réussie", Toast.LENGTH_SHORT).show();
@@ -101,7 +115,7 @@ public class Register extends Activity {
                 showAlert(response);
             }
 
-        }catch(Exception e){
+        } catch(Exception e) {
             dialog.dismiss();
             System.out.println("Exception : " + e.getMessage());
         }
@@ -121,6 +135,24 @@ public class Register extends Activity {
                 alert.show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

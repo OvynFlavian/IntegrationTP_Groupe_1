@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#3f7cb3"
+    android:id="@+id/relLayout1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Titre de l'activité : "
+        android:id="@+id/titreTextView"
+        android:textSize="30sp"
+        android:textColor="#ffffff"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Titre"
+        android:layout_below="@id/titreTextView"
+        android:id="@+id/titreActivite"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColorHint="#54d2d2d2"
+        android:textColor="#ffffff"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/descriptionTextView"
+        android:text="Description de l'activité : "
+        android:layout_below="@id/titreActivite"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:textColor="#ffffff"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionTextView"
+        android:id="@+id/descriptionActivite"
+        android:hint="Description"
+        android:singleLine="true"
+        android:textColorHint="#54d2d2d2"
+        android:textColor="#ffffff"
+        android:textSize="30sp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relLayout2"
+        android:layout_below="@id/descriptionActivite">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Catégorie : "
+            android:id="@+id/categorieTextView"
+            android:layout_marginTop="20dp"
+            android:textSize="30sp"
+            android:textColor="#ffffff"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listeView"
+            android:layout_toRightOf="@id/categorieTextView"
+            android:layout_margin="15dp"
+            android:prompt="@style/SpinnerTheme"
+            android:spinnerMode="dropdown"
+            android:popupBackground="#151515"
+            android:textColor="#ffffff">
+        </Spinner>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="envoyer"
+        android:textColor="#303030"
+        android:onClick="envoyerActivite"/>
+
+</RelativeLayout>
+
+    <ListView
+        android:id="@+id/amisList"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="#ffeeeeee"/>
+
+</android.support.v4.widget.DrawerLayout>
