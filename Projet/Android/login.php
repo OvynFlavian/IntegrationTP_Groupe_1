@@ -12,7 +12,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $password= hash("sha256", $password);
 $userId=NULL;
-$response["error"] ="erreur";
+$response["error"] =null;
 
 $sql = "select * from user where userName = '".$username."' AND password = '".$password. "'";
 
@@ -22,6 +22,7 @@ $sql = "select * from user where userName = '".$username."' AND password = '".$p
 		$userNameBdd = $row['userName'];
 		$passwordBdd= $row['password'];
 		$emailBdd= $row['email'];
+		$publicBdd= $row['public'];
 		
 		if($userId!=NULL){
 			$response["error"] ="FALSE";
@@ -29,6 +30,7 @@ $sql = "select * from user where userName = '".$username."' AND password = '".$p
 			$response["userName"]= $userNameBdd;
 			$response["password"] = $passwordBdd;
 			$response["email"]= $emailBdd;
+			$response["publics"] = $publicBdd;
         
 			echo json_encode($response);
 		}

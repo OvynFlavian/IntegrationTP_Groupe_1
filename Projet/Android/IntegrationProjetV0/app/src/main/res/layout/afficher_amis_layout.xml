@@ -1,0 +1,67 @@
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        tools:context=".MainActivity"
+        android:background="@drawable/ampoule">
+
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listeAmis"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            android:text="Amis"
+            android:id="@+id/titreAmis"
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignEnd="@+id/listeAmis"
+            android:layout_marginEnd="61dp" />
+
+        <ListView
+            android:id="@+id/amisList"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|start"
+            android:layout_alignTop="@+id/listeAmis"
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/listeAmis"
+            android:background="#980b6392" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ajouter Amis"
+            android:id="@+id/btnAdd"
+            android:layout_alignBottom="@+id/listeAmis"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/navlist"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="#ffeeeeee"/>
+
+</android.support.v4.widget.DrawerLayout>
+
