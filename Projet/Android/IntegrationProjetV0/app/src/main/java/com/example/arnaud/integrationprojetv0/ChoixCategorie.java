@@ -27,8 +27,6 @@ public class ChoixCategorie extends AppCompatActivity {
     private Button famille = null;
     private Button film = null;
     private Button visite = null;
-    private Button profil = null;
-    private Button btnLogout = null;
     private String categorie = null;
     private static final String test = "categorie";
     private SessionManager session;
@@ -50,8 +48,7 @@ public class ChoixCategorie extends AppCompatActivity {
         famille = (Button) findViewById(R.id.famille);
         film = (Button) findViewById(R.id.film);
         visite = (Button) findViewById(R.id.visite);
-        profil = (Button) findViewById(R.id.profil);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
+
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -63,13 +60,7 @@ public class ChoixCategorie extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                logoutUser();
-            }
-        });
 
         animaux.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,14 +102,7 @@ public class ChoixCategorie extends AppCompatActivity {
             }
         });
 
-        profil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ChoixCategorie.this, Profil.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
+
     }
 
 
