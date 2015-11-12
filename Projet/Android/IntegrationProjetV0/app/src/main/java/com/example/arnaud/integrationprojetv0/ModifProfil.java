@@ -116,7 +116,7 @@ public class ModifProfil extends ActionBarActivity {
 
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/modifProfil.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://91.121.151.137/scripts_android/modifProfil.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));

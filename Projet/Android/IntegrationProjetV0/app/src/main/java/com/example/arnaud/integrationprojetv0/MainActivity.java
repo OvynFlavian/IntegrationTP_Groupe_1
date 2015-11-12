@@ -1,17 +1,22 @@
 package com.example.arnaud.integrationprojetv0;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -22,20 +27,11 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
- * <p>
- * Une personne se connecte grâce aux informations suivantes :
- * <ul>
- * <li>Un nom d'utilisateur.</li>
- * <li>Un mot de passe.</li>
- * </ul>
- * </p>
- * @author Willame Arnaud
- */
+
 public class MainActivity extends Activity {
     Button b,b2;
     EditText et,pass;
@@ -52,6 +48,10 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         b = (Button)findViewById(R.id.Button01);
         b2= (Button)findViewById(R.id.Button02);
@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
+            // Users is already logged in. Take him to main activity
             Intent intent = new Intent(MainActivity.this, ChoixCategorie.class);
             startActivity(intent);
             System.out.println("réponse: " + session.id);
@@ -88,30 +88,28 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Register.class));
-                setContentView(R.layout.register_layout);
+                //setContentView(R.layout.register_layout);
             }
         });
     }
 
-    /**
-     * connection d'un utilisateur
-     */
     void login(){
         try{
 
-            httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/login.php"); // make sure the url is correct.
+            httpclient = new DefaultHttpClient();
+            httppost = new HttpPost("http://91.121.151.137/scripts_android/login.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            nameValuePairs.add(new BasicNameValuePair("username", et.getText().toString().trim()));  // $Edittext_value = $_POST['Edittext_value'];
-            nameValuePairs.add(new BasicNameValuePair("password", pass.getText().toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("UserName", et.getText().toString().trim()));  // $Edittext_value = $_POST['Edittext_value'];
+            nameValuePairs.add(new BasicNameValuePair("Mdp", pass.getText().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 
             //Execute HTTP Post Request
             // response=httpclient.execute(httppost);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            System.out.println("avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
@@ -120,17 +118,14 @@ public class MainActivity extends Activity {
 
             final String error = jObj.getString("error");
             final String id = jObj.getString("id");
-            final String userName = jObj.getString("userName");
-            final String password = jObj.getString("password");
+            final String userName = jObj.getString("UserName");
+            final String password = jObj.getString("Mdp");
             final String email = jObj.getString("email");
-            final String publics = jObj.getString("publics");
             session.setId(id);
             session.setEmail(email);
             session.setUsername(userName);
-            session.setPublics(publics);
 
-            System.out.println("réponse: " + session.getId());
-            System.out.println("réponse22: " + session.getPublics());
+            System.out.println("réponse: " + session.id);
 
             System.out.println("Response : " + error + id + userName + password + email);
 
@@ -141,7 +136,6 @@ public class MainActivity extends Activity {
                 }
             });
 
-            //if(response.equalsIgnoreCase("User Found")){
             if(error!=null){
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -161,10 +155,6 @@ public class MainActivity extends Activity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
-
-    /**
-     * Affiche les erreurs
-     */
     public void showAlert(){
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
@@ -180,6 +170,24 @@ public class MainActivity extends Activity {
                 alert.show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_categorie, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

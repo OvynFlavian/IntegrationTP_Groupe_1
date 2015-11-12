@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,21 +26,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-/**
- * <b>Regiter est une classe qui permet d'inscrire un utilisateur.</b>
- * <p>
- * Une personne s'inscrit grâce aux informations suivantes :
- * <ul>
- * <li>Un nom d'utilisateur.</li>
- * <li>Un email.</li>
- * <li>Un Mot de passe .</li>
- * <li>Une confirmation du mot de passe.</li>
- * </ul>
- * </p>
- * @author Willame Arnaud
- */
 
 public class Register extends Activity {
     Button b,b2;
@@ -72,7 +59,7 @@ public class Register extends Activity {
         tv = (TextView) findViewById(R.id.tv);
 
         if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
+            // Users is already logged in. Take him to main activity
             Intent intent = new Intent(Register.this,ChoixCategorie.class);
             startActivity(intent);
             finish();
@@ -92,14 +79,12 @@ public class Register extends Activity {
         });
     }
 
-    /**
-     * Inscription d'un nouvel utilisateur
-     */
+
     void register(){
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/inscription.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://91.121.151.137/scripts_android/inscription.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
@@ -130,15 +115,11 @@ public class Register extends Activity {
                 showAlert(response);
             }
 
-        }catch(Exception e){
+        } catch(Exception e) {
             dialog.dismiss();
             System.out.println("Exception : " + e.getMessage());
         }
     }
-
-    /**
-     * Affiche les erreurs
-     */
     public void showAlert(final String response){
         Register.this.runOnUiThread(new Runnable() {
             public void run() {
@@ -154,6 +135,24 @@ public class Register extends Activity {
                 alert.show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

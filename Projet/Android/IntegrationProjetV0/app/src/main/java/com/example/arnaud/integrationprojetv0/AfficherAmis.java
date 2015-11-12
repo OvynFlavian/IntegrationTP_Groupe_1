@@ -132,7 +132,7 @@ public class AfficherAmis extends ActionBarActivity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/afficherAmis.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://91.121.151.137/scripts_android/afficherAmis.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             nameValuePairs = new ArrayList<NameValuePair>(2);

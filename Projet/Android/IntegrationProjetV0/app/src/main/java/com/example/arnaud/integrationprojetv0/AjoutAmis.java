@@ -123,7 +123,7 @@ public class AjoutAmis extends ActionBarActivity {
 
 
            httpclient=new DefaultHttpClient();
-           httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/ajouterAmis.php"); // make sure the url is correct.
+           httppost= new HttpPost("http://91.121.151.137/scripts_android/ajouterAmis.php"); // make sure the url is correct.
 
            nameValuePairs = new ArrayList<NameValuePair>(2);
            nameValuePairs.add(new BasicNameValuePair("userName", list.get(position).toString().trim()));
@@ -156,7 +156,7 @@ public ArrayList<String> afficheUserPublic(Context context){
     try{
 
         httpclient=new DefaultHttpClient();
-        httppost= new HttpPost("http://10.99.2.237/my_folder_inside_htdocs/afficherUserPublic.php"); // make sure the url is correct.
+        httppost= new HttpPost("http://91.121.151.137/scripts_android/afficherUserPublic.php"); // make sure the url is correct.
 
         //Execute HTTP Post Request
         response=httpclient.execute(httppost);
