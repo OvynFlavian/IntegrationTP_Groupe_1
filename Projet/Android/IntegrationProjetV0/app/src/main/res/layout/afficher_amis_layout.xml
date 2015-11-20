@@ -53,8 +53,9 @@
             android:layout_height="wrap_content"
             android:text="ajouter Amis"
             android:id="@+id/btnAdd"
-            android:layout_alignBottom="@+id/listeAmis"
-            android:layout_alignParentEnd="true" />
+            android:layout_above="@+id/amisList"
+            android:layout_alignEnd="@+id/listeAmis" />
+
     </RelativeLayout>
     <ListView
         android:id="@+id/navlist"

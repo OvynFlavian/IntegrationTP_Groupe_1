@@ -16,16 +16,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -56,6 +55,7 @@ public class AjoutAmis extends ActionBarActivity {
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+    private SearchView cherchView;
 
 
     //lister les amis
@@ -71,6 +71,9 @@ public class AjoutAmis extends ActionBarActivity {
         //menu
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
+
+
+
         addDrawerItems();
         setupDrawer();
 
@@ -80,36 +83,62 @@ public class AjoutAmis extends ActionBarActivity {
         //liste amis
         amisList = (ListView)findViewById(R.id.amisList);
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+
+        final SearchView searchView = (SearchView) findViewById(R.id.searchView);
+
+
         final Context context=getApplicationContext();
         // Session manager
         session = new SessionManager(getApplicationContext());
 
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                ArrayList<String> liste = afficheUserPublic(context);
-                addOptionOnClick(context, liste);
-            }
+
+        //attention thread peut utiliser "syncrhronysed";
+     /*   Thread thread = new Thread(new Runnable() {
+            public void run() {*/
+                final ArrayList<String> liste = afficheUserPublic(context);
+
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String recherche) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String recherche) {
+                        ArrayList<String> listeRech = rechercheAmis(liste, recherche, context);
+                        System.out.println("rech" + recherche);
+                        System.out.println("rech2" + listeRech.toString());
+                        return true;
+                    }
+
+
+                });
+                addOptionOnClick(liste);
+
+
+
+         /*   }
 
 
         });
-        thread.start();
+        thread.start();*/
     }
 
 
 
-    private void addOptionOnClick(Context context, final ArrayList<String> list) {
-          mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
-        amisList.setAdapter(mAmisAdapter);
+        private void addOptionOnClick(final ArrayList<String> list) {
 
         amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-               new Thread(new Runnable() {
+               /*new Thread(new Runnable() {
                    @Override
-                   public void run() {
+                   public void run() {*/
                        ajouterAmis(position,list);
-                   }
+                 /*  }
                }).start();
+*/
 
 
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
@@ -117,13 +146,52 @@ public class AjoutAmis extends ActionBarActivity {
         });
     }
 
+    public ArrayList<String> rechercheAmis(ArrayList<String> liste , String rech, Context context){
+        ArrayList<String> liste2 = new ArrayList<String>();
+        String search = rech;
+        int searchListLength = liste.size();
+        for (int i = 0; i < searchListLength; i++) {
+            if (liste.get(i).contains(search)) {
+                        liste2.add(liste.get(i));
+            }
+        }
+
+
+/*
+        for (String string : liste) {
+            //modifier ca pour que ca fasse une belle recherche
+            if(string.matches("(?i)(rech).*")){
+                liste2.add(string);
+            }
+        }
+        */
+
+        mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, liste2);
+        amisList.setAdapter(mAmisAdapter);
+
+        return liste2;
+
+    }
+
    public void ajouterAmis(int position,  ArrayList<String> list){
+       String username = list.get(position).toString();
+
+
+       Intent intent = new Intent(this, ConfirmAjout.class);
+       intent.putExtra("username", username );
+     /*  intent.putStringArrayListExtra("liste", list);
+       intent.putExtra("position", position);*/
+
+
+       startActivity(intent);
+
+/*
        try{
           // String [] liste = (String[]) list.toArray();
 
 
            httpclient=new DefaultHttpClient();
-           httppost= new HttpPost("http://91.121.151.137/scripts_android/ajouterAmis.php"); // make sure the url is correct.
+           httppost= new HttpPost("http://91.121.151.137/scripts_android/AjouterAmis.php"); // make sure the url is correct.
 
            nameValuePairs = new ArrayList<NameValuePair>(2);
            nameValuePairs.add(new BasicNameValuePair("userName", list.get(position).toString().trim()));
@@ -135,7 +203,7 @@ public class AjoutAmis extends ActionBarActivity {
 
            System.out.println("Response : 2" );
            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-           final String response2 = httpclient.execute(httppost, responseHandler);
+           String response2 = httpclient.execute(httppost, responseHandler);
            System.out.println("Response : " + response2);
           // JSONArray JsonArray = new JSONArray(response);
 
@@ -144,11 +212,11 @@ public class AjoutAmis extends ActionBarActivity {
 
 
        }catch(Exception e){
-           /* dialog.dismiss();*/
+
            System.out.println("Exception : " + e.getMessage());
        }
 
-
+*/
    }
 
 public ArrayList<String> afficheUserPublic(Context context){
@@ -170,15 +238,17 @@ public ArrayList<String> afficheUserPublic(Context context){
 
 
         final ArrayList<String> list = new ArrayList<String>();
-        final String[] tbAmis = new String[35];
+       // final String[] tbAmis = new String[4];
 
         for (int i=0;i<JsonArray.length();i++) {
             JSONObject jsonObject = JsonArray.getJSONObject(i);
             System.out.println("taille : " + JsonArray.getJSONObject(i));
-            tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
-            list.add(tbAmis[i]);
+          // tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
+            list.add(("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString());
 
         }
+        mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
+        amisList.setAdapter(mAmisAdapter);
 
         return list;
 

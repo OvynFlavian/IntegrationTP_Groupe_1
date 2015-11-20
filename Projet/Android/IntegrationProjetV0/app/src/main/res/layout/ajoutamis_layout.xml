@@ -46,7 +46,16 @@
             android:layout_alignParentStart="true"
             android:layout_alignEnd="@+id/listeAmis"
             android:background="#980b6392" />
-    </RelativeLayout>
+
+    <SearchView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView"
+        android:layout_above="@+id/amisList"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/listeAmis" />
+
+</RelativeLayout>
     <ListView
         android:id="@+id/navlist"
         android:layout_width="200dp"

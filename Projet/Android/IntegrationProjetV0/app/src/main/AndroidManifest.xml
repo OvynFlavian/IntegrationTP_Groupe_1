@@ -49,6 +49,12 @@
         <activity android:name=".AjoutAmis"></activity>
         <activity android:name=".AfficherAmis"></activity>
 
+
+        <activity
+            android:name=".ConfirmAjout"
+            android:parentActivityName=".AjoutAmis">
+        </activity>
+
     </application>
 
 </manifest>

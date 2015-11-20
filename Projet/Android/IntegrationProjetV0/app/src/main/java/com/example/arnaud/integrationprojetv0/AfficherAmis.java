@@ -104,6 +104,8 @@ public class AfficherAmis extends ActionBarActivity {
 
         });
         thread.start();
+
+
     }
 
 
