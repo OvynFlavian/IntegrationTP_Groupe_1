@@ -32,6 +32,7 @@ if(isPostFormulaire())
     {
         $class='success';
         $tab[0] = "Modification réalisée avec succes";
+        echo "<meta http-equiv='refresh' content='2; URL=profil.page.php'>";
     }
     else
     {

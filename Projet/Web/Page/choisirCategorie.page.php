@@ -38,7 +38,7 @@ $configIni = getConfigFile();
         <p>Choisissez une catégorie pour votre activité du jour :</p>
 
     </section>
-    <section class="row">
+    <section class="row" id="proposerCat">
         <?php
         afficherCategorie();
         ?>

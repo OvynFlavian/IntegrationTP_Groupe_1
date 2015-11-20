@@ -157,6 +157,7 @@ function modifConfig()
     if (isPostFormulaire()) {
         if (hash("sha256", $_POST['mdp']) == $_SESSION['User']->getMdp()) {
             $ini = getConfigFile();
+            var_dump($_POST);
 
             $fichier = fopen('../config.ini.php', 'w');
 
@@ -165,7 +166,6 @@ function modifConfig()
             $ini['ADMINISTRATEUR']['pseudo'] = $_POST['pseudo'];
             $ini['ADMINISTRATEUR']['mail'] = $_POST['mail'];
             $ini['ADMINISTRATEUR']['tel'] = $_POST['tel'];
-            $ini['DATABASE']['password'] = "''";
             $ini['DOMAINE']['nom_domaine'] = $_POST['nom_domaine'];
             $ini['SERVEUR_ADDRESS']['web'] = $_POST['web'];
             $ini['SERVEUR_ADDRESS']['web'] = $_POST['bdd'];
@@ -180,10 +180,10 @@ function modifConfig()
             fputs($fichier, $newConfig);
 
             fclose($fichier);
-            echo 'Config modifiée ! <br>';
+            echo "<div class='alert alert-success' role='alert'> Config modifiée ! </div>";
 
 
-            header("Location:administration.page.php?to=viewConfig");
+            //header("Location:administration.page.php?to=viewConfig");
 
         } else {
 
