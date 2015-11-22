@@ -47,10 +47,13 @@ $isIndex = ($page == '' or $page == "index");
             <?php if($userSession->getDroit()[0]->getId() == 1 || $userSession->getDroit()[0]->getId() == 2){?>
                 <li <?php if($page == "activiteSignalee") echo "class='active'"?>><a href="Page/activiteSignalee.page.php">Signalement</a></li>
             <?php }?>
+            <?php if($userSession->getDroit()[0]->getId() == 3 || $userSession->getDroit()[0]->getId() == 2 || $userSession->getDroit()[0]->getId() == 1 ){?>
+                <li <?php if($page == "groupe") echo "class='active'"?>><a href="Page/groupe.page.php">Groupe</a></li>
+            <?php }?>
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><?php buttonPaypal()?></li>
+            <li><?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') buttonPaypal() ?></li>
             <li <?php if($page == "profil") echo "class='active'"?>><a href="Page/profil.page.php">Profil</a></li>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="Page/connexion.page.php">Déconnexion</a></li>
             <?php }?>
@@ -78,10 +81,13 @@ $isIndex = ($page == '' or $page == "index");
             <?php if($userSession->getDroit()[0]->getId() == 1 || $userSession->getDroit()[0]->getId() == 2){?>
             <li <?php if($page == "activiteSignalee") echo "class='active'"?>><a href="activiteSignalee.page.php">Signalement</a></li>
             <?php }?>
+            <?php if($userSession->getDroit()[0]->getId() == 3 || $userSession->getDroit()[0]->getId() == 2 || $userSession->getDroit()[0]->getId() == 1 ){?>
+                <li <?php if($page == "groupe") echo "class='active'"?>><a href="groupe.page.php">Groupe</a></li>
+            <?php }?>
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><?php buttonPaypal()?></li>
+            <li><?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') buttonPaypal()?></li>
             <li <?php if($page == "profil") echo "class='active'"?>><a href="profil.page.php">Profil</a></li>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="connexion.page.php">Déconnexion</a></li>
         </ul>

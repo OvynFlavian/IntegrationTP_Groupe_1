@@ -1,23 +1,21 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Flavian Ovyn
- * Date: 15/10/2015
- * Time: 15:24
+ * User: JulienTour
+ * Date: 22/11/2015
+ * Time: 20:41
  */
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
 initRequire();
 initRequireEntityManager();
-require "../Form/administration.form.php";
-require "../Library/Page/administration.lib.php";
-require "../Manager/User_ActivityManager.manager.php";
+require "../Library/Page/groupe.lib.php";
 
 $configIni = getConfigFile();
 startSession();
 $user = getSessionUser();
 $isConnect = isConnect();
-if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header("Location:../");
+if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur'))header("Location:../");
 
 
 ?>
@@ -26,7 +24,7 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Administration</title>
+    <title>Groupe d'activité</title>
     <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
@@ -34,8 +32,6 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
-
-    <script src="../Script/administration.js"></script>
 </head>
 <body>
 <header>
@@ -50,10 +46,10 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 </header>
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Page d'administration</h1>
+        <h1>Page d'affichage du groupe</h1>
         <?php
         if (!isset($_GET['to'])) {
-            echo "<p>Affichage de la liste des membres présents sur votre site. Vous pouvez voir leur profil ou modifier leur grade. Il est aussi possible de leur envoyer un message.</p>";
+            echo "<p>Affichage de la liste des membres premium possédant la même activité que vous. Il est possible de les ajouter à votre groupe ou de rejoindre leur groupe !</p>";
         } else if (isset($_GET['to'])) {
             if ($_GET['to'] == 'viewConfig') {
                 echo "<p>Affichage de la configuration de votre site.</p>";
@@ -70,44 +66,7 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
     <section class="row">
         <article class="col-sm-12">
             <?php
-                if(isset($_GET['to']) and $_GET['to'] == "editConfig") {
-                    $message = modifConfig();
-                    administrationEditConfig();
-                    if ($message != NULL) {
-                        echo "<div class='col-sm-offset-3 col-sm-6'>";
-                        echo "<span class='error'> $message </span>";
-                        echo "</div>";
-                    }
 
-                }
-                else if(isset($_GET['to']) and $_GET['to'] == "viewConfig") administrationViewConfig();
-                else if (isset($_GET['to']) && $_GET['to'] == "voirProfil") {
-                    if (checkMembre()) {
-                        $id = $_GET['membre'];
-                        voirProfil($id);
-                    } else {
-                        header("Location:../");
-                    }
-
-                }
-                else if(!isset($_GET['to'])) {
-                    if (isset($_POST['changerGrade'])) {
-                        modifGrade();
-                        echo "<h1 align='center'><div class='alert alert-success' role='alert'>Le grade de l'utilisateur a bien été changé !</div></h1>";
-                        echo "<meta http-equiv='refresh' content='2; URL=administration.page.php'>";
-
-
-                    } else  if (isset($_POST['EnvoyerMess'])) {
-                        formEnvoiMessage();
-                    } else if (isset($_POST['formulaireEnvoi'])) {
-                        echo envoiMessage();
-                        echo "<meta http-equiv='refresh' content='2; URL=administration.page.php'>";
-                    }else {
-                     afficherMembres();
-                    }
-                } else {
-                    header("Location:../");
-                }
             ?>
         </article>
     </section>

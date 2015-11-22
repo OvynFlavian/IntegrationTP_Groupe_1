@@ -27,7 +27,8 @@ $configIni = getConfigFile();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter une activité :</title>
+    <title>Ajouter une activité </title>
+    <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
 

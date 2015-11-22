@@ -202,6 +202,7 @@ class UserManager {
 
     }
 
+
     public function updateUserMdp (User $user) {
 
         $query = $this
