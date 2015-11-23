@@ -76,11 +76,19 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 dialog = ProgressDialog.show(MainActivity.this, "",
                         "Validation de l'utilisateur...", true);
-                new Thread(new Runnable() {
+
+
+                Thread thread = new Thread(new Runnable() {
                     public void run() {
                         login();
+                        //  addOptionOnClick(context, liste);
                     }
-                }).start();
+
+
+                });
+                thread.start();
+
+
             }
         });
 
@@ -155,6 +163,7 @@ public class MainActivity extends Activity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
+
     public void showAlert(){
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {

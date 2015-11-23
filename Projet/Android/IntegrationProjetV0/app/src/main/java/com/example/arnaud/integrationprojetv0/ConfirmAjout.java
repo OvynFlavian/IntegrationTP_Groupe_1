@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -66,6 +67,9 @@ public class ConfirmAjout extends Activity {
             @Override
             public void onClick(View v) {
                 addFriend(username);
+                Intent intent = new Intent(ConfirmAjout.this, AjoutAmis.class);
+                startActivity(intent);
+                Toast.makeText(ConfirmAjout.this, "Demande d'amis envoyée.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -74,6 +78,7 @@ public class ConfirmAjout extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(ConfirmAjout.this, AjoutAmis.class);
                 startActivity(intent);
+                Toast.makeText(ConfirmAjout.this, "Amis non ajouté.", Toast.LENGTH_SHORT).show();
             }
         });
 

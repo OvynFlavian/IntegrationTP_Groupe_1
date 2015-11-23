@@ -58,6 +58,7 @@ public class AfficherAmis extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private Button addAmis = null;
+    private Button btnRequete = null;
 
     //lister les amis
 
@@ -71,6 +72,8 @@ public class AfficherAmis extends ActionBarActivity {
         setContentView(R.layout.afficher_amis_layout);
 
         addAmis = (Button) findViewById(R.id.btnAdd);
+        btnRequete=(Button) findViewById(R.id.btnRequete);
+        btnRequete.setVisibility(View.INVISIBLE);
         //menu
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
@@ -94,6 +97,24 @@ public class AfficherAmis extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+
+        final ArrayList<String> liste1;
+        if ((liste1=isRequete())!= null){
+            btnRequete.setVisibility(View.VISIBLE);
+            btnRequete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(AfficherAmis.this, RequeteAmis.class);
+                    intent.putExtra("liste", liste1 );
+                    startActivity(intent);
+
+
+
+                }
+            });
+        }
+
 
         Thread thread = new Thread(new Runnable() {
             public void run() {
@@ -129,6 +150,54 @@ public class AfficherAmis extends ActionBarActivity {
             }
         });
     }
+
+    public ArrayList<String> isRequete(){
+        try{
+
+            httpclient=new DefaultHttpClient();
+            httppost= new HttpPost("http://91.121.151.137/scripts_android/affRequeteAmis.php"); // make sure the url is correct.
+
+            //Execute HTTP Post Request
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            JSONArray JsonArray = new JSONArray(response);
+
+            System.out.println("Response : " + JsonArray);
+            System.out.println("taille : " + JsonArray.length());
+
+
+            final ArrayList<String> list = new ArrayList<String>();
+            final String[] tbAmis = new String[35];
+
+            for (int i=0;i<JsonArray.length();i++) {
+                JSONObject jsonObject = JsonArray.getJSONObject(i);
+                System.out.println("taille : " + JsonArray.getJSONObject(i));
+                tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
+                list.add(tbAmis[i]);
+
+            }
+
+
+            return list;
+
+
+
+
+
+        }catch(Exception e){
+           /* dialog.dismiss();*/
+            System.out.println("Exception : " + e.getMessage());
+        }
+        return null;
+
+    }
+
+
 
 
     public void afficherProfil(int position, ArrayList<String> list){

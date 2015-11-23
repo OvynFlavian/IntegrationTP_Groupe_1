@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by nauna on 19-11-15.
  */
-public class SupprFriend extends Activity {
+public class AccepterAmis extends Activity {
 
     HttpPost httppost;
     StringBuffer buffer;
@@ -42,7 +42,7 @@ public class SupprFriend extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.confirm_suppr);
+        setContentView(R.layout.confirmajout_layout);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -61,21 +61,25 @@ public class SupprFriend extends Activity {
 
         final String username = intent.getStringExtra("username");
 
-        user.setText("Voulez-vous vraiment supprimer cette personne de vos amis? \n \n " + username);
+        user.setText("Voulez-vous vraiment accepter cette invitation? \n \n " + username);
 
         btnOui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                supprFriend(username);
-                Toast.makeText(SupprFriend.this, "Amis Supprimé.", Toast.LENGTH_SHORT).show();
+                accepterAmis(username);
+                Toast.makeText(AccepterAmis.this, "Amis ajouté !", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AccepterAmis.this, AfficherAmis.class);
+                startActivity(intent);
             }
         });
 
         btnNon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SupprFriend.this, AfficherAmis.class);
+                supprimerAmis(username);
+                Intent intent = new Intent(AccepterAmis.this, AfficherAmis.class);
                 startActivity(intent);
+                Toast.makeText(AccepterAmis.this, "Demande refusée.", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -84,14 +88,47 @@ public class SupprFriend extends Activity {
 
     }
 
-    public void supprFriend(String username) {
-
+    private void supprimerAmis(String username) {
         try {
             // String [] liste = (String[]) list.toArray();
 
 
             httpclient = new DefaultHttpClient();
             httppost = new HttpPost("http://91.121.151.137/scripts_android/supprimerAmis.php"); // make sure the url is correct.
+
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
+            System.out.println("Response 22:" + username);
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            System.out.println("Response :1 ");
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            //Execute HTTP Post Request
+
+            System.out.println("Response : 2");
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            // httpclient.execute(httppost);
+            String response2 = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response2);
+            // JSONArray JsonArray = new JSONArray(response);
+
+            System.out.println("Response : sisiiii ");
+
+
+        } catch (Exception e) {
+
+            System.out.println("Exception : " + e.getMessage());
+        }
+    }
+
+
+    public void accepterAmis(String username) {
+
+        try {
+            // String [] liste = (String[]) list.toArray();
+
+
+            httpclient = new DefaultHttpClient();
+            httppost = new HttpPost("http://91.121.151.137/scripts_android/confDemande.php"); // make sure the url is correct.
 
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
