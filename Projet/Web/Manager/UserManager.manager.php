@@ -30,7 +30,11 @@ class UserManager {
 
         foreach($tabUser as $elem)
         {
-            $tab[] = new User($elem);
+            $user = new User($elem);
+            $tabDroit = $this->getUserDroit($user);
+            $user->setDroit($tabDroit);
+            $tab[] = $user;
+
         }
 
         return $tab;

@@ -31,6 +31,14 @@
           return false;
      }
     }
+    function champsTexteValable($champ) {
+        if(preg_match('#^[a-zA-Z0-9 \'éàèîêâô!_/*-+ç&\[\]?$-\|\(\)\r\n]*$#', $champ)) {
+          return true;
+      }
+     else {
+         return false;
+      }
+    }
 
     function comparerDate($date, $delai) {
     if ($delai == 0) {
