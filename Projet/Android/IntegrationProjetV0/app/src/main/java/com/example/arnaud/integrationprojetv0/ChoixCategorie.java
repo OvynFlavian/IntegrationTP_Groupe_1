@@ -80,45 +80,6 @@ public class ChoixCategorie extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-        /*animaux.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = animaux.getText().toString();
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
-        enfant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = "enfant";
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
-        film.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = "film";
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
-        visite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = "visite";
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });*/
 
         profil.setOnClickListener(new View.OnClickListener() {
             @Override

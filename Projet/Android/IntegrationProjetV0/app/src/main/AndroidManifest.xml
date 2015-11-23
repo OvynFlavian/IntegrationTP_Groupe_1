@@ -64,6 +64,20 @@
             android:name=".SupprFriend"
             android:parentActivityName=".AfficherProfilAmis">
         </activity>
+        <activity
+            android:name=".RequeteAmis"
+            android:parentActivityName=".AfficherAmis">
+        </activity>
+
+        <activity
+            android:name=".AccepterAmis"
+            android:parentActivityName=".RequeteAmis">
+        </activity>
+
+        <activity
+            android:name=".ActiAmis"
+            android:parentActivityName=".AfficherProfilAmis">
+        </activity>
 
 
     </application>

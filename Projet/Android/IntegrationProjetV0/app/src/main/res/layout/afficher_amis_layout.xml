@@ -56,6 +56,14 @@
             android:layout_above="@+id/amisList"
             android:layout_alignEnd="@+id/listeAmis" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Requete d&apos;ajout"
+            android:id="@+id/btnRequete"
+            android:layout_alignTop="@+id/btnAdd"
+            android:layout_alignParentStart="true" />
+
     </RelativeLayout>
     <ListView
         android:id="@+id/navlist"

@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -44,6 +45,7 @@ public class AfficherProfilAmis extends ActionBarActivity {
     private SessionManager session;
     private TextView user;
     private TextView mail;
+    private TextView activite;
     private Button btnSuppr;
     private Button btnNon;
 
@@ -53,7 +55,11 @@ public class AfficherProfilAmis extends ActionBarActivity {
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
-    private Button addAmis = null;
+    private Button btnActi = null;
+
+    private RelativeLayout confirmationActivite = null;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +73,10 @@ public class AfficherProfilAmis extends ActionBarActivity {
 
         user = (TextView) findViewById(R.id.User);
         mail = (TextView) findViewById(R.id.Mail);
+        activite = (TextView) findViewById(R.id.acti);
         btnSuppr = (Button) findViewById(R.id.btnSuppr);
+        btnActi   = (Button) findViewById(R.id.btnActi);
+
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -83,18 +92,32 @@ public class AfficherProfilAmis extends ActionBarActivity {
 
         // Session manager
         session = new SessionManager(getApplicationContext());
+        String idUser = session.getId();
 
         Intent intent = getIntent();
 // On suppose que tu as mis un String dans l'Intent via le putExtra()
 
         final String username = intent.getStringExtra("username");
 
-        affFriend(username);
+        final String[] tb1=affFriend(username);
 
         btnSuppr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 supprFriend(username);
+            }
+        });
+
+        btnActi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(AfficherProfilAmis.this, ActiAmis.class);
+                intent2.putExtra("idActi", tb1[0] );
+                intent2.putExtra("idUser", tb1[1] );
+                intent2.putExtra("libelle", tb1[2] );
+                intent2.putExtra("description", tb1[3] );
+
+                startActivity(intent2);
             }
         });
 
@@ -104,7 +127,7 @@ public class AfficherProfilAmis extends ActionBarActivity {
 
 
 
-    public void affFriend(String username) {
+    public String[] affFriend(String username) {
 
         try{
 
@@ -128,15 +151,32 @@ public class AfficherProfilAmis extends ActionBarActivity {
 
             JSONObject jsonObject = JsonArray.getJSONObject(0);
             System.out.println("taille : " + JsonArray.getJSONObject(0));
-            user.setText("Nom d'utilisateur: "+jsonObject.getString("userName"));
-            mail.setText("Email: " + jsonObject.getString("email"));
+            user.setText("  Nom d'utilisateur: " + jsonObject.getString("userName"));
+            mail.setText("  Email: " + jsonObject.getString("email"));
+            if(jsonObject.getString("libelle")=="null") activite.setText("pas d'activité aujourd'hui.");
+            else activite.setText("  Activité: " + jsonObject.getString("libelle"));
+            String idActi = jsonObject.getString("idActivity");
+            String idUser = jsonObject.getString("idUser");
+            String libelle = jsonObject.getString("libelle");
+            String description = jsonObject.getString("description");
+            System.out.println("taille33 : " +idActi+ idUser );
 
+
+            String[] tb = new String[4];
+            tb[0]=idActi;
+            tb[1]=idUser;
+            tb[2]=libelle;
+            tb[3]= description;
+            System.out.println("tb : " +tb[0]+ tb[1] );
+
+            return tb;
 
 
         }catch(Exception e){
            /* dialog.dismiss();*/
             System.out.println("Exception : " + e.getMessage());
         }
+        return null;
     }
 
 
@@ -165,22 +205,22 @@ public class AfficherProfilAmis extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
                     Intent intent = new Intent(AfficherProfilAmis.this, ModifProfil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 1) {
                     Intent intent = new Intent(AfficherProfilAmis.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
-                if(position==2){
+                if (position == 2) {
                     Intent intent = new Intent(AfficherProfilAmis.this, AfficherAmis.class);
                     startActivity(intent);
 
                 }
 
-                if(position==3){
+                if (position == 3) {
                     logoutUser();
 
                 }
@@ -190,6 +230,7 @@ public class AfficherProfilAmis extends ActionBarActivity {
             }
         });
     }
+
 
     /**
      * Initialise le menu

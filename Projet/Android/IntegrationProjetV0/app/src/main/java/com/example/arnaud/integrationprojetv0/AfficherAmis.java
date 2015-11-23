@@ -74,6 +74,8 @@ public class AfficherAmis extends ActionBarActivity {
         addAmis = (Button) findViewById(R.id.btnAdd);
         btnRequete=(Button) findViewById(R.id.btnRequete);
         btnRequete.setVisibility(View.INVISIBLE);
+
+
         //menu
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
