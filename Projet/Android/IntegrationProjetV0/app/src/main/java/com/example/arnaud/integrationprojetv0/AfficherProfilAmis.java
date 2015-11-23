@@ -1,12 +1,10 @@
 package com.example.arnaud.integrationprojetv0;
 
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -33,24 +32,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
- * <p>
- * Une personne se connecte grâce aux informations suivantes :
- * <ul>
- * <li>Un nom d'utilisateur.</li>
- * <li>Un mot de passe.</li>
- * </ul>
- * </p>
- * @author Willame Arnaud
- */
-public class AfficherAmis extends ActionBarActivity {
+
+public class AfficherProfilAmis extends ActionBarActivity {
+
     HttpPost httppost;
+    StringBuffer buffer;
     HttpResponse response;
     HttpClient httpclient;
     List<NameValuePair> nameValuePairs;
-
+    ProgressDialog dialog = null;
     private SessionManager session;
+    private TextView user;
+    private TextView mail;
+    private Button btnSuppr;
+    private Button btnNon;
+
     //menu
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -59,101 +55,67 @@ public class AfficherAmis extends ActionBarActivity {
     private String mActivityTitle;
     private Button addAmis = null;
 
-    //lister les amis
-
-    private ListView amisList;
-    private DrawerLayout mDrawerAmisLayout;
-    private ArrayAdapter<String> mAmisAdapter;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.afficher_amis_layout);
+        setContentView(R.layout.affich_profil_amis);
 
-        addAmis = (Button) findViewById(R.id.btnAdd);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        user = (TextView) findViewById(R.id.User);
+        mail = (TextView) findViewById(R.id.Mail);
+        btnSuppr = (Button) findViewById(R.id.btnSuppr);
+
         //menu
-        mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
+
         addDrawerItems();
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //liste amis
-        amisList = (ListView)findViewById(R.id.amisList);
-        mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        final Context context=getApplicationContext();
+
+
         // Session manager
         session = new SessionManager(getApplicationContext());
 
-        addAmis.setOnClickListener(new View.OnClickListener() {
+        Intent intent = getIntent();
+// On suppose que tu as mis un String dans l'Intent via le putExtra()
+
+        final String username = intent.getStringExtra("username");
+
+        affFriend(username);
+
+        btnSuppr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AfficherAmis.this, AjoutAmis.class);
-                startActivity(intent);
+                supprFriend(username);
             }
         });
 
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                ArrayList<String> liste = afficherAmis(context);
-                addOptionOnClick(liste);
-            }
-
-
-        });
-        thread.start();
 
 
     }
 
 
 
-
-    private void addOptionOnClick(final ArrayList<String> list) {
-
-        amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-               /*new Thread(new Runnable() {
-                   @Override
-                   public void run() {*/
-                afficherProfil(position, list);
-                 /*  }
-               }).start();
-*/
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-    public void afficherProfil(int position, ArrayList<String> list){
-        String username = list.get(position).toString();
-
-
-        Intent intent = new Intent(this, AfficherProfilAmis.class);
-        intent.putExtra("username", username );
-
-        startActivity(intent);
-
-    }
-
-
-    public ArrayList<String> afficherAmis(Context context){
+    public void affFriend(String username) {
 
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://91.121.151.137/scripts_android/afficherAmis.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://91.121.151.137/scripts_android/afficherProfilAmis.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             nameValuePairs = new ArrayList<NameValuePair>(2);
 
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
@@ -164,22 +126,10 @@ public class AfficherAmis extends ActionBarActivity {
             System.out.println("taille : " + JsonArray.length());
 
 
-            final ArrayList<String> list = new ArrayList<String>();
-            final String[] tbAmis = new String[35];
-
-            for (int i=0;i<JsonArray.length();i++) {
-                JSONObject jsonObject = JsonArray.getJSONObject(i);
-                System.out.println("taille : " + JsonArray.getJSONObject(i));
-                tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
-                list.add(tbAmis[i]);
-
-            }
-            mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
-            amisList.setAdapter(mAmisAdapter);
-
-            return list;
-
-
+            JSONObject jsonObject = JsonArray.getJSONObject(0);
+            System.out.println("taille : " + JsonArray.getJSONObject(0));
+            user.setText("Nom d'utilisateur: "+jsonObject.getString("userName"));
+            mail.setText("Email: " + jsonObject.getString("email"));
 
 
 
@@ -187,62 +137,63 @@ public class AfficherAmis extends ActionBarActivity {
            /* dialog.dismiss();*/
             System.out.println("Exception : " + e.getMessage());
         }
-        return null;
+    }
+
+
+    public void supprFriend(String username) {
+
+        //String username = list.get(position).toString();
+
+
+        Intent intent = new Intent(this, SupprFriend.class);
+        intent.putExtra("username", username );
+     /*  intent.putStringArrayListExtra("liste", list);
+       intent.putExtra("position", position);*/
+
+
+        startActivity(intent);
     }
 
     /**
-     * Affiche les erreurs
+     * Ajoute des option dans le menu
      */
-    public void showAlert(){
-        AfficherAmis.this.runOnUiThread(new Runnable() {
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AfficherAmis.this);
-                builder.setTitle("connexion erreur.");
-                builder.setMessage("utilisateur non trouvé.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
-    }
-
-
-    //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "Amis", "se déconecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent intent = new Intent(AfficherAmis.this, Profil.class);
+                if(position==0){
+                    Intent intent = new Intent(AfficherProfilAmis.this, ModifProfil.class);
                     startActivity(intent);
                 }
-                if (position == 1) {
-                    Intent intent = new Intent(AfficherAmis.this, ChoixCategorie.class);
-                    startActivity(intent);
-
-                }
-                if (position == 2) {
-                    Intent intent = new Intent(AfficherAmis.this, AfficherAmis.class);
+                if(position==1){
+                    Intent intent = new Intent(AfficherProfilAmis.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
-                if (position == 3) {
+                if(position==2){
+                    Intent intent = new Intent(AfficherProfilAmis.this, AfficherAmis.class);
+                    startActivity(intent);
+
+                }
+
+                if(position==3){
                     logoutUser();
 
                 }
+
+
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    /**
+     * Initialise le menu
+     */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -265,6 +216,10 @@ public class AfficherAmis extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+
+    /**
+     * Action après la création du menu
+     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -272,12 +227,19 @@ public class AfficherAmis extends ActionBarActivity {
         mDrawerToggle.syncState();
     }
 
+    /**
+     * Action si la configuration est changée
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+
+    /**
+     * Création du menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -285,6 +247,9 @@ public class AfficherAmis extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * Action en fonction de l'onglet selectionné
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -313,10 +278,11 @@ public class AfficherAmis extends ActionBarActivity {
         session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(AfficherAmis.this, Accueil.class);
+        Intent intent = new Intent(AfficherProfilAmis.this, Accueil.class);
         startActivity(intent);
         finish();
     }
 
 
 }
+

@@ -41,6 +41,7 @@
             android:name=".AjouterActivite"
             android:parentActivityName=".AfficherActivite">
         </activity>
+
         <activity
             android:label="@string/app_name"
             android:name=".Accueil"
@@ -49,11 +50,21 @@
         <activity android:name=".AjoutAmis"></activity>
         <activity android:name=".AfficherAmis"></activity>
 
-
         <activity
             android:name=".ConfirmAjout"
             android:parentActivityName=".AjoutAmis">
         </activity>
+
+        <activity
+            android:name=".AfficherProfilAmis"
+            android:parentActivityName=".AfficherAmis">
+        </activity>
+
+        <activity
+            android:name=".SupprFriend"
+            android:parentActivityName=".AfficherProfilAmis">
+        </activity>
+
 
     </application>
 
