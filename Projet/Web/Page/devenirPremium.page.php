@@ -2,29 +2,30 @@
 /**
  * Created by PhpStorm.
  * User: JulienTour
- * Date: 4/10/2015
- * Time: 21:08
+ * Date: 22/11/2015
+ * Time: 19:29
  */
+
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
 
 initRequire();
 initRequireEntityManager();
-initRequirePage("inscription");
-require "../Library/Page/activationInscription.lib.php";
+require "../Library/Page/devenirPremium.lib.php";
+require "../Manager/User_DroitManager.manager.php";
 
 $configIni = getConfigFile();
 startSession();
 connexionDb();
 $isConnect = isConnect();
-if($isConnect)header("Location:../");
+if($_SESSION['User']->getDroit()[0]->getLibelle() == 'Premium' or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Administrateur' or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Moderateur')header("Location:../");
 ?>
 
 <!doctype html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Activation de votre inscription</title>
+    <title>Devenir membre Premium</title>
     <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
@@ -40,11 +41,15 @@ if($isConnect)header("Location:../");
 
 <section class="container">
     <section class="jumbotron">
-        <h1>Page d'activation</h1>
+        <h1>Devenir Premium</h1>
         <p>
-            <?php if(!isset($_GET['code'])){?>
-                Vous avez besoin d'un code d'activation pour vous activer !
-            <?php }else{activationNewUser();}?>
+
+            <?php
+            Premium();
+            echo "Vous êtes bien devenu membre premium !";
+            header("Location:profil.page.php");
+            ?>
+
         </p>
     </section>
 </section>

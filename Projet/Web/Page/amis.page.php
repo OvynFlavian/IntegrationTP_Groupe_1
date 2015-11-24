@@ -31,6 +31,7 @@ $configIni = getConfigFile();
 <head>
     <meta charset="UTF-8">
     <title>Liste de mes amis</title>
+    <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
 

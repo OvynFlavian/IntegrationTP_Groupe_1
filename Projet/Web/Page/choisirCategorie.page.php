@@ -21,6 +21,7 @@ $configIni = getConfigFile();
 <head>
     <meta charset="UTF-8">
     <title>Choisir une catégorie</title>
+    <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
 
@@ -38,7 +39,7 @@ $configIni = getConfigFile();
         <p>Choisissez une catégorie pour votre activité du jour :</p>
 
     </section>
-    <section class="row">
+    <section class="row" id="proposerCat">
         <?php
         afficherCategorie();
         ?>

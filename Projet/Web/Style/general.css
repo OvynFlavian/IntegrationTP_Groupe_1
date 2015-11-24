@@ -14,7 +14,16 @@ body {
     background-color : #FFFFFF;
     border-radius : 10px;
 
-
+}
+#proposerCat {
+    margin-left : 5em;
+}
+#cat {
+    border : 1px solid grey;
+    border-radius : 10px;
+    width : 20%;
+    margin : 1em;
+    padding : 2em;
 }
 .activityIndex {
     border : 1px solid lightgrey;

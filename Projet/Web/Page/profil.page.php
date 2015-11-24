@@ -32,6 +32,7 @@ if(isPostFormulaire())
     {
         $class='success';
         $tab[0] = "Modification réalisée avec succes";
+        echo "<meta http-equiv='refresh' content='2; URL=profil.page.php'>";
     }
     else
     {
@@ -46,6 +47,7 @@ if(isPostFormulaire())
 <head>
     <meta charset="UTF-8">
     <title>Profil</title>
+    <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
 

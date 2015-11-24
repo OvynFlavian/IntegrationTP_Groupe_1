@@ -159,13 +159,11 @@ function modifConfig()
             $ini = getConfigFile();
 
             $fichier = fopen('../config.ini.php', 'w');
-
             $ini['CONSTANTE']['size_user_name'] = $_POST['size_user_name'];
             $ini['CONSTANTE']['size_user_name'] = $_POST['size_user_mdp'];
             $ini['ADMINISTRATEUR']['pseudo'] = $_POST['pseudo'];
             $ini['ADMINISTRATEUR']['mail'] = $_POST['mail'];
             $ini['ADMINISTRATEUR']['tel'] = $_POST['tel'];
-            $ini['DATABASE']['password'] = "''";
             $ini['DOMAINE']['nom_domaine'] = $_POST['nom_domaine'];
             $ini['SERVEUR_ADDRESS']['web'] = $_POST['web'];
             $ini['SERVEUR_ADDRESS']['web'] = $_POST['bdd'];
@@ -178,9 +176,9 @@ function modifConfig()
                 }
             }
             fputs($fichier, $newConfig);
-
             fclose($fichier);
-            echo 'Config modifiée ! <br>';
+
+            echo "<div class='alert alert-success' role='alert'> Config modifiée ! </div>";
 
 
             header("Location:administration.page.php?to=viewConfig");

@@ -27,6 +27,7 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 <head>
     <meta charset="UTF-8">
     <title>Administration</title>
+    <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
 
@@ -111,5 +112,8 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
         </article>
     </section>
 </section>
+<footer class="footer panel-footer navbar-fixed-bottom">
+    &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+</footer>
 
 </body>
