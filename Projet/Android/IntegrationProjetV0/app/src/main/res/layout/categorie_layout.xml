@@ -14,9 +14,11 @@
     android:layout_height="fill_parent"
     android:padding="10dp"
     android:id="@+id/layoutCat1">
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,40 +46,40 @@
                 android:layout_marginBottom="15dp"/>
 
 
-    <TextView
-        android:text="@string/titreCat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/titreCat"
-        style="@style/titre"
-        android:layout_below="@id/activiteChoisie"/>
+            <TextView
+                android:text="@string/titreCat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/titreCat"
+                style="@style/titre"
+                android:layout_below="@id/activiteChoisie"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/layoutCat2"
-        android:layout_below="@id/titreCat">
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutCat2"
+                    android:layout_below="@id/titreCat">
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profil"
-        android:id="@+id/profil"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profil"
+                android:id="@+id/profil"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Se Déconnecter"
-        android:id="@+id/btnLogout"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        />
-</RelativeLayout>
-</ScrollView>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Se Déconnecter"
+                android:id="@+id/btnLogout"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
 
     <ListView

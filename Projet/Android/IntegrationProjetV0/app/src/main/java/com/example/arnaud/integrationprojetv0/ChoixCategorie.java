@@ -38,7 +38,7 @@ public class ChoixCategorie extends AppCompatActivity {
     private static final String test = "categorie";
     private SessionManager session;
     private RelativeLayout layoutCat = null;
-    private int hauteur = 1350;
+    private int hauteur = 1500;
     private TextView activiteChoisieTV = null;
     private TextView activiteChoisie = null;
     //menu
@@ -196,8 +196,8 @@ public class ChoixCategorie extends AppCompatActivity {
         categorie.setBackgroundResource(resId);
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(400, 400);
 
-        if(id > 4) {
-            hauteur = hauteur + 500;
+        if(id > 4 && (id%2) != 0) {
+            hauteur = hauteur + 460;
         }
 
         if ((id -2) > 0) {
@@ -221,6 +221,9 @@ public class ChoixCategorie extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
 
         ((RelativeLayout) findViewById(R.id.layoutCat2)).addView(categorie);
 
