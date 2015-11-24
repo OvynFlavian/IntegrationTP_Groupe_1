@@ -116,6 +116,8 @@ public class AfficherProfilAmis extends ActionBarActivity {
                 intent2.putExtra("idUser", tb1[1] );
                 intent2.putExtra("libelle", tb1[2] );
                 intent2.putExtra("description", tb1[3] );
+                intent2.putExtra("catLib", tb1[4] );
+
 
                 startActivity(intent2);
             }
@@ -159,14 +161,17 @@ public class AfficherProfilAmis extends ActionBarActivity {
             String idUser = jsonObject.getString("idUser");
             String libelle = jsonObject.getString("libelle");
             String description = jsonObject.getString("description");
+            String catLib= jsonObject.getString("catLib");
             System.out.println("taille33 : " +idActi+ idUser );
 
 
-            String[] tb = new String[4];
+            String[] tb = new String[5];
             tb[0]=idActi;
             tb[1]=idUser;
             tb[2]=libelle;
             tb[3]= description;
+            tb[4]= catLib;
+
             System.out.println("tb : " +tb[0]+ tb[1] );
 
             return tb;

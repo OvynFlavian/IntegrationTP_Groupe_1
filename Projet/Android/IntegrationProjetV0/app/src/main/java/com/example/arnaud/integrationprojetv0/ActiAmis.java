@@ -78,6 +78,8 @@ public class ActiAmis extends AppCompatActivity {
         Intent intent = getIntent();
         final String libelle = intent.getStringExtra("libelle");
         final String description1 = intent.getStringExtra("description");
+        categorie = intent.getStringExtra("catLib");
+
 
         titre.setText(libelle);
         description.setText(description1);
@@ -95,7 +97,6 @@ public class ActiAmis extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         idUser = session.getId();
         confirmationActivite.setVisibility(View.INVISIBLE);
-        ajoutActivite.setVisibility(View.INVISIBLE);
 
         if(!session.isLoggedIn()) {
             //ajoutActivite.setVisibility(View.INVISIBLE);
@@ -115,8 +116,70 @@ public class ActiAmis extends AppCompatActivity {
             });
         }
 
-        btnSuivant.setVisibility(View.INVISIBLE);
+        activiteSuivante(btnSuivant);
 
+        btnSuivant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activiteSuivante(v);
+            }
+        });
+
+    }
+
+    public void ajouterActivite(View view) {
+        Intent intent = new Intent(ActiAmis.this, AjouterActivite.class);
+        intent.putExtra(intentCat, categorie);
+        startActivity(intent);
+    }
+
+    public void activiteSuivante(View view) {
+        try{
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://91.121.151.137/scripts_android/activite.php"); // make sure the url is correct.
+            //add your data
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
+            System.out.println("avant name pair value");
+            nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));  // $Edittext_value = $_POST['Edittext_value'];
+            System.out.println("après name pair value."+categorie);
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            System.out.println("après setEntity");
+
+            //Execute HTTP Post Request
+            // response=httpclient.execute(httppost);
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            System.out.println("avant execute");
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("après execute");
+            System.out.println("Response lol : " + response);
+            JSONObject jObj = new JSONObject(response);
+
+            final String id = jObj.getString("id");
+            idActivite = id;
+            final String libelle = jObj.getString("titre");
+            final String description = jObj.getString("description");
+            Float note = Float.valueOf(jObj.getString("note"));
+            if (note != 99) {
+                this.note.setVisibility(View.VISIBLE);
+                this.note2.setVisibility(View.INVISIBLE);
+            } else {
+                this.note.setVisibility(View.INVISIBLE);
+                this.note2.setVisibility(View.VISIBLE);
+            }
+
+            System.out.println("Response : " + id + libelle + description + note);
+
+            titre.setText(libelle);
+            this.description.setText(description);
+            this.note.setRating(note);
+
+            confirmationActivite.setVisibility(View.INVISIBLE);
+
+        } catch(Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
     }
 
 
