@@ -118,7 +118,7 @@ public class AjouterActivite extends AppCompatActivity {
         try{
 
             DefaultHttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost= new HttpPost("http://91.121.151.137/scripts_android/ajouterActivite.php"); // make sure the url is correct.
+            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/ajouterActivite.php"); // make sure the url is correct.
             //add your data
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
