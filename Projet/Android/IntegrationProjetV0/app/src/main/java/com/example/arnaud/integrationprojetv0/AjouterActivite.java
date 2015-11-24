@@ -166,7 +166,7 @@ public class AjouterActivite extends AppCompatActivity {
     }
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -188,6 +188,11 @@ public class AjouterActivite extends AppCompatActivity {
 
                 }
                 if(position==3){
+                    AfficherMessage();
+
+                }
+
+                if(position==4){
                     logoutUser();
 
                 }
@@ -196,6 +201,13 @@ public class AjouterActivite extends AppCompatActivity {
         });
     }
 
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(AjouterActivite.this, Messagerie.class);
+        startActivity(intent);
+
+
+    }
     private void logoutUser() {
         session.setLogin(false);
         session.setEmail(null);

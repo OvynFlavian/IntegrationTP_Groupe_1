@@ -1,10 +1,9 @@
 package com.example.arnaud.integrationprojetv0;
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,62 +12,39 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
- * Created by nauna on 19-11-15.
+ * Created by nauna on 24-11-15.
  */
-public class SupprFriend extends ActionBarActivity {
-
-    HttpPost httppost;
-    StringBuffer buffer;
-    HttpResponse response;
-    HttpClient httpclient;
-    List<NameValuePair> nameValuePairs;
-    ProgressDialog dialog = null;
-    private SessionManager session;
-    private TextView user;
-    private Button btnOui;
-    private Button btnNon;
-
+public class Messagerie extends ActionBarActivity {
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+    private SessionManager session;
+    private EditText editText1;
+    private ListView lv;
+//lister les MESSAGES
 
-    @Override
+    private ListView amisList;
+    private DrawerLayout mDrawerAmisLayout;
+    private ArrayAdapter<String> mAmisAdapter;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.confirm_suppr);
+        setContentView(R.layout.message_layout);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
-        user = (TextView) findViewById(R.id.User);
-        btnOui = (Button) findViewById(R.id.btnOui);
-        btnNon = (Button) findViewById(R.id.btnNon);
 
         //menu
-        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.amisList);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -77,69 +53,35 @@ public class SupprFriend extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        // Session manager
         session = new SessionManager(getApplicationContext());
 
-        Intent intent = getIntent();
-// On suppose que tu as mis un String dans l'Intent via le putExtra()
+        //liste message
+        amisList = (ListView)findViewById(R.id.amisList);
+        mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        final Context context=getApplicationContext();
 
-        final String username = intent.getStringExtra("username");
+        editText1=(EditText) findViewById(R.id.editText1);
+        lv = (ListView) findViewById(R.id.listView1);
 
-        user.setText("Voulez-vous vraiment supprimer cette personne de vos amis? \n \n " + username);
+        afficherMessage(context);
 
-        btnOui.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supprFriend(username);
-                Toast.makeText(SupprFriend.this, "Amis Supprimé.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnNon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SupprFriend.this, AfficherAmis.class);
-                startActivity(intent);
-
-            }
-        });
 
 
 
     }
 
-    public void supprFriend(String username) {
-
-        try {
-            // String [] liste = (String[]) list.toArray();
 
 
-            httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://91.121.151.137/scripts_android/supprimerAmis.php"); // make sure the url is correct.
-
-            nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
-            System.out.println("Response 22:" + username);
-            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 ");
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
-
-            System.out.println("Response : 2");
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
-            String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : sisiiii ");
+    public void afficherMessage(Context context){
+        int i;
+        ArrayList list = new ArrayList();
+        for(i=0;i<5;i++) list.add("chifre: "+i);
 
 
-        } catch (Exception e) {
-
-            System.out.println("Exception : " + e.getMessage());
-        }
+        mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
+        amisList.setAdapter(mAmisAdapter);
     }
+
 
     /**
      * Ajoute des option dans le menu
@@ -153,16 +95,16 @@ public class SupprFriend extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
-                    Intent intent = new Intent(SupprFriend.this, ModifProfil.class);
+                    Intent intent = new Intent(Messagerie.this, ModifProfil.class);
                     startActivity(intent);
                 }
                 if(position==1){
-                    Intent intent = new Intent(SupprFriend.this, ChoixCategorie.class);
+                    Intent intent = new Intent(Messagerie.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
                 if(position==2){
-                    Intent intent = new Intent(SupprFriend.this, AfficherAmis.class);
+                    Intent intent = new Intent(Messagerie.this, AfficherAmis.class);
                     startActivity(intent);
 
                 }
@@ -185,17 +127,15 @@ public class SupprFriend extends ActionBarActivity {
     }
 
 
-
-    /**
-     * Initialise le menu
-     */
-
     private void AfficherMessage(){
-        Intent intent = new Intent(SupprFriend.this, Messagerie.class);
+        Intent intent = new Intent(Messagerie.this, Messagerie.class);
         startActivity(intent);
 
 
     }
+    /**
+     * Initialise le menu
+     */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -280,10 +220,9 @@ public class SupprFriend extends ActionBarActivity {
         session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(SupprFriend.this, Accueil.class);
+        Intent intent = new Intent(Messagerie.this, Accueil.class);
         startActivity(intent);
         finish();
     }
 
 }
-

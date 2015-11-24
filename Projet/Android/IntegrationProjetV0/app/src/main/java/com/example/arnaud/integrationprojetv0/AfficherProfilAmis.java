@@ -203,7 +203,7 @@ public class AfficherProfilAmis extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis", "se déconecter" };
+        String[] osArray = { "profil", "activités", "Amis","messages", "se déconecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -226,6 +226,11 @@ public class AfficherProfilAmis extends ActionBarActivity {
                 }
 
                 if (position == 3) {
+                    AfficherMessage();
+
+                }
+
+                if (position == 4) {
                     logoutUser();
 
                 }
@@ -240,6 +245,13 @@ public class AfficherProfilAmis extends ActionBarActivity {
     /**
      * Initialise le menu
      */
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(AfficherProfilAmis.this, Messagerie.class);
+        startActivity(intent);
+
+
+    }
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 

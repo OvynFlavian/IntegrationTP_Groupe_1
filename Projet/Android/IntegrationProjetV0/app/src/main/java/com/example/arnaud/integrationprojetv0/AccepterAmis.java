@@ -1,12 +1,20 @@
 package com.example.arnaud.integrationprojetv0;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +34,7 @@ import java.util.List;
 /**
  * Created by nauna on 19-11-15.
  */
-public class AccepterAmis extends Activity {
+public class AccepterAmis extends ActionBarActivity {
 
     HttpPost httppost;
     StringBuffer buffer;
@@ -38,6 +46,11 @@ public class AccepterAmis extends Activity {
     private TextView user;
     private Button btnOui;
     private Button btnNon;
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
+    private ArrayAdapter<String> mAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String mActivityTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +66,16 @@ public class AccepterAmis extends Activity {
         btnOui = (Button) findViewById(R.id.btnOui);
         btnNon = (Button) findViewById(R.id.btnNon);
 
+
+        //menu
+        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mActivityTitle = getTitle().toString();
+
+        addDrawerItems();
+        setupDrawer();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         // Session manager
         session = new SessionManager(getApplicationContext());
 
@@ -152,6 +175,148 @@ public class AccepterAmis extends Activity {
 
             System.out.println("Exception : " + e.getMessage());
         }
+    }
+
+    /**
+     * Ajoute des option dans le menu
+     */
+    private void addDrawerItems() {
+        String[] osArray = { "profil", "activités", "Amis","messages", "se déconecter" };
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        mDrawerList.setAdapter(mAdapter);
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    Intent intent = new Intent(AccepterAmis.this, ModifProfil.class);
+                    startActivity(intent);
+                }
+                if(position==1){
+                    Intent intent = new Intent(AccepterAmis.this, ChoixCategorie.class);
+                    startActivity(intent);
+
+                }
+                if(position==2){
+                    Intent intent = new Intent(AccepterAmis.this, AfficherAmis.class);
+                    startActivity(intent);
+
+                }
+
+
+                if(position==3){
+                    AfficherMessage();
+
+                }
+
+                if(position==4){
+                    logoutUser();
+
+                }
+
+
+                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(AccepterAmis.this, Messagerie.class);
+        startActivity(intent);
+
+
+    }
+    /**
+     * Initialise le menu
+     */
+    private void setupDrawer() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Navigation!");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+
+    /**
+     * Action après la création du menu
+     */
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    /**
+     * Action si la configuration est changée
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+
+    /**
+     * Création du menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /**
+     * Action en fonction de l'onglet selectionné
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        // Activate the navigation drawer toggle
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logoutUser() {
+        session.setLogin(false);
+        session.setEmail(null);
+        session.setPublics(null);
+        session.setUsername(null);
+        session.setId(null);
+
+        // Launching the login activity
+        Intent intent = new Intent(AccepterAmis.this, Accueil.class);
+        startActivity(intent);
+        finish();
     }
 
 }

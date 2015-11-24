@@ -257,7 +257,7 @@ public ArrayList<String> afficheUserPublic(Context context){
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -278,7 +278,12 @@ public ArrayList<String> afficheUserPublic(Context context){
                     startActivity(intent);
 
                 }
-                if (position == 3) {
+                if(position==3){
+                    AfficherMessage();
+
+                }
+
+                if(position==4){
                     logoutUser();
 
                 }
@@ -287,6 +292,13 @@ public ArrayList<String> afficheUserPublic(Context context){
         });
     }
 
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(AjoutAmis.this, Messagerie.class);
+        startActivity(intent);
+
+
+    }
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
