@@ -75,7 +75,7 @@ class User_GroupeManager {
             ->prepare("DELETE FROM user_groupe where id_groupe = :id");
 
         $query->execute(array(
-            "id" => $groupe->getId(),
+            "id" => $groupe->getIdGroupe(),
         ));
 
     }

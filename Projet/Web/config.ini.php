@@ -10,7 +10,7 @@ password = ''
 dbname = projet
 [ADMINISTRATEUR]
 pseudo = Admin
-mail = 1.1.1.3
+mail = no-reply@everydayidea.be
 tel = 010413509
 [DOMAINE]
 nom_domaine = everydayidea.com

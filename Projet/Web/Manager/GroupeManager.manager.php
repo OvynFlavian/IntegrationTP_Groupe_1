@@ -32,6 +32,42 @@ class GroupeManager {
 
     }
 
+
+    public function getAllGroupe() {
+        $resultats = $this->db->prepare("SELECT * FROM groupe");
+        $resultats->execute();
+
+        $tabGroupe = $resultats->fetchAll(PDO::FETCH_ASSOC);
+
+        $tab = array();
+
+        foreach($tabGroupe as $elem)
+        {
+            $groupe = new Groupe($elem);
+            $tab[] = $groupe;
+
+        }
+
+        return $tab;
+
+    }
+
+    public function getGroupeByIdGroupe($id) {
+        $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_groupe = :id");
+        $resultats->execute(array(
+            ":id" => $id,
+        ));
+
+        if ($tabGroupe = $resultats->fetch(PDO::FETCH_ASSOC)) {
+            $groupe = new Groupe($tabGroupe);
+        } else {
+            $groupe = new Groupe(array());
+        }
+
+        return $groupe;
+
+    }
+
     public function getGroupeByIdActivity($id) {
         $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_activity = :id");
         $resultats->execute(array(

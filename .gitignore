@@ -125,7 +125,6 @@ DocProject/Help/html
 publish/
 
 # Publish Web Output
-*.Publish.xml
 *.pubxml
 *.publishproj
 
@@ -224,7 +223,3 @@ Projet/Web/.idea/
 ####################
 ## AndroidStudio
 ####################
-Projet/Android/IntegrationProjetV0/.idea/
-Projet/Android/IntegrationProjetV0/app/app.iml
-Projet/Android/IntegrationProjetV0/*.iml
-*.iml

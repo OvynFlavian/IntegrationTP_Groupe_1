@@ -14,6 +14,16 @@
      }
     }
 
+    function membreExistant() {
+        $id = $_GET['membre'];
+        $um = new UserManager(connexionDb());
+        $user = $um->getUserById($id);
+        if ($user->getUserName() == NULL) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     function champsLoginValable($champ) {
      if(preg_match('#^[a-zA-Z0-9 \ éàèîêâô! ]*$#', $champ)) {
           return true;

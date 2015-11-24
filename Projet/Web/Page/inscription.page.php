@@ -19,7 +19,7 @@
     if(isPostFormulaire() && isValidBis()['Retour']) {
         addDB();
         $class = 'success';
-        $tabRetour['Error'][] = "Votre inscription est effective";
+        $tabRetour['Error'][] = "Votre inscription est effective, vous avez reçu un mail avec votre code d'activation !";
 
     } else if (isPostFormulaire() and !isValidBis()['Retour']) {
         foreach (isValidBis()['Error'] as $elem) {
@@ -73,7 +73,7 @@
 <div class="footer-container">
     <div class="row">
         <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
         </footer>
     </div>
 </div>
