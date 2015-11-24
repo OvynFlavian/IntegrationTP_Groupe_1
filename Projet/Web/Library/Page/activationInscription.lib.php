@@ -20,6 +20,7 @@
      } else {
          $am->deleteActivation($ac);
          echo "Vous êtes dorénavant activé, vous pouvez vous connecter normalement !";
+         echo "<meta http-equiv='refresh' content='2; URL=connexion.page.php'>";
      }
 
  }

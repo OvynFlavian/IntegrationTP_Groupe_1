@@ -106,7 +106,7 @@ function envoiMessage() {
         $id = $_POST['idUserMess'];
         $um = new UserManager(connexionDb());
         $userToSend = $um->getUserById($id);
-        $adresseAdmin = "andrewblake@hotmail.fr";
+        $adresseAdmin = "no-reply@everydayidea.be";
         $to = $userToSend->getEmail();
         $sujet = $_POST['titre'];
         $entete = "From:" . $adresseAdmin . "\r\n";

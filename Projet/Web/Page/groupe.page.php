@@ -14,6 +14,7 @@ require "../Manager/User_ActivityManager.manager.php";
 require "../Manager/User_GroupeManager.manager.php";
 require "../Entity/Groupe.class.php";
 require "../Manager/GroupeManager.manager.php";
+require "../Manager/Groupe_InvitationManager.manager.php";
 
 $configIni = getConfigFile();
 startSession();
@@ -57,6 +58,14 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                     }
                     echo "><a href='groupe.page.php?to=voirGroupe'>Voir mon groupe</a></li>";
                 }
+
+                if (!hasGroupe()) {
+                    echo "<li";
+                    if(isset($_GET['to']) && $_GET['to'] == 'invitation') {
+                        echo ' class="active"';
+                    }
+                    echo "><a href='groupe.page.php?to=invitation'>Voir mes invitations</a></li>";
+                }
             ?>
         </ul>
     </aside>
@@ -94,6 +103,18 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                         formCreerGroupe();
                     }
 
+                } else if (isset($_GET['to']) && $_GET['to'] == 'ajouter' && isset($_GET['membre']) && membreExistant() && !isInGroupe($_GET['membre']) && $_GET['membre'] != $_SESSION['User']->getId()) {
+                    if (isPremium() && sameActivity($_GET['membre']) && hasGroupe()) {
+                        envoiInvitation();
+                        formAjouter();
+                    } else {
+                        header("Location:groupe.page.php");
+                    }
+                } else if (isset($_GET['to']) && $_GET['to'] == 'invitation' && !hasGroupe()) {
+                    gererReponseInvitation();
+                    afficherInvitation();
+                } else {
+                    header("Location:groupe.page.php");
                 }
             }
             ?>
@@ -101,7 +122,7 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
     </section>
 </section>
 <footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+    &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
 </footer>
 
 </body>

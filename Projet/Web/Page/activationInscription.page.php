@@ -51,7 +51,7 @@ if($isConnect)header("Location:../");
 <div class="footer-container">
     <div class="row">
         <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo $configIni['ADMINISTRATEUR']['mail']?>">l'administrateur</a></span>
+            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
         </footer>
     </div>
 </div>
