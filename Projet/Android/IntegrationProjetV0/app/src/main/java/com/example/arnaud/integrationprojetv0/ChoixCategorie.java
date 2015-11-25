@@ -88,7 +88,6 @@ public class ChoixCategorie extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChoixCategorie.this, Profil.class);
-                //intent.putExtra(test, categorie);
                 startActivity(intent);
             }
         });
