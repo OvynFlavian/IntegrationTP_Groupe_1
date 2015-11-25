@@ -56,6 +56,7 @@ public class ActiviteFromListe extends AppCompatActivity {
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+    private int id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +146,9 @@ public class ActiviteFromListe extends AppCompatActivity {
             JSONObject jObj = new JSONObject(response);
 
             note = Float.valueOf(jObj.getString("note"));
+            categorie = jObj.getString("categorie");
+            idActivite = jObj.getString("idActivite");
+            System.out.println("categorie : " + categorie);
 
             if (note != 99) {
                 this.note.setVisibility(View.VISIBLE);
@@ -171,27 +175,22 @@ public class ActiviteFromListe extends AppCompatActivity {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php"); // make sure the url is correct.
-            //add your data
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            System.out.println("avant name pair value");
-            nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));  // $Edittext_value = $_POST['Edittext_value'];
-            System.out.println("après name pair value."+categorie);
+            nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             System.out.println("après setEntity");
 
-            //Execute HTTP Post Request
-            // response=httpclient.execute(httppost);
+            System.out.println("categorie : " + categorie);
+
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            System.out.println("avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
-            System.out.println("après execute");
-            System.out.println("Response lol : " + response);
+            System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
 
             final String id = jObj.getString("id");
             idActivite = id;
+            System.out.println("id activite : " + idActivite + " id : " + id);
             final String libelle = jObj.getString("titre");
             final String description = jObj.getString("description");
             Float note = Float.valueOf(jObj.getString("note"));
@@ -220,21 +219,20 @@ public class ActiviteFromListe extends AppCompatActivity {
 
     public void enregistrerActivite() {
         try{
-            Intent intent = getIntent();
-            final String idActi = intent.getStringExtra("idActi");
-            final String userId = intent.getStringExtra("idUser");
+            System.out.println("avant execute1");
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/enregistrerActivite.php"); // make sure the url is correct.
-            //add your data
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/enregistrerActivite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            nameValuePairs.add(new BasicNameValuePair("idUser", userId.trim()));  // $Edittext_value = $_POST['Edittext_value'];
-            nameValuePairs.add(new BasicNameValuePair("idActivite", idActi.trim()));
+            System.out.println("avant execute2");
+            nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));
+            System.out.println("avant execute3");
+            System.out.println("avant execute" + idActivite);
+            nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
+            System.out.println("avant execute4");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            //Execute HTTP Post Request
-            // response=httpclient.execute(httppost);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            System.out.println("avant execute5");
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("response : " + response);
             JSONObject jObj = new JSONObject(response);
@@ -242,8 +240,6 @@ public class ActiviteFromListe extends AppCompatActivity {
             System.out.println("response : " + response);
 
             final String id = jObj.getString("idUser");
-
-
 
 
             if(id == null) {
@@ -261,8 +257,8 @@ public class ActiviteFromListe extends AppCompatActivity {
                             HttpClient httpclient = new DefaultHttpClient();
                             HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/updateUserActivite.php");
                             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                            nameValuePairs.add(new BasicNameValuePair("idUser", userId.trim()));  // $Edittext_value = $_POST['Edittext_value'];
-                            nameValuePairs.add(new BasicNameValuePair("idActivite", idActi.trim()));
+                            nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));  // $Edittext_value = $_POST['Edittext_value'];
+                            nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
                             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                             ResponseHandler<String> responseHandler = new BasicResponseHandler();
