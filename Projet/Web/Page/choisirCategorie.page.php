@@ -15,10 +15,13 @@ initRequireEntityManager();
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
-$uam = new User_ActivityManager(connexionDb());
-$tab = $uam->getActIdByUserId($_SESSION['User']);
-if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
-    header("Location:coterActivite.page.php");
+if (isConnect()) {
+    $uam = new User_ActivityManager(connexionDb());
+    $tab = $uam->getActIdByUserId($_SESSION['User']);
+    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
+        header("Location:coterActivite.page.php");
+
+    }
 }
 ?>
 

@@ -103,7 +103,10 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                         echo envoiMessage();
                         echo "<meta http-equiv='refresh' content='2; URL=administration.page.php'>";
                     }else {
-                     afficherMembres();
+                        $tab = array();
+                        $tab = rechercheMembre();
+                        include("../Form/adminMembres.form.php");
+                        afficherMembres($tab);
                     }
                 } else {
                     header("Location:../");

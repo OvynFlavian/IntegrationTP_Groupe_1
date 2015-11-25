@@ -49,7 +49,6 @@
          return false;
       }
     }
-
     function comparerDate($date, $delai) {
     if ($delai == 0) {
         return false;

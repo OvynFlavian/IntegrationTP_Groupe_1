@@ -228,14 +228,18 @@ function voirGroupe() {
 function envoiMessage() {
     if (isset($_POST['poster'])) {
         if (champsTexteValable($_POST['description'])) {
-            $gmm = new Groupe_MessageManager(connexionDb());
-            $ugm = new User_GroupeManager(connexionDb());
-            $groupeId = $ugm->getGroupeIdByUserId($_SESSION['User']);
-            $groupe = new Groupe(array(
-                "id_groupe" => $groupeId[0]['id_groupe'],
-            ));
-            $gmm->addMess($groupe, $_SESSION['User'], $_POST['description']);
-            header("Location:groupe.page.php?to=voirGroupe");
+            if (strlen($_POST['description']) >= 2) {
+                $gmm = new Groupe_MessageManager(connexionDb());
+                $ugm = new User_GroupeManager(connexionDb());
+                $groupeId = $ugm->getGroupeIdByUserId($_SESSION['User']);
+                $groupe = new Groupe(array(
+                    "id_groupe" => $groupeId[0]['id_groupe'],
+                ));
+                $gmm->addMess($groupe, $_SESSION['User'], $_POST['description']);
+                header("Location:groupe.page.php?to=voirGroupe");
+            } else {
+                echo "<h1 align='center'><div class='alert alert-danger' role='alert'> Votre message est trop court !  </div></h1>";
+            }
         } else {
             echo "<h1 align='center'><div class='alert alert-danger' role='alert'> Votre message contient des caractères indésirables !  </div></h1>";
         }

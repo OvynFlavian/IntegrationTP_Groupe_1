@@ -13,12 +13,12 @@ require "./Entity/User.class.php";
 require "./Entity/Droit.class.php";
 require "Manager/ActivityManager.manager.php";
 require "Manager/User_ActivityManager.manager.php";
-require "Manager/UserManager.manager.php";
 require "Entity/Activity.class.php";
-require "Manager/DroitManager.manager.php";
 require "Library/database.lib.php";
 require "Library/config.lib.php";
 require "Library/Fonctions/Fonctions.php";
+require "Manager/UserManager.manager.php";
+require "Manager/DroitManager.manager.php";
 
 startSession();
 
@@ -45,7 +45,7 @@ if (isConnect()) {
     <?php include("./Menu/menuGeneral.lib.php"); ?>
 </header>
 <div id="wrap">
-<section class="container">
+<section class="container" id="administration">
     <section class="jumbotron">
         <h1>Page d'accueil</h1>
         <p>
@@ -57,6 +57,46 @@ if (isConnect()) {
         </p>
     </section>
     <section class="row">
+        <article class="col-sm-12">
+            <?php
+            echo "<div class='media'>";
+            echo "<div class='media-right media-middle' >";
+
+            echo "<img class='media-object' src='Images/ampoule.jpg' alt='EveryDayIdea'>";
+
+            echo "</div>";
+            echo "<div class='media-body media-right'>";
+            echo "<h3  class='media-heading'>Activité du jour </h3>";
+            if (!isConnect()) {
+                echo "Pour bénéficier de cette fonctionnalité, vous devez <a href='Page/connexion.page.php'><b>être connecté !</b></a>";
+            } else {
+                $uam = new User_ActivityManager(connexionDb());
+                $tab = $uam->getActIdByUserId($_SESSION['User']);
+                $am = new ActivityManager(connexionDb());
+
+                if (!isset($tab[0]['id_activity'])) {
+                    echo "Vous n'avez pas encore choisi d'activité aujourd'hui ! <a href='Page/choisirCategorie.page.php'><b>Choississez-en une</b></a> !";
+                } else {
+                    $act = $am->getActivityById($tab[0]['id_activity']);
+                    echo "<p>Votre activité choisie du jour est :</p>";
+                    echo "<div class='activityIndex'>";
+                    echo "<p><h3>".$act->getLibelle()."</h3></p>";
+                    echo "<p> Sa description est : <h4>".$act->getDescription()."</h4></p>";
+                    echo "</div>";
+                    echo "<div id='info'>";
+                    echo "<p> Il est toujours possible de la changer via <b><a href='Page/choisirCategorie.page.php'>le choix d'activités</a></b> !</p>";
+                    echo "<p><b> Bon amusement !</b></p>";
+                    echo "</div>";
+                }
+
+            }
+            echo "</div>";
+            echo "</div>";
+
+
+            ?>
+
+        </article>
         <article class="col-sm-12">
             <?php
             if (!isConnect()) {
@@ -97,48 +137,7 @@ if (isConnect()) {
             }
             ?>
         </article>
-        <article class="col-sm-12">
-             <?php
-            echo "<div class='media'>";
-                echo "<div class='media-right media-middle' >";
 
-                    echo "<img class='media-object' src='Images/ampoule.jpg' alt='EveryDayIdea'>";
-
-                    echo "</div>";
-                echo "<div class='media-body media-right'>";
-                echo "<h3  class='media-heading'>Activité du jour </h3>";
-                if (!isConnect()) {
-                    echo "Pour bénéficier de cette fonctionnalité, vous devez <a href='Page/connexion.page.php'><b>être connecté !</b></a>";
-                } else {
-                    $uam = new User_ActivityManager(connexionDb());
-                    $tab = $uam->getActIdByUserId($_SESSION['User']);
-                    $am = new ActivityManager(connexionDb());
-
-                    if (!isset($tab[0]['id_activity'])) {
-                        echo "Vous n'avez pas encore choisi d'activité aujourd'hui ! <a href='Page/choisirCategorie.page.php'><b>Choississez-en une</b></a> !";
-                    } else {
-                        $act = $am->getActivityById($tab[0]['id_activity']);
-                        echo "<p>Votre activité choisie du jour est :</p>";
-                        echo "<div class='activityIndex'>";
-                        echo "<p><h3>".$act->getLibelle()."</h3></p>";
-                        echo "<p> Sa description est : <h4>".$act->getDescription()."</h4></p>";
-                        echo "</div>";
-                        echo "<div id='info'>";
-                        echo "<p> Il est toujours possible de la changer via <b><a href='Page/choisirCategorie.page.php'>le choix d'activités</a></b> !</p>";
-                        echo "<p><b> Bon amusement !</b></p>";
-                        echo "</div>";
-                    }
-
-
-                }
-                echo "</div>";
-                echo "</div>";
-
-
-
-                ?>
-
-        </article>
     </section>
 </section>
         </div>
