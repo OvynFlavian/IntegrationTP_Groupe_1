@@ -15,8 +15,7 @@ initRequireEntityManager();
 startSession();
 $isConnect = isConnect();
 if(!$isConnect )header("Location:../");
-#TODO Un membre ne peut proposer une idée que toutes les semaines, penser à vérifier son délai (sauf si il est premium)
-#TODO Si il est ok, penser à update sa date de dernière activité ajoutée
+$userSession = getSessionUser();
 if (isPostFormulaire()) {
     $tabRetour = ajouterActivite();
 }
@@ -53,7 +52,11 @@ $configIni = getConfigFile();
     </section>
     <section class="row">
         <?php
-        include "../Form/ajouterActivite.form.php";
+        if(($userSession->getDroit()[0]->getId() == 3 || $userSession->getDroit()[0]->getId() == 2 || $userSession->getDroit()[0]->getId() == 1) || ($userSession->getDroit()[0]->getId() == 4 && dateLastIdea())) {
+            include "../Form/ajouterActivite.form.php";
+        } else {
+            echo "<h1 align='center'><div class='alert alert-danger' role='alert'>Vous avez déjà posté une activité cette semaine, devenez Premium pour pouvoir en proposer autant que vous en voulez !</div></h1>";
+        }
         ?>
         </section>
         <section class="alert-dismissible">

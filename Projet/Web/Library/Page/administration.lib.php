@@ -8,10 +8,23 @@
 use \Entity\Activity as Activity;
 use \Entity\User as User;
 
-function afficherMembres() {
+function rechercheMembre()
+{
+    if (isPostFormulaire()) {
+        $name = $_POST['userName'];
+
+    } else {
+        $name = "";
+    }
+
     $um = new UserManager(connexionDb());
-    $tab = $um ->getAllUser();
+    $tab = $um->searchAllUserByName($name);
+    return $tab;
+}
+
+function afficherMembres($tab) {
     ?>
+    <section class="Membres">
     <div class="table-responsive">
         <table class="table table-striped">
             <caption> <h2> Membres </h2></caption>
@@ -35,6 +48,7 @@ function afficherMembres() {
             ?>
         </table>
     </div>
+    </section>
     <?php
 
 }

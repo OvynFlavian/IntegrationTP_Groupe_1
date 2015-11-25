@@ -37,7 +37,9 @@ $isIndex = ($page == '' or $page == "index");
         <ul class="nav navbar-nav">
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="Page/choisirCategorie.page.php">Catégorie</a></li>
             <?php }else{ ?>
-            <li <?php if($page == "ajouterActivite") echo "class='active'"?>><a href="Page/ajouterActivite.page.php">Ajouter une activité</a></li>
+            <li <?php if ($page == "ajouterActivite") echo "class='active'" ?>><a
+                            href="Page/ajouterActivite.page.php">Ajouter une activité</a></li>
+
             <li <?php if($page == "listeMembres") echo "class='active'"?>><a href="Page/listeMembres.page.php">Membres</a></li>
             <li <?php if($page == "amis") echo "class='active'"?>><a href="Page/amis.page.php">Amis</a></li>
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="Page/choisirCategorie.page.php">Catégorie</a></li>
@@ -53,7 +55,9 @@ $isIndex = ($page == '' or $page == "index");
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') buttonPaypal() ?></li>
+            <?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') { ?>
+               <li <?php if($page == "premium") echo "class='active'"?>><a href="Page/premium.page.php">Devenir Premium</a></li>
+            <?php } ?>
             <li <?php if($page == "profil") echo "class='active'"?>><a href="Page/profil.page.php">Profil</a></li>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="Page/connexion.page.php">Déconnexion</a></li>
             <?php }?>
@@ -87,7 +91,9 @@ $isIndex = ($page == '' or $page == "index");
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') buttonPaypal()?></li>
+            <?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') { ?>
+                <li <?php if($page == "premium") echo "class='active'"?>><a href="premium.page.php">Devenir Premium</a></li>
+            <?php } ?>
             <li <?php if($page == "profil") echo "class='active'"?>><a href="profil.page.php">Profil</a></li>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="connexion.page.php">Déconnexion</a></li>
         </ul>

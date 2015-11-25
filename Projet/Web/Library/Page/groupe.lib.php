@@ -37,18 +37,19 @@ function afficherMembres() {
                                     $groupe = $ugm->getGroupeIdByUserId($elem);
                                     echo "<tr> <td>" . $elem->getUserName() . " </td><td>" . $elem->getDateLastConnect() . "</td><td>" . $elem->getDateInscription() . "</td>";
                                     if ($groupeUser != NULL && dejaInvite($id, $groupeUser[0]['id_groupe'])) {
-                                        echo "<td> Cette personne a déjà été invitée dans votre groupe !</td></tr>";
+                                        echo "<td> Cette personne a déjà été invitée dans votre groupe !</td>";
                                     } else if ($groupeUser != NULL && sameGroupe($elem, $groupeUser[0]['id_groupe'])) {
-                                        echo "<td> Cette personne est déjà dans votre groupe !</td></tr>";
+                                        echo "<td> Cette personne est déjà dans votre groupe !</td>";
                                     } else if ($groupe != NULL && hasGroupe()) {
-                                        echo "<td> Cette personne est déjà dans un groupe, tout comme vous !</td></tr>";
+                                        echo "<td> Cette personne est déjà dans un groupe, tout comme vous !</td>";
                                     } else if ($groupe != NULL) {
-                                        echo "<td><a href='groupe.page.php?to=rejoindre&groupe=" . $groupe[0]['id_groupe'] . "'> Rejoindre le groupe </a></td></tr>";
+                                        echo "<td><a href='groupe.page.php?to=rejoindre&groupe=" . $groupe[0]['id_groupe'] . "'> Rejoindre le groupe </a></td>";
                                     } else if (hasGroupe()) {
-                                        echo "<td><a href='groupe.page.php?to=ajouter&membre=$id'> Ajouter dans mon groupe </a></td></tr>";
+                                        echo "<td><a href='groupe.page.php?to=ajouter&membre=$id'> Ajouter dans mon groupe </a></td>";
                                     } else {
-                                        echo "<td> Vous n'avez pas de groupe, tout comme la personne !</td></tr>";
+                                        echo "<td> Vous n'avez pas de groupe, tout comme la personne !</td>";
                                     }
+                                    echo "<tr>";
                                     $existant = true;
                                 }
 
@@ -105,6 +106,182 @@ function afficherInvitation() {
         <?php
 
 }
+
+function gererReponseGroupe() {
+    if (isset($_POST['modifier'])) {
+        include "../Form/modifierDescription.form.php";
+    } else if (isset($_POST['delete'])) {
+       include "../Form/formDeleteGroupe.form.php";
+    } else if (isset($_POST['leave'])) {
+        include "../Form/formLeaveGroupe.form.php";
+    }
+}
+
+function gererActionGroupe() {
+    $gm = new GroupeManager(connexionDb());
+    $ugm = new User_GroupeManager(connexionDb());
+    $gmm = new Groupe_MessageManager(connexionDb());
+    if (isset($_POST['Refuser'])) {
+        header("Location:groupe.page.php?to=voirGroupe");
+    } else if (isset($_POST['AccepterSupprimer'])) {
+        $groupe = $gm->getGroupeByLeader($_SESSION['User']);
+        $ugm->deleteGroupe($groupe);
+        $gmm->deleteMessByGroupe($groupe);
+        $gm->deleteGroupe($_SESSION['User']->getId());
+        header("Location:groupe.page.php");
+    } else if (isset($_POST['AccepterLeave'])) {
+        $ugm->deleteUserGroupe($_SESSION['User']);
+        header("Location:groupe.page.php");
+    } else if (isset($_POST['modifierDesc'])) {
+        $groupe = $gm->getGroupeByLeader($_SESSION['User']);
+        $gm->updateGroupeDesc($groupe, $_POST['descriptionGroupe']);
+        header("Location:groupe.page.php?to=voirGroupe");
+    }
+}
+
+function voirGroupe() {
+    $ugm = new User_GroupeManager(connexionDb());
+    $groupeId = $ugm->getGroupeIdByUserId($_SESSION['User']);
+    $gm = new GroupeManager(connexionDb());
+    $am = new ActivityManager(connexionDb());
+    $um = new UserManager(connexionDb());
+    $amiM = new AmisManager(connexionDb());
+    $gmm = new Groupe_MessageManager(connexionDb());
+    $groupe = $gm->getGroupeByIdGroupe($groupeId[0]['id_groupe']);
+    $leader = $um->getUserById($groupe->getIdLeader());
+    $act = $am->getActivityById($groupe->getIdActivity());
+    $membres = $ugm->getUserIdByGroupeId($groupe);
+    $messages = $gmm->getMessageByGroup($groupe);
+    $existe = false;
+    formGroupe($groupe);
+    echo "<div class='titleGroupe'>";
+    echo "<h1 align='center'> Groupe concernant l'activité : ".$act->getLibelle()."</h1>";
+    echo "<h2 align='center'> Chef de groupe : ".$leader->getUserName()."</h2>";
+    echo "</div>";
+    echo "<h3 align='center'> Description de votre activité :</h3>";
+
+    echo "<div class='well well-lg'><h4 align='center'>".$act->getDescription() ."</h4></div>";
+    echo "<h3 align='center'> Description de votre groupe : </h3>";
+
+        echo "<div class='well well-lg'><h3 align='center'>" . $groupe->getDescription() . " </h3></div>";
+
+    ?>
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <caption> <h2> Membres du groupe </h2></caption>
+        <tr>
+            <th> Utilisateur </th>
+            <th> Date de dernière connexion</th>
+            <th> Ajouter en ami </th>
+            <th> Supprimer du groupe </th>
+        </tr>
+        <?php
+        foreach ($membres as $elem) {
+            $user = $um->getUserById($elem['id_user']);
+            $id = $user->getId();
+            if ($user->getId() != $_SESSION['User']->getId()) {
+                $amiTest1 = $amiM->getAmisById1AndId2($user->getId(), $_SESSION['User']->getId());
+                $amiTest2 = $amiM->getAmisById1AndId2($_SESSION['User']->getId(), $user->getId());
+                echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getDateLastConnect() . " </td><td>";
+                if ($amiTest1->getIdUser1() == NULL && $amiTest2->getIdUser1() == NULL) {
+                    echo "<a href='demandeAmi.page.php?membre=" . $user->getId() . "'> Ajouter comme ami </a>";
+                } else {
+                    echo "Vous êtes déjà ami avec cette personne !";
+                }
+                echo "</td>";
+                if ($groupe->getIdLeader() == $_SESSION['User']->getId()) {
+                    echo "<td><form class='form-horizontal col-sm-12' name='suppression$id' action='groupe.page.php?to=voirGroupe' method='post'>";
+                    echo "<input type='hidden'  name='idMembre$id'  value='" . $id . "''>";
+                    echo "<button class='btn btn-danger col-sm-9' type='submit' id='formulaire' name='supprimerMembre$id'>Supprimer ce membre</button>";
+                    echo "</form>";
+                    echo "</td>";
+                }
+                echo "</tr>";
+            }
+        }
+        ?>
+    </table>
+    </div>
+    <?php
+    echo "<br> <br>";
+    echo "<h2> Messagerie du groupe : </h2><br>";
+    echo "<div class='messagerieGroupe'>";
+    include "../Form/groupeMessage.form.php";
+    echo "<br>";
+    ?>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th> Utilisateur</th>
+                <th> Date </th>
+                <th> Message </th>
+            </tr>
+            <?php
+            foreach ($messages as $elem) {
+                $user = $um->getUserById($elem['id_user']);
+                echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $elem['date'] . " </td><td>";
+                echo $elem['description'];
+                echo "</td></tr>";
+                $existe = false;
+            }
+
+            if ($messages == NULL || $existe) {
+                echo "<tr> <td> Aucun message pour le moment !</td></tr>";
+            }
+            ?>
+        </table>
+    </div>
+    <?php
+    echo "</div>";
+
+}
+function gererSuppressionMembre() {
+    $um = new UserManager(connexionDb());
+    $tabUser = $um->getAllUser();
+    $trueId = 0;
+    foreach ($tabUser as $elem) {
+        $id = $elem->getId();
+        if (isset($_POST['supprimerMembre'.$id.''])){
+            $trueId = $id;
+        }
+    }
+    return $trueId;
+}
+
+function supprimerMembre($id)
+{
+    if (isset($_POST['supprimerMembre' . $id . ''])) {
+        $id = $_POST['idMembre' . $id . ''];
+        $ugm = new User_GroupeManager(connexionDb());
+        $userToDelete = new User(array(
+            "id" => $id,
+        ));
+        $ugm->deleteUserGroupe($userToDelete);
+        header("Location:groupe.page.php?to=voirGroupe");
+    }
+}
+
+function envoiMessage() {
+    if (isset($_POST['poster'])) {
+        if (champsTexteValable($_POST['description'])) {
+            if (strlen($_POST['description']) >= 2) {
+                $gmm = new Groupe_MessageManager(connexionDb());
+                $ugm = new User_GroupeManager(connexionDb());
+                $groupeId = $ugm->getGroupeIdByUserId($_SESSION['User']);
+                $groupe = new Groupe(array(
+                    "id_groupe" => $groupeId[0]['id_groupe'],
+                ));
+                $gmm->addMess($groupe, $_SESSION['User'], $_POST['description']);
+                header("Location:groupe.page.php?to=voirGroupe");
+            } else {
+                echo "<h1 align='center'><div class='alert alert-danger' role='alert'> Votre message est trop court !  </div></h1>";
+            }
+        } else {
+            echo "<h1 align='center'><div class='alert alert-danger' role='alert'> Votre message contient des caractères indésirables !  </div></h1>";
+        }
+    }
+
+}
 function gererFormInvitation() {
     $gm = new GroupeManager(connexionDb());
     $tabGroupe = $gm->getAllGroupe();
@@ -133,7 +310,7 @@ function gererReponseInvitation() {
         if (isset($_POST['AccepterGroupe'.$id.''])) {
             $ugm->addToUserGroupe($_SESSION['User'], $groupe);
             $gim->deleteInvitByUserId($_SESSION['User']);
-            header("Location:groupe.page.php");
+            header("Location:groupe.page.php?to=voirGroupe");
         } else if (isset($_POST['RefuserGroupe'.$id.''])) {
             $gim->deleteInvitByGroupeIdAndUserId($groupe, $_SESSION['User']);
             header("Location:groupe.page.php?to=invitation");
@@ -179,6 +356,9 @@ function formCreerGroupe() {
     include "../Form/creerGroupe.form.php";
 }
 
+function formRejoindreGroupe() {
+    include "../Form/rejoindreGroupe.form.php";
+}
 function formAjouter() {
     $id = $_GET['membre'];
     $ugm = new User_GroupeManager(connexionDb());
@@ -228,6 +408,31 @@ function sameGroupe(User $user, $idGroupe) {
     }
 }
 
+function groupeExiste() {
+    $id=$_GET['groupe'];
+    $gm = new GroupeManager(connexionDb());
+    $groupe = $gm->getGroupeByIdGroupe($id);
+    if ($groupe->getDescription() == NULL) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+
+function groupeSameActivity() {
+    $id = $_GET['groupe'];
+    $gm = new GroupeManager(connexionDb());
+    $groupe = $gm->getGroupeByIdGroupe($id);
+    $uam = new User_ActivityManager(connexionDb());
+    $act = $uam->getActIdByUserId($_SESSION['User']);
+    if ($act[0]['id_activity'] == $groupe->getIdActivity()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function sameActivity($idUser) {
     $uam = new User_ActivityManager(connexionDb());
     $user = new User(array(
@@ -260,6 +465,26 @@ function dejaInvite($idUser, $idGroupe) {
         return false;
     }
 }
+function rejoindreGroupe() {
+    if (isset($_POST['AccepterRejoindre']) || isset($_POST['RefuserRejoindre'])) {
+        $id = $_GET['groupe'];
+        $groupe = new Groupe(array(
+            "id_groupe" => $id,
+        ));
+        $gim = new Groupe_InvitationManager(connexionDb());
+        $ugm = new User_GroupeManager(connexionDb());
+
+        if (isset($_POST['AccepterRejoindre'])) {
+            $gim->deleteInvitByUserId($_SESSION['User']);
+            $ugm->addToUserGroupe($_SESSION['User'], $groupe);
+            echo "<h1 align='center'><div class='alert alert-success' role='alert'> Vous avez bien rejoint le groupe !  </div></h1>";
+            echo "<meta http-equiv='refresh' content='2; URL=groupe.page.php'>";
+        } else if (isset($_POST['RefuserRejoindre'])) {
+            header("Location:groupe.page.php");
+        }
+
+    }
+}
 function creerGroupe() {
     if (isset($_POST['formulaireCreation'])) {
         $desc = $_POST['description'];
@@ -277,7 +502,7 @@ function creerGroupe() {
             $groupeLead = $gm->getGroupeByLeader($_SESSION['User']);
             $ugm->addToUserGroupe($_SESSION['User'], $groupeLead);
             echo "<h1 align='center'><div class='alert alert-success' role='alert'> Le groupe a bien été créé !  </div></h1>";
-            echo "<meta http-equiv='refresh' content='2; URL=groupe.page.php'>";
+            echo "<meta http-equiv='refresh' content='2; URL=groupe.page.php?to=voirGroupe'>";
         } else {
             echo "<h1 align='center'><div class='alert alert-danger' role='alert'> Votre description contient des caractères indésirables !  </div></h1>";
         }

@@ -14,9 +14,22 @@ initRequirePage("proposerActivite");
 initRequireEntityManager();
 require "../Manager/User_ActivityManager.manager.php";
 require "../Manager/Categorie_ActivityManager.manager.php";
+require "../Manager/GroupeManager.manager.php";
+require "../Manager/User_GroupeManager.manager.php";
+require "../Manager/Groupe_MessageManager.manager.php";
+require "../Entity/Groupe.class.php";
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
+
+if (isConnect()) {
+    $uam = new User_ActivityManager(connexionDb());
+    $tab = $uam->getActIdByUserId($_SESSION['User']);
+    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
+        header("Location:coterActivite.page.php");
+
+    }
+}
 ?>
 
 <!doctype html>
@@ -59,7 +72,7 @@ $configIni = getConfigFile();
         </ul>
     </aside>
 </header>
-<section class="container">
+<section class="container" id="administration">
     <section class="jumbotron">
         <h1>Page des activités</h1>
         <p>Voici l'activité qui vous est proposée par EveryDayIdea :</p>

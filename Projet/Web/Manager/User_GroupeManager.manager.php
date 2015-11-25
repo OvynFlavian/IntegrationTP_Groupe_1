@@ -38,7 +38,7 @@ class User_GroupeManager {
             ->prepare("SELECT * FROM user_groupe WHERE id_groupe = :id");
 
         $query->execute(array(
-            "id" => $groupe->getId()
+            "id" => $groupe->getIdGroupe()
         ));
 
         $tabAct = $query->fetchAll(PDO::FETCH_ASSOC);

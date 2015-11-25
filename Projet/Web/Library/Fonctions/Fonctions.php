@@ -49,7 +49,6 @@
          return false;
       }
     }
-
     function comparerDate($date, $delai) {
     if ($delai == 0) {
         return false;
@@ -64,7 +63,31 @@
         }
     }
 
-}
+    }
+
+    function comparerHeure($date, $delai) {
+        if ($delai == 0) {
+            return false;
+        } else {
+            $datejour = date('Y-m-d H:i:s');
+            $datejour = strtotime($datejour);
+            $date = strtotime(date("Y-m-d H:i:s",strtotime($date))."+$delai hour");
+            if ($datejour > $date) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    function dateLastIdea() {
+        if (comparerDate($_SESSION['User']->getDateLastIdea(), 7)) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
     function genererCode() {
         $characts    = 'abcdefghijklmnopqrstuvwxyz';
         $characts   .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -83,7 +106,7 @@
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="CK7EUW9464MLA">
-            <p class="navbar-text">Devenir Premium : </p><input style="margin-top :4%" type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+            <input style="margin-top :4%" type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
             <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
         </form>
 

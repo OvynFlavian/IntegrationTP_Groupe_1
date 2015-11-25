@@ -109,4 +109,17 @@ class GroupeManager {
 
         ));
     }
+    public function updateGroupeDesc(Groupe $groupe, $desc)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE groupe SET description = :desc WHERE id_groupe = :id");
+
+        $query
+            ->execute(array(
+                ":id" => $groupe->getIdGroupe(),
+                ":desc" => $desc,
+            ));
+
+    }
 }

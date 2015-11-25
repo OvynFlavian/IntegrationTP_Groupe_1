@@ -7,6 +7,7 @@
  */
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
+require "../Manager/User_ActivityManager.manager.php";
 initRequire();
 initRequirePage("choisirCategorie");
 initRequireEntityManager();
@@ -14,6 +15,14 @@ initRequireEntityManager();
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
+if (isConnect()) {
+    $uam = new User_ActivityManager(connexionDb());
+    $tab = $uam->getActIdByUserId($_SESSION['User']);
+    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
+        header("Location:coterActivite.page.php");
+
+    }
+}
 ?>
 
 <!doctype html>

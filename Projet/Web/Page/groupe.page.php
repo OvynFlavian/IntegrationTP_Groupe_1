@@ -7,6 +7,7 @@
  */
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
+require "../Form/formGroupe.form.php";
 initRequire();
 initRequireEntityManager();
 require "../Library/Page/groupe.lib.php";
@@ -15,6 +16,9 @@ require "../Manager/User_GroupeManager.manager.php";
 require "../Entity/Groupe.class.php";
 require "../Manager/GroupeManager.manager.php";
 require "../Manager/Groupe_InvitationManager.manager.php";
+require "../Manager/AmisManager.manager.php";
+require "../Entity/Amis.class.php";
+require "../Manager/Groupe_MessageManager.manager.php";
 
 $configIni = getConfigFile();
 startSession();
@@ -78,6 +82,12 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                 echo "<p>Affichage de la liste des membres premium possédant la même activité que vous. Il est possible de les ajouter à votre groupe ou de rejoindre leur groupe !</p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'creerGroupe') {
                 echo "<p>Créez votre groupe ! Vous pourrez ensuite inviter d'autres membres dedans pour leur partager votre activité ensemble !</p>";
+            } else if (isset($_GET['to']) && $_GET['to'] == 'ajouter') {
+            echo "<p>Vous pouvez ajouter cette personne à votre groupe, une invitation lui sera envoyée !</p>";
+            } else if (isset($_GET['to']) && $_GET['to'] == 'rejoindre') {
+                echo "<p>Vous pouvez rejoindre ce groupe ! Toutes vos invitations seront supprimées et vous aurez accès à la page du groupe !</p>";
+            } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe') {
+                echo "<p> Voici la page de votre groupe ! Vous pouvez voir les différents membres, les ajouter en ami ou discuter avec eux via la messagerie du groupe !";
             }
 
 
@@ -110,6 +120,19 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                     } else {
                         header("Location:groupe.page.php");
                     }
+                }else if (isset($_GET['to']) && $_GET['to'] == 'rejoindre' && isset($_GET['groupe']) && !hasGroupe() && groupeExiste() && groupeSameActivity()) {
+                    if (isset($_POST['AccepterRejoindre']) || isset($_POST['RefuserRejoindre'])) {
+                        rejoindreGroupe();
+                    } else {
+                        formRejoindreGroupe();
+                    }
+                } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe' && isset($_GET['action']) && $_GET['action'] == 'mod') {
+                    gererActionGroupe();
+                    gererReponseGroupe();
+                } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe') {
+                    supprimerMembre(gererSuppressionMembre());
+                    envoiMessage();
+                    voirGroupe();
                 } else if (isset($_GET['to']) && $_GET['to'] == 'invitation' && !hasGroupe()) {
                     gererReponseInvitation();
                     afficherInvitation();

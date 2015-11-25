@@ -18,7 +18,7 @@ $configIni = getConfigFile();
 startSession();
 connexionDb();
 $isConnect = isConnect();
-if($_SESSION['User']->getDroit()[0]->getLibelle() == 'Premium' or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Administrateur' or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Moderateur')header("Location:../");
+if(!isConnect() or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Premium' or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Administrateur' or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Moderateur')header("Location:../");
 ?>
 
 <!doctype html>
