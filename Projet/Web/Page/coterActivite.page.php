@@ -2,31 +2,34 @@
 /**
  * Created by PhpStorm.
  * User: JulienTour
- * Date: 4/10/2015
- * Time: 21:08
+ * Date: 24/11/2015
+ * Time: 23:41
  */
+
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
-require "../Manager/User_ActivityManager.manager.php";
 initRequire();
 initRequirePage("choisirCategorie");
 initRequireEntityManager();
+require "../Library/Page/coterActivite.lib.php";
+require "../Manager/User_ActivityManager.manager.php";
 
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
-$uam = new User_ActivityManager(connexionDb());
-$tab = $uam->getActIdByUserId($_SESSION['User']);
-if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
-    header("Location:coterActivite.page.php");
+
+if (!isConnect()) {
+    header("Location:../");
 }
+
+
 ?>
 
 <!doctype html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Choisir une catégorie</title>
+    <title>Coter une activité</title>
     <link rel="icon" type="image/png" href="../Images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../vendor/twitter/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../Style/general.css">
@@ -41,13 +44,14 @@ if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
 </header>
 <section class="container">
     <section class="jumbotron">
-        <h1>Choisir une catégorie</h1>
-        <p>Choisissez une catégorie pour votre activité du jour :</p>
+        <h1>Coter une activité</h1>
+        <p>Cela fait plus de six heures que vous avez la même activité ! Que diriez-vous de la coter ?</p>
 
     </section>
-    <section class="row" id="proposerCat">
+    <section class="row" >
         <?php
-        afficherCategorie();
+            include "../Form/coterActivite.form.php";
+            gererFormulaire();
         ?>
     </section>
 </section>

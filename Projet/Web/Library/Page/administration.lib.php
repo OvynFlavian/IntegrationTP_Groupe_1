@@ -12,6 +12,7 @@ function afficherMembres() {
     $um = new UserManager(connexionDb());
     $tab = $um ->getAllUser();
     ?>
+    <section class="Membres">
     <div class="table-responsive">
         <table class="table table-striped">
             <caption> <h2> Membres </h2></caption>
@@ -35,6 +36,7 @@ function afficherMembres() {
             ?>
         </table>
     </div>
+    </section>
     <?php
 
 }

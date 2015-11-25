@@ -23,6 +23,7 @@ function rechercheMembre()
 
 function afficherMembres($tab) {
     ?>
+    <div class="Membres">
     <div class="table-responsive">
          <table class="table table-striped">
              <caption> <h2> Membres </h2></caption>
@@ -44,6 +45,7 @@ function afficherMembres($tab) {
                 }
              ?>
          </table>
+    </div>
     </div>
 <?php
 }

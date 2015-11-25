@@ -114,4 +114,16 @@ class ActivityManager {
             ":signalement" => $signalement,
         ));
     }
+
+    public function updateCote($id, $cote, $votants)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE activity SET note = :note, votants = :votants WHERE id = :id");
+        $query->execute(array(
+            ":id" => $id,
+            ":note" => $cote,
+            ":votants" => $votants,
+        ));
+    }
 }

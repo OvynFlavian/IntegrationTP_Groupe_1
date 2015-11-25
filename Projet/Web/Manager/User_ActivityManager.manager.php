@@ -56,6 +56,15 @@ class User_ActivityManager
         ));
     }
 
+    public function reportNote($id)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE user_activity SET date = NOW() WHERE id_activity = :id");
+        $query->execute(array(
+            ":id" => $id
+        ));
+    }
         public function deleteActivity($id)
         {
             $query = $this

@@ -64,7 +64,31 @@
         }
     }
 
-}
+    }
+
+    function comparerHeure($date, $delai) {
+        if ($delai == 0) {
+            return false;
+        } else {
+            $datejour = date('Y-m-d H:i:s');
+            $datejour = strtotime($datejour);
+            $date = strtotime(date("Y-m-d H:i:s",strtotime($date))."+$delai hour");
+            if ($datejour > $date) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    function dateLastIdea() {
+        if (comparerDate($_SESSION['User']->getDateLastIdea(), 7)) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
     function genererCode() {
         $characts    = 'abcdefghijklmnopqrstuvwxyz';
         $characts   .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

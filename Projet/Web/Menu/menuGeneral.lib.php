@@ -37,7 +37,9 @@ $isIndex = ($page == '' or $page == "index");
         <ul class="nav navbar-nav">
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="Page/choisirCategorie.page.php">Catégorie</a></li>
             <?php }else{ ?>
-            <li <?php if($page == "ajouterActivite") echo "class='active'"?>><a href="Page/ajouterActivite.page.php">Ajouter une activité</a></li>
+            <li <?php if ($page == "ajouterActivite") echo "class='active'" ?>><a
+                            href="Page/ajouterActivite.page.php">Ajouter une activité</a></li>
+
             <li <?php if($page == "listeMembres") echo "class='active'"?>><a href="Page/listeMembres.page.php">Membres</a></li>
             <li <?php if($page == "amis") echo "class='active'"?>><a href="Page/amis.page.php">Amis</a></li>
             <li <?php if($page == "choisirCategorie") echo "class='active'"?>><a href="Page/choisirCategorie.page.php">Catégorie</a></li>

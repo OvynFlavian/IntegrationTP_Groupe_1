@@ -42,7 +42,7 @@ $configIni = getConfigFile();
 <header>
     <?php include("../Menu/menuGeneral.lib.php") ?>
 </header>
-<section class="container">
+<section class="container" id="administration">
     <section class="jumbotron">
         <h1>Liste des membres</h1>
         <p> Affichage de la liste des membres présents actuellement sur le site.</p>

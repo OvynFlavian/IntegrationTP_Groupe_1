@@ -13,7 +13,9 @@ require "./Entity/User.class.php";
 require "./Entity/Droit.class.php";
 require "Manager/ActivityManager.manager.php";
 require "Manager/User_ActivityManager.manager.php";
+require "Manager/UserManager.manager.php";
 require "Entity/Activity.class.php";
+require "Manager/DroitManager.manager.php";
 require "Library/database.lib.php";
 require "Library/config.lib.php";
 require "Library/Fonctions/Fonctions.php";
@@ -22,6 +24,11 @@ startSession();
 
 $isConnect = isConnect();
 $configIni = getConfigFile();
+if (isConnect()) {
+    $um = new UserManager(connexionDb());
+    $user = $um->getUserById($_SESSION['User']->getId());
+    $_SESSION['User'] = $user;
+}
 ?>
 <!doctype html>
 <html lang="fr">
@@ -122,9 +129,11 @@ $configIni = getConfigFile();
                         echo "</div>";
                     }
 
+
                 }
                 echo "</div>";
                 echo "</div>";
+
 
 
                 ?>

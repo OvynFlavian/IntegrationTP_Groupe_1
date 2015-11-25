@@ -18,6 +18,7 @@ class Activity {
     private $Signalee;
     private $ByGroup;
     private $note;
+    private $votants;
 
     /**
      * Fonction permettant l'hydratation de la classe.
@@ -59,6 +60,9 @@ class Activity {
     public function getDescription(){
         return $this->description;
     }
+    public function getVotants() {
+        return $this->votants;
+    }
     /**SETTER**/
     public function setDescription($description){
 
@@ -83,6 +87,10 @@ class Activity {
     public function setByGroup($ByGroup)
     {
         $this->ByGroup = $ByGroup;
+    }
+    public function setVotants($votants)
+    {
+        $this->votants = $votants;
     }
 
 }
