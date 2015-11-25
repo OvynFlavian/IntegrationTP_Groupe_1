@@ -126,7 +126,7 @@ public class AfficherActivite extends AppCompatActivity {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://91.121.151.137/scripts_android/activite.php"); // make sure the url is correct.
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php"); // make sure the url is correct.
             //add your data
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
@@ -175,7 +175,7 @@ public class AfficherActivite extends AppCompatActivity {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://91.121.151.137/scripts_android/enregistrerActivite.php"); // make sure the url is correct.
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/enregistrerActivite.php"); // make sure the url is correct.
             //add your data
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
@@ -207,7 +207,7 @@ public class AfficherActivite extends AppCompatActivity {
                     public void onClick(View v) {
                         try {
                             HttpClient httpclient = new DefaultHttpClient();
-                            HttpPost httppost = new HttpPost("http://91.121.151.137/scripts_android/updateUserActivite.php");
+                            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/updateUserActivite.php");
                             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
                             nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));  // $Edittext_value = $_POST['Edittext_value'];
                             nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
@@ -244,26 +244,26 @@ public class AfficherActivite extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
                     Intent intent = new Intent(AfficherActivite.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 1) {
                     Intent intent = new Intent(AfficherActivite.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
-                if(position==2){
+                if (position == 2) {
                     Intent intent = new Intent(AfficherActivite.this, AfficherAmis.class);
                     startActivity(intent);
 
                 }
-                if(position==3){
+                if (position == 3) {
                     AfficherMessage();
 
                 }
 
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
 
                 }
@@ -318,7 +318,11 @@ public class AfficherActivite extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (session.isLoggedIn()) {
+            getMenuInflater().inflate(R.menu.menu_activite, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+        }
         return true;
     }
 
@@ -332,6 +336,11 @@ public class AfficherActivite extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.listeActivite) {
+            System.out.println("liste activite " + categorie);
+            Intent intent = new Intent(AfficherActivite.this, ListeActivite.class);
+            intent.putExtra(intentCat, categorie);
+            startActivity(intent);
         }
 
         // Activate the navigation drawer toggle

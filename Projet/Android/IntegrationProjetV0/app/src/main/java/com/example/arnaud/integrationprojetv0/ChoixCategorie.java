@@ -16,27 +16,31 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class ChoixCategorie extends AppCompatActivity {
 
-    private Button animaux = null;
-    private Button famille = null;
-    private Button film = null;
-    private Button visite = null;
     private Button profil = null;
     private Button btnLogout = null;
     private String categorie = null;
     private static final String test = "categorie";
     private SessionManager session;
     private RelativeLayout layoutCat = null;
-    private int hauteur = 1350;
+    private int hauteur = 1500;
+    private TextView activiteChoisieTV = null;
+    private TextView activiteChoisie = null;
     //menu
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -55,13 +59,11 @@ public class ChoixCategorie extends AppCompatActivity {
         // session manager
         session = new SessionManager(getApplicationContext());
 
-        /*animaux = (Button) findViewById(R.id.animaux);
-        enfant = (Button) findViewById(R.id.enfant);
-        film = (Button) findViewById(R.id.film);
-        visite = (Button) findViewById(R.id.visite);*/
         profil = (Button) findViewById(R.id.profil);
         btnLogout = (Button) findViewById(R.id.btnLogout);
         layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
+        activiteChoisieTV = (TextView) findViewById(R.id.activiteChoisieTV);
+        activiteChoisie = (TextView) findViewById(R.id.activiteChoisie);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +88,6 @@ public class ChoixCategorie extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChoixCategorie.this, Profil.class);
-                //intent.putExtra(test, categorie);
                 startActivity(intent);
             }
         });
@@ -94,6 +95,10 @@ public class ChoixCategorie extends AppCompatActivity {
         if (!session.isLoggedIn()) {
             profil.setVisibility(View.INVISIBLE);
             btnLogout.setVisibility(View.INVISIBLE);
+            activiteChoisieTV.setVisibility(View.INVISIBLE);
+            activiteChoisie.setVisibility(View.INVISIBLE);
+        } else {
+            afficherActiviteChoisie();
         }
     }
 
@@ -111,11 +116,47 @@ public class ChoixCategorie extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * affiche l'activité du jour choisie par l'utilisateur
+     */
+    public void afficherActiviteChoisie() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherActiviteChoisie.php");
+
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("userId", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            System.out.println("avant execute");
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            JSONObject jObj = new JSONObject(response);
+            final Boolean error = jObj.getBoolean("error");
+            final String activite = jObj.getString("activite");
+
+            System.out.println("activite : " + activite);
+            System.out.println("error : " + error);
+            if (error) {
+                activiteChoisie.setText("erreur");
+            } else {
+                activiteChoisie.setText(activite);
+            }
+
+        } catch(Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
+    }
+
+    /**
+     * cherche les différentes catégories disponibles
+     */
     public void afficherCategorie() {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://91.121.151.137/scripts_android/afficherCategorie.php"); // make sure the url is correct.
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherCategorie.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             // response=httpclient.execute(httppost);
@@ -130,9 +171,7 @@ public class ChoixCategorie extends AppCompatActivity {
             for (i = 1; i < Integer.valueOf(nbCategorie); i++) {
                 String j = String.valueOf(i);
                 String categorie = jObj.getString(j);
-                System.out.println("test zouloulou : " + categorie);
                 newCategorie(categorie, i);
-                System.out.println("test zouloulou : " + categorie);
             }
 
 
@@ -142,6 +181,11 @@ public class ChoixCategorie extends AppCompatActivity {
         }
     }
 
+    /**
+     * Affiche les différentes catégories disponibles
+     * @param cat : nom de la catégorie
+     * @param id : numéro de la catégorie
+     */
     public void newCategorie(String cat, int id) {
         final Button categorie = new Button(this);
         categorie.setText(cat);
@@ -151,9 +195,8 @@ public class ChoixCategorie extends AppCompatActivity {
         categorie.setBackgroundResource(resId);
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(400, 400);
 
-        if(id > 4) {
-            hauteur = hauteur + 500;
-            System.out.println("xjkdfhsxdflsdf");
+        if(id > 4 && (id%2) != 0) {
+            hauteur = hauteur + 460;
         }
 
         if ((id -2) > 0) {
@@ -177,6 +220,9 @@ public class ChoixCategorie extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
 
         ((RelativeLayout) findViewById(R.id.layoutCat2)).addView(categorie);
 
