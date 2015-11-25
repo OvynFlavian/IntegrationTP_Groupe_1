@@ -13,6 +13,10 @@ require "../Library/Page/amis.lib.php";
 require "../Entity/Amis.class.php";
 require "../Manager/AmisManager.manager.php";
 require "../Manager/User_ActivityManager.manager.php";
+require "../Manager/GroupeManager.manager.php";
+require "../Manager/User_GroupeManager.manager.php";
+require "../Manager/Groupe_MessageManager.manager.php";
+require "../Entity/Groupe.class.php";
 initRequireEntityManager();
 
 startSession();
@@ -51,7 +55,7 @@ $configIni = getConfigFile();
         </ul>
     </aside>
 </header>
-<section class="container">
+<section class="container" id="administration">
     <section class="jumbotron">
         <h1>Gérer mes amis</h1>
         <p> Ici, vous pouvez voir vos demandes en cours, les demandes vous étant envoyées ainsi que la liste de vos amis</p>

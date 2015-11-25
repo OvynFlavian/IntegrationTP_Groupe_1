@@ -43,7 +43,7 @@ $configIni = getConfigFile();
 <header>
     <?php include("../Menu/menuGeneral.lib.php") ?>
 </header>
-<section class="container">
+<section class="container" id="administration">
     <section class="jumbotron">
         <h1>Liste des activités signalées</h1>
         <p> Affichage de la liste des activités signalées actuellement sur le site.</p>

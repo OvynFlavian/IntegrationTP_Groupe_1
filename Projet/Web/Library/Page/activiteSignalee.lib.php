@@ -8,6 +8,7 @@
 use \Entity\Activity as Activity;
 function afficherActivite() {
     ?>
+    <div class="Membres">
     <div class="table-responsive">
         <table class="table table-striped">
             <caption> <h2> Activités </h2></caption>
@@ -37,6 +38,7 @@ function afficherActivite() {
             }
             ?>
         </table>
+    </div>
     </div>
     <?php
 }

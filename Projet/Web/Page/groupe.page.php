@@ -130,6 +130,7 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                     gererActionGroupe();
                     gererReponseGroupe();
                 } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe') {
+                    supprimerMembre(gererSuppressionMembre());
                     envoiMessage();
                     voirGroupe();
                 } else if (isset($_GET['to']) && $_GET['to'] == 'invitation' && !hasGroupe()) {

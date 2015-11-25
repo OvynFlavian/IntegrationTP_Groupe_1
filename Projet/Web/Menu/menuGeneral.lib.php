@@ -55,7 +55,9 @@ $isIndex = ($page == '' or $page == "index");
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') buttonPaypal() ?></li>
+            <?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') { ?>
+               <li <?php if($page == "premium") echo "class='active'"?>><a href="Page/premium.page.php">Devenir Premium</a></li>
+            <?php } ?>
             <li <?php if($page == "profil") echo "class='active'"?>><a href="Page/profil.page.php">Profil</a></li>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="Page/connexion.page.php">Déconnexion</a></li>
             <?php }?>
@@ -89,7 +91,9 @@ $isIndex = ($page == '' or $page == "index");
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') buttonPaypal()?></li>
+            <?php if($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Administrateur' and $_SESSION['User']->getDroit()[0]->getLibelle() != 'Moderateur') { ?>
+                <li <?php if($page == "premium") echo "class='active'"?>><a href="premium.page.php">Devenir Premium</a></li>
+            <?php } ?>
             <li <?php if($page == "profil") echo "class='active'"?>><a href="profil.page.php">Profil</a></li>
             <li <?php if($page == "connexion") echo "class='active'"?>><a href="connexion.page.php">Déconnexion</a></li>
         </ul>

@@ -8,6 +8,7 @@
 use \Entity\Categorie as Categorie;
 use \Entity\Activity as Activity;
 use \Entity\User as User;
+use \Entity\Groupe as Groupe;
 
 function proposerActivite($cat) {
     $am = new ActivityManager(connexionDb());
@@ -146,7 +147,13 @@ function choixActivite($id, $cat) {
         $uam = new User_ActivityManager(connexionDb());
         $tab = $uam->getActIdByUserId($_SESSION['User']);
         if (isset($tab[0]['id_activity'])) {
-            echo "<h2 align='center'><div class='alert alert-warning' role='alert'> Vous avez déjà une activité,<a href='proposerActivite.page.php?categorie=$cat&activite=$id&to=modif'> cliquez ici pour la remplacer</a> </div></h2>";
+            echo "<h2 align='center'><div class='alert alert-warning' role='alert'> Vous avez déjà une activité,<a href='proposerActivite.page.php?categorie=$cat&activite=$id&to=modif'> cliquez ici pour la remplacer</a>";
+             if (isLeader()) {
+                echo "<br> Vous êtes chef d'un groupe, votre changement d'activité entraînera la suppression du groupe";
+            } else if (hasGroupe()) {
+                echo "<br> Vous êtes dans un groupe, tout changement d'activité vous fera quitter ce groupe";
+            }
+            echo "</div></h2>";
         } else {
             $act = new Activity(array(
                 "id" => $id,
@@ -156,6 +163,58 @@ function choixActivite($id, $cat) {
         }
     }
 
+}
+
+function hasGroupe() {
+    if (isConnect()) {
+        $ugm = new User_GroupeManager(connexionDb());
+        $hasGroupe = $ugm->getGroupeIdByUserId($_SESSION['User']);
+        if (isset($hasGroupe[0]['id_groupe'])) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+}
+
+function leaveGroupe() {
+
+    $ugm = new User_GroupeManager(connexionDb());
+    $gmm = new Groupe_MessageManager(connexionDb());
+    $idGr = $ugm->getGroupeIdByUserId($_SESSION['User']);
+    if (isset($idGr[0]['id_groupe'])) {
+        $groupe = new Groupe(array(
+            "id_groupe" => $idGr[0]['id_groupe'],
+        ));
+        if (hasGroupe()) {
+            $nom = $_SESSION['User']->getUserName();
+            $desc = "L'utilisateur $nom a quitté le groupe suite à un changement d'activité.";
+            $gmm->addMess($groupe, $_SESSION['User'], $desc);
+            $ugm->deleteUserGroupe($_SESSION['User']);
+
+
+        }
+        if (isLeader()) {
+            $gm = new GroupeManager(connexionDb());
+            $ugm->deleteGroupe($groupe);
+            $gmm->deleteMessByGroupe($groupe);
+            $gm->deleteGroupe($_SESSION['User']->getId());
+        }
+    }
+
+}
+function isLeader() {
+    if (isConnect()) {
+        $gm = new GroupeManager(connexionDb());
+        $isLeader = $gm->getGroupeByLeader($_SESSION['User']);
+        if ($isLeader->getDescription() != NULL) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }
 function verifIdAct() {
     if (isset($_GET['activite'])) {
@@ -202,6 +261,7 @@ function rechercheActivite()
 
 function afficherActivites($tab, $cat) {
     ?>
+    <div class="Membres">
     <div class="table-responsive">
         <table class="table table-striped">
             <caption> <h2> Activités </h2></caption>
@@ -225,6 +285,7 @@ function afficherActivites($tab, $cat) {
             ?>
         </table>
     </div>
+    </div>
     <?php
 }
 
@@ -237,6 +298,7 @@ function modifActivite() {
             "id" => $act,
         ));
         $uam->addToTable($activity, $_SESSION['User']);
+        leaveGroupe();
         header('Location: ../');
     } else {
         header('Location: ../');

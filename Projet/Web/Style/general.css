@@ -7,6 +7,14 @@ html body .container {
     left: 0;
 
 }
+ol {
+    text-align : center;
+    list-style-type: none;
+}
+ol li {
+    margin : 2em;
+    margin-bottom : 0em;
+}
 body {
     padding-bottom : 70px;
     height : 115%;
