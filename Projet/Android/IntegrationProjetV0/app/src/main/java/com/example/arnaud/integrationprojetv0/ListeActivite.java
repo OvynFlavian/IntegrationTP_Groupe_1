@@ -39,6 +39,7 @@ public class ListeActivite extends AppCompatActivity {
     private String mActivityTitle;
     private SessionManager session;
     private ListView liste = null;
+    private ArrayList<String> list = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class ListeActivite extends AppCompatActivity {
 
             //final String note = jObj.getString("note");
 
-            ArrayList<String> list = new ArrayList<String>();
+
             String activite = new String();
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -94,9 +95,38 @@ public class ListeActivite extends AppCompatActivity {
             ArrayAdapter<String> activiteAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
             liste.setAdapter(activiteAdapter);
 
+            addOptionOnClick(list);
+
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
         }
+    }
+
+    private void addOptionOnClick(final ArrayList<String> list) {
+
+        liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                afficherActivite(position, list);
+            }
+        });
+    }
+
+    public void afficherActivite(int position, ArrayList<String> list){
+        String activite = list.get(position).toString();
+        System.out.println("string : " + "." + activite + ".");
+
+        String str[] = activite.split("\n");
+        String nom = str[0];
+        String description = str[1];
+
+        System.out.println("activite : " + "." + nom + "." + description + ".");
+
+        Intent intent = new Intent(this, ActiviteFromListe.class);
+        intent.putExtra("nom", nom );
+        intent.putExtra("description", description);
+
+        startActivity(intent);
     }
 
     /**

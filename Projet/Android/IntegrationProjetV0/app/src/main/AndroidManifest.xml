@@ -102,6 +102,10 @@
             android:name=".Messagerie">
         </activity>
 
+        <activity
+            android:name=".ActiviteFromListe">
+        </activity>
+
     </application>
 
 </manifest>
