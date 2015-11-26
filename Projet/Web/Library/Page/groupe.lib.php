@@ -173,7 +173,9 @@ function voirGroupe() {
             <th> Utilisateur </th>
             <th> Date de dernière connexion</th>
             <th> Ajouter en ami </th>
+            <?php if ($groupe->getIdLeader() == $_SESSION['User']->getId()) {?>
             <th> Supprimer du groupe </th>
+            <?php } ?>
         </tr>
         <?php
         foreach ($membres as $elem) {

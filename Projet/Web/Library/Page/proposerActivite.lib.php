@@ -179,9 +179,10 @@ function hasGroupe() {
 }
 
 function leaveGroupe() {
-
+    require "../Manager/Groupe_InvitationManager.manager.php";
     $ugm = new User_GroupeManager(connexionDb());
     $gmm = new Groupe_MessageManager(connexionDb());
+    $gim = new Groupe_InvitationManager(connexionDb());
     $idGr = $ugm->getGroupeIdByUserId($_SESSION['User']);
     if (isset($idGr[0]['id_groupe'])) {
         $groupe = new Groupe(array(
@@ -199,6 +200,7 @@ function leaveGroupe() {
             $gm = new GroupeManager(connexionDb());
             $ugm->deleteGroupe($groupe);
             $gmm->deleteMessByGroupe($groupe);
+            $gim->deleteInvitByGroupeId($groupe);
             $gm->deleteGroupe($_SESSION['User']->getId());
         }
     }
