@@ -1,10 +1,8 @@
 package com.example.arnaud.integrationprojetv0;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,59 +13,48 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
-import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by nauna on 19-11-15.
+ * Created by nauna on 24-11-15.
  */
-public class ConfirmAjout extends ActionBarActivity {
+public class GroupeAccueil extends ActionBarActivity {
+
+    HttpPost httppost;
+    HttpResponse response;
+    HttpClient httpclient;
+    List<NameValuePair> nameValuePairs;
 
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
-
-    HttpPost httppost;
-    StringBuffer buffer;
-    HttpResponse response;
-    HttpClient httpclient;
-    List<NameValuePair> nameValuePairs;
-    ProgressDialog dialog = null;
     private SessionManager session;
-    private TextView user;
-    private Button btnOui;
-    private Button btnNon;
 
-    @Override
+    private Button btnCreerGroupe;
+    private Button btnVoirGroupe;
+    private Button btnAjoutGroupe;
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.confirmajout_layout);
+        setContentView(R.layout.groupe_accueil);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+      btnCreerGroupe = (Button) findViewById(R.id.btnCreerGroupe);
+        btnVoirGroupe = (Button) findViewById(R.id.btnVoirGroupe);
+      //  btnAjoutGroupe = (Button) findViewById(R.id.btnAjoutGroupe);
 
-        user = (TextView) findViewById(R.id.User);
-        btnOui = (Button) findViewById(R.id.btnOui);
-        btnNon = (Button) findViewById(R.id.btnNon);
         //menu
-        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.amisList);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -76,74 +63,41 @@ public class ConfirmAjout extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        // Session manager
         session = new SessionManager(getApplicationContext());
 
-        Intent intent = getIntent();
-// On suppose que tu as mis un String dans l'Intent via le putExtra()
-
-        final String username = intent.getStringExtra("username");
-
-        user.setText("Voulez-vous vraiment ajouter cette personne à vos amis? \n " + username);
-
-        btnOui.setOnClickListener(new View.OnClickListener() {
+        btnCreerGroupe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addFriend(username);
-                Intent intent = new Intent(ConfirmAjout.this, AjoutAmis.class);
+               // creerGroupe();
+                Intent intent = new Intent(GroupeAccueil.this, CreerGroupe.class);
                 startActivity(intent);
-                Toast.makeText(ConfirmAjout.this, "Demande d'amis envoyée.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnNon.setOnClickListener(new View.OnClickListener() {
+        btnVoirGroupe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ConfirmAjout.this, AjoutAmis.class);
+                Intent intent = new Intent(GroupeAccueil.this, VoirGroupe.class);
                 startActivity(intent);
-                Toast.makeText(ConfirmAjout.this, "Amis non ajouté.", Toast.LENGTH_SHORT).show();
             }
         });
 
 
 
+
+
+
+
+
     }
 
-    public void addFriend(String username) {
-
-        try {
-            // String [] liste = (String[]) list.toArray();
 
 
-            httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/AjouterAmis.php"); // make sure the url is correct.
-
-            nameValuePairs = new ArrayList<NameValuePair>(2);
-                nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
-            System.out.println("Response 22:" + username);
-            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 ");
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
-
-            System.out.println("Response : 2");
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-           // httpclient.execute(httppost);
-            String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : sisiiii ");
 
 
-        } catch (Exception e) {
-
-            System.out.println("Exception : " + e.getMessage());
-        }
-    }
-/*
-    * Ajoute des option dans le menu
-    */
+    /**
+     * Ajoute des option dans le menu
+     */
     private void addDrawerItems() {
         String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
@@ -153,16 +107,16 @@ public class ConfirmAjout extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
-                    Intent intent = new Intent(ConfirmAjout.this, Profil.class);
+                    Intent intent = new Intent(GroupeAccueil.this, Profil.class);
                     startActivity(intent);
                 }
                 if(position==1){
-                    Intent intent = new Intent(ConfirmAjout.this, ChoixCategorie.class);
+                    Intent intent = new Intent(GroupeAccueil.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
                 if(position==2){
-                    Intent intent = new Intent(ConfirmAjout.this, AfficherAmis.class);
+                    Intent intent = new Intent(GroupeAccueil.this, AfficherAmis.class);
                     startActivity(intent);
 
                 }
@@ -185,17 +139,15 @@ public class ConfirmAjout extends ActionBarActivity {
     }
 
 
-
-    /**
-     * Initialise le menu
-     */
-
     private void AfficherMessage(){
-        Intent intent = new Intent(ConfirmAjout.this, GroupeAccueil.class);
+        Intent intent = new Intent(GroupeAccueil.this, GroupeAccueil.class);
         startActivity(intent);
 
 
     }
+    /**
+     * Initialise le menu
+     */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -280,11 +232,9 @@ public class ConfirmAjout extends ActionBarActivity {
         session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(ConfirmAjout.this, Accueil.class);
+        Intent intent = new Intent(GroupeAccueil.this, Accueil.class);
         startActivity(intent);
         finish();
     }
 
-
 }
-

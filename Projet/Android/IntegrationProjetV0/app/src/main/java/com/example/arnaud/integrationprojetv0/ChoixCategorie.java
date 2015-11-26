@@ -32,6 +32,10 @@ import java.util.ArrayList;
 
 public class ChoixCategorie extends AppCompatActivity {
 
+    private Button animaux = null;
+    private Button famille = null;
+    private Button film = null;
+    private Button visite = null;
     private Button profil = null;
     private Button btnLogout = null;
     private String categorie = null;
@@ -59,6 +63,10 @@ public class ChoixCategorie extends AppCompatActivity {
         // session manager
         session = new SessionManager(getApplicationContext());
 
+        /*animaux = (Button) findViewById(R.id.animaux);
+        enfant = (Button) findViewById(R.id.enfant);
+        film = (Button) findViewById(R.id.film);
+        visite = (Button) findViewById(R.id.visite);*/
         profil = (Button) findViewById(R.id.profil);
         btnLogout = (Button) findViewById(R.id.btnLogout);
         layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
@@ -88,6 +96,7 @@ public class ChoixCategorie extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChoixCategorie.this, Profil.class);
+                //intent.putExtra(test, categorie);
                 startActivity(intent);
             }
         });
@@ -115,6 +124,7 @@ public class ChoixCategorie extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 
     /**
      * affiche l'activité du jour choisie par l'utilisateur
@@ -171,7 +181,9 @@ public class ChoixCategorie extends AppCompatActivity {
             for (i = 1; i < Integer.valueOf(nbCategorie); i++) {
                 String j = String.valueOf(i);
                 String categorie = jObj.getString(j);
+                System.out.println("test zouloulou : " + categorie);
                 newCategorie(categorie, i);
+                System.out.println("test zouloulou : " + categorie);
             }
 
 
@@ -180,7 +192,6 @@ public class ChoixCategorie extends AppCompatActivity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
-
     /**
      * Affiche les différentes catégories disponibles
      * @param cat : nom de la catégorie
@@ -221,9 +232,6 @@ public class ChoixCategorie extends AppCompatActivity {
             }
         });
 
-
-
-
         ((RelativeLayout) findViewById(R.id.layoutCat2)).addView(categorie);
 
         FrameLayout.LayoutParams p2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, hauteur);
@@ -234,45 +242,56 @@ public class ChoixCategorie extends AppCompatActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
-        mDrawerList.setAdapter(mAdapter);
+        System.out.println("session droit " + session.getDroit());
 
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent intent = new Intent(ChoixCategorie.this, Profil.class);
-                    startActivity(intent);
+            String[] osArray = {"profil", "activités", "Amis", "groupe", "se déconecter"};
+
+
+            mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+            mDrawerList.setAdapter(mAdapter);
+
+            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (position == 0) {
+                        Intent intent = new Intent(ChoixCategorie.this, Profil.class);
+                        startActivity(intent);
+                    }
+                    if (position == 1) {
+                        Intent intent = new Intent(ChoixCategorie.this, ChoixCategorie.class);
+                        startActivity(intent);
+
+                    }
+                    if (position == 2) {
+                        Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
+                        startActivity(intent);
+
+                    }
+
+                    if (position == 3) {
+                        AfficherMessage();
+
+                    }
+                    if (position == 4) {
+                        logoutUser();
+
+                    }
+
+
+                    // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
                 }
-                if(position==1){
-                    Intent intent = new Intent(ChoixCategorie.this, ChoixCategorie.class);
-                    startActivity(intent);
+            });
 
-                }
-                if(position==2){
-                    Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
-                    startActivity(intent);
 
-                }
-                if(position==3){
-                    AfficherMessage();
 
-                }
-
-                if(position==4){
-                    logoutUser();
-
-                }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
     private void AfficherMessage(){
-        Intent intent = new Intent(ChoixCategorie.this, Messagerie.class);
+
+        Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
         startActivity(intent);
+
 
 
     }

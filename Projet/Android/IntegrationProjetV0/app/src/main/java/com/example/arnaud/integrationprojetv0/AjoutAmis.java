@@ -94,9 +94,7 @@ public class AjoutAmis extends ActionBarActivity {
         session = new SessionManager(getApplicationContext());
 
 
-        //attention thread peut utiliser "syncrhronysed";
-     /*   Thread thread = new Thread(new Runnable() {
-            public void run() {*/
+
                 final ArrayList<String> liste = afficheUserPublic(context);
 
 
@@ -120,11 +118,7 @@ public class AjoutAmis extends ActionBarActivity {
 
 
 
-         /*   }
 
-
-        });
-        thread.start();*/
     }
 
 
@@ -134,16 +128,9 @@ public class AjoutAmis extends ActionBarActivity {
         amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-               /*new Thread(new Runnable() {
-                   @Override
-                   public void run() {*/
+
                        ajouterAmis(position,list);
-                 /*  }
-               }).start();
-*/
 
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -257,7 +244,7 @@ public ArrayList<String> afficheUserPublic(Context context){
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -294,7 +281,7 @@ public ArrayList<String> afficheUserPublic(Context context){
 
 
     private void AfficherMessage(){
-        Intent intent = new Intent(AjoutAmis.this, Messagerie.class);
+        Intent intent = new Intent(AjoutAmis.this, GroupeAccueil.class);
         startActivity(intent);
 
 

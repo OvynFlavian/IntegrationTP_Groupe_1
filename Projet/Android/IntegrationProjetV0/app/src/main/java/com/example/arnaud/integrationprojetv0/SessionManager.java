@@ -14,7 +14,7 @@ public class SessionManager {
 
     Editor editor;
     Context _context;
-    String id,username,email,publics;
+    String id,username,email,publics, droit;
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -54,6 +54,17 @@ public class SessionManager {
 
     public String getUsername(){
         return pref.getString("USERNAME", null);
+
+    }
+
+    public void setDroit(String droit) {
+        editor.putString("DROIT", droit);
+        editor.commit();
+
+    }
+
+    public String getDroit(){
+        return pref.getString("DROIT", null);
 
     }
 

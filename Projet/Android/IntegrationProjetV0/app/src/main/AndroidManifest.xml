@@ -99,11 +99,58 @@
         </activity>
 
         <activity
+            android:name=".Groupe"
+            android:parentActivityName=".AfficherActivite">
+        </activity>
+
+        <activity
             android:name=".Messagerie">
         </activity>
 
         <activity
             android:name=".ActiviteFromListe">
+        </activity>
+
+        <activity
+            android:name=".GroupeAccueil"
+            android:parentActivityName=".AfficherActivite">
+        </activity>
+
+
+        <activity
+            android:name=".CreerGroupe"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+
+
+        <activity
+            android:name=".AjoutGroupe"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+
+        <activity
+            android:name=".VoirGroupe"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+
+        <activity
+            android:name=".RequeteGroupe"
+            android:parentActivityName=".VoirGroupe">
+        </activity>
+
+        <activity
+            android:name=".AccepterGroupe"
+            android:parentActivityName=".RequeteGroupe">
+        </activity>
+
+        <activity
+            android:name=".AjoutAmisGroupe"
+            android:parentActivityName=".VoirGroupe">
+        </activity>
+
+        <activity
+            android:name=".ConfirmAjoutGroupe"
+            android:parentActivityName=".AjoutAmisGroupe">
         </activity>
 
     </application>

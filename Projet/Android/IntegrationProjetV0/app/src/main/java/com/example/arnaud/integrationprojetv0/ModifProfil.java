@@ -159,7 +159,7 @@ public class ModifProfil extends ActionBarActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -208,7 +208,7 @@ public class ModifProfil extends ActionBarActivity {
     }
 
     private void AfficherMessage(){
-        Intent intent = new Intent(ModifProfil.this, Messagerie.class);
+        Intent intent = new Intent(ModifProfil.this, GroupeAccueil.class);
         startActivity(intent);
 
 

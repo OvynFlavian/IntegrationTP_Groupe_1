@@ -24,19 +24,19 @@
             android:id="@+id/listeAmis"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp" />
+            android:layout_marginTop="150dp" />
 
         <TextView
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:text="Demande d'ajout"
+            android:text="Groupe"
             android:id="@+id/titreAmis"
             android:textAlignment="center"
             android:textSize="25dp"
             android:textStyle="bold"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/listeAmis" />
+            android:layout_alignEnd="@+id/listeAmis"
+            android:layout_marginEnd="61dp" />
 
         <ListView
             android:id="@+id/amisList"
@@ -48,6 +48,37 @@
             android:layout_alignEnd="@+id/listeAmis"
             android:background="#980b6392" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ajouter membres"
+            android:id="@+id/btnAdd"
+            android:layout_above="@+id/amisList"
+            android:layout_alignEnd="@+id/listeAmis" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Requete d&apos;ajout"
+            android:id="@+id/btnRequete"
+            android:layout_above="@+id/amisList"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description : "
+            android:id="@+id/desc"
+            android:layout_below="@+id/titreAmis"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activité : "
+            android:id="@+id/acti"
+            android:layout_below="@+id/desc"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
     <ListView

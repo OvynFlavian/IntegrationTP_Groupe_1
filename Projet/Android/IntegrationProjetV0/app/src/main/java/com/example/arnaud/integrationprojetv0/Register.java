@@ -70,12 +70,12 @@ public class Register extends Activity {
             public void onClick(View v) {
                 dialog = ProgressDialog.show(Register.this, "",
                         "Validation de l'inscription...", true);
-                new Thread(new Runnable() {
-                    public void run() {
+                /*new Thread(new Runnable() {
+                    public void run() {*/
                         register();
-                    }
+                    /*}
                 }).start();
-            }
+           } */}
         });
     }
 

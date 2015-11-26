@@ -3,7 +3,6 @@ package com.example.arnaud.integrationprojetv0;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,10 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -29,61 +26,43 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * <b>Profil est une classe qui permet d'afficher le profil de l'utilisateur connecté.</b>
- * <p>
- * la classe affiche les informations suivantes :
- * <ul>
- * <li>Un nom d'utilisateur.</li>
- * <li>Un email.</li>
- * <li>Si l'utilisateur veut être public ou privé.</li>
- * </ul>
- * </p>
- * @author Willame Arnaud
- */
 
-public class Profil extends ActionBarActivity {
+/**
+ * Created by nauna on 24-11-15.
+ */
+public class CreerGroupe extends ActionBarActivity {
+    HttpPost httppost;
+    HttpResponse response;
+    HttpClient httpclient;
+    List<NameValuePair> nameValuePairs;
+
+    HttpPost httppost2;
+    HttpResponse response2;
+    HttpClient httpclient2;
+    List<NameValuePair> nameValuePairs2;
+
+
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
-
-    TextView user, mail;
     private SessionManager session;
-    Button btnmodif;
-    CheckBox cbPublic;
-    HttpPost httppost;
-    StringBuffer buffer;
-    HttpResponse response;
-    HttpClient httpclient;
-    List<NameValuePair> nameValuePairs;
 
-    @Override
+    private EditText descGroupe;
+private Button b2;
+
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profil_layout);
+        setContentView(R.layout.groupe_creer);
 
-
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
-
-        user = (TextView) findViewById(R.id.User);
-        mail = (TextView) findViewById(R.id.Mail);
-        btnmodif = (Button) findViewById(R.id.btnModif);
-        cbPublic = (CheckBox) findViewById(R.id.cbPublic);
-
-
+        session = new SessionManager(getApplicationContext());
         //menu
-        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.amisList);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -93,117 +72,131 @@ public class Profil extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-        // Session manager
-        session = new SessionManager(getApplicationContext());
-
-        user.setText("Nom d'utilisateur : " + session.getUsername());
-        mail.setText("Addresse Mail : " + (session.getEmail()));
-        String publics= session.getPublics();
-        if (publics=="FALSE") cbPublic.setChecked(false);
-        else if (publics=="TRUE") cbPublic.setChecked(true);
-        else cbPublic.setChecked(false);
-
-        System.out.println("réponse: " + session.getId());
-        System.out.println("réponse: " + session.getPublics());
 
 
-        btnmodif.setOnClickListener(new View.OnClickListener() {
+        descGroupe=(EditText)findViewById(R.id.descrGroupe);
+        b2= (Button) findViewById((R.id.b2));
 
+        b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profil.this, ModifProfil.class);
-                startActivity(intent);
+                creerGroupe();
+
+                finirCreation();
+
+                startActivity(new Intent(CreerGroupe.this, GroupeAccueil.class));
+                //setContentView(R.layout.register_layout);
             }
         });
 
 
 
-
-        cbPublic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton cbPublic, boolean isChecked) {
-                try {
-                    httpclient = new DefaultHttpClient();
-                    String id = session.getId();
-                    httppost = new HttpPost("http://91.121.151.137/scripts_android/modifPublic.php"); // make sure the url is correct.
-                    //add your data
-                    nameValuePairs = new ArrayList<NameValuePair>(2);
-                    if (cbPublic.isChecked()) {
-                        System.out.println("resp : " + "true");
-                        nameValuePairs.add(new BasicNameValuePair("isCheck", "TRUE"));
-                        session.setPublics("TRUE");
-                    } else {
-                        System.out.println("resp : " + "true");
-                        nameValuePairs.add(new BasicNameValuePair("isCheck", "FALSE"));
-                        session.setPublics("FALSE");
-                    }
-                    nameValuePairs.add(new BasicNameValuePair("id", id.toString().trim()));
-
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                    //Execute HTTP Post Request
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
-                    final String response = httpclient.execute(httppost, responseHandler);
-                    System.out.println("Response : " + response);
-
-                    if(response.equalsIgnoreCase("TRUE")){
-                        cbPublic.setChecked(true);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Profil.this, "Activités publiques", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    }else if(response.equalsIgnoreCase("FALSE")){
-                        cbPublic.setChecked(false);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Profil.this, "Activités privées", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println("Exception : " + e.getMessage());
-                }
-            }
-
-        });
 
     }
+
+    public void creerGroupe() {
+
+
+        try {
+            // String [] liste = (String[]) list.toArray();
+
+
+            httpclient = new DefaultHttpClient();
+            httppost = new HttpPost("http://109.89.122.61/scripts_android/creerGroupe.php"); // make sure the url is correct.
+
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            System.out.println("Response :1 "+session.getId().toString());
+            nameValuePairs.add(new BasicNameValuePair("desc", descGroupe.getText().toString().trim()));
+             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            //Execute HTTP Post Request
+
+            System.out.println("Response : 2"+descGroupe.getText());
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            // httpclient.execute(httppost);
+            String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            // JSONArray JsonArray = new JSONArray(response);
+
+            System.out.println("Response : sisiiii ");
+            Toast.makeText(CreerGroupe.this, "Groupe Créé avec succès", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+
+            System.out.println("Exception : " + e.getMessage());
+        }
+
+
+    }
+
+    public void finirCreation(){
+        try {
+            // String [] liste = (String[]) list.toArray();
+
+
+            httpclient2 = new DefaultHttpClient();
+            httppost2 = new HttpPost("http://109.89.122.61/scripts_android/finirCreationGroupe.php"); // make sure the url is correct.
+
+            nameValuePairs2 = new ArrayList<NameValuePair>(2);
+            nameValuePairs2.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            System.out.println("Response :1 " + session.getId().toString());
+
+
+            httppost2.setEntity(new UrlEncodedFormEntity(nameValuePairs2));
+            //Execute HTTP Post Request
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            // httpclient.execute(httppost);
+            String response2 = httpclient2.execute(httppost2, responseHandler);
+            System.out.println("Response : " + response2);
+            // JSONArray JsonArray = new JSONArray(response);
+
+            System.out.println("Response : sisiiii ");
+            Toast.makeText(CreerGroupe.this, "Groupe Créé avec succès", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+
+            System.out.println("Exception : " + e.getMessage());
+        }
+
+
+    }
+
+
+
+
     /**
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
+        String[] osArray = { "profil", "activités", "Amis","groupe ", "se déconecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent intent = new Intent(Profil.this, Profil.class);
+                if(position==0){
+                    Intent intent = new Intent(CreerGroupe.this, Profil.class);
                     startActivity(intent);
                 }
-                if (position == 1) {
-                    Intent intent = new Intent(Profil.this, ChoixCategorie.class);
-                    startActivity(intent);
-
-                }
-                if (position == 2) {
-                    Intent intent = new Intent(Profil.this, AfficherAmis.class);
+                if(position==1){
+                    Intent intent = new Intent(CreerGroupe.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
+                if(position==2){
+                    Intent intent = new Intent(CreerGroupe.this, AfficherAmis.class);
+                    startActivity(intent);
+
+                }
 
 
-                if (position == 3) {
+                if(position==3){
                     AfficherMessage();
 
                 }
 
-                if (position == 4) {
+                if(position==4){
                     logoutUser();
 
                 }
@@ -215,17 +208,15 @@ public class Profil extends ActionBarActivity {
     }
 
 
-
-    /**
-     * Initialise le menu
-     */
-
     private void AfficherMessage(){
-        Intent intent = new Intent(Profil.this, GroupeAccueil.class);
+        Intent intent = new Intent(CreerGroupe.this, GroupeAccueil.class);
         startActivity(intent);
 
 
     }
+    /**
+     * Initialise le menu
+     */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -310,7 +301,7 @@ public class Profil extends ActionBarActivity {
         session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(Profil.this, Accueil.class);
+        Intent intent = new Intent(CreerGroupe.this, Accueil.class);
         startActivity(intent);
         finish();
     }

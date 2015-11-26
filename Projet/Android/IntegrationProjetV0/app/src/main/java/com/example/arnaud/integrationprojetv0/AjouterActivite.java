@@ -166,7 +166,7 @@ public class AjouterActivite extends AppCompatActivity {
     }
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -203,7 +203,7 @@ public class AjouterActivite extends AppCompatActivity {
 
 
     private void AfficherMessage(){
-        Intent intent = new Intent(AjouterActivite.this, Messagerie.class);
+        Intent intent = new Intent(AjouterActivite.this, GroupeAccueil.class);
         startActivity(intent);
 
 

@@ -4,29 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:isScrollContainer="true"
-    android:scrollbars="vertical"
-    android:overScrollMode="always">
-
-
+    android:layout_height="match_parent">
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ampoule9"
-    android:isScrollContainer="true"
-    android:scrollbars="vertical"
-    android:overScrollMode="always">
-
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+    android:background="@drawable/ampoule2">
 
     <TextView
         android:layout_width="wrap_content"
@@ -148,18 +133,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/ajouterActivite"
         android:text="Proposez une activité !"
-        android:layout_below="@id/confirmationActivite"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="ajouterActivite"
-        android:layout_marginTop="70dp"/>
-
-        </RelativeLayout>
-
-    </ScrollView>
+        android:onClick="ajouterActivite"/>
 
 </RelativeLayout>
-
-
 
     <ListView
         android:id="@+id/amisList"

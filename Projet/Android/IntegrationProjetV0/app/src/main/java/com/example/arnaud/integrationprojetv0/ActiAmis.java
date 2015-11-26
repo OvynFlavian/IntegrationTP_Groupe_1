@@ -255,7 +255,7 @@ public class ActiAmis extends AppCompatActivity {
     }
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -292,7 +292,7 @@ public class ActiAmis extends AppCompatActivity {
     }
 
     private void AfficherMessage(){
-        Intent intent = new Intent(ActiAmis.this, Messagerie.class);
+        Intent intent = new Intent(ActiAmis.this, GroupeAccueil.class);
         startActivity(intent);
 
 

@@ -1,5 +1,6 @@
 package com.example.arnaud.integrationprojetv0;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,8 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,59 +28,44 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <b>Profil est une classe qui permet d'afficher le profil de l'utilisateur connecté.</b>
- * <p>
- * la classe affiche les informations suivantes :
- * <ul>
- * <li>Un nom d'utilisateur.</li>
- * <li>Un email.</li>
- * <li>Si l'utilisateur veut être public ou privé.</li>
- * </ul>
- * </p>
- * @author Willame Arnaud
+ * Created by nauna on 19-11-15.
  */
+public class ConfirmAjoutGroupe extends ActionBarActivity {
 
-public class Profil extends ActionBarActivity {
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
 
-    TextView user, mail;
-    private SessionManager session;
-    Button btnmodif;
-    CheckBox cbPublic;
     HttpPost httppost;
     StringBuffer buffer;
     HttpResponse response;
     HttpClient httpclient;
     List<NameValuePair> nameValuePairs;
+    ProgressDialog dialog = null;
+    private SessionManager session;
+    private TextView user;
+    private Button btnOui;
+    private Button btnNon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profil_layout);
-
+        setContentView(R.layout.confirmajout_layout);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
-
         user = (TextView) findViewById(R.id.User);
-        mail = (TextView) findViewById(R.id.Mail);
-        btnmodif = (Button) findViewById(R.id.btnModif);
-        cbPublic = (CheckBox) findViewById(R.id.cbPublic);
-
-
+        btnOui = (Button) findViewById(R.id.btnOui);
+        btnNon = (Button) findViewById(R.id.btnNon);
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
@@ -92,88 +76,74 @@ public class Profil extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
         // Session manager
         session = new SessionManager(getApplicationContext());
 
-        user.setText("Nom d'utilisateur : " + session.getUsername());
-        mail.setText("Addresse Mail : " + (session.getEmail()));
-        String publics= session.getPublics();
-        if (publics=="FALSE") cbPublic.setChecked(false);
-        else if (publics=="TRUE") cbPublic.setChecked(true);
-        else cbPublic.setChecked(false);
+        Intent intent = getIntent();
+// On suppose que tu as mis un String dans l'Intent via le putExtra()
 
-        System.out.println("réponse: " + session.getId());
-        System.out.println("réponse: " + session.getPublics());
+        final String username = intent.getStringExtra("username");
 
+        user.setText("Voulez-vous vraiment ajouter cette personne à votre Groupe? \n " + username);
 
-        btnmodif.setOnClickListener(new View.OnClickListener() {
-
+        btnOui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profil.this, ModifProfil.class);
+                addFriend(username);
+                Intent intent = new Intent(ConfirmAjoutGroupe.this, VoirGroupe.class);
                 startActivity(intent);
+                Toast.makeText(ConfirmAjoutGroupe.this, "Demande envoyée.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnNon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConfirmAjoutGroupe.this, VoirGroupe.class);
+                startActivity(intent);
+                Toast.makeText(ConfirmAjoutGroupe.this, "demande annulée.", Toast.LENGTH_SHORT).show();
             }
         });
 
 
-
-
-        cbPublic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton cbPublic, boolean isChecked) {
-                try {
-                    httpclient = new DefaultHttpClient();
-                    String id = session.getId();
-                    httppost = new HttpPost("http://91.121.151.137/scripts_android/modifPublic.php"); // make sure the url is correct.
-                    //add your data
-                    nameValuePairs = new ArrayList<NameValuePair>(2);
-                    if (cbPublic.isChecked()) {
-                        System.out.println("resp : " + "true");
-                        nameValuePairs.add(new BasicNameValuePair("isCheck", "TRUE"));
-                        session.setPublics("TRUE");
-                    } else {
-                        System.out.println("resp : " + "true");
-                        nameValuePairs.add(new BasicNameValuePair("isCheck", "FALSE"));
-                        session.setPublics("FALSE");
-                    }
-                    nameValuePairs.add(new BasicNameValuePair("id", id.toString().trim()));
-
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                    //Execute HTTP Post Request
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
-                    final String response = httpclient.execute(httppost, responseHandler);
-                    System.out.println("Response : " + response);
-
-                    if(response.equalsIgnoreCase("TRUE")){
-                        cbPublic.setChecked(true);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Profil.this, "Activités publiques", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    }else if(response.equalsIgnoreCase("FALSE")){
-                        cbPublic.setChecked(false);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Profil.this, "Activités privées", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println("Exception : " + e.getMessage());
-                }
-            }
-
-        });
 
     }
-    /**
-     * Ajoute des option dans le menu
-     */
+
+    public void addFriend(String username) {
+
+        try {
+            // String [] liste = (String[]) list.toArray();
+
+
+            httpclient = new DefaultHttpClient();
+            httppost = new HttpPost("http://109.89.122.61/scripts_android/AjouterGroupe.php"); // make sure the url is correct.
+
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
+            System.out.println("Response 22:" + username);
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            System.out.println("Response :1 ");
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            //Execute HTTP Post Request
+
+            System.out.println("Response : 2");
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            // httpclient.execute(httppost);
+            String response2 = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response2);
+            // JSONArray JsonArray = new JSONArray(response);
+
+            System.out.println("Response : sisiiii ");
+
+
+        } catch (Exception e) {
+
+            System.out.println("Exception : " + e.getMessage());
+        }
+    }
+    /*
+        * Ajoute des option dans le menu
+        */
     private void addDrawerItems() {
         String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
@@ -182,28 +152,28 @@ public class Profil extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent intent = new Intent(Profil.this, Profil.class);
+                if(position==0){
+                    Intent intent = new Intent(ConfirmAjoutGroupe.this, Profil.class);
                     startActivity(intent);
                 }
-                if (position == 1) {
-                    Intent intent = new Intent(Profil.this, ChoixCategorie.class);
-                    startActivity(intent);
-
-                }
-                if (position == 2) {
-                    Intent intent = new Intent(Profil.this, AfficherAmis.class);
+                if(position==1){
+                    Intent intent = new Intent(ConfirmAjoutGroupe.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
+                if(position==2){
+                    Intent intent = new Intent(ConfirmAjoutGroupe.this, AfficherAmis.class);
+                    startActivity(intent);
+
+                }
 
 
-                if (position == 3) {
+                if(position==3){
                     AfficherMessage();
 
                 }
 
-                if (position == 4) {
+                if(position==4){
                     logoutUser();
 
                 }
@@ -221,7 +191,7 @@ public class Profil extends ActionBarActivity {
      */
 
     private void AfficherMessage(){
-        Intent intent = new Intent(Profil.this, GroupeAccueil.class);
+        Intent intent = new Intent(ConfirmAjoutGroupe.this, GroupeAccueil.class);
         startActivity(intent);
 
 
@@ -310,9 +280,11 @@ public class Profil extends ActionBarActivity {
         session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(Profil.this, Accueil.class);
+        Intent intent = new Intent(ConfirmAjoutGroupe.this, Accueil.class);
         startActivity(intent);
         finish();
     }
 
+
 }
+

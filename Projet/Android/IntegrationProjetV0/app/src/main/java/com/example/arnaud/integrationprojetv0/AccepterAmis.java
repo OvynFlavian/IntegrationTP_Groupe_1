@@ -180,36 +180,39 @@ public class AccepterAmis extends ActionBarActivity {
     /**
      * Ajoute des option dans le menu
      */
+    //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","messages", "se déconecter" };
+        System.out.println("session droit " + session.getDroit());
+
+        String[] osArray = {"profil", "activités", "Amis", "groupe", "se déconecter"};
+
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent intent = new Intent(AccepterAmis.this, ModifProfil.class);
+                if (position == 0) {
+                    Intent intent = new Intent(AccepterAmis.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 1) {
                     Intent intent = new Intent(AccepterAmis.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
-                if(position==2){
+                if (position == 2) {
                     Intent intent = new Intent(AccepterAmis.this, AfficherAmis.class);
                     startActivity(intent);
 
                 }
 
-
-                if(position==3){
+                if (position == 3) {
                     AfficherMessage();
 
                 }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
 
                 }
@@ -218,15 +221,24 @@ public class AccepterAmis extends ActionBarActivity {
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
     }
 
 
     private void AfficherMessage(){
-        Intent intent = new Intent(AccepterAmis.this, Messagerie.class);
+
+        Intent intent = new Intent(AccepterAmis.this, GroupeAccueil.class);
         startActivity(intent);
 
 
+
+
     }
+
+
+
     /**
      * Initialise le menu
      */

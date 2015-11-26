@@ -145,7 +145,7 @@ public class SupprFriend extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","messages", "se déconecter" };
+        String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -153,7 +153,7 @@ public class SupprFriend extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
-                    Intent intent = new Intent(SupprFriend.this, ModifProfil.class);
+                    Intent intent = new Intent(SupprFriend.this, Profil.class);
                     startActivity(intent);
                 }
                 if(position==1){
@@ -191,7 +191,7 @@ public class SupprFriend extends ActionBarActivity {
      */
 
     private void AfficherMessage(){
-        Intent intent = new Intent(SupprFriend.this, Messagerie.class);
+        Intent intent = new Intent(SupprFriend.this, GroupeAccueil.class);
         startActivity(intent);
 
 

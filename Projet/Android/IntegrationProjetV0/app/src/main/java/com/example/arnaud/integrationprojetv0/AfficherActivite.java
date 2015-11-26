@@ -237,33 +237,33 @@ public class AfficherActivite extends AppCompatActivity {
     }
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+                if(position==0){
                     Intent intent = new Intent(AfficherActivite.this, Profil.class);
                     startActivity(intent);
                 }
-                if (position == 1) {
+                if(position==1){
                     Intent intent = new Intent(AfficherActivite.this, ChoixCategorie.class);
                     startActivity(intent);
 
                 }
-                if (position == 2) {
+                if(position==2){
                     Intent intent = new Intent(AfficherActivite.this, AfficherAmis.class);
                     startActivity(intent);
 
                 }
-                if (position == 3) {
+                if(position==3){
                     AfficherMessage();
 
                 }
 
-                if (position == 4) {
+                if(position==4){
                     logoutUser();
 
                 }
@@ -274,7 +274,7 @@ public class AfficherActivite extends AppCompatActivity {
 
 
     private void AfficherMessage(){
-        Intent intent = new Intent(AfficherActivite.this, Messagerie.class);
+        Intent intent = new Intent(AfficherActivite.this, GroupeAccueil.class);
         startActivity(intent);
 
 
@@ -318,11 +318,7 @@ public class AfficherActivite extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if (session.isLoggedIn()) {
-            getMenuInflater().inflate(R.menu.menu_activite, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-        }
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -336,11 +332,6 @@ public class AfficherActivite extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.listeActivite) {
-            System.out.println("liste activite " + categorie);
-            Intent intent = new Intent(AfficherActivite.this, ListeActivite.class);
-            intent.putExtra(intentCat, categorie);
-            startActivity(intent);
         }
 
         // Activate the navigation drawer toggle

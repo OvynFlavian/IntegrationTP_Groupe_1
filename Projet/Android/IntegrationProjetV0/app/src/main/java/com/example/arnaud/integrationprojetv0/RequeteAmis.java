@@ -159,7 +159,7 @@ public class RequeteAmis extends ActionBarActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","messages", "se déconnecter" };
+        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -195,7 +195,7 @@ public class RequeteAmis extends ActionBarActivity {
     }
 
     private void AfficherMessage(){
-        Intent intent = new Intent(RequeteAmis.this, Messagerie.class);
+        Intent intent = new Intent(RequeteAmis.this, GroupeAccueil.class);
         startActivity(intent);
 
 

@@ -68,7 +68,7 @@ public class Accueil extends AppCompatActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","messages", "se déconecter" };
+        String[] osArray = { "profil", "activités", "Amis" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -76,7 +76,7 @@ public class Accueil extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(Accueil.this, ModifProfil.class);
+                    Intent intent = new Intent(Accueil.this, Profil.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
@@ -91,15 +91,9 @@ public class Accueil extends AppCompatActivity {
                 }
 
 
-                if (position == 3) {
-                    AfficherMessage();
 
-                }
 
-                if (position == 4) {
-                    logoutUser();
 
-                }
 
 
                 // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
@@ -109,7 +103,7 @@ public class Accueil extends AppCompatActivity {
 
 
     private void AfficherMessage(){
-        Intent intent = new Intent(Accueil.this, Messagerie.class);
+        Intent intent = new Intent(Accueil.this, GroupeAccueil.class);
         startActivity(intent);
 
 

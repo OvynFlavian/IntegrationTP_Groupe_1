@@ -78,16 +78,16 @@ public class MainActivity extends Activity {
                         "Validation de l'utilisateur...", true);
 
 
-                Thread thread = new Thread(new Runnable() {
-                    public void run() {
+             /*   Thread thread = new Thread(new Runnable() {
+                    public void run() {*/
                         login();
                         //  addOptionOnClick(context, liste);
-                    }
+                /*    }
 
 
                 });
                 thread.start();
-
+*/
 
             }
         });
@@ -129,9 +129,14 @@ public class MainActivity extends Activity {
             final String userName = jObj.getString("UserName");
             final String password = jObj.getString("Mdp");
             final String email = jObj.getString("email");
+            final String droit = jObj.getString("droit");
+
+            System.out.println("doit"+droit);
+
             session.setId(id);
             session.setEmail(email);
             session.setUsername(userName);
+            session.setDroit(droit);
 
             System.out.println("réponse: " + session.id);
 

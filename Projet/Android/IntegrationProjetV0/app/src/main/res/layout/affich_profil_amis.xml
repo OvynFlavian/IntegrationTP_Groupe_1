@@ -6,7 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ampoule9">
+    android:background="@drawable/ampoule2">
 
 
 
@@ -14,7 +14,7 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1"
-        android:background="@drawable/ampoule9">
+        android:background="@drawable/ampoule2">
 
         <RelativeLayout
             android:layout_width="match_parent"
