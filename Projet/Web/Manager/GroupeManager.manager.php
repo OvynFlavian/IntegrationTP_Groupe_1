@@ -122,4 +122,18 @@ class GroupeManager {
             ));
 
     }
+
+    public function updateLeader(Groupe $groupe, $id)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE groupe SET id_leader = :idLead WHERE id_groupe = :id");
+
+        $query
+            ->execute(array(
+                ":id" => $groupe->getIdGroupe(),
+                ":idLead" => $id,
+            ));
+
+    }
 }

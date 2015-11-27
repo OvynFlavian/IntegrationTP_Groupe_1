@@ -17,6 +17,7 @@ require "../Manager/Categorie_ActivityManager.manager.php";
 require "../Manager/GroupeManager.manager.php";
 require "../Manager/User_GroupeManager.manager.php";
 require "../Manager/Groupe_MessageManager.manager.php";
+require "../Manager/Groupe_InvitationManager.manager.php";
 require "../Entity/Groupe.class.php";
 startSession();
 $isConnect = isConnect();

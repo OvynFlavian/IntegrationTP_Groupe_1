@@ -480,7 +480,7 @@ function rejoindreGroupe() {
             $gim->deleteInvitByUserId($_SESSION['User']);
             $ugm->addToUserGroupe($_SESSION['User'], $groupe);
             echo "<h1 align='center'><div class='alert alert-success' role='alert'> Vous avez bien rejoint le groupe !  </div></h1>";
-            echo "<meta http-equiv='refresh' content='2; URL=groupe.page.php'>";
+            echo "<meta http-equiv='refresh' content='2; URL=groupe.page.php?to=voirGroupe'>";
         } else if (isset($_POST['RefuserRejoindre'])) {
             header("Location:groupe.page.php");
         }

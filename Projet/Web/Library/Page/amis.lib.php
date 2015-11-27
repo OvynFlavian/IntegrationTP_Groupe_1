@@ -291,7 +291,7 @@ function choixActivite($id) {
         if (isset($tab[0]['id_activity'])) {
             echo "<br><br><h2 align='center'> <div class='alert alert-warning' role='alert'>Vous avez déjà une activité,<a href='amis.page.php?to=modifAct&id=$id&func=replace'> cliquez ici pour la remplacer</a>";
             if (isLeader()) {
-                echo "<br> Vous êtes chef d'un groupe, votre changement d'activité entraînera la suppression du groupe";
+                echo "<br> Vous êtes chef d'un groupe, votre changement d'activité changera le chef du groupe ou le supprimera si vous êtes le seul membre";
             } else if (hasGroupe()) {
                 echo "<br> Vous êtes dans un groupe, tout changement d'activité vous fera quitter ce groupe";
             }
@@ -338,11 +338,32 @@ function leaveGroupe() {
 
         }
         if (isLeader()) {
+            $autreMembre = false;
             $gm = new GroupeManager(connexionDb());
-            $ugm->deleteGroupe($groupe);
-            $gmm->deleteMessByGroupe($groupe);
-            $gim->deleteInvitByGroupeId($groupe);
-            $gm->deleteGroupe($_SESSION['User']->getId());
+            $tabUser = $ugm->getUserIdByGroupeId($groupe);
+            foreach($tabUser as $elem) {
+                if ($elem['id_user'] != $_SESSION['User']->getId()) {
+                    if (isset($elem['id_user']) && $elem['id_user'] != 0) {
+                        $autreMembre = true;
+                        $idNewLeader = $elem['id_user'];
+                        $nom = $_SESSION['User']->getUserName();
+                        $um = new UserManager(connexionDb());
+                        $newLead = $um->getUserById($idNewLeader);
+                        $userName = $newLead->getUserName();
+                        $desc = "L'utilisateur $nom a quitté le groupe suite à un changement d'activité. $userName est dorénavant votre nouveau chef de groupe.";
+                        $gmm->addMess($groupe, $_SESSION['User'], $desc);
+                    }
+                }
+            }
+            if ($autreMembre) {
+                $gm->updateLeader($groupe, $idNewLeader);
+            } else {
+
+                $ugm->deleteGroupe($groupe);
+                $gmm->deleteMessByGroupe($groupe);
+                $gim->deleteInvitByGroupeId($groupe);
+                $gm->deleteGroupe($_SESSION['User']->getId());
+            }
         }
     }
 
