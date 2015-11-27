@@ -132,7 +132,7 @@
         $message = "Nous confirmons que vous êtes officiellement inscrit sur le site EveryDayIdea <br>
 									Votre login est : " . $userToAdd->getUserName() . " <br>
 									Votre email est : " . $userToAdd->getEmail() . " <br>
-									Votre lien d'activation est : <a href='www.everydayidea.be/Page/activationInscription.page.php?code=" . $code_aleatoire . "'>www.everydayidea/activation.page.php?code=" . $code_aleatoire . "</a>";
+									Votre lien d'activation est : <a href='www.everydayidea.be/Page/activationInscription.page.php?code=" . $code_aleatoire . "'>Cliquez ici !</a>";
         mail($to, $sujet, $message, $entete);
 
         /** @var $um : un nouvel user qui va être ajouté à la BDD

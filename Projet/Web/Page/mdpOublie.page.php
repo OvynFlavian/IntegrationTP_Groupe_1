@@ -60,8 +60,9 @@ $isConnect = isConnect();
             }
             else
             {
-                formulaireChangement();
                 changementMdp();
+                formulaireChangement();
+
             }
             ?>
         </section>
