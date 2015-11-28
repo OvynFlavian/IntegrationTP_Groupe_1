@@ -1,12 +1,44 @@
 
+body {
+    color : #252D42;
+    font-size : 14px;
+    background-color : #E9EAED;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: white;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >
+a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #252D42;
+}
+.navbar-default {
+    color: #252D42;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+    color : #252D42;
+}
+
+.navbar-default .navbar-brand {
+    color: #252D42;
+}
+
+
+.navbar-default .navbar-nav > li > a {
+    color: #252D42;
+}
+
+
 html body .container {
     position: absolute;
     top: 60px;
     bottom: 30px;
     right: 0;
     left: 0;
+    background-color : #E9EAED;
 
 }
+
 ol {
     text-align : center;
     list-style-type: none;
@@ -83,8 +115,8 @@ body {
     padding-left : 35%;
 }
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-    color:black;
-    background-color:#FFFFFF;
+    color:#252D42;
+    background-color:#E7E7E7;
     border : 1px solid grey;
 }
 #administration {
@@ -93,6 +125,10 @@ body {
 }
 .formProfil button {
     margin-left : 50%;
+}
+
+caption {
+    color : #252D42;
 }
 .formGrade {
     margin : 10%;
@@ -126,7 +162,8 @@ aside {
     border : 1px solid grey;
     margin : 1em;
     padding: 1em;
-    background-color :#EEEEEE;
+    color : #252D42;
+    background-color: #5b82d8;
     border-radius : 10px;
 }
 .nav-pills a{
@@ -134,27 +171,34 @@ aside {
 }
 .jumbotron {
     margin-top : 1em;
-    background-color : #EEEEEE;
+    background-color : #5b82d8;
     border : 1px solid grey;
+    text-align : center;
 
 
 }
+
 table caption {
     text-align : center;
-}
-html {
-    color : black;
 }
 .marge {
     margin-left : 50em;
 }
+
+.marge a {
+    color : white;
+    text-decoration : none;
+
+}
+.marge a:hover {
+    color :#00199b;
+}
 .navbar-fixed-bottom {
-    background-color : #EEEEEE;
+    background-color : #5b82d8;
     height : 35px;
 }
 .navbar-default {
-    background-color:#EEEEEE;
-    font-color : black;
+    background-color:#5b82d8;
     background-image: none;
     background-repeat: no-repeat;
 }

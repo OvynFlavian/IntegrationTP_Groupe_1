@@ -47,7 +47,8 @@ if (isConnect()) {
 <div id="wrap">
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Page d'accueil</h1>
+
+        <h1>EveryDayIdea</h1>
         <p>
             <?php if($isConnect){ ?>
                 Bienvenu(e) <?php echo getSessionUser()->getUserName() ?> sur le site de EveryDayIdea
@@ -55,6 +56,7 @@ if (isConnect()) {
                 Bienvenu(e) sur le site de EveryDayIdea
             <?php }?>
         </p>
+
     </section>
     <section class="row">
         <article class="col-sm-12">
@@ -62,7 +64,7 @@ if (isConnect()) {
             echo "<div class='media'>";
             echo "<div class='media-right media-middle' >";
 
-            echo "<img class='media-object' src='Images/ampoule.jpg' alt='EveryDayIdea'>";
+            echo "<img class='media-object' src='Images/ampoule.png' alt='EveryDayIdea'>";
 
             echo "</div>";
             echo "<div class='media-body media-right'>";
