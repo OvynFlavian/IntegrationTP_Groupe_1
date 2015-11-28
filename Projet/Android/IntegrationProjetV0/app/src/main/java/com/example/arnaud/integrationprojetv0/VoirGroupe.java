@@ -73,7 +73,7 @@ public class VoirGroupe extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.groupe_afficher);
-
+        session = new SessionManager(getApplicationContext());
         addAmis = (Button) findViewById(R.id.btnAdd);
         btnRequete=(Button) findViewById(R.id.btnRequete);
         btnRequete.setVisibility(View.INVISIBLE);
@@ -92,8 +92,7 @@ public class VoirGroupe extends ActionBarActivity {
         amisList = (ListView)findViewById(R.id.amisList);
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         final Context context=getApplicationContext();
-        // Session manager
-        session = new SessionManager(getApplicationContext());
+
 
         //affichage description
         String descritpion = afficherDesc();
@@ -355,7 +354,8 @@ public class VoirGroupe extends ActionBarActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -363,29 +363,24 @@ public class VoirGroupe extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(VoirGroupe.this, Profil.class);
+                    Intent intent = new Intent(VoirGroupe.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(VoirGroupe.this, ChoixCategorie.class);
+                    Intent intent = new Intent(VoirGroupe.this, GroupeAccueil.class);
                     startActivity(intent);
-
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(VoirGroupe.this, AfficherAmis.class);
+                    Intent intent = new Intent(VoirGroupe.this, Profil.class);
                     startActivity(intent);
-
                 }
-                if(position==3){
-                    AfficherMessage();
-
+                if (position == 3) {
+                    Intent intent = new Intent(VoirGroupe.this, ChoixCategorie.class);
+                    startActivity(intent);
                 }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

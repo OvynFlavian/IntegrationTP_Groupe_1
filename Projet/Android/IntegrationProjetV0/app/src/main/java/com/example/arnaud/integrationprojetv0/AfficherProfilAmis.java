@@ -71,6 +71,10 @@ public class AfficherProfilAmis extends ActionBarActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+        String idUser = session.getId();
+
         user = (TextView) findViewById(R.id.User);
         mail = (TextView) findViewById(R.id.Mail);
         activite = (TextView) findViewById(R.id.acti);
@@ -90,9 +94,7 @@ public class AfficherProfilAmis extends ActionBarActivity {
 
 
 
-        // Session manager
-        session = new SessionManager(getApplicationContext());
-        String idUser = session.getId();
+
 
         Intent intent = getIntent();
 // On suppose que tu as mis un String dans l'Intent via le putExtra()

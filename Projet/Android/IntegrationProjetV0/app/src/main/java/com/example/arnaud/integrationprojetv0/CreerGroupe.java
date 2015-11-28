@@ -53,7 +53,7 @@ public class CreerGroupe extends ActionBarActivity {
     private SessionManager session;
 
     private EditText descGroupe;
-private Button b2;
+    private Button b2;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,41 +168,33 @@ private Button b2;
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","groupe ", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
+                    Intent intent = new Intent(CreerGroupe.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(CreerGroupe.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
                     Intent intent = new Intent(CreerGroupe.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 3) {
                     Intent intent = new Intent(CreerGroupe.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(CreerGroupe.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-
-
-                if(position==3){
-                    AfficherMessage();
-
-                }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

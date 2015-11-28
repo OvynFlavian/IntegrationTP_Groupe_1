@@ -75,6 +75,8 @@ public class AjoutAmis extends ActionBarActivity {
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
+        session = new SessionManager(getApplicationContext());
+
         addDrawerItems();
         setupDrawer();
 
@@ -89,7 +91,7 @@ public class AjoutAmis extends ActionBarActivity {
 
         final Context context=getApplicationContext();
         // Session manager
-        session = new SessionManager(getApplicationContext());
+
 
         final ArrayList<String> liste = afficheUserPublic(context);
 

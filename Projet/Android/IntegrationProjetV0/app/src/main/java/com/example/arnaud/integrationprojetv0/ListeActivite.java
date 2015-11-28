@@ -51,7 +51,7 @@ public class ListeActivite extends AppCompatActivity {
         setContentView(R.layout.listeactivite_layout);
         liste = (ListView) findViewById(R.id.listViewActivite);
         searchView = (SearchView) findViewById(R.id.searchView);
-
+        session = new SessionManager(getApplicationContext());
         Intent intent = getIntent();
         String categorie = intent.getStringExtra(intentCat);
 
@@ -65,7 +65,7 @@ public class ListeActivite extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        session = new SessionManager(getApplicationContext());
+
 
         afficherListe(categorie);
 
@@ -183,7 +183,8 @@ public class ListeActivite extends AppCompatActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","messages", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -191,27 +192,24 @@ public class ListeActivite extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(ListeActivite.this, ModifProfil.class);
-                    startActivity(intent);
-                }
-                if (position == 1) {
-                    Intent intent = new Intent(ListeActivite.this, ChoixCategorie.class);
-                    startActivity(intent);
-                }
-                if (position == 2) {
                     Intent intent = new Intent(ListeActivite.this, AfficherAmis.class);
                     startActivity(intent);
                 }
-
-                if (position == 3) {
-                    AfficherMessage();
+                if (position == 1) {
+                    Intent intent = new Intent(ListeActivite.this, GroupeAccueil.class);
+                    startActivity(intent);
                 }
-
+                if (position == 2) {
+                    Intent intent = new Intent(ListeActivite.this, Profil.class);
+                    startActivity(intent);
+                }
+                if (position == 3) {
+                    Intent intent = new Intent(ListeActivite.this, ChoixCategorie.class);
+                    startActivity(intent);
+                }
                 if (position == 4) {
                     logoutUser();
                 }
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

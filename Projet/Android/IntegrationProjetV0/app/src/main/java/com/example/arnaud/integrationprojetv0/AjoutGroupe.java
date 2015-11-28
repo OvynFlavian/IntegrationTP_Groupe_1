@@ -48,6 +48,8 @@ public class AjoutGroupe extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_groupe_layout);
 
+        session = new SessionManager(getApplicationContext());
+
         btnCreerGroupe = (Button) findViewById(R.id.btnCreerGroupe);
         btnVoirGroupe = (Button) findViewById(R.id.btnVoirGroupe);
        // btnAjoutGroupe = (Button) findViewById(R.id.btnAjoutGroupe);
@@ -62,8 +64,6 @@ public class AjoutGroupe extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        session = new SessionManager(getApplicationContext());
 
         btnCreerGroupe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,59 +93,39 @@ public class AjoutGroupe extends ActionBarActivity {
             }
         });
 
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
     /**
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
+                    Intent intent = new Intent(AjoutGroupe.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(AjoutGroupe.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
                     Intent intent = new Intent(AjoutGroupe.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 3) {
                     Intent intent = new Intent(AjoutGroupe.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(AjoutGroupe.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-
-
-                if(position==3){
-                    AfficherMessage();
-
-                }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

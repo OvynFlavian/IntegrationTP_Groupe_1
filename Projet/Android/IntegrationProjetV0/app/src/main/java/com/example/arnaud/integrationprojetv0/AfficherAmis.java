@@ -74,7 +74,7 @@ public class AfficherAmis extends ActionBarActivity {
         addAmis = (Button) findViewById(R.id.btnAdd);
         btnRequete=(Button) findViewById(R.id.btnRequete);
         btnRequete.setVisibility(View.INVISIBLE);
-
+        session = new SessionManager(getApplicationContext());
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -90,7 +90,7 @@ public class AfficherAmis extends ActionBarActivity {
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         final Context context=getApplicationContext();
         // Session manager
-        session = new SessionManager(getApplicationContext());
+
 
         addAmis.setOnClickListener(new View.OnClickListener() {
             @Override

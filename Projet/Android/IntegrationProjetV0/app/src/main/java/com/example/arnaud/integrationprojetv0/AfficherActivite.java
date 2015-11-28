@@ -77,15 +77,17 @@ public class AfficherActivite extends AppCompatActivity {
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
-        addDrawerItems();
-        setupDrawer();
+        session = new SessionManager(getApplicationContext());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        session = new SessionManager(getApplicationContext());
+
         idUser = session.getId();
         confirmationActivite.setVisibility(View.INVISIBLE);
+
+        addDrawerItems();
+        setupDrawer();
 
         if(!session.isLoggedIn()) {
             ajoutActivite.setVisibility(View.INVISIBLE);
@@ -238,6 +240,7 @@ public class AfficherActivite extends AppCompatActivity {
     //menu
     private void addDrawerItems() {
         String[] osArray;
+        System.out.println("session " + session.isLoggedIn());
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
         } else {

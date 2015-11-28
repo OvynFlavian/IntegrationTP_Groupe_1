@@ -47,10 +47,10 @@ public class GroupeAccueil extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.groupe_accueil);
-
-      btnCreerGroupe = (Button) findViewById(R.id.btnCreerGroupe);
+        session = new SessionManager(getApplicationContext());
+        btnCreerGroupe = (Button) findViewById(R.id.btnCreerGroupe);
         btnVoirGroupe = (Button) findViewById(R.id.btnVoirGroupe);
-      //  btnAjoutGroupe = (Button) findViewById(R.id.btnAjoutGroupe);
+        //  btnAjoutGroupe = (Button) findViewById(R.id.btnAjoutGroupe);
 
         //menu
         mDrawerList = (ListView) findViewById(R.id.amisList);
@@ -63,7 +63,7 @@ public class GroupeAccueil extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        session = new SessionManager(getApplicationContext());
+
 
         btnCreerGroupe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,58 +82,39 @@ public class GroupeAccueil extends ActionBarActivity {
             }
         });
 
-
-
-
-
-
-
-
     }
-
-
-
-
 
     /**
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
+                    Intent intent = new Intent(GroupeAccueil.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(GroupeAccueil.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
                     Intent intent = new Intent(GroupeAccueil.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 3) {
                     Intent intent = new Intent(GroupeAccueil.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(GroupeAccueil.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-
-
-                if(position==3){
-                    AfficherMessage();
-
-                }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

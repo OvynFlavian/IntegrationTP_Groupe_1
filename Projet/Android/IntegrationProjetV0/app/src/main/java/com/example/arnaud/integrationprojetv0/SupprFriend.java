@@ -62,7 +62,7 @@ public class SupprFriend extends ActionBarActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
+        session = new SessionManager(getApplicationContext());
         user = (TextView) findViewById(R.id.User);
         btnOui = (Button) findViewById(R.id.btnOui);
         btnNon = (Button) findViewById(R.id.btnNon);
@@ -76,9 +76,6 @@ public class SupprFriend extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        // Session manager
-        session = new SessionManager(getApplicationContext());
 
         Intent intent = getIntent();
 // On suppose que tu as mis un String dans l'Intent via le putExtra()
@@ -145,41 +142,33 @@ public class SupprFriend extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
+                    Intent intent = new Intent(SupprFriend.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(SupprFriend.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
                     Intent intent = new Intent(SupprFriend.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 3) {
                     Intent intent = new Intent(SupprFriend.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(SupprFriend.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-
-
-                if(position==3){
-                    AfficherMessage();
-
-                }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

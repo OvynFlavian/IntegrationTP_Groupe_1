@@ -62,6 +62,8 @@ public class AccepterAmis extends ActionBarActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        session = new SessionManager(getApplicationContext());
+
         user = (TextView) findViewById(R.id.User);
         btnOui = (Button) findViewById(R.id.btnOui);
         btnNon = (Button) findViewById(R.id.btnNon);
@@ -77,7 +79,7 @@ public class AccepterAmis extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         // Session manager
-        session = new SessionManager(getApplicationContext());
+
 
         Intent intent = getIntent();
 // On suppose que tu as mis un String dans l'Intent via le putExtra()

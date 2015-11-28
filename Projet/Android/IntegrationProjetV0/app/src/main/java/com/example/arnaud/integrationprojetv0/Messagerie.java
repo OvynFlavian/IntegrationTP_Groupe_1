@@ -40,7 +40,7 @@ public class Messagerie extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_layout);
 
-
+        session = new SessionManager(getApplicationContext());
 
         //menu
         mDrawerList = (ListView) findViewById(R.id.amisList);
@@ -53,7 +53,7 @@ public class Messagerie extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        session = new SessionManager(getApplicationContext());
+
 
         //liste message
         amisList = (ListView)findViewById(R.id.amisList);
@@ -87,41 +87,33 @@ public class Messagerie extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","messages", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent intent = new Intent(Messagerie.this, ModifProfil.class);
-                    startActivity(intent);
-                }
-                if(position==1){
-                    Intent intent = new Intent(Messagerie.this, ChoixCategorie.class);
-                    startActivity(intent);
-
-                }
-                if(position==2){
+                if (position == 0) {
                     Intent intent = new Intent(Messagerie.this, AfficherAmis.class);
                     startActivity(intent);
-
                 }
-
-
-                if(position==3){
-                    AfficherMessage();
-
+                if (position == 1) {
+                    Intent intent = new Intent(Messagerie.this, GroupeAccueil.class);
+                    startActivity(intent);
                 }
-
-                if(position==4){
+                if (position == 2) {
+                    Intent intent = new Intent(Messagerie.this, Profil.class);
+                    startActivity(intent);
+                }
+                if (position == 3) {
+                    Intent intent = new Intent(Messagerie.this, ChoixCategorie.class);
+                    startActivity(intent);
+                }
+                if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

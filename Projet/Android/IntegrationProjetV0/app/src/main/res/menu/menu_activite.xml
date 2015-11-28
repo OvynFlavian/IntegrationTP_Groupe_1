@@ -5,7 +5,7 @@
     tools:context=".MainActivity">
 
     <item android:id="@+id/listeActivite"
-        android:title="liste complète"
+        android:title="Liste complète"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 

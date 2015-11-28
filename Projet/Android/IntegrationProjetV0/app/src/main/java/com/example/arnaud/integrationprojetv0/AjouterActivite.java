@@ -73,7 +73,8 @@ public class AjouterActivite extends AppCompatActivity {
         descriptionView = (EditText) findViewById(R.id.descriptionActivite);
         layoutPincipal = (RelativeLayout) findViewById(R.id.relLayout1);
         Intent intent = getIntent();
-//menu
+
+        //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 

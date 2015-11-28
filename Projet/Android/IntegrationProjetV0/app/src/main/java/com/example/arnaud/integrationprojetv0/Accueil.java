@@ -27,6 +27,8 @@ public class Accueil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_accueil);
 
+        session = new SessionManager(getApplicationContext());
+
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
@@ -41,7 +43,7 @@ public class Accueil extends AppCompatActivity {
         Button btnConnexion = (Button) findViewById(R.id.connexion);
         Button btnInscription = (Button) findViewById(R.id.inscription);
 
-        session = new SessionManager(getApplicationContext());
+
 
         if (session.isLoggedIn()) {
             btnConnexion.setVisibility(View.INVISIBLE);

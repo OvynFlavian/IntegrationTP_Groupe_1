@@ -80,7 +80,7 @@ public class ActiAmis extends AppCompatActivity {
         final String description1 = intent.getStringExtra("description");
         categorie = intent.getStringExtra("catLib");
 
-
+        session = new SessionManager(getApplicationContext());
         titre.setText(libelle);
         description.setText(description1);
 
@@ -94,7 +94,7 @@ public class ActiAmis extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        session = new SessionManager(getApplicationContext());
+
         idUser = session.getId();
         confirmationActivite.setVisibility(View.INVISIBLE);
 

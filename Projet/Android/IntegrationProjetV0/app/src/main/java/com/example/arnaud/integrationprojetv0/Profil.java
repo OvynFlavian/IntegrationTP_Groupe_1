@@ -75,7 +75,8 @@ public class Profil extends ActionBarActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-
+        // Session manager
+        session = new SessionManager(getApplicationContext());
         user = (TextView) findViewById(R.id.User);
         mail = (TextView) findViewById(R.id.Mail);
         btnmodif = (Button) findViewById(R.id.btnModif);
@@ -93,8 +94,7 @@ public class Profil extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-        // Session manager
-        session = new SessionManager(getApplicationContext());
+
 
         user.setText("Nom d'utilisateur : " + session.getUsername());
         mail.setText("Addresse Mail : " + (session.getEmail()));
@@ -175,7 +175,8 @@ public class Profil extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis","groupe", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -183,33 +184,24 @@ public class Profil extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(Profil.this, Profil.class);
+                    Intent intent = new Intent(Profil.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(Profil.this, ChoixCategorie.class);
+                    Intent intent = new Intent(Profil.this, GroupeAccueil.class);
                     startActivity(intent);
-
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(Profil.this, AfficherAmis.class);
+                    Intent intent = new Intent(Profil.this, Profil.class);
                     startActivity(intent);
-
                 }
-
-
                 if (position == 3) {
-                    AfficherMessage();
-
+                    Intent intent = new Intent(Profil.this, ChoixCategorie.class);
+                    startActivity(intent);
                 }
-
                 if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
