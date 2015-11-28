@@ -199,13 +199,11 @@ public class ChoixCategorie extends AppCompatActivity {
         categorie.setTextColor(getResources().getColor(R.color.transparent));
         categorie.setId(id);
         int resId;
-        System.out.println("cat : " + cat);
-        if (cat == "jeux video") {
+        if (cat.equals("jeux video")) {
             resId = getResources().getIdentifier("jeuxvideo", "drawable", this.getPackageName());
         } else {
             resId = getResources().getIdentifier(cat, "drawable", this.getPackageName());
         }
-        System.out.println("resid : " + resId);
         categorie.setBackgroundResource(resId);
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(400, 400);
 
