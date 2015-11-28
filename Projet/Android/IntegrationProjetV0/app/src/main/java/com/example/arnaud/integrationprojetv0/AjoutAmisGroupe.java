@@ -233,7 +233,8 @@ public class AjoutAmisGroupe extends ActionBarActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -241,29 +242,24 @@ public class AjoutAmisGroupe extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(AjoutAmisGroupe.this, Profil.class);
+                    Intent intent = new Intent(AjoutAmisGroupe.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(AjoutAmisGroupe.this, ChoixCategorie.class);
+                    Intent intent = new Intent(AjoutAmisGroupe.this, GroupeAccueil.class);
                     startActivity(intent);
-
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(AjoutAmisGroupe.this, AfficherAmis.class);
+                    Intent intent = new Intent(AjoutAmisGroupe.this, Profil.class);
                     startActivity(intent);
-
                 }
-                if(position==3){
-                    AfficherMessage();
-
+                if (position == 3) {
+                    Intent intent = new Intent(AjoutAmisGroupe.this, ChoixCategorie.class);
+                    startActivity(intent);
                 }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }

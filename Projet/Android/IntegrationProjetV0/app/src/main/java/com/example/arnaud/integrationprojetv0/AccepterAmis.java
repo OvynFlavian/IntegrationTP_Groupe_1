@@ -183,9 +183,7 @@ public class AccepterAmis extends ActionBarActivity {
     //menu
     private void addDrawerItems() {
         System.out.println("session droit " + session.getDroit());
-
-        String[] osArray = {"profil", "activités", "Amis", "groupe", "se déconecter"};
-
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -194,50 +192,27 @@ public class AccepterAmis extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(AccepterAmis.this, Profil.class);
+                    Intent intent = new Intent(AccepterAmis.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(AccepterAmis.this, ChoixCategorie.class);
+                    Intent intent = new Intent(AccepterAmis.this, GroupeAccueil.class);
                     startActivity(intent);
-
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(AccepterAmis.this, AfficherAmis.class);
+                    Intent intent = new Intent(AccepterAmis.this, Profil.class);
                     startActivity(intent);
-
                 }
-
                 if (position == 3) {
-                    AfficherMessage();
-
+                    Intent intent = new Intent(AccepterAmis.this, ChoixCategorie.class);
+                    startActivity(intent);
                 }
                 if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
-
-
-    private void AfficherMessage(){
-
-        Intent intent = new Intent(AccepterAmis.this, GroupeAccueil.class);
-        startActivity(intent);
-
-
-
-
-    }
-
-
 
     /**
      * Initialise le menu
@@ -259,11 +234,9 @@ public class AccepterAmis extends ActionBarActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
-
 
     /**
      * Action après la création du menu
@@ -284,7 +257,6 @@ public class AccepterAmis extends ActionBarActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
     /**
      * Création du menu
      */
@@ -300,21 +272,15 @@ public class AccepterAmis extends ActionBarActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
-        // Activate the navigation drawer toggle
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -330,6 +296,4 @@ public class AccepterAmis extends ActionBarActivity {
         startActivity(intent);
         finish();
     }
-
 }
-

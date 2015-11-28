@@ -243,11 +243,10 @@ public class ChoixCategorie extends AppCompatActivity {
         String[] osArray;
 
         if(session.isLoggedIn()) {
-            osArray = new String[] {"Profil", "Activités", "Amis", "Groupe", "Se déconecter"};
+            osArray = new String[] {"Amis", "Groupe", "Profil", "Se déconnecter"};
         } else {
             osArray = new String[] {"Accueil", "Se connecter"};
         }
-
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -266,7 +265,7 @@ public class ChoixCategorie extends AppCompatActivity {
                 }
                 if (position == 1) {
                     if (session.isLoggedIn()) {
-                        Intent intent = new Intent(ChoixCategorie.this, ChoixCategorie.class);
+                        Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(ChoixCategorie.this, MainActivity.class);
@@ -274,13 +273,10 @@ public class ChoixCategorie extends AppCompatActivity {
                     }
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
+                    Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
                     startActivity(intent);
                 }
                 if (position == 3) {
-                    AfficherMessage();
-                }
-                if (position == 4) {
                     logoutUser();
                 }
             }

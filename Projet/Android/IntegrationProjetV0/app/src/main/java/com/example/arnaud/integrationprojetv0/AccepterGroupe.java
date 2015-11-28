@@ -113,32 +113,21 @@ public class AccepterGroupe extends ActionBarActivity {
 
     private void supprimerGroupe(String username) {
         try {
-            // String [] liste = (String[]) list.toArray();
-
-
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/site/html/scripts_android/supprimerGroupe.php"); // make sure the url is correct.
-
+            httppost = new HttpPost("http://109.89.122.61/site/html/scripts_android/supprimerGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
             System.out.println("Response 22:" + username);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
             System.out.println("Response :1 ");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
 
             System.out.println("Response : 2");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
             String response2 = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : sisiiii ");
-
 
         } catch (Exception e) {
-
             System.out.println("Exception : " + e.getMessage());
         }
     }
@@ -147,32 +136,19 @@ public class AccepterGroupe extends ActionBarActivity {
     public void accepterGroupe(String username) {
 
         try {
-            // String [] liste = (String[]) list.toArray();
-
-
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/confGroupe.php"); // make sure the url is correct.
-
+            httppost = new HttpPost("http://109.89.122.61/scripts_android/confGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
-            System.out.println("Response 22:" + username);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 ");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
 
             System.out.println("Response : 2");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
             String response2 = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : sisiiii ");
-
 
         } catch (Exception e) {
-
             System.out.println("Exception : " + e.getMessage());
         }
     }
@@ -181,52 +157,37 @@ public class AccepterGroupe extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = {"profil", "activités", "Amis", "groupe", "se déconecter"};
+        String[] osArray = {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
+                    Intent intent = new Intent(AccepterGroupe.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(AccepterGroupe.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
                     Intent intent = new Intent(AccepterGroupe.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 3) {
                     Intent intent = new Intent(AccepterGroupe.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(AccepterGroupe.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-
-
-                if(position==3){
-                    AfficherMessage();
-
-                }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    private void AfficherMessage(){
-        Intent intent = new Intent(AccepterGroupe.this, GroupeAccueil.class);
-        startActivity(intent);
-
-
-    }
     /**
      * Initialise le menu
      */

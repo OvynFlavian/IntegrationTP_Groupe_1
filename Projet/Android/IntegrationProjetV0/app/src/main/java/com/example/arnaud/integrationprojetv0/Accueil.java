@@ -68,7 +68,13 @@ public class Accueil extends AppCompatActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis" };
+        String[] osArray;
+        if(session.isLoggedIn()) {
+            osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        } else {
+            osArray = new String[] {"Activités", "Se connecter"};
+        }
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -76,44 +82,41 @@ public class Accueil extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(Accueil.this, AfficherAmis.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(Accueil.this, ChoixCategorie.class);
+                        startActivity(intent);
+                    }
+                }
+                if (position == 1) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(Accueil.this, GroupeAccueil.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(Accueil.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                if (position == 2) {
                     Intent intent = new Intent(Accueil.this, Profil.class);
                     startActivity(intent);
                 }
-                if (position == 1) {
+                if (position == 3) {
                     Intent intent = new Intent(Accueil.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if (position == 2) {
-                    Intent intent = new Intent(Accueil.this, AfficherAmis.class);
-                    startActivity(intent);
-
+                if (position == 4) {
+                    logoutUser();
                 }
-
-
-
-
-
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    private void AfficherMessage(){
-        Intent intent = new Intent(Accueil.this, GroupeAccueil.class);
-        startActivity(intent);
-
-
-    }
     /**
      * Initialise le menu
      */
-
-
-
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 

@@ -237,37 +237,52 @@ public class AfficherActivite extends AppCompatActivity {
     }
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis","groupe", "se déconnecter" };
+        String[] osArray;
+        if(session.isLoggedIn()) {
+            osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        } else {
+            osArray = new String[] {"Accueil", "Activités", "Se connecter"};
+        }
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent intent = new Intent(AfficherActivite.this, Profil.class);
-                    startActivity(intent);
+                if (position == 0) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(AfficherActivite.this, AfficherAmis.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(AfficherActivite.this, Accueil.class);
+                        startActivity(intent);
+                    }
                 }
-                if(position==1){
+                if (position == 1) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(AfficherActivite.this, GroupeAccueil.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(AfficherActivite.this, ChoixCategorie.class);
+                        startActivity(intent);
+                    }
+                }
+                if (position == 2) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(AfficherActivite.this, Profil.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(AfficherActivite.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                if (position == 3) {
                     Intent intent = new Intent(AfficherActivite.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(AfficherActivite.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-                if(position==3){
-                    AfficherMessage();
-
-                }
-
-                if(position==4){
+                if (position == 4) {
                     logoutUser();
-
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -327,9 +342,6 @@ public class AfficherActivite extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
