@@ -10,12 +10,12 @@
 
 
 <form class="form-horizontal" action="coterActivite.page.php" method="post">
-    <h1 align="center"> Donnez une note à l'activité que vous être en train d'effectuer !</h1>
+    <h1 align="center"> Donnez une note à l'activité que vous être en train d'effectuer !</h1>abel class="radio-inline"><input type="radio" name="cote" value="3"><img height='40px' width='40px' src="../Images/star.ico" alt="3/5"/></label>
+    <l
     <br><br>
     <span class="radioCote">
     <label class="radio-inline"><input type="radio" name="cote" value="1"><img height='40px' width='40px' src="../Images/star.ico" alt="1/5"/></label>
     <label class="radio-inline"><input type="radio" name="cote" value="2"><img height='40px' width='40px' src="../Images/star.ico" alt="2/5"/></label>
-    <label class="radio-inline"><input type="radio" name="cote" value="3"><img height='40px' width='40px' src="../Images/star.ico" alt="3/5"/></label>
     <label class="radio-inline"><input type="radio" name="cote" value="4"><img height='40px' width='40px' src="../Images/star.ico" alt="4/5"/></label>
     <label class="radio-inline"><input type="radio" name="cote" value="5"><img height='40px' width='40px' src="../Images/star.ico" alt="5/5"/></label>
     </span>

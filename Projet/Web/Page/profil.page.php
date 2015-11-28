@@ -104,7 +104,7 @@ if(isPostFormulaire())
 </section>
 
 <footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
+    &copy; everydayidea.be <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
 </footer>
 </body>
 </html>
