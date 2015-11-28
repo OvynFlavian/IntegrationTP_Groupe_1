@@ -63,10 +63,7 @@ public class ChoixCategorie extends AppCompatActivity {
         // session manager
         session = new SessionManager(getApplicationContext());
 
-        /*animaux = (Button) findViewById(R.id.animaux);
-        enfant = (Button) findViewById(R.id.enfant);
-        film = (Button) findViewById(R.id.film);
-        visite = (Button) findViewById(R.id.visite);*/
+
         profil = (Button) findViewById(R.id.profil);
         btnLogout = (Button) findViewById(R.id.btnLogout);
         layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
@@ -243,57 +240,57 @@ public class ChoixCategorie extends AppCompatActivity {
     //menu
     private void addDrawerItems() {
         System.out.println("session droit " + session.getDroit());
+        String[] osArray;
 
-            String[] osArray = {"profil", "activités", "Amis", "groupe", "se déconecter"};
+        if(session.isLoggedIn()) {
+            osArray = new String[] {"Profil", "Activités", "Amis", "Groupe", "Se déconecter"};
+        } else {
+            osArray = new String[] {"Accueil", "Se connecter"};
+        }
 
 
-            mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
-            mDrawerList.setAdapter(mAdapter);
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        mDrawerList.setAdapter(mAdapter);
 
-            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (position == 0) {
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    if (session.isLoggedIn()) {
                         Intent intent = new Intent(ChoixCategorie.this, Profil.class);
                         startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(ChoixCategorie.this, Accueil.class);
+                        startActivity(intent);
                     }
-                    if (position == 1) {
+                }
+                if (position == 1) {
+                    if (session.isLoggedIn()) {
                         Intent intent = new Intent(ChoixCategorie.this, ChoixCategorie.class);
                         startActivity(intent);
-
-                    }
-                    if (position == 2) {
-                        Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
+                    } else {
+                        Intent intent = new Intent(ChoixCategorie.this, MainActivity.class);
                         startActivity(intent);
-
                     }
-
-                    if (position == 3) {
-                        AfficherMessage();
-
-                    }
-                    if (position == 4) {
-                        logoutUser();
-
-                    }
-
-
-                    // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
                 }
-            });
-
-
-
+                if (position == 2) {
+                    Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 3) {
+                    AfficherMessage();
+                }
+                if (position == 4) {
+                    logoutUser();
+                }
+            }
+        });
     }
 
 
     private void AfficherMessage(){
-
         Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
         startActivity(intent);
-
-
-
     }
 
     private void setupDrawer() {
