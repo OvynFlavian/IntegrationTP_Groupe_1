@@ -184,7 +184,6 @@ public class ChoixCategorie extends AppCompatActivity {
             }
 
 
-
         }catch(Exception e){
             System.out.println("Exception : " + e.getMessage());
         }
@@ -199,7 +198,14 @@ public class ChoixCategorie extends AppCompatActivity {
         categorie.setText(cat);
         categorie.setTextColor(getResources().getColor(R.color.transparent));
         categorie.setId(id);
-        int resId = getResources().getIdentifier(cat, "drawable", this.getPackageName());
+        int resId;
+        System.out.println("cat : " + cat);
+        if (cat == "jeux video") {
+            resId = getResources().getIdentifier("jeuxvideo", "drawable", this.getPackageName());
+        } else {
+            resId = getResources().getIdentifier(cat, "drawable", this.getPackageName());
+        }
+        System.out.println("resid : " + resId);
         categorie.setBackgroundResource(resId);
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(400, 400);
 
