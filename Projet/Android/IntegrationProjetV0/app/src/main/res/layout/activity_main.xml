@@ -11,77 +11,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/ampoule9">
+    android:background="#b3c7e1">
 
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutPrincipalConnexion"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nom d'utilisateur"
-            android:layout_above="@+id/username"
-            android:layout_alignParentStart="true" />
+            android:id="@+id/layoutConnexion"
+            android:layout_centerHorizontal="true">
 
-        <EditText
-            android:text=""
-            android:id="@+id/username"
-            android:layout_width="fill_parent"
+            <EditText
+                android:text=""
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Nom d'utilisateur"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp">
+            </EditText>
+
+            <EditText
+                android:hint="Mot de passe"
+                android:id="@+id/password"
+                android:inputType="textPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_below="@id/username"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="30dp">
+            </EditText>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_above="@+id/tv2"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="71dp">
-        </EditText>
+            android:layout_below="@id/layoutConnexion"
+            android:layout_marginTop="40dp">
 
-        <TextView
-            android:id="@+id/tv2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Mot de passe"
-            android:layout_above="@+id/tv"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="189dp" />
+            <Button
+                android:id="@+id/Button01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/connexion"/>
 
-        <EditText
-            android:text=""
-            android:id="@+id/password"
-            android:inputType="textPassword"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_below="@+id/username"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="43dp">
-        </EditText>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Button02"
+                android:background="@drawable/inscription"
+                android:layout_toRightOf="@id/Button01"
+                android:layout_marginLeft="30dp"/>
 
-
-    <Button
-            android:id="@+id/Button01"
-            android:layout_width="150dp"
-            android:layout_height="56dp"
-            android:layout_weight="0.09"
-            android:layout_alignWithParentIfMissing="false"
-            android:layout_above="@+id/tv"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/login2">
-        </Button>
-
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:layout_marginBottom="71dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:id="@+id/Button02"
-        android:layout_alignTop="@+id/Button01"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/register"
-        android:layout_above="@+id/tv" />
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>
 
     <ListView
