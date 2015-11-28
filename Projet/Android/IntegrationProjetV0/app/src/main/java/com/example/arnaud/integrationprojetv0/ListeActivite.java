@@ -10,10 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -40,12 +42,15 @@ public class ListeActivite extends AppCompatActivity {
     private SessionManager session;
     private ListView liste = null;
     private ArrayList<String> list = new ArrayList<String>();
+    private SearchView searchView = null;
+    private ArrayAdapter<String> activiteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listeactivite_layout);
         liste = (ListView) findViewById(R.id.listViewActivite);
+        searchView = (SearchView) findViewById(R.id.searchView);
 
         Intent intent = getIntent();
         String categorie = intent.getStringExtra(intentCat);
@@ -64,9 +69,54 @@ public class ListeActivite extends AppCompatActivity {
 
         afficherListe(categorie);
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String recherche) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(liste.getWindowToken(), 0);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String recherche) {
+                Context context = getApplicationContext();
+                ArrayList<String> listeRech = rechercheAmis(list, recherche, context);
+                System.out.println("rech" + recherche);
+                System.out.println("rech2" + listeRech.toString());
+                return true;
+            }
+        });
+
     }
 
-    public void afficherListe(String cat) {
+    public ArrayList<String> rechercheAmis(ArrayList<String> liste , String rech, Context context){
+        ArrayList<String> liste2 = new ArrayList<String>();
+        String search = rech;
+        int searchListLength = liste.size();
+        for (int i = 0; i < searchListLength; i++) {
+            if (liste.get(i).contains(search)) {
+                liste2.add(liste.get(i));
+            }
+        }
+
+
+/*
+        for (String string : liste) {
+            //modifier ca pour que ca fasse une belle recherche
+            if(string.matches("(?i)(rech).*")){
+                liste2.add(string);
+            }
+        }
+        */
+
+        activiteAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, liste2);
+        this.liste.setAdapter(activiteAdapter);
+
+        return liste2;
+
+    }
+
+    public ArrayList<String> afficherListe(String cat) {
         try {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherListeActivite.php");
@@ -79,9 +129,6 @@ public class ListeActivite extends AppCompatActivity {
             System.out.println("Response : " + response);
             JSONArray jsonArray = new JSONArray(response);
 
-            //final String note = jObj.getString("note");
-
-
             String activite = new String();
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -92,13 +139,16 @@ public class ListeActivite extends AppCompatActivity {
                 list.add(activite);
             }
 
-            ArrayAdapter<String> activiteAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+            activiteAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
             liste.setAdapter(activiteAdapter);
 
             addOptionOnClick(list);
 
+            return list;
+
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
+            return null;
         }
     }
 

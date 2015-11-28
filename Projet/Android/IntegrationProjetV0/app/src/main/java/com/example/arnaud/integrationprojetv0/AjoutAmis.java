@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -74,8 +75,6 @@ public class AjoutAmis extends ActionBarActivity {
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
-
-
         addDrawerItems();
         setupDrawer();
 
@@ -88,49 +87,39 @@ public class AjoutAmis extends ActionBarActivity {
 
         final SearchView searchView = (SearchView) findViewById(R.id.searchView);
 
-
         final Context context=getApplicationContext();
         // Session manager
         session = new SessionManager(getApplicationContext());
 
+        final ArrayList<String> liste = afficheUserPublic(context);
 
 
-                final ArrayList<String> liste = afficheUserPublic(context);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String recherche) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mDrawerList.getWindowToken(), 0);
+                return true;
+            }
 
-
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String recherche) {
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String recherche) {
-                        ArrayList<String> listeRech = rechercheAmis(liste, recherche, context);
-                        System.out.println("rech" + recherche);
-                        System.out.println("rech2" + listeRech.toString());
-                        return true;
-                    }
-
-
-                });
-                addOptionOnClick(liste);
-
-
-
+            @Override
+            public boolean onQueryTextChange(String recherche) {
+                ArrayList<String> listeRech = rechercheAmis(liste, recherche, context);
+                System.out.println("rech" + recherche);
+                System.out.println("rech2" + listeRech.toString());
+                return true;
+            }
+        });
+        addOptionOnClick(liste);
 
     }
 
-
-
-        private void addOptionOnClick(final ArrayList<String> list) {
+    private void addOptionOnClick(final ArrayList<String> list) {
 
         amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                       ajouterAmis(position,list);
-
+                ajouterAmis(position,list);
             }
         });
     }
@@ -165,7 +154,6 @@ public class AjoutAmis extends ActionBarActivity {
    public void ajouterAmis(int position,  ArrayList<String> list){
        String username = list.get(position).toString();
 
-
        Intent intent = new Intent(this, ConfirmAjout.class);
        intent.putExtra("username", username);
 
@@ -174,52 +162,42 @@ public class AjoutAmis extends ActionBarActivity {
 
    }
 
-public ArrayList<String> afficheUserPublic(Context context){
+    public ArrayList<String> afficheUserPublic(Context context){
 
-    try{
+        try{
 
-        httpclient=new DefaultHttpClient();
-        httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherUserPublic.php"); // make sure the url is correct.
+            httpclient=new DefaultHttpClient();
+            httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherUserPublic.php");
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            JSONArray JsonArray = new JSONArray(response);
 
-        //Execute HTTP Post Request
-        //response=httpclient.execute(httppost);
-        nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        final String response = httpclient.execute(httppost, responseHandler);
-        System.out.println("Response : " + response);
-        JSONArray JsonArray = new JSONArray(response);
+            System.out.println("Response : " + JsonArray);
+            System.out.println("taille : " + JsonArray.length());
 
-        System.out.println("Response : " + JsonArray);
-        System.out.println("taille : " + JsonArray.length());
+            final ArrayList<String> list = new ArrayList<String>();
 
+            for (int i=0;i<JsonArray.length();i++) {
+                JSONObject jsonObject = JsonArray.getJSONObject(i);
+                System.out.println("taille : " + JsonArray.getJSONObject(i));
+                //tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
+                list.add(("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString());
+            }
+            mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
+            amisList.setAdapter(mAmisAdapter);
 
-        final ArrayList<String> list = new ArrayList<String>();
-       // final String[] tbAmis = new String[4];
+            return list;
 
-        for (int i=0;i<JsonArray.length();i++) {
-            JSONObject jsonObject = JsonArray.getJSONObject(i);
-            System.out.println("taille : " + JsonArray.getJSONObject(i));
-          // tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
-            list.add(("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString());
-
+        } catch(Exception e) {
+            /* dialog.dismiss();*/
+            System.out.println("Exception : " + e.getMessage());
         }
-        mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
-        amisList.setAdapter(mAmisAdapter);
-
-        return list;
-
-
-
-
-
-    }catch(Exception e){
-           /* dialog.dismiss();*/
-        System.out.println("Exception : " + e.getMessage());
+        return null;
     }
-    return null;
-}
 
 /**
  * Affiche les erreurs

@@ -25,11 +25,19 @@
             android:layout_margin="20dp"
             android:textSize="20sp"/>
 
+        <SearchView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listeActiviteTV"
+            android:id="@+id/searchView">
+
+        </SearchView>
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:id="@+id/separateur"
-            android:layout_below="@id/listeActiviteTV"
+            android:layout_below="@id/searchView"
             android:layout_centerHorizontal="true"
             android:text="test"
             android:background="#000000"/>
