@@ -1,7 +1,9 @@
 package com.example.arnaud.integrationprojetv0;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,6 +32,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ChoixCategorie extends AppCompatActivity {
 
     private String categorie = null;
@@ -47,15 +52,23 @@ public class ChoixCategorie extends AppCompatActivity {
     private String mActivityTitle;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.categorie_layout);
 
         afficherCategorie();
 
         // session manager
         session = new SessionManager(getApplicationContext());
+
+
 
         layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
         activiteChoisieTV = (TextView) findViewById(R.id.activiteChoisieTV);
@@ -79,6 +92,10 @@ public class ChoixCategorie extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     private void logoutUser() {
         session.setLogin(false);
@@ -92,7 +109,6 @@ public class ChoixCategorie extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 
     /**
      * affiche l'activité du jour choisie par l'utilisateur

@@ -31,6 +31,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 //import org.apache.http.HttpResponse;
 
 
@@ -66,6 +69,11 @@ public class AjouterActivite extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         session = new SessionManager(getApplicationContext());
         setContentView(R.layout.ajoutactivite_layout);
         listView = (Spinner) findViewById(R.id.listeView);
@@ -112,7 +120,11 @@ public class AjouterActivite extends AppCompatActivity {
 
             }
         });
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void envoyerActivite(View view) {

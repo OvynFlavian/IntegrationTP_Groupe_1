@@ -25,6 +25,9 @@ import org.apache.http.client.methods.HttpPost;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
  * <p>
@@ -61,6 +64,11 @@ public class RequeteAmis extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.requete_amis);
         session = new SessionManager(getApplicationContext());
         //menu
@@ -91,7 +99,10 @@ public class RequeteAmis extends ActionBarActivity {
 
     }
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
     private void addOptionOnClick(final ArrayList<String> list) {

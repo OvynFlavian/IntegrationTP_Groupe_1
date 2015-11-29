@@ -33,6 +33,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
  * <p>
@@ -69,6 +72,11 @@ public class AjoutAmisGroupe extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.ajoutamis_layout);
         //menu
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -89,14 +97,9 @@ public class AjoutAmisGroupe extends ActionBarActivity {
 
         final SearchView searchView = (SearchView) findViewById(R.id.searchView);
 
-
         final Context context=getApplicationContext();
 
-
-
-
         final ArrayList<String> liste = afficheUserPublic(context);
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -111,15 +114,14 @@ public class AjoutAmisGroupe extends ActionBarActivity {
                 System.out.println("rech2" + listeRech.toString());
                 return true;
             }
-
-
         });
         addOptionOnClick(liste);
-
-
     }
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     private void addOptionOnClick(final ArrayList<String> list) {
 

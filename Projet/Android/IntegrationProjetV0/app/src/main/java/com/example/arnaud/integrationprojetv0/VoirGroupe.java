@@ -34,6 +34,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
  * <p>
@@ -72,6 +75,11 @@ public class VoirGroupe extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.groupe_afficher);
         session = new SessionManager(getApplicationContext());
         addAmis = (Button) findViewById(R.id.btnAdd);
@@ -128,6 +136,11 @@ public class VoirGroupe extends ActionBarActivity {
                 ArrayList<String> liste = afficherMembre(context);
                 addOptionOnClick(liste);
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private String afficherActi() {

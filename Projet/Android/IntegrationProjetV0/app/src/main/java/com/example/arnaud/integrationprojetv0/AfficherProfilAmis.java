@@ -1,6 +1,7 @@
 package com.example.arnaud.integrationprojetv0;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,6 +34,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class AfficherProfilAmis extends ActionBarActivity {
 
@@ -64,6 +68,11 @@ public class AfficherProfilAmis extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.affich_profil_amis);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -81,7 +90,6 @@ public class AfficherProfilAmis extends ActionBarActivity {
         btnSuppr = (Button) findViewById(R.id.btnSuppr);
         btnActi   = (Button) findViewById(R.id.btnActi);
 
-
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
@@ -91,10 +99,6 @@ public class AfficherProfilAmis extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-
-
-
 
         Intent intent = getIntent();
 // On suppose que tu as mis un String dans l'Intent via le putExtra()
@@ -119,17 +123,15 @@ public class AfficherProfilAmis extends ActionBarActivity {
                 intent2.putExtra("libelle", tb1[2] );
                 intent2.putExtra("description", tb1[3] );
                 intent2.putExtra("catLib", tb1[4] );
-
-
                 startActivity(intent2);
             }
         });
-
-
-
     }
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     public String[] affFriend(String username) {
 

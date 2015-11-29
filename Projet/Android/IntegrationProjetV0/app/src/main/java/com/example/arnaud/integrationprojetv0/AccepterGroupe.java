@@ -1,6 +1,7 @@
 package com.example.arnaud.integrationprojetv0;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -31,6 +32,9 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by nauna on 19-11-15.
  */
@@ -55,6 +59,11 @@ public class AccepterGroupe extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.confirmajout_layout);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -108,9 +117,11 @@ public class AccepterGroupe extends ActionBarActivity {
 
             }
         });
+    }
 
-
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void supprimerGroupe(String username) {

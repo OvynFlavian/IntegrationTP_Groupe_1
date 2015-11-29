@@ -1,5 +1,6 @@
 package com.example.arnaud.integrationprojetv0;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,6 +30,9 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 /**
  * Created by nauna on 24-11-15.
@@ -57,6 +61,11 @@ public class CreerGroupe extends ActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.groupe_creer);
 
         session = new SessionManager(getApplicationContext());
@@ -88,10 +97,11 @@ public class CreerGroupe extends ActionBarActivity {
                 //setContentView(R.layout.register_layout);
             }
         });
+    }
 
-
-
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void creerGroupe() {

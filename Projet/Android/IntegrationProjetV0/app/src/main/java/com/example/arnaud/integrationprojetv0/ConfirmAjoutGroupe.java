@@ -1,6 +1,7 @@
 package com.example.arnaud.integrationprojetv0;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -31,6 +32,9 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by nauna on 19-11-15.
  */
@@ -56,6 +60,11 @@ public class ConfirmAjoutGroupe extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.confirmajout_layout);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -79,10 +88,8 @@ public class ConfirmAjoutGroupe extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-
         Intent intent = getIntent();
-// On suppose que tu as mis un String dans l'Intent via le putExtra()
+        // On suppose que tu as mis un String dans l'Intent via le putExtra()
 
         final String username = intent.getStringExtra("username");
 
@@ -106,20 +113,17 @@ public class ConfirmAjoutGroupe extends ActionBarActivity {
                 Toast.makeText(ConfirmAjoutGroupe.this, "demande annulée.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public void addFriend(String username) {
-
         try {
-            // String [] liste = (String[]) list.toArray();
-
-
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/AjouterGroupe.php"); // make sure the url is correct.
-
+            httppost = new HttpPost("http://109.89.122.61/scripts_android/AjouterGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
             System.out.println("Response 22:" + username);

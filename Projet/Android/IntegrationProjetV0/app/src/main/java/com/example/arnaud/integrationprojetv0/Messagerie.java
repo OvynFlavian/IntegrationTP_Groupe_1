@@ -17,6 +17,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 
 /**
  * Created by nauna on 24-11-15.
@@ -38,6 +40,11 @@ public class Messagerie extends ActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.message_layout);
 
         session = new SessionManager(getApplicationContext());
