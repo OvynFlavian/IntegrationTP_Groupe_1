@@ -34,7 +34,7 @@
     }
 
     function champsMdpValable($champ) {
-     if(preg_match('#^[a-zA-Z0-9 \ éàèîêâô!? ]*$#', $champ)) {
+     if(preg_match('#^[a-zA-Z0-9 œ \ éàèîêâô!? ]*$#', $champ)) {
            return true;
         }
      else {

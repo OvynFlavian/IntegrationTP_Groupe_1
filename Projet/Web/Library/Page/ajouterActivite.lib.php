@@ -26,6 +26,7 @@ function ajouterActivite() {
         } else {
             if (strlen($act) >= 5 && strlen($act) <= 100) {
                 if (champsTexteValable($desc)) {
+                    $desc = nl2br($desc);
                     $activityToAdd = new Activity(array(
                         "Libelle" => $act,
                         "description" => $desc,

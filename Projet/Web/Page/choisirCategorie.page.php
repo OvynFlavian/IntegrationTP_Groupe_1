@@ -36,7 +36,7 @@ $configIni = getConfigFile();
     if (isConnect()) {
     $uam = new User_ActivityManager(connexionDb());
     $tab = $uam->getActIdByUserId($_SESSION['User']);
-    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
+    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 2)) {
         ?>
     }
     <aside class="col-md-2" style="max-width: 250px;">
