@@ -55,7 +55,11 @@ $configIni = getConfigFile();
 
             </div>
         <?php }
-    }?>
+    }else{?>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+
+    </div>
+    <?php }?>
     <section class="col-lg-8 jumbotron">
         <h1> <img class="jumbotitre" src="../Images/bannieres/categorie.png" alt="logo" /></h1>
         <p class="jumbotexte">Choisissez une catégorie pour votre activité du jour :</p>

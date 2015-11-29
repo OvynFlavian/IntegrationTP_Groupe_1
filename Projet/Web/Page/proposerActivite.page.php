@@ -45,9 +45,6 @@ $configIni = getConfigFile();
             <?php include("../Menu/menuGeneral.lib.php");?>
         </header>
         <div class="col-md-2 clearfix" id="sub-menu-left">
-
-        </div>
-        <div class="col-md-2 clearfix" id="sub-menu-left">
             <nav class="sidebar-nav">
                 <ul class="nav sidebar-nav sidebar-collapse">
                     <?php
