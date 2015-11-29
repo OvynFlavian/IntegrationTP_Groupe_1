@@ -17,11 +17,13 @@ $isIndex = ($page == '' or $page == "index");
             <?php
             if ($isIndex) {
                 $lien = "index.php";
+                $img = "Images/logo.png";
             } else {
                 $lien = "../index.php";
+                $img = "../Images/logo.png";
             }
 
-            echo "<a class='navbar-brand' href='$lien'>EveryDayIdea</a>";
+            echo "<img class='menulogo' src='$img' height='35px' width='35px' alt='logo' /><a class='navbar-brand' href='$lien'>EveryDayIdea</a>";
             ?>
         </div>
     <div>

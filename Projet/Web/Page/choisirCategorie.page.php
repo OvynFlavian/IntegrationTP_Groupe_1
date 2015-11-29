@@ -15,14 +15,6 @@ initRequireEntityManager();
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
-if (isConnect()) {
-    $uam = new User_ActivityManager(connexionDb());
-    $tab = $uam->getActIdByUserId($_SESSION['User']);
-    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
-        header("Location:coterActivite.page.php");
-
-    }
-}
 ?>
 
 <!doctype html>
@@ -40,12 +32,30 @@ if (isConnect()) {
 </head>
 <body>
 <header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
+    <?php include("../Menu/menuGeneral.lib.php");
+    if (isConnect()) {
+    $uam = new User_ActivityManager(connexionDb());
+    $tab = $uam->getActIdByUserId($_SESSION['User']);
+    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
+        ?>
+    }
+    <aside class="col-md-2" style="max-width: 250px;">
+        <ul class="nav nav-pills nav-stacked" >
+            <li <?php if(empty($_GET)) {echo 'class="active"';}?>><a href="choisirCategorie.page.php">Choisir une catégorie</a></li>
+    <li><a href="coterActivite.page.php">Coter mon ancienne activité</a></li>
+    </ul>
+    </aside>
+    <?php
+    }
+    }
+    ?>
+
+
 </header>
-<section class="container">
+<section class="container" style="padding-bottom : 55%;">
     <section class="jumbotron">
-        <h1>Choisir une catégorie</h1>
-        <p>Choisissez une catégorie pour votre activité du jour :</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/categorie.png" alt="logo" /></h1>
+        <p class="jumbotexte">Choisissez une catégorie pour votre activité du jour :</p>
 
     </section>
     <section class="row" id="proposerCat">

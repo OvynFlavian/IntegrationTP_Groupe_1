@@ -45,8 +45,8 @@ $configIni = getConfigFile();
 </header>
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Liste des activités signalées</h1>
-        <p> Affichage de la liste des activités signalées actuellement sur le site.</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/signalement.png" alt="logo" /></h1>
+        <p class="jumbotexte"> Affichage de la liste des activités signalées actuellement sur le site.</p>
     </section>
     <section class="row">
         <article class="col-sm-12">

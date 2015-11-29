@@ -50,15 +50,15 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
 </header>
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Page d'administration</h1>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/administration.png" alt="logo" /></h1>
         <?php
         if (!isset($_GET['to'])) {
-            echo "<p>Affichage de la liste des membres présents sur votre site. Vous pouvez voir leur profil ou modifier leur grade. Il est aussi possible de leur envoyer un message.</p>";
+            echo "<p class='jumbotexte'>Affichage de la liste des membres présents sur votre site. Vous pouvez voir leur profil ou modifier leur grade. Il est aussi possible de leur envoyer un message.</p>";
         } else if (isset($_GET['to'])) {
             if ($_GET['to'] == 'viewConfig') {
-                echo "<p>Affichage de la configuration de votre site.</p>";
+                echo "<p class='jumbotexte'>Affichage de la configuration de votre site.</p>";
             } else if ($_GET['to'] == 'editConfig') {
-                echo "<p>Vous pouvez modifier la configuration de base de votre site.</p>";
+                echo "<p class='jumbotexte'>Vous pouvez modifier la configuration de base de votre site.</p>";
             }
         }
 

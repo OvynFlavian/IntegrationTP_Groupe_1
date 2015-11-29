@@ -126,4 +126,18 @@ class ActivityManager {
             ":votants" => $votants,
         ));
     }
+
+    public function updateActivite(Activity $activite)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE activity SET Libelle = :lib, description = :desc  WHERE id = :id");
+        $query->execute(array(
+            ":id" => $activite->getId(),
+            ":desc" => $activite->getDescription(),
+            ":lib" => $activite->getLibelle(),
+        ));
+    }
+
+
 }

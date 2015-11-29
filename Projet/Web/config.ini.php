@@ -6,8 +6,8 @@ size_user_mdp = 5
 type = mysql
 host = localhost
 username = root
-password = ''
-dbname = projet
+password = poulet77
+dbname = projetIntegration
 [ADMINISTRATEUR]
 pseudo = Admin
 mail = no-reply@everydayidea.be

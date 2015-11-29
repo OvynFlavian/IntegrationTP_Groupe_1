@@ -8,6 +8,7 @@
 require "../Library/constante.lib.php";
 require "../Library/Fonctions/Fonctions.php";
 require "../Form/formGroupe.form.php";
+require "../Form/gererActionGroupe.form.php";
 initRequire();
 initRequireEntityManager();
 require "../Library/Page/groupe.lib.php";
@@ -62,6 +63,13 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                     }
                     echo "><a href='groupe.page.php?to=voirGroupe'>Voir mon groupe</a></li>";
                 }
+            if (!hasGroupe()) {
+                echo "<li";
+                if(isset($_GET['to']) && $_GET['to'] == 'listeGroupe') {
+                    echo ' class="active"';
+                }
+                echo "><a href='groupe.page.php?to=listeGroupe'>Voir les groupes</a></li>";
+            }
 
                 if (!hasGroupe()) {
                     echo "<li";
@@ -70,25 +78,30 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                     }
                     echo "><a href='groupe.page.php?to=invitation'>Voir mes invitations</a></li>";
                 }
+
             ?>
         </ul>
     </aside>
 </header>
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Page d'affichage du groupe</h1>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/groupe.png" alt="logo" /></h1>
         <?php
             if (!isset($_GET['to'])) {
-                echo "<p>Affichage de la liste des membres premium possédant la même activité que vous. Il est possible de les ajouter à votre groupe ou de rejoindre leur groupe !</p>";
+                echo "<p class='jumbotexte'>Affichage de la liste des membres premium possédant la même activité que vous. Il est possible de les ajouter à votre groupe ou de rejoindre leur groupe !</p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'creerGroupe') {
-                echo "<p>Créez votre groupe ! Vous pourrez ensuite inviter d'autres membres dedans pour leur partager votre activité ensemble !</p>";
+                echo "<p class='jumbotexte'>Créez votre groupe ! Vous pourrez ensuite inviter d'autres membres dedans pour leur partager votre activité ensemble !</p>";
+            } else if (isset($_GET['to']) && $_GET['to'] == 'listeGroupe') {
+                echo "<p class='jumbotexte'>Vous pouvez choisir un groupe et le rejoindre selon vos préférences et envies !</p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'ajouter') {
-            echo "<p>Vous pouvez ajouter cette personne à votre groupe, une invitation lui sera envoyée !</p>";
+            echo "<p class='jumbotexte'>Vous pouvez ajouter cette personne à votre groupe, une invitation lui sera envoyée !</p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'rejoindre') {
-                echo "<p>Vous pouvez rejoindre ce groupe ! Toutes vos invitations seront supprimées et vous aurez accès à la page du groupe !</p>";
+                echo "<p class='jumbotexte'>Vous pouvez rejoindre ce groupe ! Toutes vos invitations seront supprimées et vous aurez accès à la page du groupe !</p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe') {
-                echo "<p> Voici la page de votre groupe ! Vous pouvez voir les différents membres, les ajouter en ami ou discuter avec eux via la messagerie du groupe !";
-            }
+                echo "<p class='jumbotexte'> Voici la page de votre groupe ! Vous pouvez voir les différents membres, les ajouter en ami ou discuter avec eux via la messagerie du groupe !";
+            } else if (isset($_GET['to']) && $_GET['to'] == 'invitation') {
+            echo "<p class='jumbotexte'> Acceptez ou refusez les invitations que les membres d'autres groupes vous ont envoyées !";
+        }
 
 
 
@@ -105,6 +118,8 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
             } else {
                 if (!isset($_GET['to'])) {
                     afficherMembres();
+                } else if (isset($_GET['to']) && $_GET['to'] == 'listeGroupe' && !hasGroupe()) {
+                    listeGroupe();
                 }  else if (isset($_GET['to']) && $_GET['to'] == 'creerGroupe') {
                     if (hasGroupe()) {
                         header("Location:../");
@@ -129,10 +144,16 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                 } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe' && isset($_GET['action']) && $_GET['action'] == 'mod') {
                     gererActionGroupe();
                     gererReponseGroupe();
-                } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe') {
-                    supprimerMembre(gererSuppressionMembre());
-                    envoiMessage();
-                    voirGroupe();
+                } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe' && hasGroupe()) {
+                    if (gererActionMembre()) {
+                    } else if (isset($_POST['Acceptersupprimer']) || isset($_POST['Refusersupprimer'])) {
+                        supprimerMembre();
+                    } else if (isset($_POST['Accepterlead']) || isset($_POST['Refuserlead'])) {
+                        nommerLeader();
+                    } else {
+                        envoiMessage();
+                        voirGroupe();
+                    }
                 } else if (isset($_GET['to']) && $_GET['to'] == 'invitation' && !hasGroupe()) {
                     gererReponseInvitation();
                     afficherInvitation();

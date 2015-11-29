@@ -65,8 +65,8 @@ $configIni = getConfigFile();
 </header>
 <section class="container">
     <section class="jumbotron">
-        <h1>Demande d'ami</h1>
-        <p> Une demande sera envoyée à l'utilisateur aussitôt votre choix fait !</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/demandeami.png" alt="logo" /></h1>
+        <p class="jumbotexte"> Une demande sera envoyée à l'utilisateur aussitôt votre choix fait !</p>
     </section>
     <section class="row">
         <article class="col-sm-12">

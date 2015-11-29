@@ -153,9 +153,13 @@ function voirGroupe() {
     $membres = $ugm->getUserIdByGroupeId($groupe);
     $messages = $gmm->getMessageByGroup($groupe);
     $existe = false;
+    $autreMembre = false;
     formGroupe($groupe);
     echo "<div class='titleGroupe'>";
-    echo "<h1 align='center'> Groupe concernant l'activité : ".$act->getLibelle()."</h1>";
+    echo "<div class='photoGroupe'>";
+    echo "<img class='photoAct' src='../Images/activite/".$act->getId().".jpg' alt='photoActivite' />";
+    echo "</div>";
+    echo "<h1 align='center'>".$act->getLibelle()."</h1>";
     echo "<h2 align='center'> Chef de groupe : ".$leader->getUserName()."</h2>";
     echo "</div>";
     echo "<h3 align='center'> Description de votre activité :</h3>";
@@ -174,7 +178,8 @@ function voirGroupe() {
             <th> Date de dernière connexion</th>
             <th> Ajouter en ami </th>
             <?php if ($groupe->getIdLeader() == $_SESSION['User']->getId()) {?>
-            <th> Supprimer du groupe </th>
+                <th> Supprimer du groupe </th>
+                <th> Nommer chef de groupe </th>
             <?php } ?>
         </tr>
         <?php
@@ -182,6 +187,7 @@ function voirGroupe() {
             $user = $um->getUserById($elem['id_user']);
             $id = $user->getId();
             if ($user->getId() != $_SESSION['User']->getId()) {
+                $autreMembre = true;
                 $amiTest1 = $amiM->getAmisById1AndId2($user->getId(), $_SESSION['User']->getId());
                 $amiTest2 = $amiM->getAmisById1AndId2($_SESSION['User']->getId(), $user->getId());
                 echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getDateLastConnect() . " </td><td>";
@@ -194,12 +200,20 @@ function voirGroupe() {
                 if ($groupe->getIdLeader() == $_SESSION['User']->getId()) {
                     echo "<td><form class='form-horizontal col-sm-12' name='suppression$id' action='groupe.page.php?to=voirGroupe' method='post'>";
                     echo "<input type='hidden'  name='idMembre$id'  value='" . $id . "''>";
-                    echo "<button class='btn btn-danger col-sm-9' type='submit' id='formulaire' name='supprimerMembre$id'>Supprimer ce membre</button>";
+                    echo "<button class='btn btn-danger col-sm-10' type='submit' id='formulaire' name='supprimerMembre$id'>Supprimer ce membre</button>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "<td><form class='form-horizontal col-sm-12' name='nommerLead$id' action='groupe.page.php?to=voirGroupe' method='post'>";
+                    echo "<input type='hidden'  name='idMembre$id'  value='" . $id . "''>";
+                    echo "<button class='btn btn-success col-sm-10' type='submit' id='formulaire' name='nommerLead$id'>Nommer chef de groupe</button>";
                     echo "</form>";
                     echo "</td>";
                 }
                 echo "</tr>";
             }
+        }
+        if (!$autreMembre) {
+            echo "<tr> <td> Vous êtes le seul membre du groupe pour le moment !</td></tr>";
         }
         ?>
     </table>
@@ -237,28 +251,84 @@ function voirGroupe() {
     echo "</div>";
 
 }
-function gererSuppressionMembre() {
+
+function listeGroupe() {
+    $gm = new GroupeManager(connexionDb());
+
+    $um = new UserManager(connexionDb());
+    $uam = new User_ActivityManager(connexionDb());
+    $act = $uam->getActIdByUserId($_SESSION['User']);
+    $tabGroupe = $gm->getAllGroupeByAct($act[0]['id_activity']);
+    $existe = false;
+    ?>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption> <h2> Liste des groupes </h2></caption>
+            <tr>
+                <th> Description de groupe </th>
+                <th> Chef du groupe </th>
+                <th> Rejoindre le groupe </th>
+            </tr>
+            <?php
+            foreach ($tabGroupe as $elem) {
+                $user = $um->getUserById($elem->getIdLeader());
+                $id = $elem->getIdGroupe();
+                echo "<tr> <td>" . $elem->getDescription() . " </td><td>" . $user->getUserName() . " </td>";
+                echo "<td><a href='groupe.page.php?to=rejoindre&groupe=" . $elem->getIdGroupe() . "'> Rejoindre le groupe </a></td>";
+                echo "</tr>";
+                $existe = true;
+            }
+
+            if ($tabGroupe == NULL || !$existe) {
+                echo "<tr> <td> Aucun groupe pour le moment !</td></tr>";
+            }
+            ?>
+        </table>
+    </div>
+    <?php
+}
+function gererActionMembre() {
     $um = new UserManager(connexionDb());
     $tabUser = $um->getAllUser();
     $trueId = 0;
     foreach ($tabUser as $elem) {
         $id = $elem->getId();
         if (isset($_POST['supprimerMembre'.$id.''])){
-            $trueId = $id;
+            formGererActionGroupe('supprimer', $id);
+            return true;
+        }
+        if (isset($_POST['nommerLead'.$id.''])) {
+            formGererActionGroupe('lead', $id);
+            return true;
         }
     }
-    return $trueId;
+    return false;
 }
 
-function supprimerMembre($id)
+
+function nommerLeader() {
+    if (isset($_POST['Accepterlead'])) {
+        $id = $_POST['membre'];
+        $gm = new GroupeManager(connexionDb());
+        $groupe = $gm->getGroupeByLeader($_SESSION['User']);
+        $gm->updateLeader($groupe, $id);
+        header("Location:groupe.page.php?to=voirGroupe");
+    } else if (isset($_POST['Refuserlead'])) {
+        header("Location:groupe.page.php?to=voirGroupe");
+    }
+}
+
+function supprimerMembre()
 {
-    if (isset($_POST['supprimerMembre' . $id . ''])) {
-        $id = $_POST['idMembre' . $id . ''];
+    if (isset($_POST['Acceptersupprimer'])) {
+        $id = $_POST['membre'];
         $ugm = new User_GroupeManager(connexionDb());
         $userToDelete = new User(array(
             "id" => $id,
         ));
         $ugm->deleteUserGroupe($userToDelete);
+        header("Location:groupe.page.php?to=voirGroupe");
+    } else if (isset($_POST['Refusersupprimer'])) {
         header("Location:groupe.page.php?to=voirGroupe");
     }
 }

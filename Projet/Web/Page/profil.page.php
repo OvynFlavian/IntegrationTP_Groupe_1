@@ -55,7 +55,7 @@ if(isPostFormulaire())
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 </head>
-<body>
+<body style="padding-bottom : 55%;">
 <header>
     <?php include("../Menu/menuGeneral.lib.php");?>
     <aside class="col-md-2" style="max-width: 200px;">
@@ -67,12 +67,12 @@ if(isPostFormulaire())
 </header>
 <section class="container">
     <section class="jumbotron">
-        <h1>Page de gestion de profil</h1>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/profil.png" alt="logo" /></h1>
         <?php
             if (!isset($_GET['to'])) {
-                echo "<p>Visionnez les informations relatives à votre compte</p>";
+                echo "<p class='jumbotexte'>Visionnez les informations relatives à votre compte</p>";
             } else {
-                echo "<p>Entrez les informations qui seront changées (les informations n'ayant pas été changées ne seront pas prises en compte)</p>";
+                echo "<p class='jumbotexte'>Entrez les informations qui seront changées (les informations n'ayant pas été changées ne seront pas prises en compte)</p>";
             }
         ?>
 

@@ -48,14 +48,16 @@ if (isConnect()) {
 <section class="container" id="administration">
     <section class="jumbotron">
 
-        <h1>EveryDayIdea</h1>
-        <p>
-            <?php if($isConnect){ ?>
-                Bienvenu(e) <?php echo getSessionUser()->getUserName() ?> sur le site de EveryDayIdea
-            <?php }else{?>
-                Bienvenu(e) sur le site de EveryDayIdea
-            <?php }?>
-        </p>
+                <h1> <img class="jumbotitre" src="Images/bannieres/accueil.png" alt="logo" /></h1>
+                <p class="jumbotexte">
+
+                    <?php if($isConnect){ ?>
+                        Bienvenu(e) <?php echo getSessionUser()->getUserName() ?> sur le site de EveryDayIdea
+                    <?php }else{?>
+                        Bienvenu(e) sur le site de EveryDayIdea
+                    <?php }?>
+
+                </p>
 
     </section>
     <section class="row">
@@ -64,7 +66,7 @@ if (isConnect()) {
             echo "<div class='media'>";
             echo "<div class='media-right media-middle' >";
 
-            echo "<img class='media-object' src='Images/ampoule.png' alt='EveryDayIdea'>";
+            echo "<img class='media-object' src='Images/accueil/ampoule.png' alt='EveryDayIdea'>";
 
             echo "</div>";
             echo "<div class='media-body media-right'>";
@@ -80,8 +82,9 @@ if (isConnect()) {
                     echo "Vous n'avez pas encore choisi d'activité aujourd'hui ! <a href='Page/choisirCategorie.page.php'><b>Choississez-en une</b></a> !";
                 } else {
                     $act = $am->getActivityById($tab[0]['id_activity']);
-                    echo "<p>Votre activité choisie du jour est :</p>";
+                    echo "<p><Votre activité choisie du jour est :</p>";
                     echo "<div class='activityIndex'>";
+                    echo "<img class='photoAct' src='Images/activite/".$tab[0]['id_activity'].".jpg' alt='photoActivite' />";
                     echo "<p><h3>".$act->getLibelle()."</h3></p>";
                     echo "<p> Sa description est : <h4>".$act->getDescription()."</h4></p>";
                     echo "</div>";
@@ -105,7 +108,7 @@ if (isConnect()) {
                 echo "<div class='media'>";
                     echo "<div class='media-left media-middle' >";
 
-                        echo "<img  class='media-object' src='Images/interrogation.png' alt='EveryDayIdea'>";
+                        echo "<img  class='media-object' src='Images/accueil/interrogation.png' alt='EveryDayIdea'>";
 
                     echo "</div>";
                     echo "<div class='media-body'>";
@@ -121,7 +124,7 @@ if (isConnect()) {
                 echo "<div class='media'>";
                 echo "<div class='media-left media-middle' >";
 
-                echo "<img class='media-object' src='Images/exclamation.png' alt='EveryDayIdea'>";
+                echo "<img class='media-object' src='Images/accueil/exclamation.png' alt='EveryDayIdea'>";
 
                 echo "</div>";
                 echo "<div class='media-body'>";

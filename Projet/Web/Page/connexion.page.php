@@ -64,8 +64,8 @@ $configIni = getConfigFile();
 </header>
     <section class="container">
         <section class="jumbotron">
-            <h1>Page de connexion</h1>
-            <p>Entrez votre nom d'utilisateur et votre mot de passe !</p>
+            <h1> <img class="jumbotitre" src="../Images/bannieres/connexion.png" alt="logo" /></h1>
+            <p class="jumbotexte">Entrez votre nom d'utilisateur et votre mot de passe !</p>
         </section>
         <section class="row">
             <article class="col-sm-12">

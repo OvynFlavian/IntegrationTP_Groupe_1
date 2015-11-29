@@ -251,17 +251,11 @@ function supprimerAmi($id) {
 }
 
 function modifAct() {
-    if (isConnect()) {
-        $uam = new User_ActivityManager(connexionDb());
-        $tab = $uam->getActIdByUserId($_SESSION['User']);
-        if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
-            header("Location:coterActivite.page.php");
-
-        }
-    }
     $id = $_GET['id'];
     $am = new ActivityManager(connexionDb());
     $activity = $am->getActivityById($id);
+    echo "<div class='activity'>";
+    echo "<img class='photoAct' src='../Images/activite/".$activity->getId().".jpg' alt='photoActivite' />";
     echo "<h1 style='text-align: center'>".$activity->getLibelle()."</h1>";
     echo "<h2 style='text-align: center'>".$activity->getDescription()."</h2>";
     if($activity->getNote() == NULL) {
@@ -273,6 +267,7 @@ function modifAct() {
     echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='AccepterAct'>Choisir cette activité</button>";
     echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='RefuserAct'>Je me suis trompé</button>";
     echo "</form>";
+    echo "</div>";
 }
 
 function gererReponse()

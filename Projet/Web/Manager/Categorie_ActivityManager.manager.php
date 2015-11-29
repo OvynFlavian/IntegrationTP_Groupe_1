@@ -68,4 +68,14 @@ class Categorie_ActivityManager
         ));
     }
 
+    public function updateCategorie(Activity $activite, $id)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE categorie_activity SET id_categorie = :cat  WHERE id_activity = :act");
+        $query->execute(array(
+            ":cat" => $id,
+            ":act" => $activite->getId(),
+        ));
+    }
 }

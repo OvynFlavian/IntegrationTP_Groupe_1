@@ -40,8 +40,8 @@ if(!$isConnect or $_SESSION['User']->getDroit()[0]->getLibelle() == 'Premium' or
 
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Comment devenir Premium ?</h1>
-        <p>Vous pouvez lire ci-dessous les différentes étapes à mettre en oeuvre afin de devenir premium sur EveryDayIdea !</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/premium.png" alt="logo" /></h1>
+        <p class="jumbotexte">Vous pouvez lire ci-dessous les différentes étapes à mettre en oeuvre afin de devenir premium sur EveryDayIdea !</p>
     </section>
 
 <section class="row">

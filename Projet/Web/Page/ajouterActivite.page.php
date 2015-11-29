@@ -46,8 +46,8 @@ $configIni = getConfigFile();
 </header>
 <section class="container">
     <section class="jumbotron">
-        <h1>Ajouter une activité</h1>
-        <p>Choisissez une catégorie et écrivez l'activité que vous voulez ajouter :</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/ajouteractivite.png" alt="logo" /></h1>
+        <p class="jumbotexte">Choisissez une catégorie et écrivez l'activité que vous voulez ajouter :</p>
 
     </section>
     <section class="row">

@@ -57,8 +57,8 @@ $configIni = getConfigFile();
 </header>
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Gérer mes amis</h1>
-        <p> Ici, vous pouvez voir vos demandes en cours, les demandes vous étant envoyées ainsi que la liste de vos amis</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/amis.png" alt="logo" /></h1>
+        <p class="jumbotexte"> Ici, vous pouvez voir vos demandes en cours, les demandes vous étant envoyées ainsi que la liste de vos amis</p>
     </section>
     <section class="row">
         <?php

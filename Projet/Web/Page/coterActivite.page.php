@@ -41,11 +41,17 @@ if (!isConnect()) {
 <body>
 <header>
     <?php include("../Menu/menuGeneral.lib.php");?>
+    <aside class="col-md-2" style="max-width: 250px;">
+        <ul class="nav nav-pills nav-stacked" >
+            <li><a href="choisirCategorie.page.php">Choisir une catégorie</a></li>
+            <li <?php if(empty($_GET)) {echo 'class="active"';}?>><a href="coterActivite.page.php">Coter mon ancienne activité</a></li>
+        </ul>
+    </aside>
 </header>
 <section class="container">
     <section class="jumbotron">
-        <h1>Coter une activité</h1>
-        <p>Cela fait plus de six heures que vous avez la même activité ! Que diriez-vous de la coter ?</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/coteractivite.png" alt="logo" /></h1>
+        <p class="jumbotexte">Cela fait plus de six heures que vous avez la même activité ! Que diriez-vous de la coter ?</p>
 
     </section>
     <section class="row" >

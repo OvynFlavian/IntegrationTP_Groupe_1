@@ -113,6 +113,32 @@
         <?php
     }
 
+function uploadImage($repertoire, $nom) {
+    $repertoire = $repertoire.'/'; // dossier où sera déplacé le fichier
+    $photo = $_FILES['image']['tmp_name'];
+    if( !is_uploaded_file($photo) ) {
+        exit("Le fichier est introuvable <br>");
+    }
+    // on vérifie maintenant l'extension
+    $typePhoto = $_FILES['image']['type'];
+    if( !strstr($typePhoto, 'jpg') && !strstr($typePhoto, 'jpeg')) {
+        exit("Le fichier n'est pas une image ou n'est pas en jpg (seul format admis) <br>");
+    }
+    // on copie le fichier dans le dossier de destination
+    $nomPhoto = $nom.".jpg";
+
+
+
+    $donnees=getimagesize($photo);
+    $nouvelleLargeur = 200;
+    $reduction = ( ($nouvelleLargeur * 100) / $donnees[0]);
+    $nouvelleHauteur = ( ($donnees[1] * $reduction) / 100);
+    $image = imagecreatefromjpeg($photo);
+    $image_mini = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur); //création image finale
+    imagecopyresampled($image_mini, $image, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $donnees[0], $donnees[1]);//copie avec redimensionnement
+    imagejpeg ($image_mini, $repertoire.$nomPhoto);
+}
+
 ?>
 
 

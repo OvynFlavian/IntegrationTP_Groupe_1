@@ -22,15 +22,6 @@ require "../Entity/Groupe.class.php";
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
-
-if (isConnect()) {
-    $uam = new User_ActivityManager(connexionDb());
-    $tab = $uam->getActIdByUserId($_SESSION['User']);
-    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
-        header("Location:coterActivite.page.php");
-
-    }
-}
 ?>
 
 <!doctype html>
@@ -75,8 +66,8 @@ if (isConnect()) {
 </header>
 <section class="container" id="administration">
     <section class="jumbotron">
-        <h1>Page des activités</h1>
-        <p>Voici l'activité qui vous est proposée par EveryDayIdea :</p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/ajouteractivite.png" alt="logo" /></h1>
+        <p class="jumbotexte">Voici l'activité qui vous est proposée par EveryDayIdea :</p>
     </section>
     <section class="row">
         <article class="col-sm-12">
@@ -93,8 +84,13 @@ if (isConnect()) {
                             header("Location:../");
                         } else {
                             if (isset($_GET['to']) && $_GET['to'] == 'signaler' && isConnect() && isset($_GET['activite'])) {
-                                reponseSignalement();
-                                gererSignalement();
+                                if (isset($_POST['modifier'])) {
+                                    formModifierActivite();
+                                } else {
+                                    modifierActivite();
+                                    reponseSignalement();
+                                    gererSignalement();
+                                }
 
                             } else {
                                 $idActivite = proposerActivite($cat);

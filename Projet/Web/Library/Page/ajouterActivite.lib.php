@@ -34,11 +34,26 @@ function ajouterActivite() {
 
                     $activityToRecup = $am->getActivityByLibelle($act);
                     include "../Manager/Categorie_ActivityManager.manager.php";
-                    $cam = new Categorie_ActivityManager(connexionDb());
-                    $um = new UserManager(connexionDb());
-                    $um->updateUserLastIdea($_SESSION['User']);
-                    $cam->addToTable($activityToRecup, $categorie);
-                    $tabRetour['Ok'] = "Votre activité a bien été ajoutée au contenu du site, merci de votre participation !";
+                    $typePhoto = $_FILES['image']['type'];
+                    if( !strstr($typePhoto, 'jpg') && !strstr($typePhoto, 'jpeg')) {
+                        $tabRetour['Error'] = "Votre image n'est pas .jpg ou .jpeg !";
+                    } else if  ($_FILES['ImageNews']['size'] >= 2097152) {
+                        $tabRetour['Error'] = "Votre image est trop lourde !";
+
+                    } else {
+                        if ($_FILES['image']['tmp_name'] != null) {
+
+                            uploadImage('../Images/activite', $activityToRecup->getId());
+
+                            $cam = new Categorie_ActivityManager(connexionDb());
+                            $um = new UserManager(connexionDb());
+                            $um->updateUserLastIdea($_SESSION['User']);
+                            $cam->addToTable($activityToRecup, $categorie);
+                            $tabRetour['Ok'] = "Votre activité a bien été ajoutée au contenu du site, merci de votre participation !";
+                        } else {
+                            $tabRetour['Error'] = "Pas d'image !";
+                        }
+                    }
                 } else {
                     $tabRetour['Error'] = "Votre description contient des caractères indésirables !";
                 }

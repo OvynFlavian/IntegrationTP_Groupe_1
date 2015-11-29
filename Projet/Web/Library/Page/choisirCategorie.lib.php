@@ -23,7 +23,7 @@ function afficherCategorie() {
                 {
                     echo "<article id='cat' class='col-sm-6' style='text-align: left'>";
                 }
-                echo "<a href='proposerActivite.page.php?categorie=$cat' title='$cat'><img height='150px' width='150px' src='../Images/$cat.jpg' alt='$cat'/></a>";
+                echo "<a href='proposerActivite.page.php?categorie=$cat' title='$cat'><img height='150px' width='150px' src='../Images/categories/$cat.jpg' alt='$cat'/></a>";
                 echo "</article>";
             }
 

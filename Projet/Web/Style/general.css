@@ -1,7 +1,14 @@
+@font-face {
+    font-family : "yellowsun";
+    src : url('DK Lemon Yellow Sun.otf');
+}
+
 
 body {
+    font-family : "yellowsun";
+    font-size : 200%;
     color : #252D42;
-    font-size : 14px;
+
     background-color : #E9EAED;
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
@@ -13,6 +20,10 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 }
 .navbar-default {
     color: #252D42;
+}
+.photoAct {
+    text-align : center;
+    border-radius : 10px;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
@@ -57,19 +68,34 @@ body {
 
 }
 #proposerCat {
-    margin-left : 5em;
+    margin-left : 2em;
+}
+
+h3 {
+    font-weight : bold;
+    font-size : 250%;
+}
+
+.menulogo {
+    margin-top : 4px;
+}
+.jumbotitre {
+    margin-top : -2em;
+}
+.jumbotexte {
+    margin-top : -3em;
+    font-family : "yellowsun";
 }
 #cat {
-    border : 1px solid grey;
-    border-radius : 10px;
     width : 20%;
     margin : 1em;
     padding : 2em;
 }
 .activityIndex {
-    border : 1px solid lightgrey;
+    border : 3px solid lightgrey;
     text-align : center;
     border-radius : 10px;
+    padding : 2em;
 }
 .Membres {
     height :50em;
@@ -104,11 +130,16 @@ body {
     padding-top : 4em;
 }
 .activity {
-    padding : 5em;
-    margin : 5em;
+    padding : 3em;
+    margin : 3em;
     border : 1px solid grey;
     border-radius : 10px;
+    text-align : center;
 
+}
+
+.photoGroupe {
+    text-align : center;
 }
 .radioCote {
     text-align : center;
@@ -121,12 +152,11 @@ body {
 }
 #administration {
     height : 115%;
-    padding-botom : 3em;
+    padding-bottom : 80%;
 }
 .formProfil button {
     margin-left : 50%;
 }
-
 caption {
     color : #252D42;
 }
@@ -182,7 +212,7 @@ table caption {
     text-align : center;
 }
 .marge {
-    margin-left : 50em;
+    margin-left : 35em;
 }
 
 .marge a {

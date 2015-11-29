@@ -34,6 +34,7 @@ function proposerActivite($cat) {
                 if (isConnect()) formSignalement($activity->getId(), $cat, $activity->getSignalee());
                 echo "<div class='activity'>";
                 if ($activity->getSignalee() == 1 ) echo "<h4 style='width:25%'><div class='alert alert-danger' role='alert'> Activité déjà signalée </div></h4>";
+                 echo "<img class='photoAct' src='../Images/activite/".$id.".jpg' alt='photoActivite' />";
                 echo "<h1 style='text-align: center'>" . $activity->getLibelle() . "</h1>";
                 echo "<h2 style='text-align: center'>" . $activity->getDescription() . "</h2>";
                 if ($activity->getNote() == NULL) {
@@ -58,10 +59,62 @@ function formSignalement($id, $cat, $signalee) {
         if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2)
         echo "<button class='btn btn-success col-sm-2' type='submit' id='formulaire' name='designaler'>Enlever le signalement</button>";
     }
-    if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2)
-    echo "<button class='btn btn-danger col-sm-2' type='submit' id='formulaire' name='supprimer'>Supprimer cette activité</button>";
+    if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2) {
+        echo "<button class='btn btn-warning col-sm-2' type='submit' id='formulaire' name='modifier'>Modifier cette activité</button>";
+        echo "<button class='btn btn-danger col-sm-2' type='submit' id='formulaire' name='supprimer'>Supprimer cette activité</button>";
+    }
     echo "</form>";
 
+}
+
+function formModifierActivite() {
+    if (isset($_POST['modifier'])) {
+        $id = $_GET['activite'];
+        $cat = $_GET['categorie'];
+        $am = new ActivityManager(connexionDb());
+        $act = $am->getActivityById($id);
+        include "../Form/modifierActivite.form.php";
+
+    }
+}
+
+function modifierActivite()
+{
+    if (isset($_POST['modifierActivite'])) {
+        if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != NULL) {
+            $typePhoto = $_FILES['image']['type'];
+            if( !strstr($typePhoto, 'jpg') && !strstr($typePhoto, 'jpeg')) {
+                echo  "<div class='alert alert-danger' role='alert'>Votre image n'est pas .jpg ou .jpeg !</div>";
+            } else if  ($_FILES['ImageNews']['size'] >= 2097152) {
+                echo "<div class='alert alert-danger' role='alert'>Votre image est trop lourde !</div>";
+            } else {
+
+                uploadImage('../Images/activite', updateActivity()->getId());
+            }
+
+        } else {
+            updateActivity();
+        }
+
+    }
+}
+
+function updateActivity() {
+    $id = $_GET['activite'];
+    $am = new ActivityManager(connexionDb());
+    $cam = new Categorie_ActivityManager(connexionDb());
+    $libelle = $_POST['activite'];
+    $desc = $_POST['description'];
+    $idCat = $_POST['categorie'];
+    $activityToModify = new Activity(array(
+        "id" => $id,
+        "Libelle" => $libelle,
+        "description" => $desc,
+    ));
+    $am->updateActivite($activityToModify);
+    $cam->updateCategorie($activityToModify, $idCat);
+    header('Location: choisirCategorie.page.php');
+    return $activityToModify;
 }
 
 function gererSignalement() {
@@ -119,6 +172,7 @@ function reponseSignalement() {
                 $cam->deleteFromTable($id);
                $uam->deleteActivity($id);
                $am->deleteActivity($id);
+                unlink("../Images/activite/$id.jpg");
 
             } else if ($do == 'signaler') {
                 $do = 'signalée';

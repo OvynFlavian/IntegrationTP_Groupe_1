@@ -51,6 +51,26 @@ class GroupeManager {
         return $tab;
 
     }
+    public function getAllGroupeByAct($id) {
+        $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_activity = :act");
+        $resultats->execute(array(
+            ":act" => $id,
+        ));
+
+        $tabGroupe = $resultats->fetchAll(PDO::FETCH_ASSOC);
+
+        $tab = array();
+
+        foreach($tabGroupe as $elem)
+        {
+            $groupe = new Groupe($elem);
+            $tab[] = $groupe;
+
+        }
+
+        return $tab;
+
+    }
 
     public function getGroupeByIdGroupe($id) {
         $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_groupe = :id");

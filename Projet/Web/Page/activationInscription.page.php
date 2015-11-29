@@ -40,8 +40,8 @@ if($isConnect)header("Location:../");
 
 <section class="container">
     <section class="jumbotron">
-        <h1>Page d'activation</h1>
-        <p>
+        <h1> <img class="jumbotitre" src="../Images/bannieres/activation.png" alt="logo" /></h1>
+        <p class="jumbotexte">
             <?php if(!isset($_GET['code'])){?>
                 Vous avez besoin d'un code d'activation pour vous activer !
             <?php }else{activationNewUser();}?>
