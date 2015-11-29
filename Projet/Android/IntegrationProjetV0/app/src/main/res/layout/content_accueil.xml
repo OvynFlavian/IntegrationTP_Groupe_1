@@ -54,12 +54,11 @@
                 android:id="@+id/trouverActivite"
                 android:layout_below="@id/inscription"
                 android:layout_centerHorizontal="true"
-                android:text="trouver une activité"
+                android:background="@drawable/trouveractivite"
                 android:layout_margin="10dp"
                 android:onClick="trouverActivite"/>
 
         </RelativeLayout>
-
 
     </RelativeLayout>
 

@@ -29,6 +29,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -107,7 +108,9 @@ public class AjouterActivite extends AppCompatActivity {
             }
         }) ;
 
-        String[] data = new String[] {"animaux", "enfant", "film", "visite"};
+        String[] data;
+        data = getCategorie();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_theme, data);
 
         spinner.setAdapter(adapter);
@@ -130,20 +133,45 @@ public class AjouterActivite extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public String[] getCategorie() {
+        try {
+
+            DefaultHttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/getCategorie.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONObject jsonObject = new JSONObject(response);
+
+            final int nbCategorie = jsonObject.getInt("0");
+            String[] liste = new String[nbCategorie];
+
+            for (int i = 0; i < nbCategorie; i++) {
+                String j = String.valueOf(i+1);
+                liste[i] = jsonObject.getString(j);
+            }
+            return liste;
+
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return null;
+        }
+    }
+
     public void envoyerActivite(View view) {
         try{
 
             DefaultHttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/ajouterActivite.php"); // make sure the url is correct.
-            //add your data
+            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/ajouterActivite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            nameValuePairs.add(new BasicNameValuePair("titre", titreView.getText().toString().trim()));  // $Edittext_value = $_POST['Edittext_value'];
+            nameValuePairs.add(new BasicNameValuePair("titre", titreView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("description", descriptionView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            // Execute HTTP Post Request
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
