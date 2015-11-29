@@ -13,138 +13,153 @@
     android:layout_height="match_parent"
     android:background="#b3c7e1">
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/proposition"
-        android:id="@+id/proposition"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="25sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/titre"
-        android:text="titre"
-        android:layout_below="@id/proposition"
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="20sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/description"
-        android:layout_below="@id/titre"
-        android:text="description"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"/>
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/note"
-        android:layout_below="@id/description"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:isIndicator="true"
-        android:layout_margin="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/note2"
-        android:layout_below="@id/description"
-        android:layout_centerHorizontal="true"
-        android:text="Cette activité n'a pas encore été notée"
-        android:layout_marginTop="27dp"/>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/note"
-        android:id="@+id/relLayout"
         android:layout_centerHorizontal="true">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ok"
-            android:background="@drawable/okbouton"
-            android:layout_marginTop="15dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/suivant"
-            android:background="@drawable/suivantebouton"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@id/ok"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/confirmationActivite"
-        android:layout_below="@id/relLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Êtes-vous sûr de vouloir changer votre activité ?"
-            android:id="@+id/textConfirmation"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textConfirmation"
-            android:id="@+id/btnConfirmActivite"
-            android:layout_centerHorizontal="true">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/proposition"
+                android:id="@+id/proposition"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="25sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/titre"
+                android:text="titre"
+                android:layout_below="@id/proposition"
+                android:layout_marginTop="15dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/description"
+                android:layout_below="@id/titre"
+                android:text="description"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"/>
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/note"
+                android:layout_below="@id/description"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:isIndicator="true"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/note2"
+                android:layout_below="@id/description"
+                android:layout_centerHorizontal="true"
+                android:text="Cette activité n'a pas encore été notée"
+                android:layout_marginTop="27dp"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/note"
+                android:id="@+id/relLayout"
+                android:layout_centerHorizontal="true">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ok"
+                    android:background="@drawable/okbouton"
+                    android:layout_margin="15dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/suivant"
+                    android:background="@drawable/suivantebouton"
+                    android:layout_margin="15dp"
+                    android:layout_toRightOf="@id/ok"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/confirmationActivite"
+                android:layout_below="@id/relLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Êtes-vous sûr de vouloir changer votre activité ?"
+                    android:id="@+id/textConfirmation"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textConfirmation"
+                    android:id="@+id/btnConfirmActivite"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nonChangeActivite"
+                        android:text="NON"
+                        android:background="#ff0000"
+                        android:layout_margin="10dp"
+                        android:onClick="activiteSuivante"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ouiChangeActivite"
+                        android:text="OUI"
+                        android:layout_toRightOf="@id/nonChangeActivite"
+                        android:background="#00ff00"
+                        android:layout_margin="10dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ouiChangeActivite"
-                android:text="OUI"
-                android:background="#00ff00"
-                android:layout_margin="5dp"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/nonChangeActivite"
-                android:layout_toRightOf="@id/ouiChangeActivite"
-                android:text="NON"
-                android:background="#ff0000"
-                android:layout_margin="5dp"
-                android:onClick="activiteSuivante"/>
+                android:id="@+id/ajouterActivite"
+                android:text="Proposez une activité !"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/confirmationActivite"
+                android:layout_marginTop="15dp"
+                android:onClick="ajouterActivite"/>
 
         </RelativeLayout>
-    </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ajouterActivite"
-        android:text="Proposez une activité !"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="ajouterActivite"/>
+    </ScrollView>
 
 </RelativeLayout>
 
-    <ListView
-        android:id="@+id/amisList"
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|start"
-        android:background="#ffeeeeee"/>
+<ListView
+    android:id="@+id/amisList"
+    android:layout_width="200dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="left|start"
+    android:background="#ffeeeeee"/>
 
 </android.support.v4.widget.DrawerLayout>

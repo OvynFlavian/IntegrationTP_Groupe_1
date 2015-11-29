@@ -3,6 +3,7 @@ package com.example.arnaud.integrationprojetv0;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -43,7 +45,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class AjouterActivite extends AppCompatActivity {
 
     private final String intentCat = "categorie";
-    Spinner listView = null;
+    Spinner spinner = null;
     String categorie = null;
     EditText titreView = null;
     EditText descriptionView = null;
@@ -76,7 +78,7 @@ public class AjouterActivite extends AppCompatActivity {
         );
         session = new SessionManager(getApplicationContext());
         setContentView(R.layout.ajoutactivite_layout);
-        listView = (Spinner) findViewById(R.id.listeView);
+        spinner = (Spinner) findViewById(R.id.listeView);
         titreView = (EditText) findViewById(R.id.titreActivite);
         descriptionView = (EditText) findViewById(R.id.descriptionActivite);
         layoutPincipal = (RelativeLayout) findViewById(R.id.relLayout1);
@@ -96,7 +98,7 @@ public class AjouterActivite extends AppCompatActivity {
 
         layoutPincipal.setOnClickListener(listener);
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
+        spinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -106,10 +108,11 @@ public class AjouterActivite extends AppCompatActivity {
         }) ;
 
         String[] data = new String[] {"animaux", "enfant", "film", "visite"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, data);
-        listView.setAdapter(adapter);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_theme, data);
 
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 categorie = parent.getItemAtPosition(position).toString();
