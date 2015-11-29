@@ -36,41 +36,49 @@ $configIni = getConfigFile();
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
-    <aside class="col-md-2" style="max-width: 200px;">
-        <ul class="nav nav-pills nav-stacked">
-            <?php
-            if (isset($_GET['categorie'])) {
-                $cat = $_GET['categorie'];
-                echo "<li ";
-                if(!isset($_GET['choix'])){
-                    echo "class='active'";
+    <section class="container" id="administration">
+        <header>
+            <?php include("../Menu/menuGeneral.lib.php");?>
+        </header>
+        <div class="col-md-2 clearfix" id="sub-menu-left">
+
+        </div>
+        <div class="col-md-2 clearfix" id="sub-menu-left">
+            <nav class="sidebar-nav">
+                <ul class="nav sidebar-nav sidebar-collapse">
+                    <?php
+                    if (isset($_GET['categorie'])) {
+                        $cat = $_GET['categorie'];
+                        echo "<li ";
+                        if(!isset($_GET['choix'])){
+                            echo "class='active'";
+                        }
+                        echo "><a href='proposerActivite.page.php?categorie=$cat''>Génération aléatoire</a></li>";
+                        if (isConnect()) {
+                            echo "<li ";
+                            if (isset($_GET['choix']) and $_GET['choix'] == "personnel") {
+                                echo "class='active'";
+                            }
+                            echo "><a href='?categorie=$cat&choix=personnel'>Choix dans la liste</a></li>";
+                        } else {
+                            echo "<li><a href='connexion.page.php'> Plus d'options ? </a></li> ";
+                        }
                     }
-                echo "><a href='proposerActivite.page.php?categorie=$cat''>Génération aléatoire</a></li>";
-                if (isConnect()) {
-                    echo "<li ";
-                    if (isset($_GET['choix']) and $_GET['choix'] == "personnel") {
-                        echo "class='active'";
-                    }
-                    echo "><a href='?categorie=$cat&choix=personnel'>Choix dans la liste</a></li>";
-                } else {
-                    echo "<li><a href='connexion.page.php'> Plus d'options ? </a></li> ";
-                }
-            }
-            ?>
-        </ul>
-    </aside>
-</header>
-<section class="container" id="administration">
-    <section class="jumbotron">
-        <h1> <img class="jumbotitre" src="../Images/bannieres/ajouteractivite.png" alt="logo" /></h1>
-        <p class="jumbotexte">Voici l'activité qui vous est proposée par EveryDayIdea :</p>
-    </section>
-    <section class="row">
-        <article class="col-sm-12">
+                    ?>
+                </ul>
+            </nav>
+        </div>
+
+        <section class="col-lg-8 jumbotron">
+            <h1> <img class="jumbotitre" src="../Images/bannieres/ajouteractivite.png" alt="logo" id='image-media'></h1>
+            <p class="jumbotexte">Voici l'activité qui vous est proposée par EveryDayIdea :</p>
+        </section>
+        <section class="row">
+            <article class="col-sm-12">
             <?php
             if (isset($_GET['categorie'])) {
                 $cat = $_GET['categorie'];
@@ -115,13 +123,14 @@ $configIni = getConfigFile();
             }
 
             ?>
-        </article>
+            </article>
+        </section>
+        <footer class="footer navbar-fixed-bottom">
+            <div class="col-xs-4">&copy; everydayidea.be</div>
+            <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+            <div class="col-xs-4"></div>
+        </footer>
     </section>
-</section>
-
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.be <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-</footer>
 
 </body>
 </html>

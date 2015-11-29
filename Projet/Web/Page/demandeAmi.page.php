@@ -58,14 +58,18 @@ $configIni = getConfigFile();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php") ?>
-</header>
 <section class="container">
-    <section class="jumbotron">
-        <h1> <img class="jumbotitre" src="../Images/bannieres/demandeami.png" alt="logo" /></h1>
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php") ?>
+    </header>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+
+    </div>
+    <section class="col-lg-8 jumbotron">
+        <h1> <img class="jumbotitre" src="../Images/bannieres/demandeami.png" alt="logo" id='image-media'></h1>
         <p class="jumbotexte"> Une demande sera envoyée à l'utilisateur aussitôt votre choix fait !</p>
     </section>
     <section class="row">
@@ -89,13 +93,11 @@ $configIni = getConfigFile();
             </h2>
         </article>
     </section>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
 </section>
-<div class="footer-container">
-    <div class="row">
-        <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.be <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-        </footer>
-    </div>
-</div>
 </body>
 </html>

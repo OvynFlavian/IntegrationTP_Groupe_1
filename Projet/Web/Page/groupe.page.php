@@ -42,14 +42,20 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
+
+
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
-    <aside class="col-md-2" style="max-width: 250px;">
-        <ul class="nav nav-pills nav-stacked" >
-            <li <?php if((empty($_GET))) {echo 'class="active"';}?>><a href="groupe.page.php">Voir les utilisateurs</a></li>
-            <?php
+
+<section class="container" id="administration">
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php");?>
+    </header>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+        <nav class="sidebar-nav">
+            <ul class="nav sidebar-nav sidebar-collapse">
+                <li <?php if((empty($_GET))) {echo 'class="active"';}?>><a href="groupe.page.php">Voir les utilisateurs</a></li>
+                <?php
                 if (!hasGroupe()) {
                     echo "<li";
                     if(isset($_GET['to']) && $_GET['to'] == 'creerGroupe') {
@@ -63,13 +69,13 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                     }
                     echo "><a href='groupe.page.php?to=voirGroupe'>Voir mon groupe</a></li>";
                 }
-            if (!hasGroupe()) {
-                echo "<li";
-                if(isset($_GET['to']) && $_GET['to'] == 'listeGroupe') {
-                    echo ' class="active"';
+                if (!hasGroupe()) {
+                    echo "<li";
+                    if(isset($_GET['to']) && $_GET['to'] == 'listeGroupe') {
+                        echo ' class="active"';
+                    }
+                    echo "><a href='groupe.page.php?to=listeGroupe'>Voir les groupes</a></li>";
                 }
-                echo "><a href='groupe.page.php?to=listeGroupe'>Voir les groupes</a></li>";
-            }
 
                 if (!hasGroupe()) {
                     echo "<li";
@@ -79,13 +85,12 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
                     echo "><a href='groupe.page.php?to=invitation'>Voir mes invitations</a></li>";
                 }
 
-            ?>
-        </ul>
-    </aside>
-</header>
-<section class="container" id="administration">
-    <section class="jumbotron">
-        <h1> <img class="jumbotitre" src="../Images/bannieres/groupe.png" alt="logo" /></h1>
+                ?>
+            </ul>
+        </nav>
+    </div>
+    <section class="col-lg-8 jumbotron">
+        <h1> <img class="jumbotitre" src="../Images/bannieres/groupe.png" alt="logo" id='image-media'></h1>
         <?php
             if (!isset($_GET['to'])) {
                 echo "<p class='jumbotexte'>Affichage de la liste des membres premium possédant la même activité que vous. Il est possible de les ajouter à votre groupe ou de rejoindre leur groupe !</p>";
@@ -164,9 +169,11 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
             ?>
         </article>
     </section>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
 </section>
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.be <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-</footer>
 
 </body>

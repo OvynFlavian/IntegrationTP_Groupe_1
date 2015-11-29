@@ -17,11 +17,11 @@ function afficherCategorie() {
                 $cat = $elem->getLibelle();
                 if($i%2 != 0)
                 {
-                    echo "<article id='cat' class='col-sm-6' style='text-align: right'>";
+                    echo "<article id='cat' class='col-sm-4' style='text-align: right'>";
                 }
                 else
                 {
-                    echo "<article id='cat' class='col-sm-6' style='text-align: left'>";
+                    echo "<article id='cat' class='col-sm-4' style='text-align: left'>";
                 }
                 echo "<a href='proposerActivite.page.php?categorie=$cat' title='$cat'><img height='150px' width='150px' src='../Images/categories/$cat.jpg' alt='$cat'/></a>";
                 echo "</article>";

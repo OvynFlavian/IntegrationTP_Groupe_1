@@ -36,20 +36,25 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 
     <script src="../Script/administration.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
-    <aside class="col-md-2" style="max-width: 250px;">
-        <ul class="nav nav-pills nav-stacked" >
-            <li <?php if((empty($_GET) || (isset($_GET['to']) && $_GET['to'] == 'profil'))) {echo 'class="active"';}?>><a href="administration.page.php">Voir les utilisateurs</a></li>
-            <li <?php if(!empty($_GET) and $_GET['to'] == "viewConfig"){echo 'class="active"';}?>><a href="?to=viewConfig">Voir la configuration</a></li>
-            <li <?php if(!empty($_GET) and $_GET['to'] == "editConfig"){echo 'class="active"';}?>><a href="?to=editConfig">Éditer la configuration</a></li>
-        </ul>
-    </aside>
-</header>
-<section class="container" id="administration">
-    <section class="jumbotron">
+    <section class="container" id="administration">
+        <header>
+            <?php include("../Menu/menuGeneral.lib.php");?>
+        </header>
+        <div class="col-md-2 clearfix" id="sub-menu-left">
+            <nav class="sidebar-nav">
+                <ul class="nav sidebar-nav sidebar-collapse">
+                    <li <?php if((empty($_GET) || (isset($_GET['to']) && $_GET['to'] == 'profil'))) {echo 'class="active"';}?>><a href="administration.page.php">Voir les utilisateurs</a></li>
+                    <li <?php if(!empty($_GET) and $_GET['to'] == "viewConfig"){echo 'class="active"';}?>><a href="?to=viewConfig">Voir la configuration</a></li>
+                    <li <?php if(!empty($_GET) and $_GET['to'] == "editConfig"){echo 'class="active"';}?>><a href="?to=editConfig">Éditer la configuration</a></li>
+                </ul>
+            </nav>
+        </div>
+
+    <section class="col-lg-8 jumbotron">
         <h1> <img class="jumbotitre" src="../Images/bannieres/administration.png" alt="logo" /></h1>
         <?php
         if (!isset($_GET['to'])) {

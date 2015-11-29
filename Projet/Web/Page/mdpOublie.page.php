@@ -36,16 +36,19 @@ $isConnect = isConnect();
             include("../Script/mdpOublie.js");
         ?>
     </script>
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-    <header>
-        <?php
-            include("../Menu/menuGeneral.lib.php");
-        ?>
-    </header>
     <section class="container">
-        <section class="jumbotron">
-            <h1> <img class="jumbotitre" src="../Images/bannieres/mdpoublie.png" alt="logo" /></h1>
+        <header>
+            <?php include("../Menu/menuGeneral.lib.php"); ?>
+        </header>
+        <div class="col-md-2 clearfix" id="sub-menu-left">
+
+        </div>
+        <section class="col-lg-8 jumbotron">
+            <h1> <img class="jumbotitre" src="../Images/bannieres/mdpoublie.png" alt="logo" id='image-media'></h1>
             <p class="jumbotexte">Entrez votre l'adresse e-mail de votre compte afin de recevoir un message de récupération !</p>
         </section>
         <section class="alert-dismissible">
@@ -66,15 +69,11 @@ $isConnect = isConnect();
             }
             ?>
         </section>
+        <footer class="footer navbar-fixed-bottom">
+            <div class="col-xs-4">&copy; everydayidea.be</div>
+            <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+            <div class="col-xs-4"></div>
+        </footer>
     </section>
-
-    <div class="footer-container">
-        <div class="row">
-            <footer class="footer panel-footer navbar-fixed-bottom">
-                &copy; everydayidea.be <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-            </footer>
-        </div>
-    </div>
-
 </body>
 </html>

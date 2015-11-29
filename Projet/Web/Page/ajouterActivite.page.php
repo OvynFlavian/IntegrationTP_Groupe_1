@@ -39,16 +39,20 @@ $configIni = getConfigFile();
             include "../Script/ajouterActivite.js";
         ?>
     </script>
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
-</header>
 <section class="container">
-    <section class="jumbotron">
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php");?>
+    </header>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+
+    </div>
+    <section class="col-lg-8 jumbotron">
         <h1> <img class="jumbotitre" src="../Images/bannieres/ajouteractivite.png" alt="logo" /></h1>
         <p class="jumbotexte">Choisissez une catégorie et écrivez l'activité que vous voulez ajouter :</p>
-
     </section>
     <section class="row">
         <?php
@@ -70,13 +74,11 @@ $configIni = getConfigFile();
         ?>
         </section>
 
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
 </section>
-<div class="footer-container">
-    <div class="row">
-        <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.be <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-        </footer>
-    </div>
-</div>
 </body>
 </html>

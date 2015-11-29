@@ -37,19 +37,24 @@ if (!isConnect()) {
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
-    <aside class="col-md-2" style="max-width: 250px;">
-        <ul class="nav nav-pills nav-stacked" >
-            <li><a href="choisirCategorie.page.php">Choisir une catégorie</a></li>
-            <li <?php if(empty($_GET)) {echo 'class="active"';}?>><a href="coterActivite.page.php">Coter mon ancienne activité</a></li>
-        </ul>
-    </aside>
-</header>
 <section class="container">
-    <section class="jumbotron">
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php");?>
+    </header>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+        <nav class="sidebar-nav">
+            <ul class="nav sidebar-nav sidebar-collapse">
+                <li><a href="choisirCategorie.page.php">Choisir une catégorie</a></li>
+                <li <?php if(empty($_GET)) {echo 'class="active"';}?>><a href="coterActivite.page.php">Coter mon ancienne activité</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <section class="col-lg-8 jumbotron">
         <h1> <img class="jumbotitre" src="../Images/bannieres/coteractivite.png" alt="logo" /></h1>
         <p class="jumbotexte">Cela fait plus de six heures que vous avez la même activité ! Que diriez-vous de la coter ?</p>
 
@@ -60,13 +65,11 @@ if (!isConnect()) {
             gererFormulaire();
         ?>
     </section>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
 </section>
-<div class="footer-container">
-    <div class="row">
-        <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.be <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-        </footer>
-    </div>
-</div>
 </body>
 </html>
