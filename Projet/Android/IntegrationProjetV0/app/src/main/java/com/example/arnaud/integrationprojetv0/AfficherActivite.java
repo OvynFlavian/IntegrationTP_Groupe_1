@@ -257,7 +257,7 @@ public class AfficherActivite extends AppCompatActivity {
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
         } else {
-            osArray = new String[] {"Accueil", "Activités", "Se connecter"};
+            osArray = new String[] {"Accueil", "Activités", "Se connecter", "S'inscrire"};
         }
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -293,8 +293,13 @@ public class AfficherActivite extends AppCompatActivity {
                     }
                 }
                 if (position == 3) {
-                    Intent intent = new Intent(AfficherActivite.this, ChoixCategorie.class);
-                    startActivity(intent);
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(AfficherActivite.this, ChoixCategorie.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(AfficherActivite.this, Register.class);
+                        startActivity(intent);
+                    }
                 }
                 if (position == 4) {
                     logoutUser();

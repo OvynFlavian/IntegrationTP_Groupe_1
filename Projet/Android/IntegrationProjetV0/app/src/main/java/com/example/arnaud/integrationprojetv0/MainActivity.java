@@ -223,12 +223,11 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-
     /**
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = new String[] {"Accueil", "S'inscrire"};
+        String[] osArray = new String[] {"Accueil", "S'inscrire", "Activités"};
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -244,12 +243,13 @@ public class MainActivity extends ActionBarActivity {
                     Intent intent = new Intent(MainActivity.this, Register.class);
                     startActivity(intent);
                 }
-
+                if (position == 2) {
+                    Intent intent = new Intent(MainActivity.this, ChoixCategorie.class);
+                    startActivity(intent);
+                }
             }
         });
     }
-
-
 
     /**
      * Initialise le menu

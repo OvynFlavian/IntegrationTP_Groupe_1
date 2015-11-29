@@ -86,7 +86,7 @@ public class Accueil extends AppCompatActivity {
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
         } else {
-            osArray = new String[] {"Activités", "Se connecter"};
+            osArray = new String[] {"Activités", "Se connecter", "S'inscrire"};
         }
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
@@ -114,8 +114,13 @@ public class Accueil extends AppCompatActivity {
                     }
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(Accueil.this, Profil.class);
-                    startActivity(intent);
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(Accueil.this, Profil.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(Accueil.this, Register.class);
+                        startActivity(intent);
+                    }
                 }
                 if (position == 3) {
                     Intent intent = new Intent(Accueil.this, ChoixCategorie.class);

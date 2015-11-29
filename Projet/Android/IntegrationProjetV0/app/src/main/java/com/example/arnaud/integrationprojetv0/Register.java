@@ -172,12 +172,11 @@ public class Register extends ActionBarActivity {
         });
     }
 
-
     /**
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = new String[] {"Accueil", "Se connecter"};
+        String[] osArray = new String[] {"Accueil", "Se connecter", "Activités"};
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -193,12 +192,13 @@ public class Register extends ActionBarActivity {
                     Intent intent = new Intent(Register.this, MainActivity.class);
                     startActivity(intent);
                 }
-
+                if (position == 2) {
+                    Intent intent = new Intent(Register.this, ChoixCategorie.class);
+                    startActivity(intent);
+                }
             }
         });
     }
-
-
 
     /**
      * Initialise le menu
