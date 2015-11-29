@@ -99,6 +99,7 @@ function modifierActivite()
     }
 }
 
+
 function updateActivity() {
     $id = $_GET['activite'];
     $am = new ActivityManager(connexionDb());
@@ -368,7 +369,7 @@ function afficherActivites($tab, $cat) {
                     $elem->setNote("N/A");
                 }
                 $id = $elem->getId();
-                echo "<tr> <td>" . $elem->getLibelle() . " </td><td>" . $elem->getDescription() . "</td><td>" . $elem->getNote() . "</td><td><a href='proposerActivite.page.php?categorie=$cat&activite=$id'> Choisir cette activité</a></td></tr>";
+                echo "<tr> <td>" . $elem->getLibelle() . " </td><td>" . substr($elem->getDescription(),0,120)."...</td><td>" . $elem->getNote() . "</td><td><a href='proposerActivite.page.php?categorie=$cat&activite=$id'> Choisir cette activité</a></td></tr>";
             }
             if ($tab == NULL) {
                 echo "<tr> <td> Aucune activité trouvée !</td></tr>";
