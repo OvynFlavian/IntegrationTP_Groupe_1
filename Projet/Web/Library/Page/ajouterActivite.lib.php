@@ -9,6 +9,11 @@ use \Entity\Activity as Activity;
 use \Entity\Categorie as Categorie;
 use \Entity\User as User;
 
+/**
+ * Fonction permettant d'ajouter une activité en base de données grâce aux données d'un formulaire.
+ * @return mixed : soit un tableau contenant tous les messages d'erreurs relatif à l'ajout d'activité, soit un tableau
+ * contenant un message de succès de l'ajout de l'activité.
+ */
 function ajouterActivite() {
         $cat = $_POST['categorie'];
         $act = $_POST['activite'];

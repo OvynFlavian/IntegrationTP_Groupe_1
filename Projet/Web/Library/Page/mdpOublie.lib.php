@@ -72,6 +72,7 @@ use \Entity\Activation as Activation;
   }
 
 /**
+ * Fonction vérifiant si le code d'activation est correct.
  * @return bool : Renvoie si le code dans l'url existe ou non
  */
     function goodCode() {

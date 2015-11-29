@@ -6,7 +6,9 @@
  * Time: 20:15
  */
 
-
+/**
+ * Fonction affichant les différentes catégories présentes en BDD ainsi que leur image respective.
+ */
 function afficherCategorie() {
 
       $cm = new CategorieManager(connexionDb());

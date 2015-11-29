@@ -8,7 +8,9 @@
 use \Entity\User as User;
 use \Entity\Activity as Activity;
 require "../Manager/User_ActivityManager.manager.php";
-
+/**
+ * Fonction affichant le profil du membre connecté.
+ */
 function afficherProfil() {
     $user = $_SESSION['User'];
     $droit = $user->getDroit()[0];
@@ -41,7 +43,12 @@ function afficherProfil() {
     echo "</div>";
 }
 
-
+/**
+ * Fonction permettant de vérifier si le formulaire de modification de profil est correct et si il ne contient pas d'erreurs.
+ * @param User $user : l'utilisateur qui a fait la demande de changement de profil.
+ * @return array : un tableau contenant tous les messages d'erreur liés au formulaire de changement de profil ou un booleen
+ * si le formulaire est correct.
+ */
 function isValidForm(User $user)
 {
     $config = getConfigFile()['CONSTANTE'];

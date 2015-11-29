@@ -71,7 +71,7 @@ $configIni = getConfigFile();
         </div>
 
         <section class="col-lg-8 jumbotron">
-            <h1> <img class="jumbotitre" src="../Images/bannieres/ajouteractivite.png" alt="logo" id='image-media'></h1>
+            <h1> <img class="jumbotitre" src="../Images/bannieres/proposeractivite.png" alt="logo" id='image-media'></h1>
             <p class="jumbotexte">Voici l'activité qui vous est proposée par EveryDayIdea :</p>
         </section>
         <section class="row">

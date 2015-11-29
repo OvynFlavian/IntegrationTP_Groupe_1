@@ -59,7 +59,7 @@ if (!isConnect()) {
         <p class="jumbotexte">Cela fait plus de six heures que vous avez la même activité ! Que diriez-vous de la coter ?</p>
 
     </section>
-    <section class="row" >
+    <section class="row col-lg-12">
         <?php
             include "../Form/coterActivite.form.php";
             gererFormulaire();

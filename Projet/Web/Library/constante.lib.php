@@ -51,7 +51,9 @@ define("MENU_CONNECTER", "/Library/Menu/menuConnecter.lib.php");
 define("MENU_ANONYME_PAGE", "/Library/Menu/menuAnonymePage.lib.php");
 define("MENU_CONNECTER_PAGE", "/Library/Menu/menuConnecterPage.lib.php");
 
-
+/**
+ * Fonction permettant de générer tous les require d'une page automatiquement.
+ */
 function initRequire()
 {
     $listLibrary = unserialize(LIST_LIBRARY);
@@ -62,11 +64,18 @@ function initRequire()
     }
 }
 
+/**
+ * Fonction générant tous les require d'une page en particulier.
+ * @param $namePage : nom de la page concerné.
+ */
 function initRequirePage($namePage)
 {
     require "../Library/Page/$namePage.lib.php";
 }
 
+/**
+ * Fonction permettant de générer tous les require d'entité sur une page.
+ */
 function initRequireEntityManager()
 {
     $listEntity = unserialize(LIST_ENTITY);

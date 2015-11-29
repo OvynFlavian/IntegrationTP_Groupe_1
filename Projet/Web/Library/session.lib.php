@@ -7,6 +7,9 @@
  */
 use \Entity\User as User;
 
+/**
+ * Fonction faisant débuter la session.
+ */
 function startSession()
 {
     session_name("integration");
@@ -15,7 +18,7 @@ function startSession()
 
 /**
  * Fonction permettant de savoir si un utilisateur est connecter
- * @return bool
+ * @return bool : true si il est connecté, false sinon.
  */
 function isConnect()
 {
@@ -31,11 +34,19 @@ function getSessionUser()
     return (isConnect() ? $_SESSION['User'] : new User(array()));
 }
 
+/**
+ * Fonction permettant de générer la session de l'utilisateur.
+ * @param User $user : l'utilisateur concerné.
+ */
 function setSessionUser(User $user)
 {
     $_SESSION['User'] = $user;
 }
 
+/**
+ * Fonction vérifiant le password de l'admin.
+ * @return bool : true si le password est bon, sinon false.
+ */
 function checkAdminPwd()
 {
     $userSession = getSessionUser();

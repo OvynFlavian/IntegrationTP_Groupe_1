@@ -10,6 +10,9 @@ use \Entity\User as User;
 use \Entity\Activity as Activity;
 use \Entity\Groupe as Groupe;
 
+/**
+ * Fonction affichant toutes les demandes d'amis que d'autres utilisateurs m'ont envoyé.
+ */
 function getDemandeToMe() {
     $am = new AmisManager(connexionDb());
     $tab = $am->getAmisByIdUser2($_SESSION['User']->getId());
@@ -49,6 +52,9 @@ function getDemandeToMe() {
 }
 ?>
 <?php
+/**
+ * Fonction permettant d'afficher toutes les demandes d'ami que j'ai envoyé à d'autres membres.
+ */
 function getDemandeToThem() {
     $am = new AmisManager(connexionDb());
     $tab = $am->getAmisByIdUser1($_SESSION['User']->getId());
@@ -81,6 +87,11 @@ function getDemandeToThem() {
 }
 ?>
 <?php
+/**
+ * Fonction permettant de voir quelle demande d'ami j'ai accepté et renvoyant l'id de l'utilisateur concerné
+ * par cette demande d'ami.
+ * @return int : l'id du membre concerné par la demande d'ami.
+ */
 function gererDemande() {
     $um = new UserManager(connexionDb());
     $tabUser = $um->getAllUser();
@@ -97,6 +108,10 @@ function gererDemande() {
 }
 ?>
 <?php
+/**
+ * Fonction permettant d'accepter ou de refuser la demande d'ami d'un membre en particulier. La fonction trouve
+ * l'id du membre concerné grâce à la fonction gererDemande().
+ */
 function gererValidation()
 {
     $id = gererDemande();
@@ -118,7 +133,10 @@ function gererValidation()
     }
 }
 
-
+/**
+ * Fonction permettant de vérifier si l'id de l'activité contenue dans l'url appartient à une activité existante.
+ * @return bool : true si l'activité existe, faux si elle n'existe pas.
+ */
 function verifIdAct() {
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
@@ -131,6 +149,10 @@ function verifIdAct() {
         }
     }
 }
+
+/**
+ * Fonciton affichant la liste de tous mes amis, fournissant un bouton permettant de les supprimer.
+ */
 function listeAmi() {
     $userId = $_SESSION['User']->getId();
     $am = new AmisManager(connexionDb());
@@ -201,6 +223,10 @@ function listeAmi() {
     <?php
 }
 
+/**
+ * Fonction renvoyant l'id de l'ami que l'on essaye de supprimer.
+ * @return int : l'id de l'ami que l'on veut supprimer.
+ */
 function gererPost() {
     $um = new UserManager(connexionDb());
     $tabUser = $um->getAllUser();
@@ -213,6 +239,12 @@ function gererPost() {
     }
     return $trueId;
 }
+
+/**
+ * Fonction générant un formulaire demandant à l'utilisateur si il est sûr de vouloir supprimer le membre.
+ * Ce formulaire contient un champ caché contenant l'id du membre en question.
+ * @param $id : l'id de l'ami que l'on essaye de supprimer.
+ */
 function gererSuppression($id) {
     if (isset($_POST['supprimerAmi'.$id.''])) {
         echo "<form class='form-horizontal col-sm-12' name='verifSupr' action='amis.page.php' method='post'>";
@@ -224,6 +256,9 @@ function gererSuppression($id) {
     }
 }
 
+/**
+ * Fonction gérant la réponse au formulaire de suppression d'ami. Si oui, il le supprime, si non il redirige.
+ */
 function gererReponseSup() {
     if (isset($_POST['AccepterSup'])) {
         $id = $_POST['idAmi'];
@@ -235,6 +270,10 @@ function gererReponseSup() {
     }
 }
 
+/**
+ * Fonction supprimant un ami.
+ * @param $id : l'id de l'ami supprimé.
+ */
 function supprimerAmi($id) {
     $am = new AmisManager(connexionDb());
     $friendToDelete1 = new Amis(array(
@@ -250,6 +289,10 @@ function supprimerAmi($id) {
 
 }
 
+/**
+ * Fonction permettant de générer un formulaire demandant à l'utilisateur si il est sûr de vouloir
+ * prendre l'activité de son ami.
+ */
 function modifAct() {
     $id = $_GET['id'];
     $am = new ActivityManager(connexionDb());
@@ -270,6 +313,9 @@ function modifAct() {
     echo "</div>";
 }
 
+/**
+ * Fonction gérant la réponse de l'utilisateur par rapport au formulaire de changement d'activité.
+ */
 function gererReponse()
 {
     $id = $_GET['id'];
@@ -279,6 +325,13 @@ function gererReponse()
         header("Location: amis.page.php");
     }
 }
+
+/**
+ * Fonction effectuant le changement d'activité de l'utilisateur. Si il possède déjà une activité et/ou un groupe,
+ * il envoie différents messages montrant les conséquences du changement d'activité ainsi qu'un lien permettant
+ * d'effectuer ce changement.
+ * @param $id : id de l'activité que l'on veut choisir.
+ */
 function choixActivite($id) {
     if (isConnect()) {
         $uam = new User_ActivityManager(connexionDb());
@@ -301,6 +354,11 @@ function choixActivite($id) {
     }
 
 }
+
+/**
+ * Fonction renvoyant si l'utilisateur possède un groupe ou non.
+ * @return bool : true si il possède un groupe, false si il n'en possède pas.
+ */
 function hasGroupe() {
     if (isConnect()) {
         $ugm = new User_GroupeManager(connexionDb());
@@ -314,6 +372,10 @@ function hasGroupe() {
     }
 }
 
+/**
+ * Fonction faisant quitter le groupe d'activité que l'user possédait si il essaye de changer d'activité. Si il était chef
+ * de groupe, il passe le lead à un autre membre du groupe ou le supprimer si il était le seul membre de ce groupe.
+ */
 function leaveGroupe() {
     require "../Manager/Groupe_InvitationManager.manager.php";
     $ugm = new User_GroupeManager(connexionDb());
@@ -363,6 +425,11 @@ function leaveGroupe() {
     }
 
 }
+
+/**
+ * Fonction permettant de savoir si le membre est un chef de groupe ou non.
+ * @return bool : true si il est chef de groupe, false si il ne l'est pas.
+ */
 function isLeader() {
     if (isConnect()) {
         $gm = new GroupeManager(connexionDb());
@@ -375,6 +442,10 @@ function isLeader() {
 
     }
 }
+
+/**
+ * Fonction effectuant le changement d'activité de l'utilisateur à l'aide de l'id de l'activité passé en url.
+ */
 function modifActivite() {
     $act = $_GET['id'];
     $uam = new User_ActivityManager(connexionDb());
@@ -386,6 +457,10 @@ function modifActivite() {
     leaveGroupe();
     header('Location: ../');
 }
+
+/**
+ * Fonction affichant les demandes d'ami reçues et envoyées.
+ */
 function demande() {
 
 ?>

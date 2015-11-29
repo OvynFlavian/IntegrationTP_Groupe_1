@@ -41,7 +41,7 @@ $configIni = getConfigFile();
     if (isConnect()) {
         $uam = new User_ActivityManager(connexionDb());
         $tab = $uam->getActIdByUserId($_SESSION['User']);
-        if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {?>
+        if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 2)) {?>
             <div class="col-md-2 clearfix" id="sub-menu-left">
                 <nav class="sidebar-nav">
                     <ul class="nav sidebar-nav sidebar-collapse">

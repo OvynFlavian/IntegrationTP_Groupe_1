@@ -6,11 +6,15 @@
  * Time: 23:42
  */
 
+/**
+ * Fonction permettant de gérer la réponse au formulaire de cotation d'activité. Si il a mis une note, il recalcule la note
+ * présente en base de données. Sinon il redirige vers la page de catégories.
+ */
 function gererFormulaire() {
     $uam = new User_ActivityManager(connexionDb());
     $tab = $uam->getActIdByUserId($_SESSION['User']);
     $am = new ActivityManager(connexionDb());
-    if (isset($tab[0]) && $tab[0]['id_activity'] != null && comparerHeure($tab[0]['date'], 6)) {
+    if (isset($tab[0]) && $tab[0]['id_activity'] != null && comparerHeure($tab[0]['date'], 2)) {
         $act = $am->getActivityById($tab[0]['id_activity']);
         if (isset($_POST['Accepter'])) {
             if (isset($_POST['cote']) && $_POST['cote'] != NULL) {
@@ -30,7 +34,7 @@ function gererFormulaire() {
             $uam->deleteFromTable($_SESSION['User']);
             header("Location:choisirCategorie.page.php");
         } else if (isset($_POST['Report'])) {
-            $uam->reportNote($act->getId());
+            $uam->reportNote($_SESSION['User']->getId());
             header("Location:choisirCategorie.page.php");
         }
     } else {

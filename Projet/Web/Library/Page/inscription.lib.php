@@ -8,6 +8,11 @@
     use \Entity\User as User;
     use \Entity\Activation as Activation;
 
+/**
+ * Fonction permettant de vérifier si le formulaire d'inscription est correct et ne contient pas d'erreurs.
+ * @return array : un tableau contenant tous les messages d'erreurs liés au formulaire ou un booléen true si l'inscription
+ * s'est bien passée.
+ */
     function isValidBis()
     {
         $tabReturn = array("Retour" => false, "Error" => array());
@@ -69,53 +74,11 @@
 
 
     }
-    function isValid()
-    {
 
-        if(isset($_POST['emailConfirm']) && $_POST['mdp'] == $_POST['mdpConfirm'] && $_POST['email'] == $_POST['emailConfirm']) {
-            $ini = getConfigFile();
-            $userName = strtolower($_POST['userName']);
-            $mdp = $_POST['mdp'];
-            $email = $_POST['email'];
-            if (strlen($userName) < $ini['CONSTANTE']['size_user_name']) {
-                echo "Votre nom d'utilisateur est trop court, 6 caractères minimum ! <br>";
-            } else if (strlen($mdp) < $ini['CONSTANTE']['size_user_mdp']) {
-                echo "Votre mot de passe est trop court, 5 caractères minimum ! <br>";
-            } else {
-                $loginNonValable = false;
-                $emailNonValable = false;
-                $manager = new UserManager(connexionDb());
-                $tbUser = $manager->getAllUser();
-                foreach ($tbUser as $elem) {
-                        echo "Test du user => $elem->getUserName()";
-                        if ($userName == $elem->getUserName()) {
-                            $loginNonValable = true;
-                        }
-                        if ($email == $elem->getEmail()) {
-                            $emailNonValable = true;
-                        }
-                }
-                if ($loginNonValable) {
-                    echo "Ce login est déjà pris, veuillez en choisir en autre ! <br>";
-                } else if ($emailNonValable) {
-                    echo "Cette adresse mail est déjà utilisée, veuillez en choisir une autre ! <br>";
-                } else if (!champsEmailValable($email)) {
-                    echo "Votre adresse mail contient des caractères indésirables !";
-                } else if (!champsLoginValable($userName)) {
-                    echo "Votre nom d'utilisateur contient des caractères indésirables !";
-                } else if (!champsMdpValable($mdp)) {
-                    echo "Votre mot de passe contient des caractères indésirables !";
-                } else if (!$loginNonValable && !$emailNonValable) {
-                    return true;
-                }
-                return false;
-            }
-            return false;
-        }
-        return false;
-
-    }
-
+/**
+ * Fonction ajoutant en BDD le nouveau membre inscrit et lui envoyant un message contenant son code d'activation
+ * d'inscription.
+ */
     function addDB()
     {
         $userToAdd = new User(array(

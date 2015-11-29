@@ -7,7 +7,7 @@ type = mysql
 host = localhost
 username = root
 password =
-dbname = projetintegration
+dbname = projet
 [ADMINISTRATEUR]
 pseudo = Admin
 mail = no-reply@everydayidea.be

@@ -5,7 +5,9 @@
  * Date: 22/11/2015
  * Time: 20:13
  */
-
+/**
+ * Fonction faisant devenir premium le membre connecté.
+ */
 function Premium() {
     $udm = new User_DroitManager(connexionDb());
     $udm->modifDroit($_SESSION['User']->getId(), 3);

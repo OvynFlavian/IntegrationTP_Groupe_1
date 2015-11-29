@@ -9,7 +9,7 @@
 $page = getCurrentPage();
 $userSession = getSessionUser();
 $isIndex = ($page == '' or $page == "index");
-
+ob_start();
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header col-lg-2 col-md-2 text-left">
@@ -40,7 +40,8 @@ $isIndex = ($page == '' or $page == "index");
                     <li <?php if($page == "inscription") echo "class='active'"?>><a href="Page/inscription.page.php">Inscription</a></li>
                     <li <?php if($page == "connexion") echo "class='active'"?>><a href="Page/connexion.page.php" >Connexion</a></li>
                 <?php }else{ ?>
-                    <li class="col-md-2"></li>
+                    <li class="col-md-1"></li>
+                    <li <?php if($isIndex) echo "class='active'"?>><a href="index.php">Accueil</a></li>
                     <li <?php if ($page == "ajouterActivite") echo "class='active'" ?>><a href="Page/ajouterActivite.page.php">Ajouter une activité</a></li>
                     <li <?php if($page == "listeMembres") echo "class='active'"?>><a href="Page/listeMembres.page.php">Membres</a></li>
                     <li <?php if($page == "amis") echo "class='active'"?>><a href="Page/amis.page.php">Amis</a></li>
@@ -70,7 +71,8 @@ $isIndex = ($page == '' or $page == "index");
                     <li <?php if($page == "inscription") echo "class='active'"?>><a href="inscription.page.php">Inscription</a></li>
                     <li <?php if($page == "connexion") echo "class='active'"?>><a href="connexion.page.php" >Connexion</a></li>
                 <?php }else{ ?>
-                    <li class="col-md-2"></li>
+                    <li class="col-md-1"></li>
+                    <li <?php if($isIndex) echo "class='active'"?>><a href="../index.php">Accueil</a></li>
                     <li <?php if ($page == "ajouterActivite") echo "class='active'" ?>><a href="ajouterActivite.page.php">Ajouter une activité</a></li>
                     <li <?php if($page == "listeMembres") echo "class='active'"?>><a href="listeMembres.page.php">Membres</a></li>
                     <li <?php if($page == "amis") echo "class='active'"?>><a href="amis.page.php">Amis</a></li>
@@ -94,3 +96,6 @@ $isIndex = ($page == '' or $page == "index");
         <?php }?>
         </div>
 </nav>
+<?php
+    ob_flush()
+        ?>

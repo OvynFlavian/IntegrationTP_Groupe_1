@@ -8,6 +8,11 @@
 use \Entity\Activity as Activity;
 use \Entity\User as User;
 
+/**
+ * Fonction servant à aller rechercher en base de données les membres contenant le string fournit dans la barre de
+ * recherche du site.
+ * @return array : le tableau des membres présents en base de données avec ce string dans leur nom.
+ */
 function rechercheMembre()
 {
     if (isPostFormulaire()) {
@@ -22,6 +27,11 @@ function rechercheMembre()
     return $tab;
 }
 
+/**
+ * Fonction servant à afficher tous les membres présents dans un tableau donné. Il fournit aussi un lien permettant
+ * de voir leur profil.
+ * @param $tab : le tableau de membres.
+ */
 function afficherMembres($tab) {
     ?>
     <section class="Membres">
@@ -53,6 +63,10 @@ function afficherMembres($tab) {
 
 }
 
+/**
+ * Fonction permettant de voir si le membre existe à l'aide d'une id fournie dans l'url.
+ * @return bool : vrai si il existe, false si il n'existe pas.
+ */
 function checkMembre() {
     $id = $_GET['membre'];
     $um = new UserManager(connexionDb());
@@ -64,6 +78,10 @@ function checkMembre() {
     }
 }
 
+/**
+ * Fonction permettant d'afficher le profil d'un membre à l'aide de son id.
+ * @param $id : l'id du membre voulu.
+ */
 function voirProfil($id) {
 
     $um = new UserManager(connexionDb());
@@ -108,6 +126,9 @@ function voirProfil($id) {
     echo "</div>";
 }
 
+/**
+ * Fonction générant un formulaire d'envoi de message à l'utilisateur pour l'admin.
+ */
 function formEnvoiMessage() {
     if (isset($_POST['EnvoyerMess'])) {
         $id = $_POST['idUser'];
@@ -115,6 +136,11 @@ function formEnvoiMessage() {
         include "../Form/envoiMessageAdmin.form.php";
     }
 }
+
+/**
+ * Fonction envoyant un message à l'adresse mail de l'utilisateur concerné.
+ * @return string : le message de succès.
+ */
 function envoiMessage() {
     if (isset($_POST['formulaireEnvoi'])) {
         $id = $_POST['idUserMess'];
@@ -130,6 +156,10 @@ function envoiMessage() {
     }
 }
 
+/**
+ * Fonction générant un formulaire permettant de changer le grade d'un utilisateur.
+ * @param User $user : l'utilisateur dont le grade doit être changé.
+ */
 function formGrade(User $user) {
     $dm = new DroitManager(connexionDb());
     $tabDroit = $dm->getAllDroit();
@@ -159,6 +189,9 @@ function formGrade(User $user) {
 
 }
 
+/**
+ * Fonction modifiant le grade d'un utilisateur en base de données.
+ */
 function modifGrade() {
     $id = $_POST['idUserGrade'];
     $idGrade = $_POST['grade'];
@@ -166,6 +199,11 @@ function modifGrade() {
     $udm = new User_DroitManager(connexionDb());
     $udm->modifDroit($id, $idGrade);
 }
+
+/**
+ * Fonction permettant de modifier le fichier de configuration du site.
+ * @return string : le message d'erreur dans le cas où l'admin rentre un mauvais mot de passe.
+ */
 function modifConfig()
 {
     if (isPostFormulaire()) {

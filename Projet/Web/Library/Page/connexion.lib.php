@@ -7,6 +7,11 @@
  */
 use \Entity\User as User;
 
+/**
+ * Fonction vérifiant l'identité du membre et le connectant si il possède la bonne identité.
+ * @return array : tableau de message d'erreur dans le cas où ses informations sont fausses, si il est banni ou encore
+ * si il ne s'est pas activé.
+ */
 function doConnect()
 {
     $tabRetour = array();
