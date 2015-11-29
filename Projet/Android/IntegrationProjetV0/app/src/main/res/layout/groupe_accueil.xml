@@ -15,25 +15,31 @@ android:layout_height="match_parent">
     android:weightSum="1"
     android:background="#b3c7e1">
 
-
-    <Button
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="créer un nouveau groupe"
-        android:id="@+id/btnCreerGroupe"
-        android:layout_marginTop="98dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="voir mon groupe"
-        android:id="@+id/btnVoirGroupe"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnvoirgroupe"
+            android:id="@+id/btnVoirGroupe"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnnouveaugroupe"
+            android:id="@+id/btnCreerGroupe"
+            android:layout_below="@id/btnVoirGroupe"
+            android:layout_marginTop="15dp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
+
 <ListView
     android:id="@+id/amisList"
     android:layout_width="200dp"

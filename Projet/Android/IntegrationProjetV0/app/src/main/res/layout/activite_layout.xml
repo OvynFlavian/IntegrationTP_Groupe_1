@@ -121,8 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/nonChangeActivite"
-                        android:text="NON"
-                        android:background="#ff0000"
+                        android:background="@drawable/btnnon"
                         android:layout_margin="10dp"
                         android:onClick="activiteSuivante"/>
 
@@ -130,9 +129,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/ouiChangeActivite"
-                        android:text="OUI"
                         android:layout_toRightOf="@id/nonChangeActivite"
-                        android:background="#00ff00"
+                        android:background="@drawable/btnoui"
                         android:layout_margin="10dp"/>
 
                 </RelativeLayout>
@@ -143,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ajouterActivite"
-                android:text="Proposez une activité !"
+                android:background="@drawable/proposeractivite"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/confirmationActivite"
                 android:layout_marginTop="15dp"

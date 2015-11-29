@@ -11,22 +11,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:padding="15dp"
     android:background="#b3c7e1"
     android:id="@+id/relLayout1">
 
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Titre de l'activité : "
-        android:id="@+id/titreTextView"
-        android:textSize="30sp"/>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:hint="Titre"
-        android:layout_below="@id/titreTextView"
         android:id="@+id/titreActivite"
         android:maxLines="1"
         android:lines="1"
@@ -37,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/descriptionTextView"
-        android:text="Description de l'activité : "
+        android:text="Description : "
         android:layout_below="@id/titreActivite"
         android:layout_marginTop="20dp"
         android:textSize="30sp"/>
@@ -47,9 +42,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/descriptionTextView"
         android:id="@+id/descriptionActivite"
-        android:hint="Description"
+        android:hint="Description de l'activité"
         android:singleLine="false"
-        android:textSize="30sp"/>
+        android:lineSpacingExtra="5dp"
+        android:textSize="20sp"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -71,7 +67,7 @@
             android:id="@+id/listeView"
             android:layout_toRightOf="@id/categorieTextView"
             android:layout_margin="20dp"
-            android:prompt="@style/SpinnerTheme"
+            android:prompt="@layout/spinner_theme"
             android:spinnerMode="dropdown"
             android:popupBackground="#5b82d8">
         </Spinner>
@@ -83,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="envoyer"
+        android:background="@drawable/btnenvoyer"
         android:textColor="#303030"
         android:onClick="envoyerActivite"/>
 

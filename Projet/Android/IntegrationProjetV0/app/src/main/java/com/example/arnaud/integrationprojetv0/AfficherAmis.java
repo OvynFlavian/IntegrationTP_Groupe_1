@@ -81,7 +81,7 @@ public class AfficherAmis extends ActionBarActivity {
 
         addAmis = (Button) findViewById(R.id.btnAdd);
         btnRequete=(Button) findViewById(R.id.btnRequete);
-        btnRequete.setVisibility(View.INVISIBLE);
+        //btnRequete.setVisibility(View.INVISIBLE);
         session = new SessionManager(getApplicationContext());
 
         //menu

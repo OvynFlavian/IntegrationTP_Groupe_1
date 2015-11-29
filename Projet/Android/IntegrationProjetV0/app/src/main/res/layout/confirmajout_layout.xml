@@ -39,7 +39,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="oui"
+                android:background="@drawable/btnoui"
                 android:id="@+id/btnOui"
                 android:layout_margin="10dp"
                 android:layout_toRightOf="@id/btnNon"/>
@@ -47,7 +47,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="non"
+                android:background="@drawable/btnnon"
                 android:id="@+id/btnNon"
                 android:layout_margin="10dp"/>
 
