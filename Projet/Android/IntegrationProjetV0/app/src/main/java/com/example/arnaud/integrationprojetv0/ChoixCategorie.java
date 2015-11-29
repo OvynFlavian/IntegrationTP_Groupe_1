@@ -247,7 +247,7 @@ public class ChoixCategorie extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     if (session.isLoggedIn()) {
-                        Intent intent = new Intent(ChoixCategorie.this, Profil.class);
+                        Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(ChoixCategorie.this, Accueil.class);
@@ -256,7 +256,7 @@ public class ChoixCategorie extends AppCompatActivity {
                 }
                 if (position == 1) {
                     if (session.isLoggedIn()) {
-                        Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
+                        Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(ChoixCategorie.this, MainActivity.class);
@@ -264,7 +264,7 @@ public class ChoixCategorie extends AppCompatActivity {
                     }
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
+                    Intent intent = new Intent(ChoixCategorie.this, Profil.class);
                     startActivity(intent);
                 }
                 if (position == 3) {

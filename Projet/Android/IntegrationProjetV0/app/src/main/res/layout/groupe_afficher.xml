@@ -42,43 +42,31 @@
             android:textSize="20sp"
             android:layout_marginBottom="10dp"/>
 
-        <ListView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/listeAmis"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="150dp" />
+            android:background="@drawable/btnrequeteajout"
+            android:id="@+id/btnRequete"
+            android:layout_below="@id/desc"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnajoutmembre"
+            android:id="@+id/btnAdd"
+            android:layout_below="@id/desc"
+            android:layout_alignParentRight="true"/>
 
         <ListView
             android:id="@+id/amisList"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="left|start"
-            android:layout_alignTop="@+id/listeAmis"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/listeAmis"
+            android:layout_below="@id/btnRequete"
             android:background="#980b6392" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ajouter membres"
-            android:id="@+id/btnAdd"
-            android:layout_above="@+id/amisList"
-            android:layout_alignEnd="@+id/listeAmis" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Requete d&apos;ajout"
-            android:id="@+id/btnRequete"
-            android:layout_above="@+id/amisList"
-            android:layout_alignParentStart="true" />
-
-
-
     </RelativeLayout>
+
     <ListView
         android:id="@+id/navlist"
         android:layout_width="200dp"
