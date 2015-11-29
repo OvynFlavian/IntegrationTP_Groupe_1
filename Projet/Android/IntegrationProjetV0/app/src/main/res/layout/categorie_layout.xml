@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ampoule9">
+    android:background="#b3c7e1">
 
 
 <RelativeLayout
@@ -17,7 +17,8 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -55,28 +56,12 @@
                 android:layout_below="@id/activiteChoisie"/>
 
             <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutCat2"
-                    android:layout_below="@id/titreCat">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutCat2"
+                android:layout_below="@id/titreCat">
 
             </RelativeLayout>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profil"
-                android:id="@+id/profil"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Se Déconnecter"
-                android:id="@+id/btnLogout"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true" />
 
         </RelativeLayout>
     </ScrollView>

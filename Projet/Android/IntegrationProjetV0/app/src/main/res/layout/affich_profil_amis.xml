@@ -14,7 +14,7 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1"
-        android:background="@drawable/ampoule9">
+        android:background="#b3c7e1">
 
         <RelativeLayout
             android:layout_width="match_parent"

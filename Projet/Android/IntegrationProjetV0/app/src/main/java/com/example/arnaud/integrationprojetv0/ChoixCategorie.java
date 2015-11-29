@@ -32,17 +32,11 @@ import java.util.ArrayList;
 
 public class ChoixCategorie extends AppCompatActivity {
 
-    private Button animaux = null;
-    private Button famille = null;
-    private Button film = null;
-    private Button visite = null;
-    private Button profil = null;
-    private Button btnLogout = null;
     private String categorie = null;
     private static final String test = "categorie";
     private SessionManager session;
     private RelativeLayout layoutCat = null;
-    private int hauteur = 1500;
+    //private int hauteur = 1500;
     private TextView activiteChoisieTV = null;
     private TextView activiteChoisie = null;
     //menu
@@ -63,19 +57,9 @@ public class ChoixCategorie extends AppCompatActivity {
         // session manager
         session = new SessionManager(getApplicationContext());
 
-
-        profil = (Button) findViewById(R.id.profil);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
         layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
         activiteChoisieTV = (TextView) findViewById(R.id.activiteChoisieTV);
         activiteChoisie = (TextView) findViewById(R.id.activiteChoisie);
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoutUser();
-            }
-        });
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -87,20 +71,7 @@ public class ChoixCategorie extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-
-        profil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ChoixCategorie.this, Profil.class);
-                //intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
         if (!session.isLoggedIn()) {
-            profil.setVisibility(View.INVISIBLE);
-            btnLogout.setVisibility(View.INVISIBLE);
             activiteChoisieTV.setVisibility(View.INVISIBLE);
             activiteChoisie.setVisibility(View.INVISIBLE);
         } else {
@@ -203,13 +174,13 @@ public class ChoixCategorie extends AppCompatActivity {
             resId = getResources().getIdentifier("jeuxvideo", "drawable", this.getPackageName());
         } else {
             resId = getResources().getIdentifier(cat, "drawable", this.getPackageName());
-        }
+    }
         categorie.setBackgroundResource(resId);
-        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(400, 400);
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        if(id > 4 && (id%2) != 0) {
-            hauteur = hauteur + 460;
-        }
+        /*if(id > 4 && (id%2) != 0) {
+            hauteur = hauteur + 540;
+        }*/
 
         if ((id -2) > 0) {
             p.addRule(RelativeLayout.BELOW, id - 2);
@@ -235,7 +206,7 @@ public class ChoixCategorie extends AppCompatActivity {
 
         ((RelativeLayout) findViewById(R.id.layoutCat2)).addView(categorie);
 
-        FrameLayout.LayoutParams p2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, hauteur);
+        FrameLayout.LayoutParams p2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ((RelativeLayout) findViewById(R.id.layoutCat3)).setLayoutParams(p2);
 
 

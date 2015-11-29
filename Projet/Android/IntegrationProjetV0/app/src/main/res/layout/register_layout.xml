@@ -12,7 +12,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ampoule9">
+    android:background="#b3c7e1">
 
 
     <TextView
@@ -104,7 +104,7 @@
         android:layout_height="56dp"
         android:layout_weight="0.09"
         android:layout_alignWithParentIfMissing="false"
-        android:background="@drawable/register"
+        android:background="@drawable/inscription"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

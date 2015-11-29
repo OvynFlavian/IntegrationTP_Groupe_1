@@ -60,18 +60,18 @@
             android:layout_marginTop="40dp">
 
             <Button
-                android:id="@+id/Button01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/connexion"/>
-
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Button02"
                 android:background="@drawable/inscription"
-                android:layout_toRightOf="@id/Button01"
-                android:layout_marginLeft="30dp"/>
+                android:layout_marginRight="30dp"/>
+
+            <Button
+                android:id="@+id/Button01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/connexion"
+                android:layout_toRightOf="@id/Button02"/>
 
         </RelativeLayout>
     </RelativeLayout>
