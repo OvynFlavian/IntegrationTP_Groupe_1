@@ -39,7 +39,13 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.68">
+              <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
               <folding>
+                <element signature="e#8580#9122#0" expanded="true" />
+                <element signature="e#9121#9122#0" expanded="true" />
+                <element signature="e#9432#9452#0" expanded="true" />
+                <element signature="e#9454#9475#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1847,7 +1853,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68">
+          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
           <folding>
+            <element signature="e#8580#9122#0" expanded="true" />
+            <element signature="e#9121#9122#0" expanded="true" />
+            <element signature="e#9432#9452#0" expanded="true" />
+            <element signature="e#9454#9475#0" expanded="true" />
           </folding>
         </state>
       </provider>
