@@ -133,7 +133,8 @@ public class ChoixCategorie extends AppCompatActivity {
             System.out.println("activite : " + activite);
             System.out.println("error : " + error);
             if (error) {
-                activiteChoisie.setText("erreur");
+                activiteChoisieTV.setVisibility(View.INVISIBLE);
+                activiteChoisie.setText("Vous n'avez pas d'activité");
             } else {
                 activiteChoisie.setText(activite);
             }

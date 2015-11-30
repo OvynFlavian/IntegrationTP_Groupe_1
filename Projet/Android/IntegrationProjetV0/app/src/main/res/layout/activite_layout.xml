@@ -31,12 +31,20 @@
                 android:layout_centerHorizontal="true"
                 android:textSize="25sp"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/proposition"
+                android:id="@+id/image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/titre"
                 android:text="titre"
-                android:layout_below="@id/proposition"
+                android:layout_below="@id/image"
                 android:layout_marginTop="15dp"
                 android:layout_centerHorizontal="true"
                 android:textSize="20sp"/>
@@ -60,7 +68,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
                 android:isIndicator="true"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:stepSize="0.5"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,7 +112,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/relLayout"
                 android:layout_marginTop="15dp"
-                android:onClick="ajouterActivite"/>
+                android:onClick="ajouterActivite"
+                android:layout_marginBottom="15dp"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
