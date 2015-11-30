@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -197,7 +198,13 @@ public class ChoixCategorie extends AppCompatActivity {
             resId = getResources().getIdentifier(cat, "drawable", this.getPackageName());
     }
         categorie.setBackgroundResource(resId);
-        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        System.out.println("dimensions : " + height + " * " + width);
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(height, width);
+        int marge = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+        p.setMargins(marge, 0, marge, 0);
 
         if ((id -2) > 0) {
             p.addRule(RelativeLayout.BELOW, id - 2);
