@@ -85,7 +85,12 @@ if(!$isConnect or $user->getDroit()[0]->getLibelle() != "Administrateur")header(
                     }
 
                 }
-                else if(isset($_GET['to']) and $_GET['to'] == "viewConfig") administrationViewConfig();
+                else if(isset($_GET['to']) and $_GET['to'] == "viewConfig") {
+                    echo "<div class='col-sm-2'></div>";
+                    echo "<div class='col-sm-10' style='padding-left :5%'>";
+                        administrationViewConfig();
+                    echo "</div>";
+                }
                 else if (isset($_GET['to']) && $_GET['to'] == "voirProfil") {
                     if (checkMembre()) {
                         $id = $_GET['membre'];

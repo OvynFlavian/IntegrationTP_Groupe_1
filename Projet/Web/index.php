@@ -28,6 +28,7 @@ if (isConnect()) {
     $um = new UserManager(connexionDb());
     $user = $um->getUserById($_SESSION['User']->getId());
     $_SESSION['User'] = $user;
+
 }
 ?>
 <!doctype html>
