@@ -304,7 +304,7 @@ function modifAct() {
     if($activity->getNote() == NULL) {
         echo "<h3 style='text-align: center'>Cette activité n'a pas encore été notée !</h3>";
     } else {
-        echo "<h3 style='text-align: center'>Sa note est de : ".$activity->getNote()."/5</h3>";
+        echo "<h3 style='text-align: center'>Sa note est de : ".roundTo($activity->getNote(),.5)."/5</h3>";
     }
     echo "<form class='form-horizontal col-sm-12' name='activite' action='amis.page.php?to=modifAct&id=$id' method='post'>";
     echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='AccepterAct'>Choisir cette activité</button>";

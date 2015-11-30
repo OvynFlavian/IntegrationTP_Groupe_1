@@ -187,13 +187,23 @@ function uploadImage($repertoire, $nom) {
 
 
     $donnees=getimagesize($photo);
-    $nouvelleLargeur = 200;
+    $nouvelleLargeur = 250;
     $reduction = ( ($nouvelleLargeur * 100) / $donnees[0]);
     $nouvelleHauteur = ( ($donnees[1] * $reduction) / 100);
     $image = imagecreatefromjpeg($photo);
     $image_mini = imagecreatetruecolor($nouvelleLargeur, $nouvelleHauteur); //création image finale
     imagecopyresampled($image_mini, $image, 0, 0, 0, 0, $nouvelleLargeur, $nouvelleHauteur, $donnees[0], $donnees[1]);//copie avec redimensionnement
     imagejpeg ($image_mini, $repertoire.$nomPhoto);
+}
+
+/**
+ * Fonction arrondissant à la demi unité près.
+ * @param $number : nombre à arrondir.
+ * @param $to : la demi unité (.5).
+ * @return float : le nombre arrondi.
+ */
+function roundTo($number, $to){
+    return round($number/$to, 0)* $to;
 }
 
 ?>

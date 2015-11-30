@@ -46,7 +46,7 @@ function proposerActivite($cat) {
                 if ($activity->getNote() == NULL) {
                     echo "<h3 style='text-align: center'>Cette activité n'a pas encore été notée !</h3>";
                 } else {
-                    echo "<h3 style='text-align: center'>Sa note est de : " . $activity->getNote() . "/5</h3>";
+                    echo "<h3 style='text-align: center'>Sa note est de : " . roundTo($activity->getNote(),.5) . "/5</h3>";
                 }
 
                 include "../Form/proposerActivite.form.php";
