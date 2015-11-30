@@ -127,7 +127,7 @@ public class AccepterGroupe extends ActionBarActivity {
     private void supprimerGroupe(String username) {
         try {
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/supprimerGroupe.php");
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/supprimerGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
             System.out.println("Response 22:" + username);
@@ -150,7 +150,7 @@ public class AccepterGroupe extends ActionBarActivity {
 
         try {
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/confGroupe.php");
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/confGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));

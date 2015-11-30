@@ -134,7 +134,7 @@ public class AjouterActivite extends AppCompatActivity {
         try {
 
             DefaultHttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/getCategorie.php");
+            HttpPost httppost= new HttpPost("http://www.everydayidea.be/scripts_android/getCategorie.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -162,7 +162,7 @@ public class AjouterActivite extends AppCompatActivity {
         try{
 
             DefaultHttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/ajouterActivite.php");
+            HttpPost httppost= new HttpPost("http://www.everydayidea.be/scripts_android/ajouterActivite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair("titre", titreView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("description", descriptionView.getText().toString().trim()));

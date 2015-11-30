@@ -112,7 +112,7 @@ public class CreerGroupe extends ActionBarActivity {
 
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/creerGroupe.php"); // make sure the url is correct.
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/creerGroupe.php"); // make sure the url is correct.
 
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
@@ -145,7 +145,7 @@ public class CreerGroupe extends ActionBarActivity {
 
 
             httpclient2 = new DefaultHttpClient();
-            httppost2 = new HttpPost("http://109.89.122.61/scripts_android/finirCreationGroupe.php"); // make sure the url is correct.
+            httppost2 = new HttpPost("http://www.everydayidea.be/scripts_android/finirCreationGroupe.php"); // make sure the url is correct.
 
             nameValuePairs2 = new ArrayList<NameValuePair>(2);
             nameValuePairs2.add(new BasicNameValuePair("id", session.getId().toString().trim()));

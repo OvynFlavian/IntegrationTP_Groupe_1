@@ -100,8 +100,7 @@ public class VoirGroupe extends ActionBarActivity {
         amisList = (ListView)findViewById(R.id.amisList);
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         final Context context=getApplicationContext();
-
-
+        
         //affichage description
         String descritpion = afficherDesc();
         String activite = afficherActi();
@@ -116,7 +115,6 @@ public class VoirGroupe extends ActionBarActivity {
             }
         });
 
-
         final ArrayList<String> liste1;
         if ((liste1=isRequete())!= null){
             btnRequete.setVisibility(View.VISIBLE);
@@ -126,16 +124,11 @@ public class VoirGroupe extends ActionBarActivity {
                     Intent intent = new Intent(VoirGroupe.this, RequeteGroupe.class);
                     intent.putExtra("liste", liste1 );
                     startActivity(intent);
-
-
-
                 }
             });
         }
-
-                ArrayList<String> liste = afficherMembre(context);
-                addOptionOnClick(liste);
-
+        ArrayList<String> liste = afficherMembre(context);
+        addOptionOnClick(liste);
     }
 
     @Override
@@ -145,27 +138,17 @@ public class VoirGroupe extends ActionBarActivity {
 
     private String afficherActi() {
         try {
-            // String [] liste = (String[]) list.toArray();
-
-
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherActiGroupe.php"); // make sure the url is correct.
-
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherActiGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
             System.out.println("Response :1 " + session.getId().toString());
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
             String response2 = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : sisiiii ");
             return  response2;
-
 
         } catch (Exception e) {
 
@@ -186,7 +169,7 @@ public class VoirGroupe extends ActionBarActivity {
 
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/voirGroupe.php"); // make sure the url is correct.
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/voirGroupe.php"); // make sure the url is correct.
 
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
@@ -240,7 +223,7 @@ public class VoirGroupe extends ActionBarActivity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://109.89.122.61/scripts_android/affRequeteGroupe.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/affRequeteGroupe.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -302,7 +285,7 @@ public class VoirGroupe extends ActionBarActivity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherMembreGroupe.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/afficherMembreGroupe.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             nameValuePairs = new ArrayList<NameValuePair>(2);

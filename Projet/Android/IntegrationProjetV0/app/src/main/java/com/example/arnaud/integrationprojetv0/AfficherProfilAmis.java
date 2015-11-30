@@ -138,7 +138,7 @@ public class AfficherProfilAmis extends ActionBarActivity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherProfilAmis.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/afficherProfilAmis.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             nameValuePairs = new ArrayList<NameValuePair>(2);

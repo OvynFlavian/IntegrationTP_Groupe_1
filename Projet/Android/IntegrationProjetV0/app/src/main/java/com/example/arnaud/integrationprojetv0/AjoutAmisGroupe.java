@@ -170,7 +170,7 @@ public class AjoutAmisGroupe extends ActionBarActivity {
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherUserPublicPremium.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/afficherUserPublicPremium.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             //response=httpclient.execute(httppost);

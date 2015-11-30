@@ -127,7 +127,7 @@ public class ConfirmAjout extends ActionBarActivity {
 
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/AjouterAmis.php"); // make sure the url is correct.
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/AjouterAmis.php"); // make sure the url is correct.
 
             nameValuePairs = new ArrayList<NameValuePair>(2);
                 nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));

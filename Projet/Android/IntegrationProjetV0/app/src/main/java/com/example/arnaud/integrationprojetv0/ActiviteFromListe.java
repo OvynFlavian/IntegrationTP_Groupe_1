@@ -187,7 +187,7 @@ public class ActiviteFromListe extends AppCompatActivity {
             Float note = null;
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/getNote.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getNote.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("libelle", libelle.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -220,7 +220,7 @@ public class ActiviteFromListe extends AppCompatActivity {
         }
 
         try {
-            String url = "http://109.89.122.61/Images/activite/" + idActivite + ".jpg";
+            String url = "http://www.everydayidea.be/Images/activite/" + idActivite + ".jpg";
             urlImage = new URL(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -319,7 +319,7 @@ public class ActiviteFromListe extends AppCompatActivity {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/activite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -354,7 +354,7 @@ public class ActiviteFromListe extends AppCompatActivity {
         }
 
         try {
-            String url = "http://109.89.122.61/Images/activite/" + idActivite + ".jpg";
+            String url = "http://www.everydayidea.be/Images/activite/" + idActivite + ".jpg";
             urlImage = new URL(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -380,7 +380,7 @@ public class ActiviteFromListe extends AppCompatActivity {
     public void enregistrerActivite() {
         try{
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/enregistrerActivite.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/enregistrerActivite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));
             nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
@@ -415,16 +415,16 @@ public class ActiviteFromListe extends AppCompatActivity {
                 final String url;
 
                 if (!isLeader && !seulDansGroupe) {
-                    url = "http://109.89.122.61/scripts_android/deleteFromGroupe.php";
+                    url = "http://www.everydayidea.be/scripts_android/deleteFromGroupe.php";
                     textConfirm.setText(textConfirm.getText() + "\nVous quitterez votre groupe.");
                 } else if (seulDansGroupe) {
-                    url = "http://109.89.122.61/scripts_android/deleteGroupe.php";
+                    url = "http://www.everydayidea.be/scripts_android/deleteGroupe.php";
                     textConfirm.setText(textConfirm.getText() + "\nVous êtes seul dans votre groupe, celui-ci sera supprimé.");
                 } else if (!seulDansGroupe && isLeader) {
-                    url = "http://109.89.122.61/scripts_android/deleteFromGroupeLeader.php";
+                    url = "http://www.everydayidea.be/scripts_android/deleteFromGroupeLeader.php";
                     textConfirm.setText(textConfirm.getText() + "\nVous êtes le chef de votre groupe, un autre membre héritera de ce statut et vous quitterez votre groupe.");
                 } else {
-                    url = "http://109.89.122.61/scripts_android/updateUserActivite.php";
+                    url = "http://www.everydayidea.be/scripts_android/updateUserActivite.php";
                 }
 
                 btnOui.setOnClickListener(new View.OnClickListener() {
@@ -444,7 +444,7 @@ public class ActiviteFromListe extends AppCompatActivity {
                                 httpclient.execute(httppost, responseHandler);
                             }
 
-                            httppost = new HttpPost("http://109.89.122.61/scripts_android/updateUserActivite.php");
+                            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/updateUserActivite.php");
                             nameValuePairs = new ArrayList<NameValuePair>(2);
                             nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));
                             nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
@@ -478,7 +478,7 @@ public class ActiviteFromListe extends AppCompatActivity {
         try {
             Boolean dansGroupe = false;
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/getGroupe.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getGroupe.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -506,7 +506,7 @@ public class ActiviteFromListe extends AppCompatActivity {
     public boolean checkLeader() {
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/checkLeader.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkLeader.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
             nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
@@ -534,7 +534,7 @@ public class ActiviteFromListe extends AppCompatActivity {
     public Boolean checkSeul() {
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/checkSeul.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkSeul.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
             nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));

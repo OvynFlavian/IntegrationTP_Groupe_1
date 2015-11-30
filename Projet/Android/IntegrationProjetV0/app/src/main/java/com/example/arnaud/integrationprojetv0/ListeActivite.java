@@ -120,7 +120,7 @@ public class ListeActivite extends AppCompatActivity {
     public ArrayList<String> afficherListe(String cat) {
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherListeActivite.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherListeActivite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("categorie", cat.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
