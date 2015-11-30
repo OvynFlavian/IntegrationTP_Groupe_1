@@ -123,7 +123,7 @@ public class ConfirmAjoutGroupe extends ActionBarActivity {
     public void addFriend(String username) {
         try {
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/AjouterGroupe.php");
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/AjouterGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
             System.out.println("Response 22:" + username);

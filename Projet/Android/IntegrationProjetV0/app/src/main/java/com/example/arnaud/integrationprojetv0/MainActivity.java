@@ -147,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
         try{
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/login.php");
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/login.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("UserName", et.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("Mdp", pass.getText().toString().trim()));

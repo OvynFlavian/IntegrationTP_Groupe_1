@@ -121,7 +121,7 @@ public class ChoixCategorie extends AppCompatActivity {
     public void afficherActiviteChoisie() {
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherActiviteChoisie.php");
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherActiviteChoisie.php");
 
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("userId", session.getId().toString().trim()));
@@ -156,7 +156,7 @@ public class ChoixCategorie extends AppCompatActivity {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherCategorie.php"); // make sure the url is correct.
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherCategorie.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             // response=httpclient.execute(httppost);

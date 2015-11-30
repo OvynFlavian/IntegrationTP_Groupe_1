@@ -150,7 +150,7 @@ public class ActiAmis extends AppCompatActivity {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php"); // make sure the url is correct.
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/activite.php"); // make sure the url is correct.
             //add your data
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
@@ -203,7 +203,7 @@ public class ActiAmis extends AppCompatActivity {
             final String idActi = intent.getStringExtra("idActi");
             final String userId = intent.getStringExtra("idUser");
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/enregistrerActivite.php"); // make sure the url is correct.
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/enregistrerActivite.php"); // make sure the url is correct.
             //add your data
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
@@ -238,7 +238,7 @@ public class ActiAmis extends AppCompatActivity {
                     public void onClick(View v) {
                         try {
                             HttpClient httpclient = new DefaultHttpClient();
-                            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/updateUserActivite.php");
+                            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/updateUserActivite.php");
                             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
                             nameValuePairs.add(new BasicNameValuePair("idUser", userId.trim()));  // $Edittext_value = $_POST['Edittext_value'];
                             nameValuePairs.add(new BasicNameValuePair("idActivite", idActi.trim()));
