@@ -150,6 +150,7 @@ function envoiMessage() {
         $to = $userToSend->getEmail();
         $sujet = $_POST['titre'];
         $entete = "From:" . $adresseAdmin . "\r\n";
+        $entete .= "Content-Type: text/html; charset=utf-8\r\n";
         $message = $_POST['description'];
         mail($to, $sujet, $message, $entete);
         return "<div class='alert alert-success' role='alert'> Message envoyé à l'utilisateur concerné ! </div>";
@@ -207,7 +208,7 @@ function modifGrade() {
 function modifConfig()
 {
     if (isPostFormulaire()) {
-        if (hash("sha256", $_POST['mdp']) == $_SESSION['User']->getMdp()) {
+        if (hash("sha256", $_POST['mdp'].$_SESSION['User']->getSalt()) == $_SESSION['User']->getMdp()) {
             $ini = getConfigFile();
 
             $fichier = fopen('../config.ini.php', 'w');

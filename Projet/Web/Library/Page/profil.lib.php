@@ -103,7 +103,7 @@ function isValidForm(User $user)
         $mailExistant = true;
         $tab['ERROR']['Email'] = "Email déjà existant";
     }
-    if ($user->getMdp() == hash("sha256", $MdpActuel)) {
+    if ($user->getMdp() == hash("sha256", $MdpActuel.$user->getSalt())) {
         $goodMdp = true;
 
     } else {
@@ -151,7 +151,7 @@ function isValidForm(User $user)
         {
             $user->setEmail($Email);
         }
-        if(isset($Mdp) and strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp())
+        if(isset($Mdp) and strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp().$userTest->getSalt()) != $user->getMdp())
         {
             $user->setMdp($Mdp);
             $user->setHashMdp();

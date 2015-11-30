@@ -41,7 +41,7 @@ use \Entity\Activation as Activation;
               $entete="From:".$adresseAdmin."\r\n";
               $entete .= "Content-Type: text/html; charset=utf-8\r\n";
               $message = "Nous confirmons que vous avez bien demandé un nouveau mot de passe : <br>
-							Votre lien pour pouvoir le modifier est : <a href='www.everydayidea.be/Page/mdpOublie.page.php?code=" . $code_aleatoire . "'>www.everydayidea/mdpOublie.page.php?code=" . $code_aleatoire . "</a>";
+							Votre lien pour pouvoir le modifier est : <a href='http://www.everydayidea.be/Page/mdpOublie.page.php?code=" . $code_aleatoire . "'>www.everydayidea/mdpOublie.page.php?code=" . $code_aleatoire . "</a>";
               mail($to, $sujet, $message, $entete);
               echo "<div class='alert alert-success' role='alert'>Un mail vous a été envoyé avec un code d'activation pour le changement de votre mot de passe !</div>";
 

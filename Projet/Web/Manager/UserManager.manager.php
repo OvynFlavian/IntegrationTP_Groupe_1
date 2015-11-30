@@ -191,14 +191,17 @@ class UserManager {
      */
     public function addUser(User $user)
     {
+        $salt = uniqid(mt_rand(), true);
         $query = $this
             ->db
-            ->prepare("INSERT INTO user(UserName, Mdp, DateInscription, DateLastConnect, email) VALUES (:username , :mdp , NOW(),NOW(), :email)");
-        $user-> setMdp(hash("sha256", $user->getMdp()));
+            ->prepare("INSERT INTO user(UserName, Mdp, DateInscription, DateLastConnect, email, salt) VALUES (:username , :mdp , NOW(),NOW(), :email, :salt)");
+
+        $user-> setMdp(hash("sha256", $user->getMdp().$salt));
         $query->execute(array(
             ":username" => $user->getUserName(),
             ":mdp" => $user->getMdp(),
             ":email" => $user->getEmail(),
+            ":salt" => $salt,
         ));
     }
 
@@ -268,7 +271,7 @@ class UserManager {
         $query = $this
             -> db
             ->prepare("UPDATE user SET Mdp = :mdp where id = :id");
-        $user->setMdp(hash("sha256", $user->getMdp()));
+        $user->setMdp(hash("sha256", $user->getMdp().$user->getSalt()));
         $query
             ->execute(array(
                 ":id" => $user->getId(),

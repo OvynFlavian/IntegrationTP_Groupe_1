@@ -23,6 +23,7 @@ class User{
     private $DateLastConnect;
     private $isPrivate;
     private $droit = array();
+    private $salt;
 
     /**
      * Fonction permettant l'hydratation de la classe.
@@ -85,7 +86,9 @@ class User{
     {
         return $this->isPrivate;
     }
-
+    public function getSalt() {
+        return $this->salt;
+    }
 
     /**SETTER**/
     public function setId($id)
@@ -125,6 +128,9 @@ class User{
     {
         $this->isPrivate = $isPrivate;
     }
+    public function setSalt($salt) {
+        $this->salt = $salt;
+    }
 
     /**
      * Fonction permettant le hashage du mots de passe.
@@ -133,7 +139,7 @@ class User{
      */
     public function setHashMdp()
     {
-        $this->setMdp(hash("sha256", $this->getMdp()));
+        $this->setMdp(hash("sha256", $this->getMdp().$this->salt));
     }
 
     public function toStringList()

@@ -55,6 +55,7 @@ $configIni = getConfigFile();
         <p class="jumbotexte">Choisissez une catégorie et écrivez l'activité que vous voulez ajouter :</p>
     </section>
     <section class="row">
+        <article class="col-sm-12">
         <?php
         if(($userSession->getDroit()[0]->getId() == 3 || $userSession->getDroit()[0]->getId() == 2 || $userSession->getDroit()[0]->getId() == 1) || ($userSession->getDroit()[0]->getId() == 4 && dateLastIdea())) {
             include "../Form/ajouterActivite.form.php";
@@ -62,6 +63,7 @@ $configIni = getConfigFile();
             echo "<h1 align='center'><div class='alert alert-danger' role='alert'>Vous avez déjà posté une activité cette semaine, devenez Premium pour pouvoir en proposer autant que vous en voulez !</div></h1>";
         }
         ?>
+            </article>
         </section>
         <section class="alert-dismissible">
         <?php
