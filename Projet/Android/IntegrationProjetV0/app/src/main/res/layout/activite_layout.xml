@@ -95,19 +95,33 @@
 
             </RelativeLayout>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ajouterActivite"
+                android:background="@drawable/proposeractivite"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/relLayout"
+                android:layout_marginTop="15dp"
+                android:onClick="ajouterActivite"/>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/confirmationActivite"
-                android:layout_below="@id/relLayout"
+                android:layout_below="@id/titre"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp"
+                android:background="#5b82d8"
+                android:padding="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Êtes-vous sûr de vouloir changer votre activité ?"
-                    android:id="@+id/textConfirmation"/>
+                    android:id="@+id/textConfirmation"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -136,16 +150,6 @@
                 </RelativeLayout>
 
             </RelativeLayout>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ajouterActivite"
-                android:background="@drawable/proposeractivite"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/confirmationActivite"
-                android:layout_marginTop="15dp"
-                android:onClick="ajouterActivite"/>
 
         </RelativeLayout>
 

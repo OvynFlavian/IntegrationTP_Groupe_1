@@ -107,20 +107,10 @@ public class ListeActivite extends AppCompatActivity {
         String search = rech;
         int searchListLength = liste.size();
         for (int i = 0; i < searchListLength; i++) {
-            if (liste.get(i).contains(search)) {
+            if (liste.get(i).toLowerCase().contains(search)) {
                 liste2.add(liste.get(i));
             }
         }
-
-
-/*
-        for (String string : liste) {
-            //modifier ca pour que ca fasse une belle recherche
-            if(string.matches("(?i)(rech).*")){
-                liste2.add(string);
-            }
-        }
-        */
 
         activiteAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, liste2);
         this.liste.setAdapter(activiteAdapter);

@@ -142,19 +142,14 @@ public class MainActivity extends ActionBarActivity {
         try{
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://109.89.122.61/scripts_android/login.php"); // make sure the url is correct.
-            //add your data
+            httppost = new HttpPost("http://109.89.122.61/scripts_android/login.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
-            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            nameValuePairs.add(new BasicNameValuePair("UserName", et.getText().toString().trim()));  // $Edittext_value = $_POST['Edittext_value'];
+            nameValuePairs.add(new BasicNameValuePair("UserName", et.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("Mdp", pass.getText().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-
-            //Execute HTTP Post Request
-            // response=httpclient.execute(httppost);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            System.out.println("avant execute");
+            System.out.println("avant execute avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
@@ -166,9 +161,12 @@ public class MainActivity extends ActionBarActivity {
             final String userName = jObj.getString("UserName");
             final String password = jObj.getString("Mdp");
             final String email = jObj.getString("email");
-            final String droit = jObj.getString("droit");
+            System.out.println("avant user droit");
+            final String droit = jObj.getString("userDroit");
+            System.out.println("après user droit");
+            final String tel = jObj.getString("tel");
 
-            System.out.println("doit"+droit);
+            System.out.println("droit" + droit);
 
             session.setId(id);
             session.setEmail(email);

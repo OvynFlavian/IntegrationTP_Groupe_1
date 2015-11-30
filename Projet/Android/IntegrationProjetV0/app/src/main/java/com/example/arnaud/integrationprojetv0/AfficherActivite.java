@@ -3,6 +3,7 @@ package com.example.arnaud.integrationprojetv0;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +31,7 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,7 @@ public class AfficherActivite extends AppCompatActivity {
     private static String categorie = null;
     private TextView titre = null;
     private TextView description = null;
+    private TextView textConfirm = null;
     private RatingBar note = null;
     private Button btnOk = null;
     private Button btnSuivant = null;
@@ -59,6 +64,10 @@ public class AfficherActivite extends AppCompatActivity {
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+    private int idGroupe = 0;
+    private Boolean isLeader = false;
+    private Boolean seulDansGroupe = false;
+    private String textBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +81,7 @@ public class AfficherActivite extends AppCompatActivity {
 
         Intent intent = getIntent();
         titre = (TextView) findViewById(R.id.titre);
+        titre.setShadowLayer(1, 0, 0, Color.BLACK);
         description = (TextView) findViewById(R.id.description);
         note = (RatingBar) findViewById(R.id.note);
         note2 = (TextView) findViewById(R.id.note2);
@@ -80,6 +90,9 @@ public class AfficherActivite extends AppCompatActivity {
         ajoutActivite = (Button) findViewById(R.id.ajouterActivite);
         btnOui = (Button) findViewById(R.id.ouiChangeActivite);
         confirmationActivite = (RelativeLayout) findViewById(R.id.confirmationActivite);
+        textConfirm = (TextView) findViewById(R.id.textConfirmation);
+        textBase = textConfirm.getText().toString();
+
         categorie = intent.getStringExtra(intentCat);
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -139,7 +152,7 @@ public class AfficherActivite extends AppCompatActivity {
 
     public void activiteSuivante(View view) {
         try{
-
+            textConfirm.setText(textBase);
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php"); // make sure the url is correct.
             //add your data
@@ -190,22 +203,16 @@ public class AfficherActivite extends AppCompatActivity {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/enregistrerActivite.php"); // make sure the url is correct.
-            //add your data
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/enregistrerActivite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));  // $Edittext_value = $_POST['Edittext_value'];
+            nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));
             nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            //Execute HTTP Post Request
-            // response=httpclient.execute(httppost);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("response : " + response);
             JSONObject jObj = new JSONObject(response);
-
-            System.out.println("response : " + response);
 
             final String id = jObj.getString("idUser");
 
@@ -216,15 +223,58 @@ public class AfficherActivite extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, s, duration);
                 toast.show();
             } else {
+                final Boolean dansGroupe = checkGroupe();
+                if (dansGroupe) {
+                    isLeader = checkLeader();
+                    seulDansGroupe = checkSeul();
+                }
+                System.out.println("tests pour les groupes : ");
+                System.out.println("is leader ? : " + isLeader);
+                System.out.println("seul dans groupe ? : " + seulDansGroupe);
+                System.out.println("id groupe ? : " + idGroupe);
+                System.out.println("dans groupe ? : " + dansGroupe);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animactivite);
+                confirmationActivite.startAnimation(animation);
+
                 confirmationActivite.setVisibility(View.VISIBLE);
+
+                textBase = textConfirm.getText().toString();
+
+                final String url;
+
+                if (!isLeader && !seulDansGroupe) {
+                    url = "http://109.89.122.61/scripts_android/deleteFromGroupe.php";
+                    textConfirm.setText(textConfirm.getText() + "\nVous quitterez votre groupe.");
+                } else if (seulDansGroupe) {
+                    url = "http://109.89.122.61/scripts_android/deleteGroupe.php";
+                    textConfirm.setText(textConfirm.getText() + "\nVous êtes seul dans votre groupe, celui-ci sera supprimé.");
+                } else if (!seulDansGroupe && isLeader) {
+                    url = "http://109.89.122.61/scripts_android/deleteFromGroupeLeader.php";
+                    textConfirm.setText(textConfirm.getText() + "\nVous êtes le chef de votre groupe, un autre membre héritera de ce statut et vous quitterez votre groupe.");
+                } else {
+                    url = "http://109.89.122.61/scripts_android/updateUserActivite.php";
+                }
+
                 btnOui.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         try {
                             HttpClient httpclient = new DefaultHttpClient();
-                            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/updateUserActivite.php");
-                            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                            nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));  // $Edittext_value = $_POST['Edittext_value'];
+                            HttpPost httppost = new HttpPost(url);
+                            ArrayList<NameValuePair> nameValuePairs;
+                            if (dansGroupe) {
+                                nameValuePairs = new ArrayList<NameValuePair>(3);
+                                nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));
+                                nameValuePairs.add(new BasicNameValuePair("userName", session.getUsername().trim()));
+                                nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+                                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                                httpclient.execute(httppost, responseHandler);
+                            }
+
+                            httppost = new HttpPost("http://109.89.122.61/scripts_android/updateUserActivite.php");
+                            nameValuePairs = new ArrayList<NameValuePair>(2);
+                            nameValuePairs.add(new BasicNameValuePair("idUser", idUser.trim()));
                             nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
                             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -237,19 +287,109 @@ public class AfficherActivite extends AppCompatActivity {
                             Toast toast = Toast.makeText(context, s, duration);
                             toast.show();
 
+                            textConfirm.setText(textBase);
                             confirmationActivite.setVisibility(View.INVISIBLE);
 
-                        } catch(Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Exception : " + e.getMessage());
                         }
                     }
                 });
+
+
+
             }
 
         }catch(Exception e){
             System.out.println("Exception : " + e.getMessage());
         }
     }
+
+    public boolean checkGroupe() {
+        try {
+            Boolean dansGroupe = false;
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/getGroupe.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            idGroupe = jsonObject.getInt("idGroupe");
+
+            if (idGroupe == 0) {
+                dansGroupe = false;
+            } else {
+                dansGroupe = true;
+            }
+
+            return dansGroupe;
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean checkLeader() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/checkLeader.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            int idLeader = 0;
+            idLeader = jsonObject.getInt("idLeader");
+            if (idLeader == Integer.valueOf(session.getId())) {
+                isLeader = true;
+            } else {
+                isLeader = false;
+            }
+
+            return isLeader;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Boolean checkSeul() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/checkSeul.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONObject jsonObject = new JSONObject(response);
+
+            int nbUsers = 0;
+            nbUsers = jsonObject.getInt("nbUsers");
+
+            if (nbUsers > 1) {
+                seulDansGroupe = false;
+            } else if (nbUsers <= 1) {
+                seulDansGroupe = true;
+            }
+
+            return seulDansGroupe;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     //menu
     private void addDrawerItems() {
         String[] osArray;
