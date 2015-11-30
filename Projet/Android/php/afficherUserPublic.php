@@ -2,19 +2,18 @@
 	
 	define('HOST','localhost');
 	define('USER','root');
-	define('PASS','totopipo007');
-	define('DB','projet');
+	define('PASS','poulet77');
+  define('DB','projetIntegration');
 
 	$con = mysqli_connect(HOST,USER,PASS,DB);
+
 	$id= $_POST['id'];
 	
 	$i=0;
-	$response[$i]["error"]="TRUE";
-	$sql = "select DISTINCT id, UserName, email from user t1, amis t2 where t1.public = 'TRUE' AND t1.id != ".$id." ORDER BY UserName ASC ";
+
+	$sql = "SELECT * FROM `user` WHERE id not in (select id_user_2 from amis where id_user_1=".$id." ) and id not in (select id_user_1 from amis where id_user_2=".$id.") and id !=".$id." ";
 	
-	//$sql="SELECT DISTINCT id, email, userName FROM user A INNER JOIN amis B ON A.id=B.id_user_1 AND A.id<>".$id." AND B.id_user_1 <>".$id." AND B.id_user_2 <>".$id."";
-	
-	//$sql="SELECT DISTINCT id, email, userName FROM user A INNER JOIN amis B ON A.id = B.id_user_1 AND A.id <>".$id." AND B.id_user_1 <>".$id." AND B.id_user_2 <>".$id." AND A.public='TRUE' ";
+//	$sql = "select * from user where id !=".$id." ORDER BY UserName ASC";
 
 	$query = mysqli_query($con,$sql);
 	
@@ -38,6 +37,5 @@
         
 	echo json_encode($response);
 
-	// ne renvoie rien, surement une erreur dans la requete, verifier les "nom" des champs.	
 		
 ?>

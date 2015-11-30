@@ -1,8 +1,8 @@
 <?php
 	define('HOST','localhost');
 	define('USER','root');
-	define('PASS','totopipo007');
-	define('DB','projet');
+	define('PASS','poulet77');
+  define('DB','projetIntegration');
 
 	$con = mysqli_connect(HOST,USER,PASS,DB);
 	

@@ -185,6 +185,7 @@ public class AjoutAmis extends ActionBarActivity {
             httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherUserPublic.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            System.out.println("id : " + session.getId().toString());
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);

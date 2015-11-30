@@ -1,8 +1,12 @@
 <?php
 	define('HOST','localhost');
 	define('USER','root');
-	define('PASS','totopipo007');
-	define('DB','projet');
+	define('PASS','poulet77');
+	define('DB','projetIntegration');
+  
+	function roundTo($number, $to){ 
+		return round($number/$to, 0)* $to; 
+	}
 
 	$con = mysqli_connect(HOST,USER,PASS,DB);
 
@@ -33,10 +37,14 @@
 	$activite['id'] = $tbActivity[$idx]['id'];
 	$activite['titre'] = $tbActivity[$idx]['libelle'];
 	$activite['description'] = $tbActivity[$idx]['description'];
+	$br = array("<br />","<br>","<br/>");  
+	$activite['description'] = str_replace($br, "", $activite['description']);
+	preg_replace("<", "", $activite['description']);
+	preg_replace(">", "", $activite['description']);
 	if ($tbActivity[$idx]['note'] == null) {
 		$activite['note'] = "99";
 	} else {
-		$activite['note'] = $tbActivity[$idx]['note'];
+		$activite['note'] = roundTo($tbActivity[$idx]['note'], .5);
 	}
 	
 	mysqli_free_result($res);

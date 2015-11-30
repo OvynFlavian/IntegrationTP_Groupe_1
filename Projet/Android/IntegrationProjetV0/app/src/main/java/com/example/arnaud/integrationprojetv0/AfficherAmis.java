@@ -108,6 +108,8 @@ public class AfficherAmis extends ActionBarActivity {
             }
         });
 
+
+
         final ArrayList<String> liste1;
         if ((liste1=isRequete())!= null){
             btnRequete.setVisibility(View.VISIBLE);
@@ -120,6 +122,7 @@ public class AfficherAmis extends ActionBarActivity {
                 }
             });
         }
+        else  btnRequete.setVisibility(View.INVISIBLE);
         ArrayList<String> liste = afficherAmis(context);
         addOptionOnClick(liste);
     }
@@ -151,7 +154,7 @@ public class AfficherAmis extends ActionBarActivity {
             System.out.println("Response : " + response);
             JSONArray JsonArray = new JSONArray(response);
 
-            System.out.println("Response : " + JsonArray);
+            System.out.println("Response999 : " + JsonArray);
             System.out.println("taille : " + JsonArray.length());
 
 
