@@ -195,10 +195,6 @@ public class ChoixCategorie extends AppCompatActivity {
         categorie.setBackgroundResource(resId);
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        /*if(id > 4 && (id%2) != 0) {
-            hauteur = hauteur + 540;
-        }*/
-
         if ((id -2) > 0) {
             p.addRule(RelativeLayout.BELOW, id - 2);
         }

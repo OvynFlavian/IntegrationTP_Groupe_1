@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.print.PrintAttributes;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -90,6 +92,8 @@ public class AfficherActivite extends AppCompatActivity {
     private Bitmap bitmap = null;
     private ImageView imageActivite;
     private URL urlImage = null;
+    private Boolean imageTrouvee = true;
+    private RelativeLayout layoutActivite = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +104,7 @@ public class AfficherActivite extends AppCompatActivity {
                         .build()
         );
         setContentView(R.layout.activite_layout);
-
+        session = new SessionManager(getApplicationContext());
         Intent intent = getIntent();
         titre = (TextView) findViewById(R.id.titre);
         titre.setShadowLayer(1, 0, 0, Color.BLACK);
@@ -114,6 +118,7 @@ public class AfficherActivite extends AppCompatActivity {
         confirmationActivite = (RelativeLayout) findViewById(R.id.confirmationActivite);
         textConfirm = (TextView) findViewById(R.id.textConfirmation);
         textBase = textConfirm.getText().toString();
+        layoutActivite = (RelativeLayout) findViewById(R.id.layoutActivite);
 
         imageActivite = (ImageView) findViewById(R.id.image);
 
@@ -121,8 +126,6 @@ public class AfficherActivite extends AppCompatActivity {
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
-
-        session = new SessionManager(getApplicationContext());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -176,26 +179,22 @@ public class AfficherActivite extends AppCompatActivity {
 
     public void activiteSuivante(View view) {
         Boolean activiteTrouvee = false;
+        layoutActivite.removeView(imageActivite);
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        p.addRule(RelativeLayout.BELOW, R.id.proposition);
+        p.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        p.setMargins(5,200,5,60);
+        titre.setLayoutParams(p);
+        titre.setTextSize(25);
         try{
             textConfirm.setText(textBase);
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php"); // make sure the url is correct.
-            //add your data
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/activite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            System.out.println("avant name pair value");
-            nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));  // $Edittext_value = $_POST['Edittext_value'];
-            System.out.println("après name pair value");
+            nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            System.out.println("après setEntity");
-
-            //Execute HTTP Post Request
-            // response=httpclient.execute(httppost);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            System.out.println("avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
-            System.out.println("après execute");
-            System.out.println("Response lol : " + response);
             JSONObject jObj = new JSONObject(response);
 
             final String id = jObj.getString("id");
@@ -211,8 +210,6 @@ public class AfficherActivite extends AppCompatActivity {
                 this.note.setVisibility(View.INVISIBLE);
                 this.note2.setVisibility(View.VISIBLE);
             }
-
-            System.out.println("Response : " + id + libelle + description + note);
 
             titre.setText(libelle);
             this.description.setText(description);
@@ -238,7 +235,15 @@ public class AfficherActivite extends AppCompatActivity {
             downloadImage();
         } else {
             imageActivite.setVisibility(View.INVISIBLE);
+            // TODO si pas d'activité trouvée, affiché le message correspondant.
         }
+
+        //si décommenté, les images sont invisibles.
+        /*if (imageTrouvee) {
+            imageActivite.setVisibility(View.VISIBLE);
+        } else {
+            imageActivite.setVisibility(View.INVISIBLE);
+        }*/
     }
 
     private void downloadImage() {
@@ -246,16 +251,19 @@ public class AfficherActivite extends AppCompatActivity {
             HttpURLConnection connection = (HttpURLConnection) urlImage.openConnection();
             InputStream inputStream = connection.getInputStream();
             bitmap = BitmapFactory.decodeStream(inputStream);
-            int height = bitmap.getHeight();
-            int width = bitmap.getWidth();
-            System.out.println("dimensions : " + width + " * " + height);
-            height = imageActivite.getHeight();
-            width = imageActivite.getWidth();
-            System.out.println("dimensions : " + width + " * " + height);
+            layoutActivite.addView(imageActivite);
+            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            p.addRule(RelativeLayout.BELOW, R.id.image);
+            p.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            p.setMargins(5, 20, 5, 20);
+            titre.setLayoutParams(p);
+            titre.setTextSize(25);
             scaleImage();
         } catch (MalformedURLException e) {
+            imageTrouvee = false;
             e.printStackTrace();
         } catch (IOException e) {
+            imageTrouvee = false;
             e.printStackTrace();
         }
     }
@@ -327,14 +335,8 @@ public class AfficherActivite extends AppCompatActivity {
                     isLeader = checkLeader();
                     seulDansGroupe = checkSeul();
                 }
-                System.out.println("tests pour les groupes : ");
-                System.out.println("is leader ? : " + isLeader);
-                System.out.println("seul dans groupe ? : " + seulDansGroupe);
-                System.out.println("id groupe ? : " + idGroupe);
-                System.out.println("dans groupe ? : " + dansGroupe);
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animactivite);
                 confirmationActivite.startAnimation(animation);
-
                 confirmationActivite.setVisibility(View.VISIBLE);
 
                 textBase = textConfirm.getText().toString();
@@ -394,9 +396,6 @@ public class AfficherActivite extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
             }
 
         }catch(Exception e){
