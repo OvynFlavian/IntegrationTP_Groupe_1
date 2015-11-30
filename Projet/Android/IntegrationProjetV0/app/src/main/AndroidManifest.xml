@@ -26,8 +26,7 @@
         </activity>
 
         <activity
-            android:name=".ChoixCategorie"
-            android:parentActivityName=".Accueil">
+            android:name=".ChoixCategorie">
         </activity>
 
         <activity

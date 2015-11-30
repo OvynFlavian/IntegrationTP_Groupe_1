@@ -84,6 +84,11 @@ public class MainActivity extends ActionBarActivity {
         // Session manager
         session = new SessionManager(getApplicationContext());
 
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(MainActivity.this, ChoixCategorie.class);
+            startActivity(intent);
+        }
+
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
