@@ -33,6 +33,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
  * <p>
@@ -58,6 +61,7 @@ public class AfficherAmis extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private Button addAmis = null;
+    private Button btnRequete = null;
 
     //lister les amis
 
@@ -68,9 +72,18 @@ public class AfficherAmis extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.afficher_amis_layout);
 
         addAmis = (Button) findViewById(R.id.btnAdd);
+        btnRequete=(Button) findViewById(R.id.btnRequete);
+        //btnRequete.setVisibility(View.INVISIBLE);
+        session = new SessionManager(getApplicationContext());
+
         //menu
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
@@ -85,7 +98,7 @@ public class AfficherAmis extends ActionBarActivity {
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         final Context context=getApplicationContext();
         // Session manager
-        session = new SessionManager(getApplicationContext());
+
 
         addAmis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,48 +108,42 @@ public class AfficherAmis extends ActionBarActivity {
             }
         });
 
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                ArrayList<String> liste = afficherAmis(context);
-              //  addOptionOnClick(context, liste);
-            }
-
-
-        });
-        thread.start();
+        final ArrayList<String> liste1;
+        if ((liste1=isRequete())!= null){
+            btnRequete.setVisibility(View.VISIBLE);
+            btnRequete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(AfficherAmis.this, RequeteAmis.class);
+                    intent.putExtra("liste", liste1 );
+                    startActivity(intent);
+                }
+            });
+        }
+        ArrayList<String> liste = afficherAmis(context);
+        addOptionOnClick(liste);
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
-
-    private void addOptionOnClick(Context context, final ArrayList<String> list) {
-
+    private void addOptionOnClick(final ArrayList<String> list) {
         amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                       // ajouterAmis(position,list);
-                    }
-                }).start();
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                afficherProfil(position, list);
             }
         });
     }
 
-
-    public ArrayList<String> afficherAmis(Context context){
-
+    public ArrayList<String> isRequete(){
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://91.121.151.137/scripts_android/afficherAmis.php"); // make sure the url is correct.
-
-            //Execute HTTP Post Request
+            httppost= new HttpPost("http://109.89.122.61/scripts_android/affRequeteAmis.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
-
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -156,22 +163,58 @@ public class AfficherAmis extends ActionBarActivity {
                 System.out.println("taille : " + JsonArray.getJSONObject(i));
                 tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
                 list.add(tbAmis[i]);
+            }
+            return list;
 
+        }catch(Exception e){
+           /* dialog.dismiss();*/
+            System.out.println("Exception : " + e.getMessage());
+            return null;
+        }
+    }
+
+    public void afficherProfil(int position, ArrayList<String> list){
+        String username = list.get(position).toString();
+        Intent intent = new Intent(this, AfficherProfilAmis.class);
+        intent.putExtra("username", username );
+        startActivity(intent);
+    }
+
+    public ArrayList<String> afficherAmis(Context context){
+        try{
+
+            httpclient=new DefaultHttpClient();
+            httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherAmis.php");
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            JSONArray JsonArray = new JSONArray(response);
+
+            System.out.println("Response : " + JsonArray);
+            System.out.println("taille : " + JsonArray.length());
+
+            final ArrayList<String> list = new ArrayList<String>();
+            final String[] tbAmis = new String[35];
+
+            for (int i=0;i<JsonArray.length();i++) {
+                JSONObject jsonObject = JsonArray.getJSONObject(i);
+                System.out.println("taille : " + JsonArray.getJSONObject(i));
+                tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
+                list.add(tbAmis[i]);
             }
             mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
             amisList.setAdapter(mAmisAdapter);
 
             return list;
 
-
-
-
-
         }catch(Exception e){
            /* dialog.dismiss();*/
             System.out.println("Exception : " + e.getMessage());
+            return null;
         }
-        return null;
     }
 
     /**
@@ -197,7 +240,8 @@ public class AfficherAmis extends ActionBarActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -205,26 +249,33 @@ public class AfficherAmis extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(AfficherAmis.this, Profil.class);
+                    Intent intent = new Intent(AfficherAmis.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(AfficherAmis.this, ChoixCategorie.class);
+                    Intent intent = new Intent(AfficherAmis.this, GroupeAccueil.class);
                     startActivity(intent);
-
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(AfficherAmis.this, AfficherAmis.class);
+                    Intent intent = new Intent(AfficherAmis.this, Profil.class);
                     startActivity(intent);
-
                 }
                 if (position == 3) {
-                    logoutUser();
-
+                    Intent intent = new Intent(AfficherAmis.this, ChoixCategorie.class);
+                    startActivity(intent);
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                if (position == 4) {
+                    logoutUser();
+                }
             }
         });
+    }
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(AfficherAmis.this, GroupeAccueil.class);
+        startActivity(intent);
+
+
     }
 
     private void setupDrawer() {

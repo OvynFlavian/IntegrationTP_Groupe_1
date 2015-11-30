@@ -3,6 +3,7 @@ package com.example.arnaud.integrationprojetv0;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -27,9 +29,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import org.apache.http.HttpResponse;
 
@@ -40,7 +46,7 @@ import java.util.ArrayList;
 public class AjouterActivite extends AppCompatActivity {
 
     private final String intentCat = "categorie";
-    Spinner listView = null;
+    Spinner spinner = null;
     String categorie = null;
     EditText titreView = null;
     EditText descriptionView = null;
@@ -66,14 +72,20 @@ public class AjouterActivite extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         session = new SessionManager(getApplicationContext());
         setContentView(R.layout.ajoutactivite_layout);
-        listView = (Spinner) findViewById(R.id.listeView);
+        spinner = (Spinner) findViewById(R.id.listeView);
         titreView = (EditText) findViewById(R.id.titreActivite);
         descriptionView = (EditText) findViewById(R.id.descriptionActivite);
         layoutPincipal = (RelativeLayout) findViewById(R.id.relLayout1);
         Intent intent = getIntent();
-//menu
+
+        //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
@@ -87,7 +99,7 @@ public class AjouterActivite extends AppCompatActivity {
 
         layoutPincipal.setOnClickListener(listener);
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
+        spinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -96,11 +108,14 @@ public class AjouterActivite extends AppCompatActivity {
             }
         }) ;
 
-        String[] data = new String[] {"animaux", "enfant", "film", "visite"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, data);
-        listView.setAdapter(adapter);
+        String[] data;
+        data = getCategorie();
 
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_theme, data);
+
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 categorie = parent.getItemAtPosition(position).toString();
@@ -111,23 +126,52 @@ public class AjouterActivite extends AppCompatActivity {
 
             }
         });
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public String[] getCategorie() {
+        try {
+
+            DefaultHttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/getCategorie.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONObject jsonObject = new JSONObject(response);
+
+            final int nbCategorie = jsonObject.getInt("0");
+            String[] liste = new String[nbCategorie];
+
+            for (int i = 0; i < nbCategorie; i++) {
+                String j = String.valueOf(i+1);
+                liste[i] = jsonObject.getString(j);
+            }
+            return liste;
+
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return null;
+        }
     }
 
     public void envoyerActivite(View view) {
         try{
 
             DefaultHttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost= new HttpPost("http://91.121.151.137/scripts_android/ajouterActivite.php"); // make sure the url is correct.
-            //add your data
+            HttpPost httppost= new HttpPost("http://109.89.122.61/scripts_android/ajouterActivite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            // Always use the same variable name for posting i.e the android side variable name and php side variable name should be similar,
-            nameValuePairs.add(new BasicNameValuePair("titre", titreView.getText().toString().trim()));  // $Edittext_value = $_POST['Edittext_value'];
+            nameValuePairs.add(new BasicNameValuePair("titre", titreView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("description", descriptionView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            // Execute HTTP Post Request
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
@@ -166,36 +210,44 @@ public class AjouterActivite extends AppCompatActivity {
     }
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
+                    Intent intent = new Intent(AjouterActivite.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(AjouterActivite.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
                     Intent intent = new Intent(AjouterActivite.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 3) {
                     Intent intent = new Intent(AjouterActivite.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(AjouterActivite.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-                if(position==3){
+                if (position == 4) {
                     logoutUser();
-
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(AjouterActivite.this, GroupeAccueil.class);
+        startActivity(intent);
+
+
+    }
     private void logoutUser() {
         session.setLogin(false);
         session.setEmail(null);

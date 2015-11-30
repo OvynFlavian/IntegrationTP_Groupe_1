@@ -6,96 +6,93 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="#3f7cb3"
-    android:id="@+id/relLayout1">
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Titre de l'activité : "
-        android:id="@+id/titreTextView"
-        android:textSize="30sp"
-        android:textColor="#ffffff"/>
+        android:background="#b3c7e1">
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Titre"
-        android:layout_below="@id/titreTextView"
-        android:id="@+id/titreActivite"
-        android:maxLines="1"
-        android:lines="1"
-        android:singleLine="true"
-        android:textColorHint="#54d2d2d2"
-        android:textColor="#ffffff"
-        android:textSize="30sp"/>
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:background="#b3c7e1"
+            android:id="@+id/relLayout1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/descriptionTextView"
-        android:text="Description de l'activité : "
-        android:layout_below="@id/titreActivite"
-        android:layout_marginTop="20dp"
-        android:textSize="30sp"
-        android:textColor="#ffffff"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:hint="Titre"
+                android:id="@+id/titreActivite"
+                android:maxLines="1"
+                android:lines="1"
+                android:singleLine="true"
+                android:textSize="30sp"/>
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descriptionTextView"
-        android:id="@+id/descriptionActivite"
-        android:hint="Description"
-        android:singleLine="true"
-        android:textColorHint="#54d2d2d2"
-        android:textColor="#ffffff"
-        android:textSize="30sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionTextView"
+                android:text="Description : "
+                android:layout_below="@id/titreActivite"
+                android:layout_marginTop="20dp"
+                android:textSize="30sp"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/relLayout2"
-        android:layout_below="@id/descriptionActivite">
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descriptionTextView"
+                android:id="@+id/descriptionActivite"
+                android:hint="Description de l'activité"
+                android:singleLine="false"
+                android:lineSpacingExtra="5dp"
+                android:textSize="20sp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Catégorie : "
-            android:id="@+id/categorieTextView"
-            android:layout_marginTop="20dp"
-            android:textSize="30sp"
-            android:textColor="#ffffff"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout2"
+                android:layout_below="@id/descriptionActivite"
+                android:layout_marginTop="30dp">
 
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listeView"
-            android:layout_toRightOf="@id/categorieTextView"
-            android:layout_margin="15dp"
-            android:prompt="@style/SpinnerTheme"
-            android:spinnerMode="dropdown"
-            android:popupBackground="#151515"
-            android:textColor="#ffffff">
-        </Spinner>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Catégorie : "
+                    android:id="@+id/categorieTextView"
+                    android:layout_marginTop="20dp"
+                    android:textSize="30sp"/>
 
-    </RelativeLayout>
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listeView"
+                    android:layout_toRightOf="@id/categorieTextView"
+                    android:layout_margin="20dp"
+                    android:prompt="@layout/spinner_theme"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#5b82d8">
+                </Spinner>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="envoyer"
-        android:textColor="#303030"
-        android:onClick="envoyerActivite"/>
+            </RelativeLayout>
 
-</RelativeLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relLayout2"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/btnenvoyer"
+                android:layout_marginTop="30dp"
+                android:onClick="envoyerActivite"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <ListView
         android:id="@+id/amisList"

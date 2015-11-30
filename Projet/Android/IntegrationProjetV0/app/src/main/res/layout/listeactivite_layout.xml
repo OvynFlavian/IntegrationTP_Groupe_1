@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b3c7e1"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listeActiviteTV"
+            android:text="Liste des activités de la catégorie : "
+            android:layout_centerHorizontal="true"
+            android:textColor="#000000"
+            android:layout_margin="20dp"
+            android:textSize="20sp"/>
+
+        <SearchView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listeActiviteTV"
+            android:id="@+id/searchView">
+
+        </SearchView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:id="@+id/separateur"
+            android:layout_below="@id/searchView"
+            android:layout_centerHorizontal="true"
+            android:text="test"
+            android:background="#000000"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="#000000"
+            android:id="@+id/listViewActivite"
+            android:layout_below="@id/separateur"
+            android:layout_marginTop="5dp"
+            android:dividerHeight="1dp"
+            style="@style/blackText">
+
+        </ListView>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/amisList"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="#ffeeeeee"/>
+
+</android.support.v4.widget.DrawerLayout>

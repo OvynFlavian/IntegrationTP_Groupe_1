@@ -6,9 +6,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icone"
+        android:icon="@drawable/logo1"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -18,36 +19,139 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Register"
             android:parentActivityName=".Accueil">
         </activity>
+
         <activity
             android:name=".ChoixCategorie"
             android:parentActivityName=".Accueil">
         </activity>
+
         <activity
             android:name=".AfficherActivite"
             android:parentActivityName=".ChoixCategorie">
         </activity>
+
         <activity
             android:name=".Profil" >
         </activity>
+
         <activity
             android:name=".ModifProfil"
             android:parentActivityName=".Profil">
         </activity>
+
         <activity
             android:name=".AjouterActivite"
             android:parentActivityName=".AfficherActivite">
         </activity>
+
         <activity
             android:label="@string/app_name"
             android:name=".Accueil"
             android:theme="@style/AppTheme" >
         </activity>
-        <activity android:name=".AjoutAmis"></activity>
-        <activity android:name=".AfficherAmis"></activity>
+
+        <activity
+            android:name=".AjoutAmis">
+        </activity>
+
+        <activity
+            android:name=".AfficherAmis">
+        </activity>
+
+        <activity
+            android:name=".ConfirmAjout"
+            android:parentActivityName=".AjoutAmis">
+        </activity>
+
+        <activity
+            android:name=".AfficherProfilAmis"
+            android:parentActivityName=".AfficherAmis">
+        </activity>
+
+        <activity
+            android:name=".SupprFriend"
+            android:parentActivityName=".AfficherProfilAmis">
+        </activity>
+
+        <activity
+            android:name=".RequeteAmis"
+            android:parentActivityName=".AfficherAmis">
+        </activity>
+
+        <activity
+            android:name=".AccepterAmis"
+            android:parentActivityName=".RequeteAmis">
+        </activity>
+
+        <activity
+            android:name=".ActiAmis"
+            android:parentActivityName=".AfficherProfilAmis">
+        </activity>
+
+        <activity
+            android:name=".ListeActivite"
+            android:parentActivityName=".AfficherActivite">
+        </activity>
+
+        <activity
+            android:name=".Groupe"
+            android:parentActivityName=".AfficherActivite">
+        </activity>
+
+        <activity
+            android:name=".Messagerie">
+        </activity>
+
+        <activity
+            android:name=".ActiviteFromListe">
+        </activity>
+
+        <activity
+            android:name=".GroupeAccueil"
+            android:parentActivityName=".AfficherActivite">
+        </activity>
+
+
+        <activity
+            android:name=".CreerGroupe"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+
+
+        <activity
+            android:name=".AjoutGroupe"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+
+        <activity
+            android:name=".VoirGroupe"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+
+        <activity
+            android:name=".RequeteGroupe"
+            android:parentActivityName=".VoirGroupe">
+        </activity>
+
+        <activity
+            android:name=".AccepterGroupe"
+            android:parentActivityName=".RequeteGroupe">
+        </activity>
+
+        <activity
+            android:name=".AjoutAmisGroupe"
+            android:parentActivityName=".VoirGroupe">
+        </activity>
+
+        <activity
+            android:name=".ConfirmAjoutGroupe"
+            android:parentActivityName=".AjoutAmisGroupe">
+        </activity>
 
     </application>
 

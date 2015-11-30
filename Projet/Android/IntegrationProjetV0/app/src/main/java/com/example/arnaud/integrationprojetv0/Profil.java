@@ -1,5 +1,6 @@
 package com.example.arnaud.integrationprojetv0;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -32,6 +33,9 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * <b>Profil est une classe qui permet d'afficher le profil de l'utilisateur connecté.</b>
@@ -67,6 +71,11 @@ public class Profil extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.profil_layout);
 
 
@@ -75,7 +84,8 @@ public class Profil extends ActionBarActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-
+        // Session manager
+        session = new SessionManager(getApplicationContext());
         user = (TextView) findViewById(R.id.User);
         mail = (TextView) findViewById(R.id.Mail);
         btnmodif = (Button) findViewById(R.id.btnModif);
@@ -93,8 +103,7 @@ public class Profil extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-        // Session manager
-        session = new SessionManager(getApplicationContext());
+
 
         user.setText("Nom d'utilisateur : " + session.getUsername());
         mail.setText("Addresse Mail : " + (session.getEmail()));
@@ -171,46 +180,59 @@ public class Profil extends ActionBarActivity {
         });
 
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     /**
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "Amis", "se déconecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent intent = new Intent(Profil.this, ModifProfil.class);
-                    startActivity(intent);
-                }
-                if(position==1){
-                    Intent intent = new Intent(Profil.this, ChoixCategorie.class);
-                    startActivity(intent);
-
-                }
-                if(position==2){
+                if (position == 0) {
                     Intent intent = new Intent(Profil.this, AfficherAmis.class);
                     startActivity(intent);
-
                 }
-
-                if(position==3){
+                if (position == 1) {
+                    Intent intent = new Intent(Profil.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
+                    Intent intent = new Intent(Profil.this, Profil.class);
+                    startActivity(intent);
+                }
+                if (position == 3) {
+                    Intent intent = new Intent(Profil.this, ChoixCategorie.class);
+                    startActivity(intent);
+                }
+                if (position == 4) {
                     logoutUser();
-
                 }
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+
+
     /**
      * Initialise le menu
      */
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(Profil.this, GroupeAccueil.class);
+        startActivity(intent);
+
+
+    }
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 

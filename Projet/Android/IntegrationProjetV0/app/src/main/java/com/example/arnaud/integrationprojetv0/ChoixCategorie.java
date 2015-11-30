@@ -1,7 +1,9 @@
 package com.example.arnaud.integrationprojetv0;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,27 +18,32 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ChoixCategorie extends AppCompatActivity {
 
-    private Button animaux = null;
-    private Button famille = null;
-    private Button film = null;
-    private Button visite = null;
-    private Button profil = null;
-    private Button btnLogout = null;
     private String categorie = null;
     private static final String test = "categorie";
     private SessionManager session;
     private RelativeLayout layoutCat = null;
-    private int hauteur = 1350;
+    //private int hauteur = 1500;
+    private TextView activiteChoisieTV = null;
+    private TextView activiteChoisie = null;
     //menu
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -44,9 +51,16 @@ public class ChoixCategorie extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.categorie_layout);
 
         afficherCategorie();
@@ -54,20 +68,11 @@ public class ChoixCategorie extends AppCompatActivity {
         // session manager
         session = new SessionManager(getApplicationContext());
 
-        /*animaux = (Button) findViewById(R.id.animaux);
-        enfant = (Button) findViewById(R.id.enfant);
-        film = (Button) findViewById(R.id.film);
-        visite = (Button) findViewById(R.id.visite);*/
-        profil = (Button) findViewById(R.id.profil);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
-        layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoutUser();
-            }
-        });
+
+        layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
+        activiteChoisieTV = (TextView) findViewById(R.id.activiteChoisieTV);
+        activiteChoisie = (TextView) findViewById(R.id.activiteChoisie);
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -79,62 +84,18 @@ public class ChoixCategorie extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-        /*animaux.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = animaux.getText().toString();
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
-        enfant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = "enfant";
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
-        film.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = "film";
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
-        visite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categorie = "visite";
-                Intent intent = new Intent(ChoixCategorie.this, AfficherActivite.class);
-                intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });*/
-
-        profil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ChoixCategorie.this, Profil.class);
-                //intent.putExtra(test, categorie);
-                startActivity(intent);
-            }
-        });
-
         if (!session.isLoggedIn()) {
-            profil.setVisibility(View.INVISIBLE);
-            btnLogout.setVisibility(View.INVISIBLE);
+            activiteChoisieTV.setVisibility(View.INVISIBLE);
+            activiteChoisie.setVisibility(View.INVISIBLE);
+        } else {
+            afficherActiviteChoisie();
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     private void logoutUser() {
         session.setLogin(false);
@@ -149,11 +110,48 @@ public class ChoixCategorie extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * affiche l'activité du jour choisie par l'utilisateur
+     */
+    public void afficherActiviteChoisie() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherActiviteChoisie.php");
+
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("userId", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            System.out.println("avant execute");
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            JSONObject jObj = new JSONObject(response);
+            final Boolean error = jObj.getBoolean("error");
+            final String activite = jObj.getString("activite");
+
+            System.out.println("activite : " + activite);
+            System.out.println("error : " + error);
+            if (error) {
+                activiteChoisieTV.setVisibility(View.INVISIBLE);
+                activiteChoisie.setText("Vous n'avez pas d'activité");
+            } else {
+                activiteChoisie.setText(activite);
+            }
+
+        } catch(Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
+    }
+
+    /**
+     * cherche les différentes catégories disponibles
+     */
     public void afficherCategorie() {
         try{
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://91.121.151.137/scripts_android/afficherCategorie.php"); // make sure the url is correct.
+            HttpPost httppost = new HttpPost("http://109.89.122.61/scripts_android/afficherCategorie.php"); // make sure the url is correct.
 
             //Execute HTTP Post Request
             // response=httpclient.execute(httppost);
@@ -174,25 +172,28 @@ public class ChoixCategorie extends AppCompatActivity {
             }
 
 
-
         }catch(Exception e){
             System.out.println("Exception : " + e.getMessage());
         }
     }
-
+    /**
+     * Affiche les différentes catégories disponibles
+     * @param cat : nom de la catégorie
+     * @param id : numéro de la catégorie
+     */
     public void newCategorie(String cat, int id) {
         final Button categorie = new Button(this);
         categorie.setText(cat);
         categorie.setTextColor(getResources().getColor(R.color.transparent));
         categorie.setId(id);
-        int resId = getResources().getIdentifier(cat, "drawable", this.getPackageName());
+        int resId;
+        if (cat.equals("jeux video")) {
+            resId = getResources().getIdentifier("jeuxvideo", "drawable", this.getPackageName());
+        } else {
+            resId = getResources().getIdentifier(cat, "drawable", this.getPackageName());
+    }
         categorie.setBackgroundResource(resId);
-        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(400, 400);
-
-        if(id > 4) {
-            hauteur = hauteur + 500;
-            System.out.println("xjkdfhsxdflsdf");
-        }
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         if ((id -2) > 0) {
             p.addRule(RelativeLayout.BELOW, id - 2);
@@ -218,7 +219,7 @@ public class ChoixCategorie extends AppCompatActivity {
 
         ((RelativeLayout) findViewById(R.id.layoutCat2)).addView(categorie);
 
-        FrameLayout.LayoutParams p2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, hauteur);
+        FrameLayout.LayoutParams p2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ((RelativeLayout) findViewById(R.id.layoutCat3)).setLayoutParams(p2);
 
 
@@ -226,34 +227,59 @@ public class ChoixCategorie extends AppCompatActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        System.out.println("session droit " + session.getDroit());
+        String[] osArray;
+
+        if(session.isLoggedIn()) {
+            osArray = new String[] {"Amis", "Groupe", "Profil", "Se déconnecter"};
+        } else {
+            osArray = new String[] {"Accueil", "Se connecter", "S'inscrire"};
+        }
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent intent = new Intent(ChoixCategorie.this, Profil.class);
-                    startActivity(intent);
+                if (position == 0) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(ChoixCategorie.this, Accueil.class);
+                        startActivity(intent);
+                    }
                 }
-                if(position==1){
-                    Intent intent = new Intent(ChoixCategorie.this, ChoixCategorie.class);
-                    startActivity(intent);
-
+                if (position == 1) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(ChoixCategorie.this, MainActivity.class);
+                        startActivity(intent);
+                    }
                 }
-                if(position==2){
-                    Intent intent = new Intent(ChoixCategorie.this, AfficherAmis.class);
-                    startActivity(intent);
-
+                if (position == 2) {
+                    if (session.isLoggedIn()) {
+                        Intent intent = new Intent(ChoixCategorie.this, Profil.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(ChoixCategorie.this, Register.class);
+                        startActivity(intent);
+                    }
                 }
-                if(position==3){
+                if (position == 3) {
                     logoutUser();
-
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
+        startActivity(intent);
     }
 
     private void setupDrawer() {

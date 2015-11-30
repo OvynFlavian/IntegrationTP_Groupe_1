@@ -1,54 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/ampoule">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="Bienvenue sur EveryDay Idea !"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"/>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rel"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b3c7e1">
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="Bienvenue sur EveryDay Idea !"
             android:layout_centerHorizontal="true"
-            android:text="Se connecter"
-            android:id="@+id/connexion"
-            android:layout_margin="10dp"
-            android:onClick="connexion"/>
+            android:layout_marginTop="40dp"/>
 
-        <Button
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/connexion"
-            android:text="s'inscrire"
-            android:id="@+id/inscription"
-            android:layout_margin="10dp"
-            android:onClick="inscription"/>
+            android:id="@+id/rel"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/trouverActivite"
-            android:layout_below="@id/inscription"
-            android:layout_centerHorizontal="true"
-            android:text="trouver une activité"
-            android:layout_margin="10dp"
-            android:onClick="trouverActivite"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/connexion"
+                android:layout_margin="10dp"
+                android:background="@drawable/connexion"
+                android:onClick="connexion"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/connexion"
+                android:background="@drawable/inscription"
+                android:id="@+id/inscription"
+                android:layout_margin="10dp"
+                android:onClick="inscription"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/trouverActivite"
+                android:layout_below="@id/inscription"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/trouveractivite"
+                android:layout_margin="10dp"
+                android:onClick="trouverActivite"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
-</RelativeLayout>
+
+    <ListView
+        android:id="@+id/amisList"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="#ffeeeeee"/>
+
+</android.support.v4.widget.DrawerLayout>

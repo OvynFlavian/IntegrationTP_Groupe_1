@@ -9,44 +9,38 @@
 
 
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".MainActivity"
+    android:background="#b3c7e1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Utilisateurs"
+        android:id="@+id/titreAmis"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <SearchView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView"
+        android:layout_below="@id/titreAmis" />
+
+    <ListView
+        android:id="@+id/amisList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        tools:context=".MainActivity"
-        android:background="@drawable/ampoule">
+        android:background="#980b6392"
+        android:layout_below="@id/searchView"/>
 
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listeAmis"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp" />
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="35dp"
-            android:text="Utilisateurs"
-            android:id="@+id/titreAmis"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <ListView
-            android:id="@+id/amisList"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left|start"
-            android:layout_alignTop="@+id/listeAmis"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/listeAmis"
-            android:background="#980b6392" />
-    </RelativeLayout>
+</RelativeLayout>
     <ListView
         android:id="@+id/navlist"
         android:layout_width="200dp"

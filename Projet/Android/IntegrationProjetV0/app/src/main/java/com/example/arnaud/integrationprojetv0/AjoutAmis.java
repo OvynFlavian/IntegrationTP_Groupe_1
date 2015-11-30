@@ -13,9 +13,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -31,6 +33,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
@@ -56,6 +61,7 @@ public class AjoutAmis extends ActionBarActivity {
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+    private SearchView cherchView;
 
 
     //lister les amis
@@ -67,10 +73,18 @@ public class AjoutAmis extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.ajoutamis_layout);
         //menu
         mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
+
+        session = new SessionManager(getApplicationContext());
+
         addDrawerItems();
         setupDrawer();
 
@@ -80,118 +94,125 @@ public class AjoutAmis extends ActionBarActivity {
         //liste amis
         amisList = (ListView)findViewById(R.id.amisList);
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+
+        final SearchView searchView = (SearchView) findViewById(R.id.searchView);
+
         final Context context=getApplicationContext();
         // Session manager
-        session = new SessionManager(getApplicationContext());
 
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                ArrayList<String> liste = afficheUserPublic(context);
-                addOptionOnClick(context, liste);
+
+        final ArrayList<String> liste = afficheUserPublic(context);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String recherche) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mDrawerList.getWindowToken(), 0);
+                return true;
             }
 
-
+            @Override
+            public boolean onQueryTextChange(String recherche) {
+                ArrayList<String> listeRech = rechercheAmis(liste, recherche, context);
+                System.out.println("rech" + recherche);
+                System.out.println("rech2" + listeRech.toString());
+                return true;
+            }
         });
-        thread.start();
+        addOptionOnClick(liste);
+
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
-
-    private void addOptionOnClick(Context context, final ArrayList<String> list) {
-          mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
-        amisList.setAdapter(mAmisAdapter);
+    private void addOptionOnClick(final ArrayList<String> list) {
 
         amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-               new Thread(new Runnable() {
-                   @Override
-                   public void run() {
-                       ajouterAmis(position,list);
-                   }
-               }).start();
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                ajouterAmis(position,list);
             }
         });
     }
 
+    public ArrayList<String> rechercheAmis(ArrayList<String> liste , String rech, Context context){
+        ArrayList<String> liste2 = new ArrayList<String>();
+        String search = rech;
+        int searchListLength = liste.size();
+        for (int i = 0; i < searchListLength; i++) {
+            if (liste.get(i).contains(search)) {
+                        liste2.add(liste.get(i));
+            }
+        }
+
+
+/*
+        for (String string : liste) {
+            //modifier ca pour que ca fasse une belle recherche
+            if(string.matches("(?i)(rech).*")){
+                liste2.add(string);
+            }
+        }
+        */
+
+        mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, liste2);
+        amisList.setAdapter(mAmisAdapter);
+
+        return liste2;
+
+    }
+
    public void ajouterAmis(int position,  ArrayList<String> list){
-       try{
-          // String [] liste = (String[]) list.toArray();
+       String username = list.get(position).toString();
 
+       Intent intent = new Intent(this, ConfirmAjout.class);
+       intent.putExtra("username", username);
 
-           httpclient=new DefaultHttpClient();
-           httppost= new HttpPost("http://91.121.151.137/scripts_android/ajouterAmis.php"); // make sure the url is correct.
-
-           nameValuePairs = new ArrayList<NameValuePair>(2);
-           nameValuePairs.add(new BasicNameValuePair("userName", list.get(position).toString().trim()));
-           System.out.println("Response 22:"+ list.get(position).toString() );
-           nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-           System.out.println("Response :1 ");
-           httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-           //Execute HTTP Post Request
-
-           System.out.println("Response : 2" );
-           ResponseHandler<String> responseHandler = new BasicResponseHandler();
-           final String response2 = httpclient.execute(httppost, responseHandler);
-           System.out.println("Response : " + response2);
-          // JSONArray JsonArray = new JSONArray(response);
-
-           System.out.println("Response : " );
-
-
-
-       }catch(Exception e){
-           /* dialog.dismiss();*/
-           System.out.println("Exception : " + e.getMessage());
-       }
+       startActivity(intent);
 
 
    }
 
-public ArrayList<String> afficheUserPublic(Context context){
+    public ArrayList<String> afficheUserPublic(Context context){
 
-    try{
+        try{
 
-        httpclient=new DefaultHttpClient();
-        httppost= new HttpPost("http://91.121.151.137/scripts_android/afficherUserPublic.php"); // make sure the url is correct.
+            httpclient=new DefaultHttpClient();
+            httppost= new HttpPost("http://109.89.122.61/scripts_android/afficherUserPublic.php");
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            JSONArray JsonArray = new JSONArray(response);
 
-        //Execute HTTP Post Request
-        response=httpclient.execute(httppost);
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        final String response = httpclient.execute(httppost, responseHandler);
-        System.out.println("Response : " + response);
-        JSONArray JsonArray = new JSONArray(response);
+            System.out.println("Response : " + JsonArray);
+            System.out.println("taille : " + JsonArray.length());
 
-        System.out.println("Response : " + JsonArray);
-        System.out.println("taille : " + JsonArray.length());
+            final ArrayList<String> list = new ArrayList<String>();
 
+            for (int i=0;i<JsonArray.length();i++) {
+                JSONObject jsonObject = JsonArray.getJSONObject(i);
+                System.out.println("taille : " + JsonArray.getJSONObject(i));
+                //tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
+                list.add(("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString());
+            }
+            mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
+            amisList.setAdapter(mAmisAdapter);
 
-        final ArrayList<String> list = new ArrayList<String>();
-        final String[] tbAmis = new String[35];
+            return list;
 
-        for (int i=0;i<JsonArray.length();i++) {
-            JSONObject jsonObject = JsonArray.getJSONObject(i);
-            System.out.println("taille : " + JsonArray.getJSONObject(i));
-            tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
-            list.add(tbAmis[i]);
-
+        } catch(Exception e) {
+            /* dialog.dismiss();*/
+            System.out.println("Exception : " + e.getMessage());
         }
-
-        return list;
-
-
-
-
-
-    }catch(Exception e){
-           /* dialog.dismiss();*/
-        System.out.println("Exception : " + e.getMessage());
+        return null;
     }
-    return null;
-}
 
 /**
  * Affiche les erreurs
@@ -216,7 +237,8 @@ public ArrayList<String> afficheUserPublic(Context context){
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -224,28 +246,35 @@ public ArrayList<String> afficheUserPublic(Context context){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(AjoutAmis.this, Profil.class);
+                    Intent intent = new Intent(AjoutAmis.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(AjoutAmis.this, ChoixCategorie.class);
+                    Intent intent = new Intent(AjoutAmis.this, GroupeAccueil.class);
                     startActivity(intent);
-
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(AjoutAmis.this, AfficherAmis.class);
+                    Intent intent = new Intent(AjoutAmis.this, Profil.class);
                     startActivity(intent);
-
                 }
                 if (position == 3) {
-                    logoutUser();
-
+                    Intent intent = new Intent(AjoutAmis.this, ChoixCategorie.class);
+                    startActivity(intent);
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                if (position == 4) {
+                    logoutUser();
+                }
             }
         });
     }
 
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(AjoutAmis.this, GroupeAccueil.class);
+        startActivity(intent);
+
+
+    }
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 

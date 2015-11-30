@@ -2,6 +2,7 @@ package com.example.arnaud.integrationprojetv0;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -31,6 +32,9 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * <b>ModifProfil  est une classe qui permet de modifier le profil d'un utilisateur.</b>
@@ -66,8 +70,13 @@ public class ModifProfil extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/mapolice.otf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         setContentView(R.layout.modif_layout);
-
+        session = new SessionManager(getApplicationContext());
         usr = (EditText)findViewById(R.id.username);
         email = (EditText)findViewById(R.id.email);
         pass= (EditText)findViewById(R.id.password);
@@ -82,8 +91,6 @@ public class ModifProfil extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        session = new SessionManager(getApplicationContext());
 
         usr.setText(session.getUsername());
         email.setText((session.getEmail()));
@@ -103,6 +110,11 @@ public class ModifProfil extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     /**
      * modification du profil d'un utilisateur
      */
@@ -116,7 +128,7 @@ public class ModifProfil extends ActionBarActivity {
 
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://91.121.151.137/scripts_android/modifProfil.php"); // make sure the url is correct.
+            httppost= new HttpPost("http://109.89.122.61/scripts_android/modifProfil.php"); // make sure the url is correct.
             //add your data
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
@@ -159,32 +171,33 @@ public class ModifProfil extends ActionBarActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = { "profil", "activités", "amis", "se déconnecter" };
+        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
+                    Intent intent = new Intent(ModifProfil.this, AfficherAmis.class);
+                    startActivity(intent);
+                }
+                if (position == 1) {
+                    Intent intent = new Intent(ModifProfil.this, GroupeAccueil.class);
+                    startActivity(intent);
+                }
+                if (position == 2) {
                     Intent intent = new Intent(ModifProfil.this, Profil.class);
                     startActivity(intent);
                 }
-                if(position==1){
+                if (position == 3) {
                     Intent intent = new Intent(ModifProfil.this, ChoixCategorie.class);
                     startActivity(intent);
-
                 }
-                if(position==2){
-                    Intent intent = new Intent(ModifProfil.this, AfficherAmis.class);
-                    startActivity(intent);
-
-                }
-                if(position==3){
+                if (position == 4) {
                     logoutUser();
-
                 }
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -200,6 +213,13 @@ public class ModifProfil extends ActionBarActivity {
         Intent intent = new Intent(ModifProfil.this, Accueil.class);
         startActivity(intent);
         finish();
+    }
+
+    private void AfficherMessage(){
+        Intent intent = new Intent(ModifProfil.this, GroupeAccueil.class);
+        startActivity(intent);
+
+
     }
 
     private void setupDrawer() {
