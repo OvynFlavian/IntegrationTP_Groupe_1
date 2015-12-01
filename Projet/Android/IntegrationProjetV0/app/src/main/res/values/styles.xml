@@ -19,7 +19,7 @@
     </style>
 
     <!-- Police qui fonctionne quand associé à un textview mais pas le reste -->
-    <style name="police">
+    <style name="TextViewCustomFont">
         <item name="fontPath">fonts/mapolice.otf</item>
     </style>
 

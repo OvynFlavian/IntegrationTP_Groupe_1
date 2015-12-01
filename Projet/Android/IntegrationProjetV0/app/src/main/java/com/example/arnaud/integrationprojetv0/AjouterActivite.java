@@ -3,10 +3,19 @@ package com.example.arnaud.integrationprojetv0;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -14,22 +23,54 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.internal.http.multipart.MultipartEntity;
+
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -50,6 +91,8 @@ public class AjouterActivite extends AppCompatActivity {
     private String titre = null;
     private String description = null;
     RelativeLayout layoutPincipal = null;
+    private int idActivite;
+
     //menu
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -57,6 +100,16 @@ public class AjouterActivite extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private SessionManager session;
+
+    //image
+    private Button uploadImage = null;
+    private Uri image = null;
+    private File fichier;
+    private int SELECT_FILE1 = 2;
+    private String selectedPath1;
+    private String nomFichier = null;
+    MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+    private Boolean imagePresente = false;
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -68,6 +121,8 @@ public class AjouterActivite extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/mapolice.otf")
@@ -80,6 +135,7 @@ public class AjouterActivite extends AppCompatActivity {
         titreView = (EditText) findViewById(R.id.titreActivite);
         descriptionView = (EditText) findViewById(R.id.descriptionActivite);
         layoutPincipal = (RelativeLayout) findViewById(R.id.relLayout1);
+        uploadImage = (Button) findViewById(R.id.uploadImage);
         Intent intent = getIntent();
 
         //menu
@@ -123,11 +179,89 @@ public class AjouterActivite extends AppCompatActivity {
 
             }
         });
+
+        uploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery(SELECT_FILE1);
+            }
+        });
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void openGallery(int req_code){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select file to upload "), req_code);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+
+            if (requestCode == SELECT_FILE1) {
+                selectedPath1 = getPath(selectedImageUri);
+                System.out.println("selectedPath1 : " + selectedPath1);
+                fichier = new File(selectedPath1);
+                imagePresente = true;
+                String[] parts = selectedPath1.split("/");
+                nomFichier = parts[parts.length-1];
+                uploadImage.setText(nomFichier);
+
+            }
+
+        }
+
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+
+    }
+
+    public void sendImage() {
+
+        String ba1;
+        Bitmap bm = BitmapFactory.decodeFile(selectedPath1);
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 50, bao);
+        byte[] ba = bao.toByteArray();
+        ba1 = Base64.encodeToString(ba, Base64.DEFAULT);
+
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("base64", ba1));
+        nameValuePairs.add(new BasicNameValuePair("imageName", idActivite + ".jpg"));
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("http://www.everydayidea.be/scripts_android/fileUpload.php");
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("path de l'image : " + selectedPath1);
+
+        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+        String response = "";
+        try {
+            response = httpClient.execute(httpPost, responseHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("réponse du serveur y : " + response);
+
     }
 
     public String[] getCategorie() {
@@ -141,6 +275,7 @@ public class AjouterActivite extends AppCompatActivity {
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("response après execute : " + response);
             JSONObject jsonObject = new JSONObject(response);
 
             final int nbCategorie = jsonObject.getInt("0");
@@ -163,10 +298,11 @@ public class AjouterActivite extends AppCompatActivity {
 
             DefaultHttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost= new HttpPost("http://www.everydayidea.be/scripts_android/ajouterActivite.php");
-            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
             nameValuePairs.add(new BasicNameValuePair("titre", titreView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("description", descriptionView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
+            nameValuePairs.add(new BasicNameValuePair("imagePresente", imagePresente.toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -178,17 +314,24 @@ public class AjouterActivite extends AppCompatActivity {
             final String existe = jObj.getString("existe");
             final String champsVide = jObj.getString("champsVide");
 
+
             System.out.println("Response : " + error);
 
             CharSequence s;
             if (error.equals("FALSE")) {
+                idActivite = jObj.getInt("idActivite");
                 s = "Activité enregistrée !";
+                sendImage();
             } else if (existe.equals("TRUE")) {
                 s = "Cette activité existe déjà";
-            } else if (champsVide.equals("TRUE")){
+            } else if (champsVide.equals("TRUE")) {
                 s = "Veuillez remplir tous les champs";
             } else {
                 s = "Erreur, veuillez ré-essayer";
+            }
+
+            if(!imagePresente) {
+                s = "Veuillez choisir une image";
             }
 
             int duration = Toast.LENGTH_SHORT;

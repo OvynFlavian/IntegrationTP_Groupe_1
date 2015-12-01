@@ -105,12 +105,12 @@ public class ListeActivite extends AppCompatActivity {
         String search = rech;
         int searchListLength = liste.size();
         for (int i = 0; i < searchListLength; i++) {
-            if (liste.get(i).toLowerCase().contains(search)) {
+            if (liste.get(i).toLowerCase().contains(search.toLowerCase())) {
                 liste2.add(liste.get(i));
             }
         }
 
-        activiteAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, liste2);
+        activiteAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, liste2);
         this.liste.setAdapter(activiteAdapter);
 
         return liste2;
@@ -140,7 +140,7 @@ public class ListeActivite extends AppCompatActivity {
                 list.add(activite);
             }
 
-            activiteAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+            activiteAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_theme2, list);
             liste.setAdapter(activiteAdapter);
 
             addOptionOnClick(list);
