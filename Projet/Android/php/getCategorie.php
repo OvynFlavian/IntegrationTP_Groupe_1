@@ -12,8 +12,8 @@
 	$res = mysqli_query($con, $sql);
 	$i = 0;
 	while ($row = mysqli_fetch_array($res)) {
-		$j = $i+1;
-		$retour['$j'] = $row['libelle'];
+		$j = strval($i+1);
+		$retour[$j] = $row['libelle'];
 		$i++;
 	}
 	
