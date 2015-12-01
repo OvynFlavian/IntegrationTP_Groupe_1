@@ -79,6 +79,25 @@
                     android:popupBackground="#5b82d8">
                 </Spinner>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Image (.jpg) : "
+                    android:id="@+id/imageTextView"
+                    android:layout_marginTop="30dp"
+                    android:textSize="30sp"
+                    android:layout_below="@id/categorieTextView"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choisissez un fichier"
+                    android:layout_below="@id/categorieTextView"
+                    android:layout_marginTop="30dp"
+                    android:id="@+id/uploadImage"
+                    android:textSize="20sp"
+                    android:layout_toRightOf="@id/imageTextView"/>
+
             </RelativeLayout>
 
             <Button
