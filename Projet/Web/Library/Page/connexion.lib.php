@@ -7,6 +7,11 @@
  */
 use \Entity\User as User;
 
+/**
+ * Fonction vérifiant l'identité du membre et le connectant si il possède la bonne identité.
+ * @return array : tableau de message d'erreur dans le cas où ses informations sont fausses, si il est banni ou encore
+ * si il ne s'est pas activé.
+ */
 function doConnect()
 {
     $tabRetour = array();
@@ -21,24 +26,29 @@ function doConnect()
         "UserName" => $userName,
         "Mdp" => $mdp
     ));
-
+    $userFound = $manager->getUserByUserName($userName);
     /**
      * Je vérifie sur le user est dans la base de donnée et existe bel et bien
      */
     $echec = false;
-    foreach ($tabUser as $elem) {
+    if ($userFound->getId() != NULL) {
+        foreach ($tabUser as $elem) {
 
-        //$mdp == hash("sha256", $elem->getMdp());
-        //password_verify($mdp, $elem->getMdp())
-        if ($userName == $elem->getUserName() && hash("sha256", $userToConnect->getMdp()) == $elem->getMdp()) {
-            $echec = false;
-            $userToConnect = $elem;
-            $id = $elem->getId();
-            break;
-        } else {
-            $echec = true;
+            //$mdp == hash("sha256", $elem->getMdp());
+            //password_verify($mdp, $elem->getMdp())
+
+            if ($userName == $elem->getUserName() && hash("sha256", $userToConnect->getMdp().$userFound->getSalt()) == $elem->getMdp()) {
+                $echec = false;
+                $userToConnect = $elem;
+                $id = $elem->getId();
+                break;
+            } else {
+                $echec = true;
+            }
+
         }
-
+    } else {
+        $echec = true;
     }
 
     /**

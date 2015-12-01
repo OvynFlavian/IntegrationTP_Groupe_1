@@ -12,12 +12,20 @@ use \Entity\User as User;
 
 class Groupe_MessageManager{
     private $db;
-
+    /**
+     * Fonction générant un manager en fonction de la BDD.
+     * @param PDO $database : la base de données.
+     */
     public function __construct(PDO $database)
     {
         $this->db = $database;
     }
 
+    /**
+     * Fonction permettant de récupérer tous les messages d'un groupe voulu.
+     * @param Groupe $groupe : le groupe concerné par les messages.
+     * @return array : le tableau de messages concernant le groupe.
+     */
     public function getMessageByGroup(Groupe $groupe) {
         $query = $this
             ->db
@@ -33,6 +41,11 @@ class Groupe_MessageManager{
         return $tabMess;
     }
 
+    /**
+     * Fonction permettant de retrouver tous les messages de groupe d'un utilisateur en particulier.
+     * @param User $user : l'utilisateur concerné.
+     * @return array : tableau contenant tous les messages de l'utilisateur.
+     */
     public function getMessageByUser(User $user) {
         $query = $this
             ->db
@@ -48,6 +61,12 @@ class Groupe_MessageManager{
         return $tabMess;
     }
 
+    /**
+     * Fonction permettant d'ajouter un message à un groupe concerné en BDD.
+     * @param Groupe $groupe : le groupe concerné.
+     * @param User $user : l'utilisateur envoyant le message.
+     * @param $desc : le contenu du message.
+     */
     public function addMess(Groupe $groupe, User $user, $desc) {
         $query = $this
             ->db
@@ -60,6 +79,10 @@ class Groupe_MessageManager{
         ));
     }
 
+    /**
+     * Fonction permettant de supprimer tous les messages d'un groupe supprimé.
+     * @param Groupe $groupe : le groupe supprimé.
+     */
     public function deleteMessByGroupe(Groupe $groupe) {
         $query = $this
             ->db

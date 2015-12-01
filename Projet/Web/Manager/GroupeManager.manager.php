@@ -10,12 +10,20 @@ use \Entity\User as User;
 
 class GroupeManager {
     private $db;
-
+    /**
+     * Fonction générant un manager en fonction de la BDD.
+     * @param PDO $database : la base de données.
+     */
     public function __construct(PDO $database)
     {
         $this->db = $database;
     }
 
+    /**
+     * Fonction permettant de retrouver un groupe en fonction de l'user qui est son leader.
+     * @param User $user : utilisateur ayant le lead du groupe.
+     * @return Groupe : la classe groupe concernée.
+     */
     public function getGroupeByLeader(User $user) {
         $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_leader = :id");
         $resultats->execute(array(
@@ -32,7 +40,10 @@ class GroupeManager {
 
     }
 
-
+    /**
+     * Fonction renvoyant un tableau de tous les groupes contenus en BDD.
+     * @return array : tableau contenant tous les groupes.
+     */
     public function getAllGroupe() {
         $resultats = $this->db->prepare("SELECT * FROM groupe");
         $resultats->execute();
@@ -52,6 +63,37 @@ class GroupeManager {
 
     }
 
+    /**
+     * Fonction permettant de récupérer tous els groupes concernant une activité donnée.
+     * @param $id : l'id de l'activité concernée.
+     * @return array : tableau de la liste des groupes concernant cette activité.
+     */
+    public function getAllGroupeByAct($id) {
+        $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_activity = :act");
+        $resultats->execute(array(
+            ":act" => $id,
+        ));
+
+        $tabGroupe = $resultats->fetchAll(PDO::FETCH_ASSOC);
+
+        $tab = array();
+
+        foreach($tabGroupe as $elem)
+        {
+            $groupe = new Groupe($elem);
+            $tab[] = $groupe;
+
+        }
+
+        return $tab;
+
+    }
+
+    /**
+     * Fonction permettant de récupérer un groupe en fonction de son id.
+     * @param $id : l'id du groupe.
+     * @return Groupe : la classe du groupe concerné.
+     */
     public function getGroupeByIdGroupe($id) {
         $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_groupe = :id");
         $resultats->execute(array(
@@ -68,6 +110,11 @@ class GroupeManager {
 
     }
 
+    /**
+     * Fonction permettant de récupérer la liste des groupes pour une activité donnée.
+     * @param $id : l'id de l'activité.
+     * @return array : la liste des groupes concernant cette activité.
+     */
     public function getGroupeByIdActivity($id) {
         $resultats = $this->db->prepare("SELECT * FROM groupe WHERE id_activity = :id");
         $resultats->execute(array(
@@ -86,6 +133,11 @@ class GroupeManager {
         return $tab;
 
     }
+
+    /**
+     * Fonction permettant d'ajouter un groupe en BDD.
+     * @param Groupe $groupe : la classe groupe que l'on désire ajouter.
+     */
     public function addGroupe(Groupe $groupe)
     {
         $query = $this
@@ -99,6 +151,10 @@ class GroupeManager {
         ));
     }
 
+    /**
+     * Fonction permettant de supprimer un groupe en fonction de son leader.
+     * @param $idUser : id du leader du groupe.
+     */
     public function deleteGroupe($idUser) {
         $query = $this
             ->db
@@ -109,6 +165,12 @@ class GroupeManager {
 
         ));
     }
+
+    /**
+     * Fonction permettant de mettre à jour la description d'un groupe.
+     * @param Groupe $groupe : le groupe à modifier.
+     * @param $desc: la nouvelle description du groupe.
+     */
     public function updateGroupeDesc(Groupe $groupe, $desc)
     {
         $query = $this
@@ -119,6 +181,25 @@ class GroupeManager {
             ->execute(array(
                 ":id" => $groupe->getIdGroupe(),
                 ":desc" => $desc,
+            ));
+
+    }
+
+    /**
+     * Fonction permettant de changer le leader d'un groupe.
+     * @param Groupe $groupe : le groupe concerné.
+     * @param $id : id du nouveau leader.
+     */
+    public function updateLeader(Groupe $groupe, $id)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE groupe SET id_leader = :idLead WHERE id_groupe = :id");
+
+        $query
+            ->execute(array(
+                ":id" => $groupe->getIdGroupe(),
+                ":idLead" => $id,
             ));
 
     }

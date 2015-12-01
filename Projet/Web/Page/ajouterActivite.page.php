@@ -39,18 +39,23 @@ $configIni = getConfigFile();
             include "../Script/ajouterActivite.js";
         ?>
     </script>
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
-</header>
 <section class="container">
-    <section class="jumbotron">
-        <h1>Ajouter une activité</h1>
-        <p>Choisissez une catégorie et écrivez l'activité que vous voulez ajouter :</p>
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php");?>
+    </header>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
 
+    </div>
+    <section class="col-lg-8 jumbotron">
+        <h1> <img class="jumbotitre" src="../Images/bannieres/ajouteractivite.png" alt="logo" /></h1>
+        <p class="jumbotexte">Choisissez une catégorie et écrivez l'activité que vous voulez ajouter :</p>
     </section>
     <section class="row">
+        <article class="col-sm-12">
         <?php
         if(($userSession->getDroit()[0]->getId() == 3 || $userSession->getDroit()[0]->getId() == 2 || $userSession->getDroit()[0]->getId() == 1) || ($userSession->getDroit()[0]->getId() == 4 && dateLastIdea())) {
             include "../Form/ajouterActivite.form.php";
@@ -58,6 +63,7 @@ $configIni = getConfigFile();
             echo "<h1 align='center'><div class='alert alert-danger' role='alert'>Vous avez déjà posté une activité cette semaine, devenez Premium pour pouvoir en proposer autant que vous en voulez !</div></h1>";
         }
         ?>
+            </article>
         </section>
         <section class="alert-dismissible">
         <?php
@@ -70,13 +76,11 @@ $configIni = getConfigFile();
         ?>
         </section>
 
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
 </section>
-<div class="footer-container">
-    <div class="row">
-        <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-        </footer>
-    </div>
-</div>
 </body>
 </html>

@@ -15,14 +15,6 @@ initRequireEntityManager();
 startSession();
 $isConnect = isConnect();
 $configIni = getConfigFile();
-if (isConnect()) {
-    $uam = new User_ActivityManager(connexionDb());
-    $tab = $uam->getActIdByUserId($_SESSION['User']);
-    if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 6)) {
-        header("Location:coterActivite.page.php");
-
-    }
-}
 ?>
 
 <!doctype html>
@@ -37,29 +29,52 @@ if (isConnect()) {
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php");?>
-</header>
-<section class="container">
-    <section class="jumbotron">
-        <h1>Choisir une catégorie</h1>
-        <p>Choisissez une catégorie pour votre activité du jour :</p>
+<section class="container" style="padding-bottom : 55%;">
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php"); ?>
+    </header>
+    <?php
+    if (isConnect()) {
+        $uam = new User_ActivityManager(connexionDb());
+        $tab = $uam->getActIdByUserId($_SESSION['User']);
+        if (isset($tab[0]['id_activity']) && comparerHeure($tab[0]['date'], 2)) {?>
+            <div class="col-md-2 clearfix" id="sub-menu-left">
+                <nav class="sidebar-nav">
+                    <ul class="nav sidebar-nav sidebar-collapse">
+                        <li <?php if(empty($_GET)) {echo 'class="active"';}?>><a href="choisirCategorie.page.php">Choisir une catégorie</a></li>
+                        <li><a href="coterActivite.page.php">Coter mon ancienne activité</a></li>
+                    </ul>
+                </nav>
+            </div>
+        <?php }else{ ?>
+            <div class="col-md-2 clearfix" id="sub-menu-left">
+
+            </div>
+        <?php }
+    }else{?>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+
+    </div>
+    <?php }?>
+    <section class="col-lg-8 jumbotron">
+        <h1> <img class="jumbotitre" src="../Images/bannieres/categorie.png" alt="logo" /></h1>
+        <p class="jumbotexte">Choisissez une catégorie pour votre activité du jour :</p>
 
     </section>
-    <section class="row" id="proposerCat">
+    <section class="row col-lg-12" id="proposerCat">
         <?php
         afficherCategorie();
         ?>
     </section>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
 </section>
-<div class="footer-container">
-    <div class="row">
-        <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-        </footer>
-    </div>
-</div>
 </body>
 </html>

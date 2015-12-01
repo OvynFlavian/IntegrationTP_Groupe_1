@@ -8,6 +8,10 @@
 use \Entity\Groupe as Groupe;
 use \Entity\User as User;
 
+/**
+ * Fonction permettant d'afficher la liste des membres premium ayant la même activité que moi. Cela indique aussi
+ * si ils ont un groupe ou non.
+ */
 function afficherMembres() {
     $um = new UserManager(connexionDb());
     $uam = new User_ActivityManager(connexionDb());
@@ -15,6 +19,7 @@ function afficherMembres() {
     $act = $uam->getActIdByUserId($_SESSION['User']);
     $groupeUser = $ugm->getGroupeIdByUserId($_SESSION['User']);
     $tab = $um ->getAllUser();
+    $lenght = count($tab);
     $existant = false;
     ?>
     <div class="table-responsive">
@@ -28,6 +33,9 @@ function afficherMembres() {
             </tr>
             <?php
             foreach ($tab as $elem) {
+                #TODO TEST QUAND LA BASE DE DONNEES SERA CLEAN CAR BUG
+                if ($elem->getUserName() == $tab[$lenght-1]->getUserName())
+                    break;
                 $id = $elem->getId();
                 $actUser = $uam->getActIdByUserId($elem);
                 if ($id != $_SESSION['User']->getId()) {
@@ -51,13 +59,17 @@ function afficherMembres() {
                                     }
                                     echo "<tr>";
                                     $existant = true;
+
                                 }
 
-                            }
-                        }
 
+                            }
+
+
+                        }
                 }
             }
+
             if ($tab == NULL || !$existant) {
                 echo "<tr> <td> Aucun utilisateur trouvé !</td></tr>";
             }
@@ -67,6 +79,12 @@ function afficherMembres() {
     <?php
 
 }
+
+/**
+ * Fonction permettant d'afficher les demandes de groupe que j'ai reçue de la part d'autres membres.
+ *
+ *
+ * */
 function afficherInvitation() {
     $gim = new Groupe_InvitationManager(connexionDb());
     $invit = $gim->getInvitationByDemande($_SESSION['User']);
@@ -107,6 +125,10 @@ function afficherInvitation() {
 
 }
 
+/**
+ * Fonction permettant de gérer la réponse donnée au formulaire du groupe auquel on appartient. Soit on modifie le groupe,
+ * soit on le supprime, soit on le quitte.
+ */
 function gererReponseGroupe() {
     if (isset($_POST['modifier'])) {
         include "../Form/modifierDescription.form.php";
@@ -117,6 +139,10 @@ function gererReponseGroupe() {
     }
 }
 
+/**
+ * Fonction effectuant l'action voulue par le membre concernant le groupe auqeul il appartient. Soit on supprime le groupe,
+ * soit on le quitte, soit on modifie sa description.
+ */
 function gererActionGroupe() {
     $gm = new GroupeManager(connexionDb());
     $ugm = new User_GroupeManager(connexionDb());
@@ -139,6 +165,9 @@ function gererActionGroupe() {
     }
 }
 
+/**
+ * Fonction permettant l'affichage du groupe auquel on appartient ainsi que la liste des membre du groupe et le chat du groupe.
+ */
 function voirGroupe() {
     $ugm = new User_GroupeManager(connexionDb());
     $groupeId = $ugm->getGroupeIdByUserId($_SESSION['User']);
@@ -153,9 +182,13 @@ function voirGroupe() {
     $membres = $ugm->getUserIdByGroupeId($groupe);
     $messages = $gmm->getMessageByGroup($groupe);
     $existe = false;
+    $autreMembre = false;
     formGroupe($groupe);
     echo "<div class='titleGroupe'>";
-    echo "<h1 align='center'> Groupe concernant l'activité : ".$act->getLibelle()."</h1>";
+    echo "<div class='photoGroupe'>";
+    echo "<img class='photoAct' src='../Images/activite/".$act->getId().".jpg' alt='photoActivite' />";
+    echo "</div>";
+    echo "<h1 align='center'>".$act->getLibelle()."</h1>";
     echo "<h2 align='center'> Chef de groupe : ".$leader->getUserName()."</h2>";
     echo "</div>";
     echo "<h3 align='center'> Description de votre activité :</h3>";
@@ -173,13 +206,17 @@ function voirGroupe() {
             <th> Utilisateur </th>
             <th> Date de dernière connexion</th>
             <th> Ajouter en ami </th>
-            <th> Supprimer du groupe </th>
+            <?php if ($groupe->getIdLeader() == $_SESSION['User']->getId()) {?>
+                <th> Supprimer du groupe </th>
+                <th> Nommer chef de groupe </th>
+            <?php } ?>
         </tr>
         <?php
         foreach ($membres as $elem) {
             $user = $um->getUserById($elem['id_user']);
             $id = $user->getId();
             if ($user->getId() != $_SESSION['User']->getId()) {
+                $autreMembre = true;
                 $amiTest1 = $amiM->getAmisById1AndId2($user->getId(), $_SESSION['User']->getId());
                 $amiTest2 = $amiM->getAmisById1AndId2($_SESSION['User']->getId(), $user->getId());
                 echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $user->getDateLastConnect() . " </td><td>";
@@ -192,12 +229,20 @@ function voirGroupe() {
                 if ($groupe->getIdLeader() == $_SESSION['User']->getId()) {
                     echo "<td><form class='form-horizontal col-sm-12' name='suppression$id' action='groupe.page.php?to=voirGroupe' method='post'>";
                     echo "<input type='hidden'  name='idMembre$id'  value='" . $id . "''>";
-                    echo "<button class='btn btn-danger col-sm-9' type='submit' id='formulaire' name='supprimerMembre$id'>Supprimer ce membre</button>";
+                    echo "<button class='btn btn-danger col-sm-10' type='submit' id='formulaire' name='supprimerMembre$id'>Supprimer ce membre</button>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "<td><form class='form-horizontal col-sm-12' name='nommerLead$id' action='groupe.page.php?to=voirGroupe' method='post'>";
+                    echo "<input type='hidden'  name='idMembre$id'  value='" . $id . "''>";
+                    echo "<button class='btn btn-success col-sm-10' type='submit' id='formulaire' name='nommerLead$id'>Nommer chef de groupe</button>";
                     echo "</form>";
                     echo "</td>";
                 }
                 echo "</tr>";
             }
+        }
+        if (!$autreMembre) {
+            echo "<tr> <td> Vous êtes le seul membre du groupe pour le moment !</td></tr>";
         }
         ?>
     </table>
@@ -235,32 +280,106 @@ function voirGroupe() {
     echo "</div>";
 
 }
-function gererSuppressionMembre() {
+
+/**
+ * Fonction affichant la liste des groupes existant pour cette activité.
+ */
+function listeGroupe() {
+    $gm = new GroupeManager(connexionDb());
+
+    $um = new UserManager(connexionDb());
+    $uam = new User_ActivityManager(connexionDb());
+    $act = $uam->getActIdByUserId($_SESSION['User']);
+    $tabGroupe = $gm->getAllGroupeByAct($act[0]['id_activity']);
+    $existe = false;
+    ?>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption> <h2> Liste des groupes </h2></caption>
+            <tr>
+                <th> Description de groupe </th>
+                <th> Chef du groupe </th>
+                <th> Rejoindre le groupe </th>
+            </tr>
+            <?php
+            foreach ($tabGroupe as $elem) {
+                $user = $um->getUserById($elem->getIdLeader());
+                $id = $elem->getIdGroupe();
+                echo "<tr> <td>" . $elem->getDescription() . " </td><td>" . $user->getUserName() . " </td>";
+                echo "<td><a href='groupe.page.php?to=rejoindre&groupe=" . $elem->getIdGroupe() . "'> Rejoindre le groupe </a></td>";
+                echo "</tr>";
+                $existe = true;
+            }
+
+            if ($tabGroupe == NULL || !$existe) {
+                echo "<tr> <td> Aucun groupe pour le moment !</td></tr>";
+            }
+            ?>
+        </table>
+    </div>
+    <?php
+}
+
+
+/**
+ * Fonction gérant l'action faite par le leader du groupe sur un des autres membres du groupe. Soit il le vire du groupe,
+ * soit il le nomme leader.
+ * @return bool : true si tout se passe bien, false si il y a une erreur.
+ */
+function gererActionMembre() {
     $um = new UserManager(connexionDb());
     $tabUser = $um->getAllUser();
     $trueId = 0;
     foreach ($tabUser as $elem) {
         $id = $elem->getId();
         if (isset($_POST['supprimerMembre'.$id.''])){
-            $trueId = $id;
+            formGererActionGroupe('supprimer', $id);
+            return true;
+        }
+        if (isset($_POST['nommerLead'.$id.''])) {
+            formGererActionGroupe('lead', $id);
+            return true;
         }
     }
-    return $trueId;
+    return false;
 }
 
-function supprimerMembre($id)
+/**
+ * Fonction modifiant le leader d'un groupe.
+ */
+function nommerLeader() {
+    if (isset($_POST['Accepterlead'])) {
+        $id = $_POST['membre'];
+        $gm = new GroupeManager(connexionDb());
+        $groupe = $gm->getGroupeByLeader($_SESSION['User']);
+        $gm->updateLeader($groupe, $id);
+        header("Location:groupe.page.php?to=voirGroupe");
+    } else if (isset($_POST['Refuserlead'])) {
+        header("Location:groupe.page.php?to=voirGroupe");
+    }
+}
+
+/**
+ * Fonction supprimant le membre d'un groupe.
+ */
+function supprimerMembre()
 {
-    if (isset($_POST['supprimerMembre' . $id . ''])) {
-        $id = $_POST['idMembre' . $id . ''];
+    if (isset($_POST['Acceptersupprimer'])) {
+        $id = $_POST['membre'];
         $ugm = new User_GroupeManager(connexionDb());
         $userToDelete = new User(array(
             "id" => $id,
         ));
         $ugm->deleteUserGroupe($userToDelete);
         header("Location:groupe.page.php?to=voirGroupe");
+    } else if (isset($_POST['Refusersupprimer'])) {
+        header("Location:groupe.page.php?to=voirGroupe");
     }
 }
 
+/**
+ * Fonction envoyant un message dans le chat du groupe.
+ */
 function envoiMessage() {
     if (isset($_POST['poster'])) {
         if (champsTexteValable($_POST['description'])) {
@@ -282,6 +401,11 @@ function envoiMessage() {
     }
 
 }
+
+/**
+ * Fonction permettant de gérer l'action du membre face aux différentes invitations de groupes.
+ * @return int : l'id du groupe concerné par l'action du membre.
+ */
 function gererFormInvitation() {
     $gm = new GroupeManager(connexionDb());
     $tabGroupe = $gm->getAllGroupe();
@@ -297,6 +421,10 @@ function gererFormInvitation() {
     return $trueId;
 }
 
+/**
+ * Fonction permettant de gérer l'action du membre face aux différentes invitations de groupes. Soit il rejoint le groupe
+ * et les autres invitations sont supprimées, soit il refuse l'invitation et elle est supprimée.
+ */
 function gererReponseInvitation() {
     $id = gererFormInvitation();
     if (isset($_POST['AccepterGroupe'.$id.'']) || isset($_POST['RefuserGroupe'.$id.''])) {
@@ -318,6 +446,10 @@ function gererReponseInvitation() {
     }
 }
 
+/**
+ * Fonction permettant de savoir si le membre connecté possède une activité.
+ * @return bool : true si il en possède une, false sinon.
+ */
 function hasActivity() {
     $uam = new User_ActivityManager(connexionDb());
     $act = $uam->getActIdByUserId($_SESSION['User']);
@@ -329,6 +461,10 @@ function hasActivity() {
 
 }
 
+/**
+ * Fonction permettant de savoir si le membre connecté possède un groupe.
+ * @return bool : true si il en possède un, false sinon.
+ */
 function hasGroupe() {
     $ugm = new User_GroupeManager(connexionDb());
     $groupe = $ugm->getGroupeIdByUserId($_SESSION['User']);
@@ -339,6 +475,11 @@ function hasGroupe() {
     }
 }
 
+/**
+ * Fonction permettant de savoir si un autre membre de soi est déjà dans un groupe.
+ * @param $id : l'id du membre concerné.
+ * @return bool : true si il est dans un groupe, false sinon.
+ */
 function isInGroupe($id) {
     $ugm = new User_GroupeManager(connexionDb());
     $user = new User(array(
@@ -352,13 +493,23 @@ function isInGroupe($id) {
     }
 }
 
+/**
+ * Fonction générant le formulaire de création de groupe.
+ */
 function formCreerGroupe() {
     include "../Form/creerGroupe.form.php";
 }
 
+/**
+ * Fonction générant le formulaire permettant de rejoindre un groupe.
+ */
 function formRejoindreGroupe() {
     include "../Form/rejoindreGroupe.form.php";
 }
+
+/**
+ * Fonction permettant de générer le formulaire d'invitation de membre dans son groupe.
+ */
 function formAjouter() {
     $id = $_GET['membre'];
     $ugm = new User_GroupeManager(connexionDb());
@@ -370,6 +521,9 @@ function formAjouter() {
     }
 }
 
+/**
+ * Fonction permettant d'envoyer une invitation à un membre pour rejoindre son groupe.
+ */
 function envoiInvitation() {
     if (isset($_POST['Accepter']) || isset($_POST['Refuser'])) {
         $id = $_GET['membre'];
@@ -387,6 +541,10 @@ function envoiInvitation() {
     }
 }
 
+/**
+ * Fonction vérifiant si un membre concerné est premium.
+ * @return bool : true si il est premium, false sinon.
+ */
 function isPremium() {
     $id = $_GET['membre'];
     $um = new UserManager(connexionDb());
@@ -398,6 +556,12 @@ function isPremium() {
     }
 }
 
+/**
+ * Fonction permettant de savoir si le membre connecté et un autre sont dans le même groupe.
+ * @param User $user : le membre concerné.
+ * @param $idGroupe : l'id du groupe.
+ * @return bool : true si ils sont dans le même groupe, false sinon.
+ */
 function sameGroupe(User $user, $idGroupe) {
     $ugm = new User_GroupeManager(connexionDb());
     $groupe = $ugm->getGroupeIdByUserId($user);
@@ -408,6 +572,10 @@ function sameGroupe(User $user, $idGroupe) {
     }
 }
 
+/**
+ * Fonction permettant de vérifier si l'id du groupe contenue dans l'url est celle d'un groupe existant.
+ * @return bool : true si le groupe existe, false sinon.
+ */
 function groupeExiste() {
     $id=$_GET['groupe'];
     $gm = new GroupeManager(connexionDb());
@@ -420,6 +588,11 @@ function groupeExiste() {
 
 }
 
+/**
+ * Fonction permettant de savoir si l'id du groupe contenue dans l'url est celle d'un groupe concernant la même activité
+ * que le membre connecté.
+ * @return bool : true si le groupe possède la même activité, false sinon.
+ */
 function groupeSameActivity() {
     $id = $_GET['groupe'];
     $gm = new GroupeManager(connexionDb());
@@ -433,6 +606,11 @@ function groupeSameActivity() {
     }
 }
 
+/**
+ * Fonction permettant de savoir si le membre connecté et un autre ont la même activité.
+ * @param $idUser : id du membre concerné.
+ * @return bool : true si ils ont la même activité, false sinon.
+ */
 function sameActivity($idUser) {
     $uam = new User_ActivityManager(connexionDb());
     $user = new User(array(
@@ -447,6 +625,12 @@ function sameActivity($idUser) {
     }
 }
 
+/**
+ * Fonction permettant de savoir si un membre a déjà été invité dans son groupe.
+ * @param $idUser : id du membre concerné.
+ * @param $idGroupe : id du groupe concerné.
+ * @return bool : true si il a déjà été invité, false sinon.
+ */
 function dejaInvite($idUser, $idGroupe) {
     $gim = new Groupe_InvitationManager(connexionDb());
     $existe = false;
@@ -465,6 +649,10 @@ function dejaInvite($idUser, $idGroupe) {
         return false;
     }
 }
+
+/**
+ * Fonction permettant de rejoindre un groupe.
+ */
 function rejoindreGroupe() {
     if (isset($_POST['AccepterRejoindre']) || isset($_POST['RefuserRejoindre'])) {
         $id = $_GET['groupe'];
@@ -478,13 +666,17 @@ function rejoindreGroupe() {
             $gim->deleteInvitByUserId($_SESSION['User']);
             $ugm->addToUserGroupe($_SESSION['User'], $groupe);
             echo "<h1 align='center'><div class='alert alert-success' role='alert'> Vous avez bien rejoint le groupe !  </div></h1>";
-            echo "<meta http-equiv='refresh' content='2; URL=groupe.page.php'>";
+            echo "<meta http-equiv='refresh' content='2; URL=groupe.page.php?to=voirGroupe'>";
         } else if (isset($_POST['RefuserRejoindre'])) {
             header("Location:groupe.page.php");
         }
 
     }
 }
+
+/**
+ * Fonction permettant de créer un groupe.
+ */
 function creerGroupe() {
     if (isset($_POST['formulaireCreation'])) {
         $desc = $_POST['description'];

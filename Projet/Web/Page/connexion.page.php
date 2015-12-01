@@ -41,56 +41,40 @@ $configIni = getConfigFile();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <!--
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">EveryDayIdea</a>
-            </div>
-            <div>
-                <ul class="nav navbar-nav">
-                    <li><a href="../">Home</a></li>
-                    <li class="active"><a href="../Page/connexion.page.php">Connexion</a></li>
-                    <li><a href="../Page/inscription.page.php">Inscription</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    -->
-    <?php include("../Menu/menuGeneral.lib.php") ?>
-</header>
-    <section class="container">
-        <section class="jumbotron">
-            <h1>Page de connexion</h1>
-            <p>Entrez votre nom d'utilisateur et votre mot de passe !</p>
-        </section>
-        <section class="row">
-            <article class="col-sm-12">
-                <?php
-                include("../Form/connexion.form.php");
-                ?>
-            </article>
-        </section>
-        <?php if(isset($tabRetour['Error'])){?>
-            <section class="alert-dismissible">
-                <p><?php echo $tabRetour['Error']?></p>
-            </section>
-        <?php }?>
-        <?php if(isset($tabRetour['Activation'])){?>
-            <section class="alert-dismissible">
-                <p><?php echo $tabRetour['Activation']?></p>
-            </section>
-        <?php }?>
-    </section>
-<div class="footer-container">
-    <div class="row">
-        <footer class="footer panel-footer navbar-fixed-bottom">
-            &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-        </footer>
+<section class="container">
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php") ?>
+    </header>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+
     </div>
-</div>
+    <section class="col-lg-8 jumbotron">
+        <h1> <img class="jumbotitre" src="../Images/bannieres/connexion.png" alt="logo" id='image-media'></h1>
+        <p class="jumbotexte">Entrez votre nom d'utilisateur et votre mot de passe !</p>
+    </section>
+    <section class="row">
+        <article class="col-sm-12">
+            <?php include("../Form/connexion.form.php"); ?>
+        </article>
+    </section>
+    <?php if(isset($tabRetour['Error'])){?>
+        <section class="alert-dismissible">
+            <p><?php echo $tabRetour['Error']?></p>
+        </section>
+    <?php }?>
+    <?php if(isset($tabRetour['Activation'])){?>
+        <section class="alert-dismissible">
+            <p><?php echo $tabRetour['Activation']?></p>
+        </section>
+    <?php }?>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
+</section>
 </body>
 </html>

@@ -11,12 +11,20 @@ use \Entity\Droit as Droit;
 class User_DroitManager
 {
     private $db;
-
+    /**
+     * Fonction générant un manager en fonction de la BDD.
+     * @param PDO $database : la base de données.
+     */
     public function __construct(PDO $database)
     {
         $this->db = $database;
     }
 
+    /**
+     * Fonction permettant de modifier le grade d'un utilisateur.
+     * @param $idUser : l'id de l'utilsiateur concerné.
+     * @param $idDroit : l'id du nouveau grade.
+     */
     public function modifDroit($idUser, $idDroit)
     {
         $query = $this

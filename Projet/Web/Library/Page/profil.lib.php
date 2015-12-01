@@ -8,7 +8,9 @@
 use \Entity\User as User;
 use \Entity\Activity as Activity;
 require "../Manager/User_ActivityManager.manager.php";
-
+/**
+ * Fonction affichant le profil du membre connecté.
+ */
 function afficherProfil() {
     $user = $_SESSION['User'];
     $droit = $user->getDroit()[0];
@@ -41,7 +43,12 @@ function afficherProfil() {
     echo "</div>";
 }
 
-
+/**
+ * Fonction permettant de vérifier si le formulaire de modification de profil est correct et si il ne contient pas d'erreurs.
+ * @param User $user : l'utilisateur qui a fait la demande de changement de profil.
+ * @return array : un tableau contenant tous les messages d'erreur liés au formulaire de changement de profil ou un booleen
+ * si le formulaire est correct.
+ */
 function isValidForm(User $user)
 {
     $config = getConfigFile()['CONSTANTE'];
@@ -96,7 +103,7 @@ function isValidForm(User $user)
         $mailExistant = true;
         $tab['ERROR']['Email'] = "Email déjà existant";
     }
-    if ($user->getMdp() == hash("sha256", $MdpActuel)) {
+    if ($user->getMdp() == hash("sha256", $MdpActuel.$user->getSalt())) {
         $goodMdp = true;
 
     } else {
@@ -144,7 +151,7 @@ function isValidForm(User $user)
         {
             $user->setEmail($Email);
         }
-        if(isset($Mdp) and strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp()) != $user->getMdp())
+        if(isset($Mdp) and strlen($Mdp) > 4 and hash("sha256", $userTest->getMdp().$userTest->getSalt()) != $user->getMdp())
         {
             $user->setMdp($Mdp);
             $user->setHashMdp();

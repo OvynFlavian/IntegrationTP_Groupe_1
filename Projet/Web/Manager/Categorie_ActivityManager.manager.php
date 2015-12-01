@@ -11,12 +11,20 @@ use \Entity\Categorie as Categorie;
 class Categorie_ActivityManager
 {
     private $db;
-
+    /**
+     * Fonction générant un manager en fonction de la BDD.
+     * @param PDO $database : la base de données.
+     */
     public function __construct(PDO $database)
     {
         $this->db = $database;
     }
 
+    /**
+     * Fonction permettant de retrouver toutes les id d'activité en fonction de l'id de la catégorie concernée.
+     * @param Categorie $cat : la catégorie concernée.
+     * @return array : le tableau contenant les id des activités concernées.
+     */
     public function getActIdByCatId(Categorie $cat) {
         $query = $this
             ->db
@@ -31,6 +39,12 @@ class Categorie_ActivityManager
 
         return $tabAct;
     }
+
+    /**
+     * Fonction permettant de retrouver l'id de la catégorie concernant l'activité concernée.
+     * @param Activity $act : l'activité concernée.
+     * @return array : tableau contenant l'id de la catégorie de l'activité.
+     */
     public function getCatIdByActId(Activity $act) {
         $query = $this
             ->db
@@ -45,6 +59,12 @@ class Categorie_ActivityManager
 
         return $tabCat;
     }
+
+    /**
+     * Fonction permettant d'ajouter en BDD un lien entre l'id de la catégorie et l'id de l'activité.
+     * @param Activity $act : l'activité concernée.
+     * @param Categorie $cat : la catégorie de l'activité.
+     */
     public function addToTable(Activity $act, Categorie $cat)
     {
         $query = $this
@@ -56,6 +76,11 @@ class Categorie_ActivityManager
             ":id_act" => $act->getId()
         ));
     }
+
+    /**
+     * Fonction permettant de supprimer en BDD le lien entre l'id d'une catégorie et l'id d'une activité.
+     * @param $idAct : l'id de l'activité supprimée.
+     */
     public function deleteFromTable($idAct)
     {
         $query = $this
@@ -68,4 +93,19 @@ class Categorie_ActivityManager
         ));
     }
 
+    /**
+     * Fonction permettant de modifier l'id de la catégorie concernant l'activité voulue.
+     * @param Activity $activite : l'activité changeant de catégorie.
+     * @param $id : l'id de la nouvelle catégorie.
+     */
+    public function updateCategorie(Activity $activite, $id)
+    {
+        $query = $this
+            ->db
+            ->prepare("UPDATE categorie_activity SET id_categorie = :cat  WHERE id_activity = :act");
+        $query->execute(array(
+            ":cat" => $id,
+            ":act" => $activite->getId(),
+        ));
+    }
 }

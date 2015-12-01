@@ -7,6 +7,11 @@
  */
 use \Entity\User as User;
 
+/**
+ *Fonction permettant d'aller rechercher en BDD tous les membres contenant le string contenu dans le formulaire de
+ * recherche de nom.
+ * @return array : la liste des membres trouvés.
+ */
 function rechercheMembre()
 {
     if (isPostFormulaire()) {
@@ -21,6 +26,10 @@ function rechercheMembre()
     return $tab;
 }
 
+/**
+ * Fonction affichant tous les membres contenus dans un tableau donné.
+ * @param $tab : le tableau de membres.
+ */
 function afficherMembres($tab) {
     ?>
     <div class="Membres">

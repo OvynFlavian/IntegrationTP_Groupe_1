@@ -8,6 +8,10 @@
 use \Entity\User as User;
 use \Entity\Amis as Amis;
 
+/**
+ * Fonction permettant de gérer la réponse au formulaire d'envoi de demande d'ami.
+ * @return string : un message de succès si tout s'est bien passé, sinon un message d'erreur.
+ */
 function gererDemande() {
 
         if (isset($_POST['Accepter'])) {
@@ -19,6 +23,9 @@ function gererDemande() {
 
 }
 
+/**
+ * Fonction ajoutant la demande d'ami dans la base de données à l'aide de l'id de l'ami contenu dans l'url.
+ */
 function ajoutDemande() {
 
     $id = $_GET['membre'];
@@ -38,6 +45,10 @@ function ajoutDemande() {
     $am->addAmis($demandeAmis);
 }
 
+/**
+ * Fonction permettant de voir si la demande d'ami existe déjà en base de données.
+ * @return bool : true si elle existe, false si elle n'existe pas.
+ */
 function verifDejaExistant() {
     $id = $_GET['membre'];
     $idUser = $_SESSION['User']->getId();

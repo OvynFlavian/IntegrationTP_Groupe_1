@@ -6,6 +6,11 @@
  * Time: 02:00
  */
 use \Entity\Activity as Activity;
+
+/**
+ * Fonction servant à afficher toutes les activités signalées pour les modérateurs et administrateur.
+ * Elle fournit un lien qui permet d'être redirigé vers l'activité en question.
+ */
 function afficherActivite() {
     ?>
     <div class="Membres">

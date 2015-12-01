@@ -6,7 +6,7 @@ size_user_mdp = 5
 type = mysql
 host = localhost
 username = root
-password = ''
+password =
 dbname = projet
 [ADMINISTRATEUR]
 pseudo = Admin

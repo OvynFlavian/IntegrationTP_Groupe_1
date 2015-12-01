@@ -10,6 +10,12 @@ use \Entity\Activity as Activity;
 use \Entity\User as User;
 use \Entity\Groupe as Groupe;
 
+/**
+ * Fonction permettant d'afficher une activité contenue en BDD soit aléatoirement soit de manière fixe ainsi qu'un formulaire
+ * permettant de la signaler, modifier ou supprimer selon le grade.
+ * @param $cat : la catégorie de l'activité que l'on souhaite proposer.
+ * @return int : l'id de l'activité proposée.
+ */
 function proposerActivite($cat) {
     $am = new ActivityManager(connexionDb());
             if (isset($_GET['activite'])) {
@@ -34,12 +40,13 @@ function proposerActivite($cat) {
                 if (isConnect()) formSignalement($activity->getId(), $cat, $activity->getSignalee());
                 echo "<div class='activity'>";
                 if ($activity->getSignalee() == 1 ) echo "<h4 style='width:25%'><div class='alert alert-danger' role='alert'> Activité déjà signalée </div></h4>";
+                 echo "<img class='photoAct' src='../Images/activite/".$id.".jpg' alt='photoActivite' />";
                 echo "<h1 style='text-align: center'>" . $activity->getLibelle() . "</h1>";
                 echo "<h2 style='text-align: center'>" . $activity->getDescription() . "</h2>";
                 if ($activity->getNote() == NULL) {
                     echo "<h3 style='text-align: center'>Cette activité n'a pas encore été notée !</h3>";
                 } else {
-                    echo "<h3 style='text-align: center'>Sa note est de : " . $activity->getNote() . "/5</h3>";
+                    echo "<h3 style='text-align: center'>Sa note est de : " . roundTo($activity->getNote(),.5) . "/5</h3>";
                 }
 
                 include "../Form/proposerActivite.form.php";
@@ -48,22 +55,93 @@ function proposerActivite($cat) {
 
 }
 
+/**
+ * Fonction permettant de générer un formulaire permettant de signaler, désignaler, modifier ou supprimer l'activité proposée selon le grade.
+ * @param $id : id de l'activité proposée.
+ * @param $cat : l'id de la catégorie concernée.
+ * @param $signalee : int signifiant si l'activité est signalée ou non en BDD.
+ */
 function formSignalement($id, $cat, $signalee) {
 
     echo "<form class='form-horizontal col-sm-12' name='formSignalement' action='proposerActivite.page.php?categorie=$cat&activite=$id&to=signaler' method='post'>";
-    echo "<input type='hidden'  name='idAct'  value='" . $id . "''>";
+    echo "<input type='hidden'  name='idAct'  value='" . $id . "'>";
     if ($signalee == 0) {
         echo "<button class='btn btn-danger col-sm-2' type='submit' id='formulaire' name='signaler'>Signaler cette activité</button>";
     } else {
         if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2)
         echo "<button class='btn btn-success col-sm-2' type='submit' id='formulaire' name='designaler'>Enlever le signalement</button>";
     }
-    if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2)
-    echo "<button class='btn btn-danger col-sm-2' type='submit' id='formulaire' name='supprimer'>Supprimer cette activité</button>";
+    if ($_SESSION['User']->getDroit()[0]->getId() == 1 || $_SESSION['User']->getDroit()[0]->getId() == 2) {
+        echo "<button class='btn btn-warning col-sm-2' type='submit' id='formulaire' name='modifier'>Modifier cette activité</button>";
+        echo "<button class='btn btn-danger col-sm-2' type='submit' id='formulaire' name='supprimer'>Supprimer cette activité</button>";
+    }
     echo "</form>";
 
 }
 
+/**
+ * Fonction permettant de générer un formulaire permettant de modifier l'activité proposée par un modo ou admin.
+ */
+function formModifierActivite() {
+    if (isset($_POST['modifier'])) {
+        $id = $_GET['activite'];
+        $cat = $_GET['categorie'];
+        $am = new ActivityManager(connexionDb());
+        $act = $am->getActivityById($id);
+        include "../Form/modifierActivite.form.php";
+
+    }
+}
+
+/**
+ * Fonction modifiant l'activité à l'aide du formulaire de modification d'activité.
+ */
+function modifierActivite()
+{
+    if (isset($_POST['modifierActivite'])) {
+        if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != NULL) {
+            $typePhoto = $_FILES['image']['type'];
+            if( !strstr($typePhoto, 'jpg') && !strstr($typePhoto, 'jpeg')) {
+                echo  "<div class='alert alert-danger' role='alert'>Votre image n'est pas .jpg ou .jpeg !</div>";
+            } else if  ($_FILES['ImageNews']['size'] >= 2097152) {
+                echo "<div class='alert alert-danger' role='alert'>Votre image est trop lourde !</div>";
+            } else {
+
+                uploadImage('../Images/activite', updateActivity()->getId());
+            }
+
+        } else {
+            updateActivity();
+        }
+
+    }
+}
+
+/**
+ * Fonction modifiant l'activité en BDD.
+ * @return Activity : l'activité modifiée.
+ */
+function updateActivity() {
+    $id = $_GET['activite'];
+    $am = new ActivityManager(connexionDb());
+    $cam = new Categorie_ActivityManager(connexionDb());
+    $libelle = $_POST['activite'];
+    $desc = $_POST['description'];
+    $idCat = $_POST['categorie'];
+    $activityToModify = new Activity(array(
+        "id" => $id,
+        "Libelle" => $libelle,
+        "description" => $desc,
+    ));
+    $am->updateActivite($activityToModify);
+    $cam->updateCategorie($activityToModify, $idCat);
+    header('Location: choisirCategorie.page.php');
+    return $activityToModify;
+}
+
+/**
+ * Fonction gérant le type de bouton sur lequel l'admin, le membre ou le modérateur a cliqué pour gérer l'activité.
+ */
 function gererSignalement() {
     if (isset($_POST['supprimer']) || isset($_POST['signaler']) || isset($_POST['designaler'])) {
         $do = '';
@@ -80,6 +158,9 @@ function gererSignalement() {
         echo "<div align='center'>";
         echo "<form class='form-horizontal col-sm-12' name='gererSignalement' action='proposerActivite.page.php?categorie=$cat&activite=$id&to=signaler' method='post'>";
         echo "<h1 align='center'>Êtes-vous sûr de vouloir $do l'activité ?</h1><br><br>";
+        if ($do = 'supprimer') {
+            echo "<h1 align='center'>Supprimer une activité supprime aussi tous les groupes liés à elle, pensez-y !</h1><br><br>";
+        }
         echo "<input type='hidden'  name='idActivity'  value='" . $id . "''>";
         echo "<input type='hidden' name='reason' value='" . $do . "'>";
         echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='accepterSignal'>Oui, je suis sûr</button>";
@@ -91,6 +172,10 @@ function gererSignalement() {
 
 }
 
+/**
+ * Fonction permettant d'effectuer les actions voulues par le membre, le modo ou l'admin sur l'activité donnée. Soit
+ * cela supprime l'activité et tous les groupes liés à celle-ci, soit l'activité est signalée, soit l'activité est désignalée.
+ */
 function reponseSignalement() {
     if (isset($_POST['accepterSignal']) || isset($_POST['refuserSignal'])) {
         $do = $_POST['reason'];
@@ -101,9 +186,22 @@ function reponseSignalement() {
         if (isset($_POST['accepterSignal'])) {
             if ($do == 'supprimer') {
                 $do = 'supprimée';
+                $gm = new GroupeManager(connexionDb());
+                $ugm = new User_GroupeManager(connexionDb());
+                $gmm = new Groupe_MessageManager(connexionDb());
+                $gim = new Groupe_InvitationManager(connexionDb());
+                $tabGroupe = $gm->getGroupeByIdActivity($id);
+                foreach ($tabGroupe as $elem) {
+                    $ugm->deleteGroupe($elem);
+                    $gmm->deleteMessByGroupe($elem);
+                    $gim->deleteInvitByGroupeId($elem);
+                    $gm->deleteGroupe($elem->getIdLeader());
+                }
+
                 $cam->deleteFromTable($id);
-                $uam->deleteActivity($id);
-                $am->deleteActivity($id);
+               $uam->deleteActivity($id);
+               $am->deleteActivity($id);
+                unlink("../Images/activite/$id.jpg");
 
             } else if ($do == 'signaler') {
                 $do = 'signalée';
@@ -120,6 +218,12 @@ function reponseSignalement() {
         }
     }
 }
+
+/**
+ * Fonction vérifiant si le libellé de la catégorie concernée existe vraiment en BDD.
+ * @param $cat : le libellé de la catégorie.
+ * @return bool : true si elle existe, false si elle n'existe pas.
+ */
 function verifCat($cat) {
     $cm = new CategorieManager(connexionDb());
     $catVerif = $cm->getCategorieByLibelle($cat);
@@ -131,6 +235,11 @@ function verifCat($cat) {
 
 }
 
+/**
+ * Fonction permettant de gérer la réponse au formulaire demandant si le membre veut prendre ou non l'activité proposée.
+ * @param $cat : le libellé de la catégorie concernée.
+ * @param $idAct : l'id de l'activité proposée.
+ */
 function gererReponse($cat, $idAct)
 {
     if (isset($_POST['Accepter'])) {
@@ -142,6 +251,12 @@ function gererReponse($cat, $idAct)
     }
 }
 
+/**
+ * Fonction permettant de faire en sorte que le membre possède l'activité proposée en BDD. Si il possédait déjà une activité ou un groupe
+ * un message spécial apparait avec un lien demandant si il est sûr.
+ * @param $id : id de l'activité proposée.
+ * @param $cat : libellé de la catégorie concernée.
+ */
 function choixActivite($id, $cat) {
     if (isConnect()) {
         $uam = new User_ActivityManager(connexionDb());
@@ -149,7 +264,7 @@ function choixActivite($id, $cat) {
         if (isset($tab[0]['id_activity'])) {
             echo "<h2 align='center'><div class='alert alert-warning' role='alert'> Vous avez déjà une activité,<a href='proposerActivite.page.php?categorie=$cat&activite=$id&to=modif'> cliquez ici pour la remplacer</a>";
              if (isLeader()) {
-                echo "<br> Vous êtes chef d'un groupe, votre changement d'activité entraînera la suppression du groupe";
+                echo "<br> Vous êtes chef d'un groupe, votre changement d'activité changera le chef du groupe ou le supprimera si vous êtes le seul membre";
             } else if (hasGroupe()) {
                 echo "<br> Vous êtes dans un groupe, tout changement d'activité vous fera quitter ce groupe";
             }
@@ -165,6 +280,10 @@ function choixActivite($id, $cat) {
 
 }
 
+/**
+ * Fonction permettant de savoir si le membre possède un groupe ou non.
+ * @return bool : true si il possède un groupe, false si il n'en possède pas.
+ */
 function hasGroupe() {
     if (isConnect()) {
         $ugm = new User_GroupeManager(connexionDb());
@@ -178,10 +297,14 @@ function hasGroupe() {
     }
 }
 
+/**
+ * Fonction effectuant la suppression ou le passage de lead du groupe dans le cas où le membre en avait un et change
+ * d'activité.
+ */
 function leaveGroupe() {
-
     $ugm = new User_GroupeManager(connexionDb());
     $gmm = new Groupe_MessageManager(connexionDb());
+    $gim = new Groupe_InvitationManager(connexionDb());
     $idGr = $ugm->getGroupeIdByUserId($_SESSION['User']);
     if (isset($idGr[0]['id_groupe'])) {
         $groupe = new Groupe(array(
@@ -196,14 +319,41 @@ function leaveGroupe() {
 
         }
         if (isLeader()) {
+            $autreMembre = false;
             $gm = new GroupeManager(connexionDb());
-            $ugm->deleteGroupe($groupe);
-            $gmm->deleteMessByGroupe($groupe);
-            $gm->deleteGroupe($_SESSION['User']->getId());
+            $tabUser = $ugm->getUserIdByGroupeId($groupe);
+            foreach($tabUser as $elem) {
+                if ($elem['id_user'] != $_SESSION['User']->getId()) {
+                    if (isset($elem['id_user']) && $elem['id_user'] != 0) {
+                        $autreMembre = true;
+                        $idNewLeader = $elem['id_user'];
+                        $nom = $_SESSION['User']->getUserName();
+                        $um = new UserManager(connexionDb());
+                        $newLead = $um->getUserById($idNewLeader);
+                        $userName = $newLead->getUserName();
+                        $desc = "L'utilisateur $nom a quitté le groupe suite à un changement d'activité. $userName est dorénavant votre nouveau chef de groupe.";
+                        $gmm->addMess($groupe, $_SESSION['User'], $desc);
+                    }
+                }
+            }
+            if ($autreMembre) {
+                $gm->updateLeader($groupe, $idNewLeader);
+            } else {
+
+                $ugm->deleteGroupe($groupe);
+                $gmm->deleteMessByGroupe($groupe);
+                $gim->deleteInvitByGroupeId($groupe);
+                $gm->deleteGroupe($_SESSION['User']->getId());
+            }
         }
     }
 
 }
+
+/**
+ * Fonction déterminant si le membre était leader de son groupe ou non.
+ * @return bool : true si il était lead, false sinon.
+ */
 function isLeader() {
     if (isConnect()) {
         $gm = new GroupeManager(connexionDb());
@@ -216,6 +366,11 @@ function isLeader() {
 
     }
 }
+
+/**
+ * Fonction vérifiant si l'id de l'activité contenue dans l'url est celle d'une activité existente.
+ * @return bool : true si l'activité existe, false sinon.
+ */
 function verifIdAct() {
     if (isset($_GET['activite'])) {
         $id = $_GET['activite'];
@@ -229,6 +384,11 @@ function verifIdAct() {
     }
 }
 
+/**
+ * Fonction renvoyant un tableau contenant les activités dont le libellé contient le string envoyé par le formulaire
+ * de recherche d'activité.
+ * @return array : le tableau d'activités.
+ */
 function rechercheActivite()
 {
     $cat = $_GET['categorie'];
@@ -259,6 +419,11 @@ function rechercheActivite()
     return $tab;
 }
 
+/**
+ * Fonction permettant d'afficher la liste des activités contenues dans un tableau donné.
+ * @param $tab : le tableau d'activités.
+ * @param $cat : la catégorie concernée par ces activités.
+ */
 function afficherActivites($tab, $cat) {
     ?>
     <div class="Membres">
@@ -277,7 +442,7 @@ function afficherActivites($tab, $cat) {
                     $elem->setNote("N/A");
                 }
                 $id = $elem->getId();
-                echo "<tr> <td>" . $elem->getLibelle() . " </td><td>" . $elem->getDescription() . "</td><td>" . $elem->getNote() . "</td><td><a href='proposerActivite.page.php?categorie=$cat&activite=$id'> Choisir cette activité</a></td></tr>";
+                echo "<tr> <td>" . $elem->getLibelle() . " </td><td>" . substr($elem->getDescription(),0,120)."...</td><td>" . $elem->getNote() . "</td><td><a href='proposerActivite.page.php?categorie=$cat&activite=$id'> Choisir cette activité</a></td></tr>";
             }
             if ($tab == NULL) {
                 echo "<tr> <td> Aucune activité trouvée !</td></tr>";
@@ -289,6 +454,9 @@ function afficherActivites($tab, $cat) {
     <?php
 }
 
+/**
+ * Fonction permettant de modifier l'activité d'un utilisateur en BDD.
+ */
 function modifActivite() {
     if (verifIdAct()) {
         $act = $_GET['activite'];

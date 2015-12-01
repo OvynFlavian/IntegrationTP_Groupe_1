@@ -14,6 +14,10 @@ use \Entity\Activation as Activation;
 class ActivationManager {
     private $db;
 
+    /**
+     * Fonction générant un manager en fonction de la BDD.
+     * @param PDO $database : la base de données.
+     */
     public function __construct(PDO $database)
     {
         $this->db = $database;
@@ -43,6 +47,12 @@ class ActivationManager {
     }
     return $act;
 }
+
+    /**
+     * Fonction permettant de récupérer un code d'activation en fonction  du code.
+     * @param $code : le  code.
+     * @return Activation : la classe Activation concernant ce code.
+     */
     public function getActivationByCode($code)
     {
         $query = $this->db->prepare("SELECT * FROM activation WHERE code = :code");
@@ -61,6 +71,12 @@ class ActivationManager {
         return $act;
     }
 
+    /**
+     * Fonction permettant de récuperer une Activation en fonction du code et du libellé.
+     * @param $libelle : le libellé du code.
+     * @param $code : le code.
+     * @return Activation : la classe Activation concernant ce code.
+     */
     public function getActivationByCodeAndLibelle($libelle, $code)
     {
         $query = $this->db->prepare("SELECT * FROM activation WHERE libelle = :libelle and code = :code");
@@ -84,7 +100,7 @@ class ActivationManager {
     /**
      * Méthode permettant la récupération des codes d'activation lié à un user
      * @param int $id de l'utilisateur que l'on recherche
-     * @return array
+     * @return array : un tableau contenant toues les Activations concernant l'utilisateur.
      */
     public function getActivationById($id)
     {
@@ -102,6 +118,12 @@ class ActivationManager {
 
         return $tab;
     }
+
+    /**
+     * Fonction renvoyant toutes les Activation liées à un libellé.
+     * @param $libelle : le libellé concerné.
+     * @return array : le tableau d'Activation.
+     */
     public function getActivationByLibelle($libelle)
     {
         $query = $this->db->prepare("SELECT * FROM activation WHERE libelle = :libelle");
@@ -119,6 +141,10 @@ class ActivationManager {
         return $tab;
     }
 
+    /**
+     * Fonction permettant d'ajouter une activation à la base de données.
+     * @param Activation $activation : la classe Activation que l'on souhaite ajouter.
+     */
     public function addActivation(Activation $activation)
     {
         $query = $this
@@ -132,6 +158,11 @@ class ActivationManager {
         ));
     }
 
+    /**
+     * Fonction supprimant le code d'activation d'un utilisateur en fonction de son libellé.
+     * @param $id : l'id de l'utilisateur.
+     * @param $libelle : le libellé du code.
+     */
     public function deleteActivationByIdAndLibelle($id, $libelle) {
         $query = $this
             ->db
@@ -144,6 +175,10 @@ class ActivationManager {
             ));
     }
 
+    /**
+     * Fonction supprimant un code d'activation en fonction de sa classe Activation.
+     * @param Activation $activation : la classe Activation que l'on souhaite supprimer.
+     */
     public function deleteActivation(Activation $activation)
     {
         $query = $this

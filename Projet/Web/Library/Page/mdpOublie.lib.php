@@ -32,7 +32,7 @@ use \Entity\Activation as Activation;
           }
 
           if ($inconnu) {
-              echo "Cet email n'est pas répertorié chez nous, désolé !";
+              echo "<div class='alert alert-danger' role='alert'>Cet email n'est pas répertorié chez nous, désolé !</div>";
           } else {
               $code_aleatoire = genererCode();
               $adresseAdmin = $ini['ADMINISTRATEUR']['mail'];
@@ -41,7 +41,7 @@ use \Entity\Activation as Activation;
               $entete="From:".$adresseAdmin."\r\n";
               $entete .= "Content-Type: text/html; charset=utf-8\r\n";
               $message = "Nous confirmons que vous avez bien demandé un nouveau mot de passe : <br>
-							Votre lien pour pouvoir le modifier est : <a href='www.everydayidea.be/Page/mdpOublie.page.php?code=" . $code_aleatoire . "'>www.everydayidea/mdpOublie.page.php?code=" . $code_aleatoire . "</a>";
+							Votre lien pour pouvoir le modifier est : <a href='http://www.everydayidea.be/Page/mdpOublie.page.php?code=" . $code_aleatoire . "'>www.everydayidea/mdpOublie.page.php?code=" . $code_aleatoire . "</a>";
               mail($to, $sujet, $message, $entete);
               echo "<div class='alert alert-success' role='alert'>Un mail vous a été envoyé avec un code d'activation pour le changement de votre mot de passe !</div>";
 
@@ -72,6 +72,7 @@ use \Entity\Activation as Activation;
   }
 
 /**
+ * Fonction vérifiant si le code d'activation est correct.
  * @return bool : Renvoie si le code dans l'url existe ou non
  */
     function goodCode() {
@@ -87,7 +88,7 @@ use \Entity\Activation as Activation;
 
             if ($wrongCode) {
                 echo "<div class='alert alert-danger' role='alert'> Votre code n'est pas correct, cliquez bien sur le mail envoyé à cet effet ! <br>";
-                echo "<meta http-equiv='refresh' content='1; URL=../'>";
+                echo "<meta http-equiv='refresh' content='2; URL=../'>";
                 return false;
             } else {
                 return true;
@@ -102,12 +103,14 @@ use \Entity\Activation as Activation;
     function formulaireChangement() {
         if (goodCode()) {
             $code = $_GET['code'];
-            echo "<form class='form-horizontal' name='validation' action='www.everydayidea/mdpOublie.php?code=$code' method='post' onSubmit='return verification_validation()'>";
+            echo "<div class='col-sm-12'>";
+            echo "<form class='form-horizontal' name='validation' action='mdpOublie.page.php?code=$code' method='post' onSubmit='return verification_validation()'>";
             echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='userName'>Nom d'utilisateur :</label><div class='col-sm-10'><input class='form-control' id='userName' name='userName' type='text'></div></div>";
             echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='mdp'>Mot de passe :</label><div class='col-sm-10'><input class='form-control' id='mdp' name='mdp' type='password'></div></div>";
             echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='verifmdp'>Vérification du mdp :</label><div class='col-sm-10'><input class='form-control' id='verifmdp' name='verifmdp' type='password'></div></div>";
             echo "<div class='form-group col-sm-12'><div class='col-sm-10'><button type='submit' class='btn btn-default'>Soumettre</button></div></div> ";
             echo "</form>";
+            echo "</div>";
         } else {
             echo " Revenez avec un code correct ! </div><br>";
         }
@@ -141,8 +144,9 @@ use \Entity\Activation as Activation;
              */
             if ($userTest->getUserName() != $userRecup->getUserName() ) {
 
-
-                echo "<div class='alert alert-danger' role='alert'>Votre nom d'utilisateur ne correspond pas à l'utilisateur possédant ce code d'activation !</div>";
+                echo "<section class='row'>";
+                echo "<br><br><br><br><br><br><br><br><br><br><br><br><div class='alert alert-danger' role='alert'>Votre nom d'utilisateur ne correspond pas à l'utilisateur possédant ce code d'activation !</div>";
+                echo "</section>";
 
 
             } else {
@@ -150,10 +154,10 @@ use \Entity\Activation as Activation;
                 $userRecup -> setMdp($mdp);
                 $am->deleteActivation($ac);
                 $um->updateUserMdp($userRecup);
-                echo "<div class='alert alert-danger' role='success'>Votre mot de passe a bien été modifié, vous pouvez vous connecter !</div>";
-                echo "<meta http-equiv='refresh' content='1; URL=connexion.page.php'>";
+                echo "<br><br><br><br><br><br><br><br><br><br><br><br><div class='alert alert-success' role='success'>Votre mot de passe a bien été modifié, vous pouvez vous connecter !</div>";
+                echo "<meta http-equiv='refresh' content='2; URL=connexion.page.php'>";
 
             }
         }
 
-    }
+}

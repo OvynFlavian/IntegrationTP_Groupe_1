@@ -43,24 +43,27 @@ $configIni = getConfigFile();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
     <script src="dist/js/bootstrap-submenu.min.js" defer></script>
 
+
+    <link rel="stylesheet" type="text/css" href="../personalisation.css">
 </head>
 <body>
-<header>
-    <?php include("../Menu/menuGeneral.lib.php") ?>
-    <aside class="col-md-2" style="max-width: 200px;">
-        <ul class="nav nav-pills nav-stacked red">
-            <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="amis.page.php">Liste de mes amis</a></li>
-            <li <?php if(!empty($_GET) and $_GET['to'] == "friendList"){echo 'class="active"';}?>><a href="?to=friendList">Voir mes demandes</a></li>
-
-        </ul>
-    </aside>
-</header>
 <section class="container" id="administration">
-    <section class="jumbotron">
-        <h1>Gérer mes amis</h1>
-        <p> Ici, vous pouvez voir vos demandes en cours, les demandes vous étant envoyées ainsi que la liste de vos amis</p>
+    <header>
+        <?php include("../Menu/menuGeneral.lib.php") ?>
+    </header>
+    <div class="col-md-2 clearfix" id="sub-menu-left">
+        <nav class="sidebar-nav">
+            <ul class="nav sidebar-nav sidebar-collapse">
+                <li <?php if(empty($_GET)){echo 'class="active"';}?>><a href="amis.page.php">Liste de mes amis</a></li>
+                <li <?php if(!empty($_GET) and $_GET['to'] == "friendList"){echo 'class="active"';}?>><a href="?to=friendList">Voir mes demandes</a></li>
+            </ul>
+        </nav>
+    </div>
+    <section class="col-lg-8 jumbotron">
+        <h1> <img class="jumbotitre" src="../Images/bannieres/amis.png" alt="logo" /></h1>
+        <p class="jumbotexte"> Ici, vous pouvez voir vos demandes en cours, les demandes vous étant envoyées ainsi que la liste de vos amis</p>
     </section>
-    <section class="row">
+    <section class="row col-lg-12">
         <?php
         if(empty($_GET)) {
             $id = gererPost();
@@ -90,11 +93,12 @@ $configIni = getConfigFile();
         }
         ?>
     </section>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="col-xs-4">&copy; everydayidea.be</div>
+        <div class="col-xs-4" style="text-align: center"> Contactez <a href="mailto:postmaster@everydayidea.be">l'administrateur</a></div>
+        <div class="col-xs-4"></div>
+    </footer>
 </section>
-
-<footer class="footer panel-footer navbar-fixed-bottom">
-    &copy; everydayidea.com <span class="marge"> Contactez <a href="mailto:<?php echo 'postmaster@everydayidea.be'?>">l'administrateur</a></span>
-</footer>
 
 </body>
 </html>
