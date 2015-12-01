@@ -1,10 +1,8 @@
 package com.example.arnaud.integrationprojetv0;
 
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,7 +31,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +39,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class MainActivity extends ActionBarActivity {
-    Button b;
+public class MdpOublie extends ActionBarActivity {
+    Button recupMdp;
     Button b2;
     TextView mdpForget;
     EditText et,pass;
@@ -71,24 +68,23 @@ public class MainActivity extends ActionBarActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mdp_oublie);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
-        b = (Button)findViewById(R.id.Button01);
+        recupMdp = (Button)findViewById(R.id.recupMdp);
         b2= (Button)findViewById(R.id.Button02);
         mdpForget= (TextView)findViewById(R.id.mdpForget);
         et = (EditText)findViewById(R.id.email);
-        pass= (EditText)findViewById(R.id.password);
-        tv = (TextView)findViewById(R.id.tv);
+
 
         // Session manager
         session = new SessionManager(getApplicationContext());
 
         if (session.isLoggedIn()) {
-            Intent intent = new Intent(MainActivity.this, ChoixCategorie.class);
+            Intent intent = new Intent(MdpOublie.this, ChoixCategorie.class);
             startActivity(intent);
         }
 
@@ -105,48 +101,21 @@ public class MainActivity extends ActionBarActivity {
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
             // Users is already logged in. Take him to main activity
-            Intent intent = new Intent(MainActivity.this, ChoixCategorie.class);
+            Intent intent = new Intent(MdpOublie.this, ChoixCategorie.class);
             startActivity(intent);
             System.out.println("réponse: " + session.id);
             finish();
         }
 
-        b.setOnClickListener(new OnClickListener() {
+        recupMdp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = ProgressDialog.show(MainActivity.this, "",
-                        "Validation de l'utilisateur...", true);
-
-
-             /*   Thread thread = new Thread(new Runnable() {
-                    public void run() {*/
-                        login();
-                        //  addOptionOnClick(context, liste);
-                /*    }
-
-
-                });
-                thread.start();
-*/
-
+                Toast.makeText(MdpOublie.this, recup(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MdpOublie.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
-        b2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Register.class));
-                //setContentView(R.layout.register_layout);
-            }
-        });
-
-        mdpForget.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MdpOublie.class));
-                //setContentView(R.layout.register_layout);
-            }
-        });
     }
 
     @Override
@@ -154,88 +123,34 @@ public class MainActivity extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    void login(){
+    String recup(){
         try{
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/login.php");
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/mdpOublie.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("UserName", et.getText().toString().trim()));
-            nameValuePairs.add(new BasicNameValuePair("Mdp", pass.getText().toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("email", et.getText().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             System.out.println("avant execute avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
-            JSONObject jObj = new JSONObject(response);
+           // JSONObject jObj = new JSONObject(response);
 
-            session.setLogin(true);
 
-            final String error = jObj.getString("error");
-            final String id = jObj.getString("id");
-            final String userName = jObj.getString("UserName");
-            final String password = jObj.getString("Mdp");
-            final String email = jObj.getString("email");
-            System.out.println("avant user droit");
-            final String droit = jObj.getString("userDroit");
-            System.out.println("après user droit");
-            final String tel = jObj.getString("tel");
+           System.out.println("réponse: " + session.id);
+            return response;
 
-            System.out.println("droit" + droit);
 
-            session.setId(id);
-            session.setEmail(email);
-            session.setUsername(userName);
-            session.setDroit(droit);
-
-            System.out.println("réponse: " + session.id);
-
-            System.out.println("Response : " + error + id + userName + password + email);
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    // tv.setText("Response from PHP : " + response);
-                    dialog.dismiss();
-                }
-            });
-
-            if(error!=null){
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(MainActivity.this,"Connexion réussie", Toast.LENGTH_SHORT).show();
-                        //System.out.println("reponse2: "+ id+userName+ password + email);
-                    }
-                });
-
-                startActivity(new Intent(MainActivity.this, ChoixCategorie.class));
-            }else{
-                System.out.println("reponse2: "+ id+userName+ password + email);
-                showAlert();
-            }
 
         }catch(Exception e){
-            dialog.dismiss();
+          //  dialog.dismiss();
             System.out.println("Exception : " + e.getMessage());
         }
+        return null;
     }
 
-    public void showAlert(){
-        MainActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("connexion erreur.");
-                builder.setMessage("utilisateur non trouvé.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
-    }
 
     /**
      * Ajoute des option dans le menu
@@ -250,15 +165,15 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(MainActivity.this, Accueil.class);
+                    Intent intent = new Intent(MdpOublie.this, Accueil.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(MainActivity.this, Register.class);
+                    Intent intent = new Intent(MdpOublie.this, Register.class);
                     startActivity(intent);
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(MainActivity.this, ChoixCategorie.class);
+                    Intent intent = new Intent(MdpOublie.this, ChoixCategorie.class);
                     startActivity(intent);
                 }
             }
@@ -270,7 +185,7 @@ public class MainActivity extends ActionBarActivity {
      */
 
     private void AfficherMessage(){
-        Intent intent = new Intent(MainActivity.this, GroupeAccueil.class);
+        Intent intent = new Intent(MdpOublie.this, GroupeAccueil.class);
         startActivity(intent);
 
 
@@ -359,7 +274,7 @@ public class MainActivity extends ActionBarActivity {
         session.setId(null);
 
         // Launching the login activity
-        Intent intent = new Intent(MainActivity.this, Accueil.class);
+        Intent intent = new Intent(MdpOublie.this, Accueil.class);
         startActivity(intent);
         finish();
     }

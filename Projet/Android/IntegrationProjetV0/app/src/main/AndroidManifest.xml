@@ -159,6 +159,11 @@
             android:name=".ConfJoinGroup"
             android:parentActivityName=".AfficherGroupe">
         </activity>
+
+        <activity
+            android:name=".MdpOublie"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>
