@@ -151,7 +151,14 @@
             android:name=".ConfirmAjoutGroupe"
             android:parentActivityName=".AjoutAmisGroupe">
         </activity>
-
+        <activity
+            android:name=".AfficherGroupe"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+        <activity
+            android:name=".ConfJoinGroup"
+            android:parentActivityName=".AfficherGroupe">
+        </activity>
     </application>
 
 </manifest>

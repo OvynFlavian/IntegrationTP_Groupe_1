@@ -10,6 +10,10 @@
 	$description = $_POST['description'];
 	$categorie = $_POST['categorie'];
 	
+	$replace = array("'");  
+	$titre = str_replace($replace, "\'", $titre);
+	$description = str_replace($replace, "\'", $description);
+	
 	$retour['error'] = "FALSE";
 	$retour['existe'] = "FALSE";
 	$retour['champsVide'] = "FALSE";
