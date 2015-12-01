@@ -14,7 +14,7 @@ public class SessionManager {
 
     Editor editor;
     Context _context;
-    String id,username,email,publics, droit;
+    String id,username,email,publics, droit, tel;
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -32,13 +32,8 @@ public class SessionManager {
     }
 
     public void setLogin(boolean isLoggedIn) {
-
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
-
-
-        // commit changes
         editor.commit();
-
         Log.d(TAG, "Users login session modified!");
     }
 
@@ -49,29 +44,33 @@ public class SessionManager {
     public void setUsername(String username) {
         editor.putString("USERNAME", username);
         editor.commit();
-
     }
 
     public String getUsername(){
         return pref.getString("USERNAME", null);
-
     }
 
     public void setDroit(String droit) {
         editor.putString("DROIT", droit);
         editor.commit();
-
     }
 
     public String getDroit(){
         return pref.getString("DROIT", null);
+    }
 
+    public String getTel() {
+        return pref.getString("TEL", null);
+    }
+
+    public void setTel(String tel) {
+        editor.putString("TEL", tel);
+        editor.commit();
     }
 
     public void setEmail(String email) {
         editor.putString("EMAIL",email );
         editor.commit();
-
     }
 
     public String getEmail(){

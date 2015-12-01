@@ -40,7 +40,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Register extends ActionBarActivity {
     Button b,b2;
     EditText usr,pass,email,confPass;
-    TextView tv;
     HttpPost httppost;
     StringBuffer buffer;
     HttpResponse response;
@@ -85,10 +84,6 @@ public class Register extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-
-        tv = (TextView) findViewById(R.id.tv);
-
         if (session.isLoggedIn()) {
             // Users is already logged in. Take him to main activity
             Intent intent = new Intent(Register.this,ChoixCategorie.class);
@@ -99,14 +94,9 @@ public class Register extends ActionBarActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = ProgressDialog.show(Register.this, "",
-                        "Validation de l'inscription...", true);
-                /*new Thread(new Runnable() {
-                    public void run() {*/
-                        register();
-                    /*}
-                }).start();
-           } */}
+                dialog = ProgressDialog.show(Register.this, "", "Validation de l'inscription...", true);
+                register();
+            }
         });
     }
 
@@ -115,25 +105,22 @@ public class Register extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    void register(){
+    public void register(){
         try{
 
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/inscription.php"); // make sure the url is correct.
-            //add your data
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/inscription.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("email", email.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("mdp", pass.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("mdpConfirm", confPass.getText().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
             runOnUiThread(new Runnable() {
                 public void run() {
-                    //  tv.setText("Response from PHP : " + response);
                     dialog.dismiss();
                 }
             });

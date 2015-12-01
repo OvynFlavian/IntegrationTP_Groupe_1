@@ -13,11 +13,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -65,7 +68,18 @@ public class ModifProfil extends ActionBarActivity {
     HttpResponse response;
     HttpClient httpclient;
     List<NameValuePair> nameValuePairs;
-    EditText usr,pass,email,confPass;
+    EditText usr, pass, email, confPass, tel, passActuel;
+
+    ScrollView scrollView = null;
+    RelativeLayout layout = null;
+
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,11 +90,19 @@ public class ModifProfil extends ActionBarActivity {
                         .build()
         );
         setContentView(R.layout.modif_layout);
+        layout = (RelativeLayout) findViewById(R.id.layoutModifProfil1);
+        layout.setOnClickListener(listener);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        scrollView.setOnClickListener(listener);
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(layout.getWindowToken(), 0);
         session = new SessionManager(getApplicationContext());
         usr = (EditText)findViewById(R.id.username);
         email = (EditText)findViewById(R.id.email);
         pass= (EditText)findViewById(R.id.password);
         confPass = (EditText)findViewById(R.id.confPass);
+        passActuel = (EditText) findViewById(R.id.passActuel);
+        tel = (EditText) findViewById(R.id.tel);
         btnAppli = (Button) findViewById(R.id.btnAppli);
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -94,12 +116,18 @@ public class ModifProfil extends ActionBarActivity {
 
         usr.setText(session.getUsername());
         email.setText((session.getEmail()));
+        if (session.getTel() != null && session.getTel() != "" && session.getTel() != "null" && session.getTel() != "N/A") {
+            tel.setText(session.getTel());
+        } else {
+            tel.setText("");
+            tel.setHint("téléphone");
+        }
 
         btnAppli.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog = ProgressDialog.show(ModifProfil.this, "",
-                        "Validation de l'inscription...", true);
+                        "Validation de la modification...", true);
                 new Thread(new Runnable() {
                     public void run() {
                         modifProfil();
@@ -118,32 +146,29 @@ public class ModifProfil extends ActionBarActivity {
     /**
      * modification du profil d'un utilisateur
      */
-    void modifProfil(){
+    public void modifProfil(){
         try{
-
             session = new SessionManager(getApplicationContext());
 
             String id = null;
             id = session.getId();
 
-
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/modifProfil.php"); // make sure the url is correct.
-            //add your data
-            nameValuePairs = new ArrayList<NameValuePair>(2);
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/modifProfil.php");
+            nameValuePairs = new ArrayList<NameValuePair>(7);
             nameValuePairs.add(new BasicNameValuePair("userName", usr.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("email", email.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("mdp", pass.getText().toString().trim()));
-            nameValuePairs.add(new BasicNameValuePair("mdpConfirm", confPass.getText().toString().trim()));
-            nameValuePairs.add(new BasicNameValuePair("id", id.toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("mdpConf", confPass.getText().toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("mdpOld", passActuel.getText().toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("userId", id.toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("tel", tel.getText().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
             runOnUiThread(new Runnable() {
                 public void run() {
-                    //  tv.setText("Response from PHP : " + response);
                     dialog.dismiss();
                 }
             });
@@ -156,8 +181,9 @@ public class ModifProfil extends ActionBarActivity {
                 });
                 session.setUsername(usr.getText().toString().trim());
                 session.setEmail(email.getText().toString().trim());
+                session.setTel(tel.getText().toString().trim());
 
-                startActivity(new Intent(ModifProfil.this, MainActivity.class));
+                startActivity(new Intent(ModifProfil.this, Profil.class));
             }else{
                 showAlert(response);
             }

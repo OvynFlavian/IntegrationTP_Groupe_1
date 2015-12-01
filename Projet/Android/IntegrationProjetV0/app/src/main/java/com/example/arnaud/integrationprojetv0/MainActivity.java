@@ -47,7 +47,6 @@ public class MainActivity extends ActionBarActivity {
     Button b2;
     TextView mdpForget;
     EditText et,pass;
-    TextView tv;
     HttpPost httppost;
     StringBuffer buffer;
     HttpResponse response;
@@ -82,7 +81,6 @@ public class MainActivity extends ActionBarActivity {
         mdpForget= (TextView)findViewById(R.id.mdpForget);
         et = (EditText)findViewById(R.id.email);
         pass= (EditText)findViewById(R.id.password);
-        tv = (TextView)findViewById(R.id.tv);
 
         // Session manager
         session = new SessionManager(getApplicationContext());
@@ -114,21 +112,8 @@ public class MainActivity extends ActionBarActivity {
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = ProgressDialog.show(MainActivity.this, "",
-                        "Validation de l'utilisateur...", true);
-
-
-             /*   Thread thread = new Thread(new Runnable() {
-                    public void run() {*/
-                        login();
-                        //  addOptionOnClick(context, liste);
-                /*    }
-
-
-                });
-                thread.start();
-*/
-
+                dialog = ProgressDialog.show(MainActivity.this, "", "Validation de l'utilisateur...", true);
+                login();
             }
         });
 
@@ -154,7 +139,7 @@ public class MainActivity extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    void login(){
+    public void login(){
         try{
 
             httpclient = new DefaultHttpClient();
@@ -170,9 +155,7 @@ public class MainActivity extends ActionBarActivity {
             System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
 
-            session.setLogin(true);
-
-            final String error = jObj.getString("error");
+            final Boolean error = jObj.getBoolean("error");
             final String id = jObj.getString("id");
             final String userName = jObj.getString("UserName");
             final String password = jObj.getString("Mdp");
@@ -184,57 +167,37 @@ public class MainActivity extends ActionBarActivity {
 
             System.out.println("droit" + droit);
 
-            session.setId(id);
-            session.setEmail(email);
-            session.setUsername(userName);
-            session.setDroit(droit);
+            if (error == true) {
+                Toast.makeText(MainActivity.this,"Informations incorrectes", Toast.LENGTH_SHORT).show();
+            } else {
+                session.setLogin(true);
+                session.setId(id);
+                session.setEmail(email);
+                session.setUsername(userName);
+                session.setDroit(droit);
+                session.setTel(tel);
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                startActivity(new Intent(MainActivity.this, ChoixCategorie.class));
+            }
 
             System.out.println("réponse: " + session.id);
-
             System.out.println("Response : " + error + id + userName + password + email);
 
             runOnUiThread(new Runnable() {
                 public void run() {
-                    // tv.setText("Response from PHP : " + response);
                     dialog.dismiss();
                 }
             });
-
-            if(error!=null){
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(MainActivity.this,"Connexion réussie", Toast.LENGTH_SHORT).show();
-                        //System.out.println("reponse2: "+ id+userName+ password + email);
-                    }
-                });
-
-                startActivity(new Intent(MainActivity.this, ChoixCategorie.class));
-            }else{
-                System.out.println("reponse2: "+ id+userName+ password + email);
-                showAlert();
-            }
 
         }catch(Exception e){
             dialog.dismiss();
             System.out.println("Exception : " + e.getMessage());
         }
-    }
-
-    public void showAlert(){
-        MainActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("connexion erreur.");
-                builder.setMessage("utilisateur non trouvé.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
     }
 
     /**

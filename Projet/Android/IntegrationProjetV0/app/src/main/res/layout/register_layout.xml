@@ -24,6 +24,7 @@
 
             <EditText
                 android:hint="Nom d'utilisateur"
+                android:gravity="center"
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,6 +36,8 @@
 
             <EditText
                 android:id="@+id/email"
+                android:inputType="textEmailAddress"
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -47,6 +50,7 @@
 
             <EditText
                 android:id="@+id/password"
+                android:gravity="center"
                 android:inputType="textPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,6 +65,7 @@
             <EditText
                 android:hint="Confirmation mot de passe"
                 android:id="@+id/confPass"
+                android:gravity="center"
                 android:inputType="textPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

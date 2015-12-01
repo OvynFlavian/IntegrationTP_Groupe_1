@@ -113,8 +113,6 @@ public class Profil extends ActionBarActivity {
         else cbPublic.setChecked(false);
 
         System.out.println("réponse: " + session.getId());
-        System.out.println("réponse: " + session.getPublics());
-
 
         btnmodif.setOnClickListener(new View.OnClickListener() {
 

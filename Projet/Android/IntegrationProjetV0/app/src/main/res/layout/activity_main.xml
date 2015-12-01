@@ -29,6 +29,7 @@
             <EditText
                 android:text=""
                 android:id="@+id/email"
+                android:textAlignment="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -40,6 +41,7 @@
 
             <EditText
                 android:hint="Mot de passe"
+                android:textAlignment="center"
                 android:id="@+id/password"
                 android:inputType="textPassword"
                 android:layout_width="wrap_content"
