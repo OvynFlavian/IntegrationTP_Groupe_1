@@ -37,6 +37,13 @@ public class Accueil extends AppCompatActivity {
         setContentView(R.layout.content_accueil);
 
         session = new SessionManager(getApplicationContext());
+        session.setLogin(false);
+
+        System.out.println("la nouvelle session : ");
+        System.out.println("logged ? : " + session.isLoggedIn());
+        System.out.println("id user : " + session.getId());
+        System.out.println("name user : " + session.getUsername());
+        System.out.println("mail user : " + session.getEmail());
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -59,6 +66,13 @@ public class Accueil extends AppCompatActivity {
             btnInscription.setVisibility(View.INVISIBLE);
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        session.setLogin(false);
+        super.onDestroy();
+        session.setLogin(false);
     }
 
     @Override
