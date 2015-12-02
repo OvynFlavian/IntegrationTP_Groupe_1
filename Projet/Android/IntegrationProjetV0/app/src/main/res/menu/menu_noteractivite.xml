@@ -5,8 +5,8 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/listeActivite"
-        android:title="Liste complète"
+        android:id="@+id/noterActivite"
+        android:title="Noter mon activité"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 

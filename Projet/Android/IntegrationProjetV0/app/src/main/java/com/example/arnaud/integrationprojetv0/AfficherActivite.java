@@ -611,10 +611,7 @@ public class AfficherActivite extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.listeActivite) {
-            System.out.println("liste activite " + categorie);
+        if (id == R.id.listeActivite) {
             Intent intent = new Intent(AfficherActivite.this, ListeActivite.class);
             intent.putExtra(intentCat, categorie);
             startActivity(intent);

@@ -101,11 +101,10 @@ public class AfficherProfilAmis extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         Intent intent = getIntent();
-// On suppose que tu as mis un String dans l'Intent via le putExtra()
 
         final String username = intent.getStringExtra("username");
 
-        final String[] tb1=affFriend(username);
+        final String[] tb1 = affFriend(username);
 
         btnSuppr.setOnClickListener(new View.OnClickListener() {
             @Override
