@@ -150,9 +150,7 @@ public class MainActivity extends ActionBarActivity {
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            System.out.println("avant execute avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
 
             final Boolean error = jObj.getBoolean("error");
@@ -160,12 +158,15 @@ public class MainActivity extends ActionBarActivity {
             final String userName = jObj.getString("UserName");
             final String password = jObj.getString("Mdp");
             final String email = jObj.getString("email");
-            System.out.println("avant user droit");
             final String droit = jObj.getString("userDroit");
-            System.out.println("après user droit");
             final String tel = jObj.getString("tel");
+            final String dateInscription = jObj.getString("dateInscription");
+            final String lastIdea = jObj.getString("dateLastIdea");
+            final String lastConnect = jObj.getString("dateLastConnect");
 
-            System.out.println("droit" + droit);
+            System.out.println("date inscription : " + dateInscription);
+            System.out.println("date last idea : " + lastIdea);
+            System.out.println("date last connect : " + lastConnect);
 
             if (error == true) {
                 Toast.makeText(MainActivity.this,"Informations incorrectes", Toast.LENGTH_SHORT).show();
@@ -176,6 +177,9 @@ public class MainActivity extends ActionBarActivity {
                 session.setUsername(userName);
                 session.setDroit(droit);
                 session.setTel(tel);
+                session.setInscription(dateInscription);
+                session.setLastIdea(lastIdea);
+                session.setLastConnect(lastConnect);
 
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -185,8 +189,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, ChoixCategorie.class));
             }
 
-            System.out.println("réponse: " + session.id);
-            System.out.println("Response : " + error + id + userName + password + email);
+            System.out.println("session manager (inscr idea connect) : " + session.getInscription() + session.getLastIdea() + session.getLastConnect());
 
             runOnUiThread(new Runnable() {
                 public void run() {

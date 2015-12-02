@@ -68,7 +68,10 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -303,6 +306,7 @@ public class AjouterActivite extends AppCompatActivity {
             nameValuePairs.add(new BasicNameValuePair("description", descriptionView.getText().toString().trim()));
             nameValuePairs.add(new BasicNameValuePair("categorie", categorie.trim()));
             nameValuePairs.add(new BasicNameValuePair("imagePresente", imagePresente.toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -319,6 +323,9 @@ public class AjouterActivite extends AppCompatActivity {
 
             CharSequence s;
             if (error.equals("FALSE")) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Calendar cal = Calendar.getInstance();
+                session.setLastIdea(dateFormat.format(cal.getTime()));
                 idActivite = jObj.getInt("idActivite");
                 s = "Activité enregistrée !";
                 sendImage();

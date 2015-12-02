@@ -29,6 +29,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,16 +52,16 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 
 public class Profil extends ActionBarActivity {
+
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
 
-    TextView user, mail;
+    TextView user, grade, activite, mail, tel, lastConnect, lastIdea, dateInscr;
     private SessionManager session;
     Button btnmodif;
-    CheckBox cbPublic;
     HttpPost httppost;
     StringBuffer buffer;
     HttpResponse response;
@@ -86,10 +87,15 @@ public class Profil extends ActionBarActivity {
 
         // Session manager
         session = new SessionManager(getApplicationContext());
-        user = (TextView) findViewById(R.id.User);
-        mail = (TextView) findViewById(R.id.Mail);
+        user = (TextView) findViewById(R.id.user);
+        grade = (TextView) findViewById(R.id.grade);
+        activite = (TextView) findViewById(R.id.activite);
+        mail = (TextView) findViewById(R.id.mail);
+        tel = (TextView) findViewById(R.id.tel);
+        lastConnect = (TextView) findViewById(R.id.lastConnect);
+        lastIdea = (TextView) findViewById(R.id.lastIdea);
+        dateInscr = (TextView) findViewById(R.id.dateInscription);
         btnmodif = (Button) findViewById(R.id.btnModif);
-        cbPublic = (CheckBox) findViewById(R.id.cbPublic);
 
 
         //menu
@@ -102,17 +108,15 @@ public class Profil extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        getActivite();
 
-
-
-        user.setText("Nom d'utilisateur : " + session.getUsername());
-        mail.setText("Addresse Mail : " + (session.getEmail()));
-        String publics= session.getPublics();
-        if (publics=="FALSE") cbPublic.setChecked(false);
-        else if (publics=="TRUE") cbPublic.setChecked(true);
-        else cbPublic.setChecked(false);
-
-        System.out.println("réponse: " + session.getId());
+        user.setText(user.getText() + session.getUsername());
+        grade.setText(grade.getText() + session.getDroit());
+        mail.setText(mail.getText() + session.getEmail());
+        tel.setText(tel.getText() + session.getTel());
+        lastConnect.setText(lastConnect.getText() + session.getLastConnect());
+        lastIdea.setText(lastIdea.getText() + session.getLastIdea());
+        dateInscr.setText(dateInscr.getText() + session.getInscription());
 
         btnmodif.setOnClickListener(new View.OnClickListener() {
 
@@ -123,65 +127,33 @@ public class Profil extends ActionBarActivity {
             }
         });
 
-
-
-
-        cbPublic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton cbPublic, boolean isChecked) {
-                try {
-                    httpclient = new DefaultHttpClient();
-                    String id = session.getId();
-                    httppost = new HttpPost("http://91.121.151.137/scripts_android/modifPublic.php"); // make sure the url is correct.
-                    //add your data
-                    nameValuePairs = new ArrayList<NameValuePair>(2);
-                    if (cbPublic.isChecked()) {
-                        System.out.println("resp : " + "true");
-                        nameValuePairs.add(new BasicNameValuePair("isCheck", "TRUE"));
-                        session.setPublics("TRUE");
-                    } else {
-                        System.out.println("resp : " + "true");
-                        nameValuePairs.add(new BasicNameValuePair("isCheck", "FALSE"));
-                        session.setPublics("FALSE");
-                    }
-                    nameValuePairs.add(new BasicNameValuePair("id", id.toString().trim()));
-
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                    //Execute HTTP Post Request
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
-                    final String response = httpclient.execute(httppost, responseHandler);
-                    System.out.println("Response : " + response);
-
-                    if(response.equalsIgnoreCase("TRUE")){
-                        cbPublic.setChecked(true);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Profil.this, "Activités publiques", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    }else if(response.equalsIgnoreCase("FALSE")){
-                        cbPublic.setChecked(false);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Profil.this, "Activités privées", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println("Exception : " + e.getMessage());
-                }
-            }
-
-        });
-
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void getActivite() {
+        try {
+
+            httpclient = new DefaultHttpClient();
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getActivite.php");
+            nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("userId", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONObject jObj = new JSONObject(response);
+
+            final String activite = jObj.getString("activite");
+
+            this.activite.setText(this.activite.getText() + activite);
+
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
     }
 
     /**
@@ -219,18 +191,9 @@ public class Profil extends ActionBarActivity {
         });
     }
 
-
-
     /**
      * Initialise le menu
      */
-
-    private void AfficherMessage(){
-        Intent intent = new Intent(Profil.this, GroupeAccueil.class);
-        startActivity(intent);
-
-
-    }
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -248,11 +211,9 @@ public class Profil extends ActionBarActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
-
 
     /**
      * Action après la création du menu

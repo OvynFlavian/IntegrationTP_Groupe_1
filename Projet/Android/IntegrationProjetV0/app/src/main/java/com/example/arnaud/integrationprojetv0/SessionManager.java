@@ -68,6 +68,33 @@ public class SessionManager {
         editor.commit();
     }
 
+    public String getInscription() {
+        return pref.getString("INSCRIPTION", null);
+    }
+
+    public void setInscription(String inscription) {
+        editor.putString("INSCRIPTION", inscription);
+        editor.commit();
+    }
+
+    public String getLastIdea() {
+        return pref.getString("LASTIDEA", null);
+    }
+
+    public void setLastIdea(String lastIdea) {
+        editor.putString("LASTIDEA", lastIdea);
+        editor.commit();
+    }
+
+    public String getLastConnect() {
+        return pref.getString("LASTCONNECT", null);
+    }
+
+    public void setLastConnect(String lastConnect) {
+        editor.putString("LASTCONNECT", lastConnect);
+        editor.commit();
+    }
+
     public void setEmail(String email) {
         editor.putString("EMAIL",email );
         editor.commit();

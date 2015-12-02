@@ -7,55 +7,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1"
-    android:background="#b3c7e1">
-
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/User"
-        android:layout_weight="0.08"
-        android:textSize="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="96dp" />
+        android:background="#b3c7e1"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/Mail"
-        android:textSize="20dp"
-        android:layout_below="@+id/User"
-        android:layout_alignStart="@+id/User"
-        android:layout_marginTop="43dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Modifier"
-        android:id="@+id/btnModif"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="71dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/titreProfil"
+                android:text="Profil"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"/>
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="S&apos;afficher en public"
-        android:id="@+id/cbPublic"
-        android:layout_above="@+id/btnModif"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="50dp" />
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titreProfil"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true">
 
-</RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pseudo : "
+                    android:id="@+id/user"
+                    android:textSize="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="7dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Grade : "
+                    android:id="@+id/grade"
+                    android:textSize="20dp"
+                    android:layout_below="@id/user"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Activité : "
+                    android:id="@+id/activite"
+                    android:textSize="20dp"
+                    android:layout_below="@id/grade"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Email : "
+                    android:id="@+id/mail"
+                    android:textSize="20dp"
+                    android:layout_below="@id/activite"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Téléphone : "
+                    android:id="@+id/tel"
+                    android:textSize="20dp"
+                    android:layout_below="@id/mail"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Dernière connexion : "
+                    android:id="@+id/lastConnect"
+                    android:textSize="20dp"
+                    android:layout_below="@id/tel"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Dernière activité proposée : "
+                    android:id="@+id/lastIdea"
+                    android:textSize="20dp"
+                    android:layout_below="@id/lastConnect"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Date d'inscription : "
+                    android:id="@+id/dateInscription"
+                    android:textSize="20dp"
+                    android:layout_below="@id/lastIdea"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btnmodifier"
+                    android:id="@+id/btnModif"
+                    android:layout_below="@id/dateInscription"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <ListView
         android:id="@+id/amisList"
