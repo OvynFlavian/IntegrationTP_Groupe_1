@@ -163,13 +163,12 @@ public class MainActivity extends ActionBarActivity {
             final String dateInscription = jObj.getString("dateInscription");
             final String lastIdea = jObj.getString("dateLastIdea");
             final String lastConnect = jObj.getString("dateLastConnect");
-
-            System.out.println("date inscription : " + dateInscription);
-            System.out.println("date last idea : " + lastIdea);
-            System.out.println("date last connect : " + lastConnect);
+            final int idDroit = jObj.getInt("idDroit");
 
             if (error == true) {
-                Toast.makeText(MainActivity.this,"Informations incorrectes", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Informations incorrectes", Toast.LENGTH_SHORT).show();
+            } else if(droit.equals("Banni")) {
+                Toast.makeText(MainActivity.this, "Vous avez été banni", Toast.LENGTH_SHORT).show();
             } else {
                 session.setLogin(true);
                 session.setId(id);

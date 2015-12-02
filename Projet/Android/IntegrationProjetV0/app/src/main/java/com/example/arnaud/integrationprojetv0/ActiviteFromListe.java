@@ -112,7 +112,6 @@ public class ActiviteFromListe extends AppCompatActivity {
         textConfirm = (TextView) findViewById(R.id.textConfirmation);
         textBase = textConfirm.getText().toString();
         layoutActivite = (RelativeLayout) findViewById(R.id.layoutActivite);
-        //categorie = intent.getStringExtra(intentCat);
 
         imageActivite = (ImageView) findViewById(R.id.image);
 

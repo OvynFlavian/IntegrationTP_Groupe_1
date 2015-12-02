@@ -108,7 +108,7 @@ public class Profil extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        getActivite();
+        afficherActiviteChoisie();
 
         user.setText(user.getText() + session.getUsername());
         grade.setText(grade.getText() + session.getDroit());
@@ -134,12 +134,11 @@ public class Profil extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public void getActivite() {
+    public void afficherActiviteChoisie() {
         try {
-
-            httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getActivite.php");
-            nameValuePairs = new ArrayList<NameValuePair>(1);
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherActiviteChoisie.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("userId", session.getId().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -147,11 +146,16 @@ public class Profil extends ActionBarActivity {
             final String response = httpclient.execute(httppost, responseHandler);
             JSONObject jObj = new JSONObject(response);
 
+            final Boolean error = jObj.getBoolean("error");
             final String activite = jObj.getString("activite");
 
-            this.activite.setText(this.activite.getText() + activite);
+            if (error) {
+                this.activite.setText(this.activite.getText() + "N/A");
+            } else {
+                this.activite.setText(this.activite.getText() + activite);
+            }
 
-        } catch (Exception e) {
+        } catch(Exception e) {
             System.out.println("Exception : " + e.getMessage());
         }
     }

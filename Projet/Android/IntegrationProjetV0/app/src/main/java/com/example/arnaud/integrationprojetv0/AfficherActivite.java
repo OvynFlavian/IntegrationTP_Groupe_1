@@ -132,7 +132,7 @@ public class AfficherActivite extends AppCompatActivity {
 
         if(!session.isLoggedIn()) {
             ajoutActivite.setVisibility(View.INVISIBLE);
-            btnOk.setText("Connectez-vous");
+            btnOk.setBackground(this.getResources().getDrawable(R.drawable.connexion));
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
