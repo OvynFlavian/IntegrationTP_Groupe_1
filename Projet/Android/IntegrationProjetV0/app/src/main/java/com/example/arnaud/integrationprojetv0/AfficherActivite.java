@@ -88,6 +88,8 @@ public class AfficherActivite extends AppCompatActivity {
     private Boolean imageTrouvee = true;
     private RelativeLayout layoutActivite = null;
 
+    private RelativeLayout okSuivante = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +114,7 @@ public class AfficherActivite extends AppCompatActivity {
         textConfirm = (TextView) findViewById(R.id.textConfirmation);
         textBase = textConfirm.getText().toString();
         layoutActivite = (RelativeLayout) findViewById(R.id.layoutActivite);
+        okSuivante = (RelativeLayout) findViewById(R.id.relLayout);
 
         imageActivite = (ImageView) findViewById(R.id.image);
 
@@ -190,6 +193,8 @@ public class AfficherActivite extends AppCompatActivity {
             final String response = httpclient.execute(httppost, responseHandler);
             JSONObject jObj = new JSONObject(response);
 
+            System.out.println("response : " + response);
+
             final String id = jObj.getString("id");
             idActivite = id;
             final String libelle = jObj.getString("titre");
@@ -229,14 +234,10 @@ public class AfficherActivite extends AppCompatActivity {
         } else {
             imageActivite.setVisibility(View.INVISIBLE);
             // TODO si pas d'activité trouvée, affiché le message correspondant.
-        }
 
-        //si décommenté, les images sont invisibles.
-        /*if (imageTrouvee) {
-            imageActivite.setVisibility(View.VISIBLE);
-        } else {
-            imageActivite.setVisibility(View.INVISIBLE);
-        }*/
+            //titre.setText("Aucune activité trouvée :(");
+            //okSuivante.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void downloadImage() {
@@ -620,6 +621,11 @@ public class AfficherActivite extends AppCompatActivity {
         session.setPublics(null);
         session.setUsername(null);
         session.setId(null);
+        session.setLastIdea(null);
+        session.setInscription(null);
+        session.setDroit(null);
+        session.setLastConnect(null);
+        session.setTel(null);
 
         // Launching the login activity
         Intent intent = new Intent(AfficherActivite.this, Accueil.class);

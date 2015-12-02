@@ -39,12 +39,6 @@ public class Accueil extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         session.setLogin(false);
 
-        System.out.println("la nouvelle session : ");
-        System.out.println("logged ? : " + session.isLoggedIn());
-        System.out.println("id user : " + session.getId());
-        System.out.println("name user : " + session.getUsername());
-        System.out.println("mail user : " + session.getEmail());
-
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
@@ -232,6 +226,11 @@ public class Accueil extends AppCompatActivity {
         session.setPublics(null);
         session.setUsername(null);
         session.setId(null);
+        session.setLastIdea(null);
+        session.setInscription(null);
+        session.setDroit(null);
+        session.setLastConnect(null);
+        session.setTel(null);
 
         // Launching the login activity
         Intent intent = new Intent(Accueil.this, Accueil.class);

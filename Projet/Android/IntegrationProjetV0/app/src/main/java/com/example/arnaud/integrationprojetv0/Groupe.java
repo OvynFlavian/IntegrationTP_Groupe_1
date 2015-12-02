@@ -280,6 +280,11 @@ public class Groupe extends ActionBarActivity {
         session.setPublics(null);
         session.setUsername(null);
         session.setId(null);
+        session.setLastIdea(null);
+        session.setInscription(null);
+        session.setDroit(null);
+        session.setLastConnect(null);
+        session.setTel(null);
 
         // Launching the login activity
         Intent intent = new Intent(Groupe.this, Accueil.class);

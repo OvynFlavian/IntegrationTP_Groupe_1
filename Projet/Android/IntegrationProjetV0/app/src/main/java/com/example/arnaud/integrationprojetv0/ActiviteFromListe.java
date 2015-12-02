@@ -193,7 +193,6 @@ public class ActiviteFromListe extends AppCompatActivity {
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
 
-            System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
 
             note = Float.valueOf(jObj.getString("note"));
@@ -231,13 +230,6 @@ public class ActiviteFromListe extends AppCompatActivity {
             imageActivite.setVisibility(View.INVISIBLE);
             // TODO si pas d'activité trouvée, affiché le message correspondant.
         }
-
-        //si décommenté, les images sont invisibles.
-        /*if (imageTrouvee) {
-            imageActivite.setVisibility(View.VISIBLE);
-        } else {
-            imageActivite.setVisibility(View.INVISIBLE);
-        }*/
     }
 
     private void downloadImage() {
@@ -663,6 +655,11 @@ public class ActiviteFromListe extends AppCompatActivity {
         session.setPublics(null);
         session.setUsername(null);
         session.setId(null);
+        session.setLastIdea(null);
+        session.setInscription(null);
+        session.setDroit(null);
+        session.setLastConnect(null);
+        session.setTel(null);
 
         // Launching the login activity
         Intent intent = new Intent(ActiviteFromListe.this, Accueil.class);

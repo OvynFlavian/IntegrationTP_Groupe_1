@@ -64,12 +64,8 @@ public class ChoixCategorie extends AppCompatActivity {
         );
         setContentView(R.layout.categorie_layout);
 
-        afficherCategorie();
-
         // session manager
         session = new SessionManager(getApplicationContext());
-
-
 
         layoutCat = (RelativeLayout) findViewById(R.id.layoutCat2);
         activiteChoisieTV = (TextView) findViewById(R.id.activiteChoisieTV);
@@ -85,6 +81,7 @@ public class ChoixCategorie extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        afficherCategorie();
         if (!session.isLoggedIn()) {
             activiteChoisieTV.setVisibility(View.INVISIBLE);
             activiteChoisie.setVisibility(View.INVISIBLE);
@@ -108,6 +105,11 @@ public class ChoixCategorie extends AppCompatActivity {
         session.setPublics(null);
         session.setUsername(null);
         session.setId(null);
+        session.setLastIdea(null);
+        session.setInscription(null);
+        session.setDroit(null);
+        session.setLastConnect(null);
+        session.setTel(null);
 
         // Launching the login activity
         Intent intent = new Intent(ChoixCategorie.this, Accueil.class);
@@ -155,11 +157,9 @@ public class ChoixCategorie extends AppCompatActivity {
     public void afficherCategorie() {
         try{
 
+            session.setLogin(true);
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherCategorie.php"); // make sure the url is correct.
-
-            //Execute HTTP Post Request
-            // response=httpclient.execute(httppost);
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherCategorie.php");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             System.out.println("avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
@@ -181,6 +181,7 @@ public class ChoixCategorie extends AppCompatActivity {
             System.out.println("Exception : " + e.getMessage());
         }
     }
+
     /**
      * Affiche les différentes catégories disponibles
      * @param cat : nom de la catégorie
@@ -285,12 +286,6 @@ public class ChoixCategorie extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-    private void AfficherMessage(){
-        Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
-        startActivity(intent);
     }
 
     private void setupDrawer() {
