@@ -80,7 +80,6 @@ public class NoterActivite extends AppCompatActivity {
 
     //menu
     private void addDrawerItems() {
-        System.out.println("session droit " + session.getDroit());
         String[] osArray;
 
         osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
