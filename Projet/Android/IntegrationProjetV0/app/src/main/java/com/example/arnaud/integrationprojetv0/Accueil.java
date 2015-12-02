@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,8 @@ public class Accueil extends AppCompatActivity {
     private String mActivityTitle;
     private SessionManager session;
 
+    Button b = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,10 @@ public class Accueil extends AppCompatActivity {
                         .build()
         );
         setContentView(R.layout.content_accueil);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         session = new SessionManager(getApplicationContext());
         session.setLogin(false);
@@ -52,12 +59,12 @@ public class Accueil extends AppCompatActivity {
 
         Button btnConnexion = (Button) findViewById(R.id.connexion);
         Button btnInscription = (Button) findViewById(R.id.inscription);
-
-
+        Button btnTrouverActivite = (Button) findViewById(R.id.trouverActivite);
 
         if (session.isLoggedIn()) {
             btnConnexion.setVisibility(View.INVISIBLE);
             btnInscription.setVisibility(View.INVISIBLE);
+            btnTrouverActivite.setVisibility(View.INVISIBLE);
         }
 
     }

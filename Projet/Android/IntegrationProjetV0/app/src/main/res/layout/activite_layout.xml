@@ -52,6 +52,16 @@
                         android:layout_centerHorizontal="true"
                         android:textSize="20sp"/>
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:layout_below="@id/titre"
+                        android:text="Revenir en arrière"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="40dp"
+                        android:id="@+id/btnBack"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -89,6 +89,7 @@ public class AfficherActivite extends AppCompatActivity {
     private RelativeLayout layoutActivite = null;
 
     private RelativeLayout okSuivante = null;
+    private Button btnBack = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class AfficherActivite extends AppCompatActivity {
         textBase = textConfirm.getText().toString();
         layoutActivite = (RelativeLayout) findViewById(R.id.layoutActivite);
         okSuivante = (RelativeLayout) findViewById(R.id.relLayout);
+        btnBack = (Button) findViewById(R.id.btnBack);
 
         imageActivite = (ImageView) findViewById(R.id.image);
 
@@ -216,27 +218,38 @@ public class AfficherActivite extends AppCompatActivity {
 
             confirmationActivite.setVisibility(View.INVISIBLE);
 
-            activiteTrouvee = true;
+            if (!id.equals("error")) {
+                activiteTrouvee = true;
+            }
 
         } catch(Exception e) {
             System.out.println("Exception : " + e.getMessage());
         }
 
-        try {
-            String url = "http://www.everydayidea.be/Images/activite/" + idActivite + ".jpg";
-            urlImage = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        if(!idActivite.equals("error")) {
+            try {
+                String url = "http://www.everydayidea.be/Images/activite/" + idActivite + ".jpg";
+                urlImage = new URL(url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
 
         if(activiteTrouvee) {
             downloadImage();
         } else {
             imageActivite.setVisibility(View.INVISIBLE);
-            // TODO si pas d'activité trouvée, affiché le message correspondant.
-
-            //titre.setText("Aucune activité trouvée :(");
-            //okSuivante.setVisibility(View.INVISIBLE);
+            titre.setText("Aucune activité trouvée :(");
+            okSuivante.setVisibility(View.INVISIBLE);
+            this.note.setVisibility(View.INVISIBLE);
+            this.note2.setVisibility(View.INVISIBLE);
+            btnBack.setVisibility(View.VISIBLE);
+            btnBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(AfficherActivite.this, ChoixCategorie.class));
+                }
+            });
         }
     }
 

@@ -121,7 +121,6 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Register.class));
-                //setContentView(R.layout.register_layout);
             }
         });
 
@@ -129,7 +128,6 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MdpOublie.class));
-                //setContentView(R.layout.register_layout);
             }
         });
     }

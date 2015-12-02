@@ -118,7 +118,6 @@ public class ActiviteFromListe extends AppCompatActivity {
         Intent intent = getIntent();
         final String libelle = intent.getStringExtra("nom");
         final String description1 = intent.getStringExtra("description");
-        //categorie = intent.getStringExtra("catLib");
         session = new SessionManager(getApplicationContext());
 
         titre.setText(libelle);
@@ -140,7 +139,6 @@ public class ActiviteFromListe extends AppCompatActivity {
         confirmationActivite.setVisibility(View.INVISIBLE);
 
         if(!session.isLoggedIn()) {
-            //ajoutActivite.setVisibility(View.INVISIBLE);
             btnOk.setText("Connectez-vous");
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,8 +154,6 @@ public class ActiviteFromListe extends AppCompatActivity {
                 }
             });
         }
-
-        //activiteSuivante(btnSuivant);
 
         btnSuivant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +194,6 @@ public class ActiviteFromListe extends AppCompatActivity {
             note = Float.valueOf(jObj.getString("note"));
             categorie = jObj.getString("categorie");
             idActivite = jObj.getString("idActivite");
-            System.out.println("categorie : " + categorie);
 
             if (note != 99) {
                 this.note.setVisibility(View.VISIBLE);
@@ -228,7 +223,6 @@ public class ActiviteFromListe extends AppCompatActivity {
             downloadImage();
         } else {
             imageActivite.setVisibility(View.INVISIBLE);
-            // TODO si pas d'activité trouvée, affiché le message correspondant.
         }
     }
 
