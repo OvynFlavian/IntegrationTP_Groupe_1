@@ -63,14 +63,21 @@
                     android:layout_marginRight="30dp"
                     android:lineSpacingExtra="5dp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/description"
+                    android:id="@+id/noteTV"
+                    android:text="Indiquez votre note : "
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"/>
+
                 <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/note"
-                    android:layout_below="@id/description"
-                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/noteTV"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="10dp"
                     android:stepSize="0.5"/>
 
                 <Button
@@ -80,9 +87,40 @@
                     android:background="@drawable/btnenvoyer"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/note"
-                    android:layout_marginTop="15dp"
-                    android:onClick="ajouterActivite"
+                    android:layout_marginTop="25dp"
+                    android:onClick="envoyerNote"
                     android:layout_marginBottom="15dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ajouterActivite"
+                    android:text="Votre activité sera enlevée et vous quitterez votre groupe."
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:id="@+id/tv1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv1"
+                    android:text="Si vous en étiez le leader, un autre utilisateur héritera de ce statut."
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:id="@+id/tv2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv2"
+                    android:text="De plus, si vous étiez seul dans ce groupe, il sera supprimé."
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:id="@+id/tv3"
+                    android:layout_marginBottom="10dp"/>
 
             </RelativeLayout>
 

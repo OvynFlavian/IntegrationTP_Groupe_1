@@ -42,17 +42,17 @@ public class ChoixCategorie extends AppCompatActivity {
     private static final String test = "categorie";
     private SessionManager session;
     private RelativeLayout layoutCat = null;
-    //private int hauteur = 1500;
     private TextView activiteChoisieTV = null;
     private TextView activiteChoisie = null;
+    private String description = null;
+    private String id = null;
+
     //menu
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class ChoixCategorie extends AppCompatActivity {
 
         afficherCategorie();
         if (!session.isLoggedIn()) {
+            activiteChoisie.setText("");
             activiteChoisieTV.setVisibility(View.INVISIBLE);
             activiteChoisie.setVisibility(View.INVISIBLE);
         } else {
@@ -129,12 +130,13 @@ public class ChoixCategorie extends AppCompatActivity {
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            System.out.println("avant execute");
             final String response = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
             final Boolean error = jObj.getBoolean("error");
             final String activite = jObj.getString("activite");
+            final String description = jObj.getString("description");
+            id = jObj.getString("id");
 
             System.out.println("activite : " + activite);
             System.out.println("error : " + error);
@@ -143,6 +145,7 @@ public class ChoixCategorie extends AppCompatActivity {
                 activiteChoisie.setText("Vous n'avez pas d'activité");
             } else {
                 activiteChoisie.setText(activite);
+                this.description = description;
             }
 
         } catch(Exception e) {
@@ -323,7 +326,9 @@ public class ChoixCategorie extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_noteractivite, menu);
+        if (session.isLoggedIn() && !activiteChoisie.getText().equals("")) {
+            getMenuInflater().inflate(R.menu.menu_noteractivite, menu);
+        }
         return true;
     }
 
@@ -333,6 +338,9 @@ public class ChoixCategorie extends AppCompatActivity {
 
         if (id == R.id.noterActivite) {
             Intent intent = new Intent(ChoixCategorie.this, NoterActivite.class);
+            intent.putExtra("titre", activiteChoisie.getText());
+            intent.putExtra("description", description);
+            intent.putExtra("id", id);
             startActivity(intent);
         }
 
