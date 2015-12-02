@@ -88,6 +88,8 @@ public class ChoixCategorie extends AppCompatActivity {
         } else {
             afficherActiviteChoisie();
         }
+
+        System.out.println("session en cours : " + session.isLoggedIn());
     }
 
     @Override
@@ -157,7 +159,6 @@ public class ChoixCategorie extends AppCompatActivity {
     public void afficherCategorie() {
         try{
 
-            session.setLogin(true);
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherCategorie.php");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
