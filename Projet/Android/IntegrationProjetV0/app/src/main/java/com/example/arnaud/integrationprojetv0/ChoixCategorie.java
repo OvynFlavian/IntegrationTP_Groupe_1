@@ -74,7 +74,6 @@ public class ChoixCategorie extends AppCompatActivity {
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
-
         addDrawerItems();
         setupDrawer();
 
@@ -88,8 +87,6 @@ public class ChoixCategorie extends AppCompatActivity {
         } else {
             afficherActiviteChoisie();
         }
-
-        System.out.println("session en cours : " + session.isLoggedIn());
     }
 
     @Override

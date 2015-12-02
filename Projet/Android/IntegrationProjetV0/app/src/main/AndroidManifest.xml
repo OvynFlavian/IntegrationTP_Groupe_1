@@ -166,6 +166,10 @@
             android:parentActivityName=".MainActivity">
         </activity>
 
+        <activity android:name=".NoterActivite">
+
+        </activity>
+
     </application>
 
 </manifest>

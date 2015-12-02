@@ -88,7 +88,7 @@ public class AfficherProfilAmis extends ActionBarActivity {
         mail = (TextView) findViewById(R.id.Mail);
         activite = (TextView) findViewById(R.id.acti);
         btnSuppr = (Button) findViewById(R.id.btnSuppr);
-        btnActi   = (Button) findViewById(R.id.btnActi);
+        btnActi = (Button) findViewById(R.id.btnActi);
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -116,6 +116,9 @@ public class AfficherProfilAmis extends ActionBarActivity {
         btnActi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Intent intent2 = new Intent(AfficherProfilAmis.this, ActiviteFromListe.class);
+                //intent2.putExtra("nom", );
+
                 Intent intent2 = new Intent(AfficherProfilAmis.this, ActiAmis.class);
                 intent2.putExtra("idActi", tb1[0] );
                 intent2.putExtra("idUser", tb1[1] );
