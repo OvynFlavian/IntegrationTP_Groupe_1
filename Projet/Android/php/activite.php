@@ -30,6 +30,7 @@
 		$tbActivity[$i]['description'] = $rows['description'];
 		$tbActivity[$i]['note'] = $rows['note'];
 		$i++;
+		$ok = true;
 	}
 	$s = 0;
 	$c = sizeof($tbActivity)-1;
@@ -39,12 +40,14 @@
 	$activite['description'] = $tbActivity[$idx]['description'];
 	$br = array("<br />","<br>","<br/>");  
 	$activite['description'] = str_replace($br, "", $activite['description']);
-	preg_replace("<", "", $activite['description']);
-	preg_replace(">", "", $activite['description']);
 	if ($tbActivity[$idx]['note'] == null) {
 		$activite['note'] = "99";
 	} else {
 		$activite['note'] = roundTo($tbActivity[$idx]['note'], .5);
+	}
+	
+	if (!$ok) {
+		$activite['id'] = "error";
 	}
 	
 	mysqli_free_result($res);

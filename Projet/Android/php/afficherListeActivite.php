@@ -15,7 +15,11 @@
 	while ($row = mysqli_fetch_array($res)) {
 		$retour[$i]['libelle'] = $row['Libelle'];
 		$retour[$i]['description'] = $row['description'];
-		//$retour[$i]['note'] = strval($row['note']);
+		$br = array("<br />","<br>","<br/>");  
+		$retour[$i]['description'] = str_replace($br, "", $retour[$i]['description']);
+		$br = array("\n");  
+		$retour[$i]['description'] = str_replace($br, " ", $retour[$i]['description']);
+		$retour[$i]['description'] = substr($retour[$i]['description'], 0, 50)."...";
 		$i++;
 	}
 	

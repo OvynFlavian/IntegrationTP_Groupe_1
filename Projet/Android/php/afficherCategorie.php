@@ -2,7 +2,7 @@
 	define('HOST','localhost');
 	define('USER','root');
 	define('PASS','poulet77');
-  define('DB','projetIntegration');
+	define('DB','projetIntegration');
 
 	$con = mysqli_connect(HOST,USER,PASS,DB);
 	

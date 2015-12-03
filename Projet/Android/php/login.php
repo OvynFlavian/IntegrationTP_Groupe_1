@@ -8,42 +8,66 @@
 
 	$username = $_POST['UserName'];
 	$password = $_POST['Mdp'];
-	$password= hash("sha256", $password);
-	$userId=NULL;
-	$response["error"] ="erreur";
-
-	$sql = "select * from user where UserName = '".$username."' AND Mdp = '".$password. "'";
+	$response["error"] = true;
+	$response["id"] = "";
+	$response["UserName"]= "";
+	$response["Mdp"] = "";
+	$response['dateInscription'] = "";
+	$response['dateLastIdea'] = "";
+	$response['tel'] = "";
+	$response["email"]= "";
+	$response['userDroit'] = "";
+	$response['idDroit'] = 0;
+	$response['dateLastConnect'] = "";
+	
+	$sql = "select * from user where UserName = '".$username."'";
 	$query = mysqli_query($con,$sql);
 	$row = mysqli_fetch_assoc($query);
 	
-	$userId = $row['id'];
-	$userNameBdd = $row['UserName'];
-	$passwordBdd= $row['Mdp'];
-	$dateInscription = $row['DateInscription'];
-	$dateLastIdea = $row ['DateLastIdea'];
-	$tel = $row['tel'];
-	$emailBdd= $row['email'];
+	if ($row == null) {
+		$response['error'] = true;
+	} else {
 	
-	if($userId != NULL){
-		$response["error"] ="FALSE";
-		$response["id"] = $userId;
-		$response["UserName"]= $userNameBdd;
-		$response["Mdp"] = $passwordBdd;
-		$response['dateInscription'] = $dateInscription;
-		$response['dateLastIdea'] = $dateLastIdea;
-		$response['tel'] = $tel;
-		$response["email"]= $emailBdd;
+		$salt = $row['salt'];
+		$mdp = $row['Mdp'];
+		$password = hash("sha256", $password.$salt);
+
+		$sql = "select * from user where UserName = '".$username."' AND Mdp = '".$password. "'";
+		$query = mysqli_query($con,$sql);
+		$row = mysqli_fetch_assoc($query);
 		
-		$sql = "select Libelle from droit where id in (select id_Droits from user_droit where id_User = '".$userId."')";
-		$query = mysqli_query($con, $sql);
-		$row = mysqli_fetch_array($query);
-		$userDroit = $row['Libelle'];
-		$response['userDroit'] = $userDroit;
-		
-		$sql = "update user set DateLastConnect = NOW() where UserName = '".$userNameBdd."'";
-		$query = mysqli_query($con, $sql);
-       
-		echo json_encode($response);
+		if($row != NULL){
+			$response["error"] = false;
+			$response["id"] = $row['id'];
+			$userId = $row['id'];
+			$response["UserName"]= $row['UserName'];
+			$response["Mdp"] = $row['Mdp'];
+			$response['dateInscription'] = $row['DateInscription'];
+			$response['dateLastIdea'] = $row['DateLastIdea'];
+			$response['tel'] = $row['tel'];
+			$response["email"] = $row['email'];
+			
+			$sql = "select id, Libelle from droit where id in (select id_Droits from user_droit where id_User = '".$userId."')";
+			$query = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($query);
+			$userDroit = $row['Libelle'];
+			$response['userDroit'] = $userDroit;
+			$response['idDroit'] = $row['id'];
+			
+			$sql = "update user set DateLastConnect = NOW() where UserName = '".$userNameBdd."'";
+			$query = mysqli_query($con, $sql);
+			
+			$sql = "select DateLastConnect from user where id = '".$userId."'";
+			$query = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($query);
+			
+			$response['dateLastConnect'] = $row['DateLastConnect'];
+			
+		} else {
+			$response['error'] = true;
+		}
+	
 	}
-		
+	
+	echo json_encode($response);
 ?>

@@ -12,9 +12,12 @@
 	
 	$libelle = $_POST['libelle'];
 	
-	$sql = "select id, note from activity where Libelle = '".$libelle."'";
+	$sql = "select id, note, description from activity where Libelle = '".$libelle."'";
 	$res = mysqli_query($con, $sql);
 	$row = mysqli_fetch_array($res);
+	$retour['description'] = $row['description'];
+	$br = array("<br />","<br>","<br/>");  
+	$retour['description'] = str_replace($br, "", $retour['description']);
 	if ($row['note'] == null) {
 		$retour['note'] = "99";
 	} else {

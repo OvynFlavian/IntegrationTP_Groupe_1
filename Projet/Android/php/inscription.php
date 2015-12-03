@@ -1,24 +1,19 @@
 <?php
 
-  define('HOST','localhost');
-  define('USER','root');
-  define('PASS','poulet77');
-  define('DB','projetIntegration');
+	define('HOST','localhost');
+	define('USER','root');
+	define('PASS','poulet77');
+	define('DB','projetIntegration');
   
  
 
-$con = mysqli_connect(HOST,USER,PASS,DB);
+	$con = mysqli_connect(HOST,USER,PASS,DB);
 
-	 //include 'fonction.php';
-	 //probleme, il dis qu'il ne connait pas les fonction, qu'elles ne sont pas définies...
 	 
-        $return = "error";
-        if(null !==$_POST['mdp'] OR null !==$_POST['mdpConfirm'])
-		{
+    $return = "error";
+    if(null !==$_POST['mdp'] OR null !==$_POST['mdpConfirm']){
       
-            $userName = strtolower($_POST['userName']);
-           // $mdp = hash("sha256", $_POST['mdp']);
-			//$mdpConf = hash("sha256",$_POST['mdpConfirm']);
+    $userName = strtolower($_POST['userName']);
 			
 			$mdp = $_POST['mdp'];
 			$mdpConf = $_POST['mdpConfirm'];
@@ -69,9 +64,12 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
                 }
                 if($validUserMail and $validUserName and $champValid and ($return=="erreur.") ){
 
-					$mdp= hash("sha256", $mdp);
-					$sql="INSERT INTO user(UserName, Mdp, email, DateInscription) VALUES('".$userName."', '".$mdp."', '".$email."', NOW())";
+					$salt = uniqid(mt_rand(), true);
+					$mdp= hash("sha256", $mdp.$salt);
+					$sql="INSERT INTO user(UserName, Mdp, email, DateInscription, DateLastConnect, salt) VALUES('".$userName."', '".$mdp."', '".$email."', NOW(), NOW(), '".$salt."')";
 					mysqli_query ($con,$sql);
+					
+					
 					
 					$query = mysqli_query($con,"select * from user where UserName='".$userName."'");
 					$row = mysqli_fetch_assoc($query);
@@ -79,27 +77,27 @@ $con = mysqli_connect(HOST,USER,PASS,DB);
 					$userNameBdd = $row['UserName'];
 					$passwordBdd= $row['Mdp'];
 					$emailBdd= $row['email'];
+					
+					$sql = "insert into user_droit (id_Droits, id_User, Date) values (4, $userId, NOW())";
+					mysqli_query ($con,$sql);
 		
 					$code_aleatoire = genererCode();
 					$adresseAdmin = "andrewblake@hotmail.fr";
 					$to = $email;
 					$sujet = "Confirmation de l'inscription";
 					$entete = "From:" . $adresseAdmin . "\r\n";
+					$entete .= "Content-Type: text/html; charset=utf-8\r\n";
 					$message = "Nous confirmons que vous êtes officiellement inscrit sur le site EveryDayIdea <br>
 									Votre login est : " . $userNameBdd . " <br>   
 									Votre email est : " . $emailBdd . " <br>
-									Votre lien d'activation est : <a href='www.everydayidea/activation.php?code=" . $code_aleatoire . "'>www.everydayidea/activation.php?code=" . $code_aleatoire . "</a>";
-					// mail($to, $sujet, $message, $entete);
-					//  echo "Votre inscription est dorénavant complète ! Un email vous a été envoyé avec vos informations et votre code d'activation !";
+									Votre lien d'activation est : <a href='http://www.everydayidea.be/Page/activationInscription.page.php?code=" . $code_aleatoire . "'>Cliquez ici.</a>";
+					mail($to, $sujet, $message, $entete);
 		
 					$sql="INSERT INTO activation (id_user, code, date, libelle) VALUES('".$userId."', '".$code_aleatoire."', NOW(), 'inscription')";
 					mysqli_query ($con,$sql);
 				}
-				
-				
             }
 			echo $return;
-			
         }
 
 function nbUserByUsername($userName){	
