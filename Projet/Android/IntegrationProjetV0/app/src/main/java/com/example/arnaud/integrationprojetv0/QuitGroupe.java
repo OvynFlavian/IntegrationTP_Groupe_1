@@ -1,9 +1,11 @@
 package com.example.arnaud.integrationprojetv0;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -31,29 +35,29 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-
 /**
- * Created by nauna on 24-11-15.
+ * Created by nauna on 19-11-15.
  */
-public class GroupeAccueil extends ActionBarActivity {
-
-    HttpPost httppost;
-    HttpResponse response;
-    HttpClient httpclient;
-    List<NameValuePair> nameValuePairs;
+public class QuitGroupe extends ActionBarActivity {
 
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
+
+    HttpPost httppost;
+    StringBuffer buffer;
+    HttpResponse response;
+    HttpClient httpclient;
+    List<NameValuePair> nameValuePairs;
+    ProgressDialog dialog = null;
     private SessionManager session;
+    private TextView user;
+    private Button btnOui;
+    private Button btnNon;
 
-    private Button btnCreerGroupe;
-    private Button btnVoirGroupe;
-    private Button btnAffGroupe;
-
-
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -61,17 +65,21 @@ public class GroupeAccueil extends ActionBarActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
-        setContentView(R.layout.groupe_accueil);
+        setContentView(R.layout.confirmajout_layout);
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        // Session manager
         session = new SessionManager(getApplicationContext());
-        btnCreerGroupe = (Button) findViewById(R.id.btnCreerGroupe);
 
-        btnVoirGroupe = (Button) findViewById(R.id.btnVoirGroupe);
-
-        btnAffGroupe = (Button) findViewById(R.id.btnAffGroupe);
-
+        user = (TextView) findViewById(R.id.User);
+        btnOui = (Button) findViewById(R.id.btnOui);
+        btnNon = (Button) findViewById(R.id.btnNon);
         //menu
-        mDrawerList = (ListView) findViewById(R.id.amisList);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
 
         addDrawerItems();
@@ -80,37 +88,31 @@ public class GroupeAccueil extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        Intent intent = getIntent();
+        // On suppose que tu as mis un String dans l'Intent via le putExtra()
 
+        final String username = intent.getStringExtra("username");
 
-        if(!isGroup()){
-            btnVoirGroupe.setVisibility(View.INVISIBLE);
-        }
+        user.setText("Voulez-vous vraiment quitter ce groupe? \n " );
 
-        btnCreerGroupe.setOnClickListener(new View.OnClickListener() {
+        btnOui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // creerGroupe();
-                Intent intent = new Intent(GroupeAccueil.this, CreerGroupe.class);
+                QuitGroup();
+                Intent intent = new Intent(QuitGroupe.this, GroupeAccueil.class);
                 startActivity(intent);
+                Toast.makeText(QuitGroupe.this, "Groupe quitté.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnVoirGroupe.setOnClickListener(new View.OnClickListener() {
+        btnNon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroupeAccueil.this, VoirGroupe.class);
+                Intent intent = new Intent(QuitGroupe.this, VoirGroupe.class);
                 startActivity(intent);
+                Toast.makeText(QuitGroupe.this, "Groupe non quitté.", Toast.LENGTH_SHORT).show();
             }
         });
-
-        btnAffGroupe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupeAccueil.this, AfficherGroupe.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
     @Override
@@ -118,44 +120,39 @@ public class GroupeAccueil extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public void QuitGroup() {
 
-    public boolean isGroup(){
         try {
             // String [] liste = (String[]) list.toArray();
 
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/isGroup.php"); // make sure the url is correct.
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/quitGroup.php"); // make sure the url is correct.
 
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 " + session.getId().toString());
+            System.out.println("Response :1 "+session.getId().toString());
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             //Execute HTTP Post Request
 
-            System.out.println("Response : 2"+session.getId().toString());
+            System.out.println("Response : 2");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             // httpclient.execute(httppost);
             String response2 = httpclient.execute(httppost, responseHandler);
             System.out.println("Response : " + response2);
-
+            // JSONArray JsonArray = new JSONArray(response);
 
             System.out.println("Response : sisiiii ");
-
-            if (response2.equals("true")) return true;
-            else return false;
 
 
         } catch (Exception e) {
 
             System.out.println("Exception : " + e.getMessage());
         }
-        return false;
     }
-
-    /**
-     * Ajoute des option dans le menu
-     */
+    /*
+        * Ajoute des option dans le menu
+        */
     private void addDrawerItems() {
         String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
 
@@ -166,19 +163,19 @@ public class GroupeAccueil extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(GroupeAccueil.this, AfficherAmis.class);
+                    Intent intent = new Intent(QuitGroupe.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(GroupeAccueil.this, GroupeAccueil.class);
+                    Intent intent = new Intent(QuitGroupe.this, GroupeAccueil.class);
                     startActivity(intent);
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(GroupeAccueil.this, Profil.class);
+                    Intent intent = new Intent(QuitGroupe.this, Profil.class);
                     startActivity(intent);
                 }
                 if (position == 3) {
-                    Intent intent = new Intent(GroupeAccueil.this, ChoixCategorie.class);
+                    Intent intent = new Intent(QuitGroupe.this, ChoixCategorie.class);
                     startActivity(intent);
                 }
                 if (position == 4) {
@@ -189,15 +186,17 @@ public class GroupeAccueil extends ActionBarActivity {
     }
 
 
+
+    /**
+     * Initialise le menu
+     */
+
     private void AfficherMessage(){
-        Intent intent = new Intent(GroupeAccueil.this, GroupeAccueil.class);
+        Intent intent = new Intent(QuitGroupe.this, GroupeAccueil.class);
         startActivity(intent);
 
 
     }
-    /**
-     * Initialise le menu
-     */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -287,9 +286,11 @@ public class GroupeAccueil extends ActionBarActivity {
         session.setTel(null);
 
         // Launching the login activity
-        Intent intent = new Intent(GroupeAccueil.this, Accueil.class);
+        Intent intent = new Intent(QuitGroupe.this, Accueil.class);
         startActivity(intent);
         finish();
     }
 
+
 }
+

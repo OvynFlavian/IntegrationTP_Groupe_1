@@ -29,6 +29,11 @@
 	$row = mysqli_fetch_assoc($query);
 	$userId = $row['id'];
 	$mail = $row['email'];
+	$lastConnect = $row['DateLastConnect'];
+	$tel = $row['tel'];
+	if ($tel == null) {
+		$tel = "N/A";
+	}
 	
 	$sql2 = "select * from user_activity where id_User = '".$userId."' ";
 
@@ -67,6 +72,8 @@
 			$response[$i]["idUser"]= $userId;
 			$response[$i]["description"]= $description;
 			$response[$i]["catLib"]= $libCat;
+			$response[$i]["tel"]= $tel;
+			$response[$i]["lastConnect"]= $lastConnect;
 		}
 		
 		

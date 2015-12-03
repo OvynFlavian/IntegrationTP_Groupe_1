@@ -40,7 +40,7 @@ android:layout_height="match_parent">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/btnvoirgroupe"
+            android:background="@drawable/cree_groupe"
             android:id="@+id/btnAffGroupe"
             android:layout_below="@+id/btnCreerGroupe"
             android:layout_centerHorizontal="true"

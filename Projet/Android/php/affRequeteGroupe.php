@@ -10,7 +10,7 @@
 
 	$id= $_POST['id'];
 	$i=0;
-	$response[$i]["error"]="TRUE";
+	$response=null;
 
 	$sql = "select * from groupe_invitation where (id_user_demande = '".$id."') and accepte='0' ";
 

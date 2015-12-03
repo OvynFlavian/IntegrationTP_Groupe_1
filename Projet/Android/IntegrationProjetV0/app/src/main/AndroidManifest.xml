@@ -161,6 +161,11 @@
 
         </activity>
 
+        <activity
+            android:name=".QuitGroupe"
+            android:parentActivityName=".VoirGroupe">
+        </activity>
+
     </application>
 
 </manifest>

@@ -35,10 +35,10 @@
 			$response[$i]["userName"]= $userNameBdd;
 			$response[$i]["email"]= $emailBdd;
 				
-		
+		$i++;
 		}	
 		
-		$i++;
+		
 	}	
         
 	echo json_encode($response);

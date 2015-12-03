@@ -65,6 +65,14 @@
             android:layout_below="@id/btnRequete"
             android:background="#980b6392" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnQuit"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/btnquitter" />
+
     </RelativeLayout>
 
     <ListView

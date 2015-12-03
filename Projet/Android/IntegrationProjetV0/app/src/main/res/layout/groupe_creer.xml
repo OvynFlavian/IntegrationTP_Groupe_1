@@ -38,11 +38,11 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Créer groupe"
             android:id="@+id/b2"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="51dp" />
+            android:layout_marginBottom="51dp"
+            android:background="@drawable/cree_groupe" />
     </RelativeLayout>
     <ListView
         android:id="@+id/amisList"

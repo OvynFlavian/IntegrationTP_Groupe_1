@@ -1,29 +1,31 @@
 <?php
-	define('HOST','localhost');
-	define('USER','root');
-	define('PASS','poulet77');
-	define('DB','projetIntegration');
+	
+  define('HOST','localhost');
+  define('USER','root');
+  define('PASS','poulet77');
+  define('DB','projetIntegration');
+  
 
 	$con = mysqli_connect(HOST,USER,PASS,DB);
-	
-	$id = $_POST['id'];	
-	$username = $_POST['userName'];
-	
-	$i=0;
 
-	$sql = "select * from groupe where description = '".$username."' ";
+	
+	$id= $_POST['id'];
 
+	$sql = "select * from user where id = '".$id."' ";
 	$query = mysqli_query($con,$sql);
-	$row = mysqli_fetch_assoc($query);
-	$idGroupe = $row['id_groupe'];	
-	$id_leader = $row['id_leader'];
 	
 	
-	$sql9 = "select * from groupe where id_leader ='".$id."' ";
-
-	if(mysqli_query($con,$sql9)){
-		
-			$sql = "select id_user from user_groupe where id_groupe = '".$idGroupe."'";
+		$sql5 = "select * from user_groupe where id_user = '".$id."' ";
+	$query5 = mysqli_query($con,$sql5);
+	$row = mysqli_fetch_assoc($query5);
+	$idGroupe = $row['id_groupe'];
+	
+	
+	$sql7="DELETE FROM `projetIntegration`.`user_groupe` WHERE `user_groupe`.`id_user` = ".$id." ";
+	$query7 = mysqli_query($con,$sql7);
+	
+	
+		$sql = "select id_user from user_groupe where id_groupe = '".$idGroupe."'";
 	$res = mysqli_query($con, $sql);
 	$row = mysqli_fetch_array($res);
 	$idNewLeader = $row['id_user'];
@@ -31,16 +33,11 @@
 	$sql = "update groupe set id_leader = '".$idNewLeader."' where id_groupe = '".$idGroupe."'";
 	$res = mysqli_query($con, $sql);
 	
-		$sql6="DELETE FROM `projetIntegration`.`groupe` WHERE `groupe`.`id_leader` = ".$id." ";
-		$query6 = mysqli_query($con,$sql6);
-	}
+	$sql6="DELETE FROM `projetIntegration`.`groupe` WHERE `groupe`.`id_leader` = ".$id." ";
+	$query6 = mysqli_query($con,$sql6);
+		
+	echo ($id);
 	
-	
-	$sql4 = "select * from groupe where id_user ='".$id."' ";
-	if(mysqli_query($con,$sql4)){
-		$sql6="delete from user_groupe where id_user='".$id."' ";
-		$query6 = mysqli_query($con,$sql6);
-	}
 
-echo $username;
+		
 ?>

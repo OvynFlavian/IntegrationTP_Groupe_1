@@ -85,6 +85,7 @@ public class VoirGroupe extends ActionBarActivity {
         session = new SessionManager(getApplicationContext());
         addAmis = (Button) findViewById(R.id.btnAdd);
         btnRequete=(Button) findViewById(R.id.btnRequete);
+        btnQuit=(Button) findViewById(R.id.btnQuit);
         btnRequete.setVisibility(View.INVISIBLE);
         desc = (TextView) findViewById(R.id.desc);
         acti = (TextView) findViewById(R.id.acti);
@@ -116,6 +117,15 @@ public class VoirGroupe extends ActionBarActivity {
             }
         });
 
+        btnQuit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VoirGroupe.this, QuitGroupe.class);
+                startActivity(intent);
+            }
+        });
+
+
 
 
         final ArrayList<String> liste1;
@@ -130,7 +140,7 @@ public class VoirGroupe extends ActionBarActivity {
                 }
             });
         }
-        ArrayList<String> liste = afficherMembre(context);
+            ArrayList<String> liste = afficherMembre(context);
         addOptionOnClick(liste);
     }
 
@@ -305,7 +315,7 @@ public class VoirGroupe extends ActionBarActivity {
 
 
             final ArrayList<String> list = new ArrayList<String>();
-            final String[] tbAmis = new String[35];
+            final String[] tbAmis = new String[120];
 
             for (int i=0;i<JsonArray.length();i++) {
                 JSONObject jsonObject = JsonArray.getJSONObject(i);
