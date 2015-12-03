@@ -119,10 +119,10 @@ public class AfficherProfilAmis extends ActionBarActivity {
                 //Intent intent2 = new Intent(AfficherProfilAmis.this, ActiviteFromListe.class);
                 //intent2.putExtra("nom", );
 
-                Intent intent2 = new Intent(AfficherProfilAmis.this, ActiAmis.class);
+                Intent intent2 = new Intent(AfficherProfilAmis.this, ActiviteFromListe.class);
                 intent2.putExtra("idActi", tb1[0] );
                 intent2.putExtra("idUser", tb1[1] );
-                intent2.putExtra("libelle", tb1[2] );
+                intent2.putExtra("nom", tb1[2] );
                 intent2.putExtra("description", tb1[3] );
                 intent2.putExtra("catLib", tb1[4] );
                 startActivity(intent2);
