@@ -116,8 +116,6 @@ public class AfficherProfilAmis extends ActionBarActivity {
         btnActi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent2 = new Intent(AfficherProfilAmis.this, ActiviteFromListe.class);
-                //intent2.putExtra("nom", );
 
                 Intent intent2 = new Intent(AfficherProfilAmis.this, ActiviteFromListe.class);
                 intent2.putExtra("idActi", tb1[0] );
@@ -128,6 +126,11 @@ public class AfficherProfilAmis extends ActionBarActivity {
                 startActivity(intent2);
             }
         });
+
+        if (activite.getText().equals("pas d'activité aujourd'hui.")) {
+            btnActi.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override

@@ -215,12 +215,6 @@ public class ListeActivite extends AppCompatActivity {
         });
     }
 
-
-    private void AfficherMessage(){
-        Intent intent = new Intent(ListeActivite.this, Messagerie.class);
-        startActivity(intent);
-    }
-
     /**
      * Initialise le menu
      */
