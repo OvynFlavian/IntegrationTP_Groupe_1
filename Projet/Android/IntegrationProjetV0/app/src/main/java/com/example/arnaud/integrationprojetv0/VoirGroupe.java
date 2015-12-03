@@ -314,7 +314,7 @@ public class VoirGroupe extends ActionBarActivity {
                 list.add(tbAmis[i]);
 
             }
-            mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
+            mAmisAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, list);
             amisList.setAdapter(mAmisAdapter);
 
             return list;

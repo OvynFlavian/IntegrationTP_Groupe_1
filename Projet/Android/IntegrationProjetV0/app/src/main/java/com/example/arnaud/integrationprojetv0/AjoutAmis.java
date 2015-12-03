@@ -159,7 +159,7 @@ public class AjoutAmis extends ActionBarActivity {
         }
         */
 
-        mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, liste2);
+        mAmisAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, liste2);
         amisList.setAdapter(mAmisAdapter);
 
         return liste2;
@@ -203,7 +203,7 @@ public class AjoutAmis extends ActionBarActivity {
                 //tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
                 list.add(("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString());
             }
-            mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list);
+            mAmisAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, list);
             amisList.setAdapter(mAmisAdapter);
 
             return list;

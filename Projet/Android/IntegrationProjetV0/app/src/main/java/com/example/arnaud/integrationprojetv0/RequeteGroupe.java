@@ -125,7 +125,7 @@ public class RequeteGroupe extends ActionBarActivity {
             Intent intent = getIntent();
             final ArrayList<String> liste = intent.getStringArrayListExtra("liste");
 
-            mAmisAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, liste);
+            mAmisAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, liste);
             amisList.setAdapter(mAmisAdapter);
 
             return liste;

@@ -30,6 +30,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,8 @@ public class AfficherProfilAmis extends ActionBarActivity {
     private SessionManager session;
     private TextView user;
     private TextView mail;
+    private TextView tel;
+    private TextView lastConnect;
     private TextView activite;
     private Button btnSuppr;
     private Button btnNon;
@@ -86,6 +89,8 @@ public class AfficherProfilAmis extends ActionBarActivity {
 
         user = (TextView) findViewById(R.id.User);
         mail = (TextView) findViewById(R.id.Mail);
+        tel = (TextView) findViewById(R.id.tel);
+        lastConnect = (TextView)findViewById(R.id.lastConnect);
         activite = (TextView) findViewById(R.id.acti);
         btnSuppr = (Button) findViewById(R.id.btnSuppr);
         btnActi = (Button) findViewById(R.id.btnActi);
@@ -164,8 +169,14 @@ public class AfficherProfilAmis extends ActionBarActivity {
             System.out.println("taille : " + JsonArray.getJSONObject(0));
             user.setText("  Nom d'utilisateur: " + jsonObject.getString("userName"));
             mail.setText("  Email: " + jsonObject.getString("email"));
-            if(jsonObject.getString("libelle")=="null") activite.setText("pas d'activité aujourd'hui.");
-            else activite.setText("  Activité: " + jsonObject.getString("libelle"));
+            tel.setText(tel.getText() + jsonObject.getString("tel"));
+            lastConnect.setText(lastConnect.getText() + jsonObject.getString("lastConnect"));
+            if(jsonObject.getString("libelle")=="null") {
+                activite.setText("pas d'activité aujourd'hui.");
+            }
+            else {
+                activite.setText("  Activité: " + jsonObject.getString("libelle"));
+            }
             String idActi = jsonObject.getString("idActivity");
             String idUser = jsonObject.getString("idUser");
             String libelle = jsonObject.getString("libelle");
