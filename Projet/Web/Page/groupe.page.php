@@ -93,19 +93,19 @@ if(!$isConnect or ($_SESSION['User']->getDroit()[0]->getLibelle() != 'Premium' a
         <h1> <img class="jumbotitre" src="../Images/bannieres/groupe.png" alt="logo" id='image-media'></h1>
         <?php
             if (!isset($_GET['to'])) {
-                echo "<p class='jumbotexte'>Affichage de la liste des membres premium possédant la même activité que vous. Il est possible de les ajouter à votre groupe ou de rejoindre leur groupe !</p>";
+                echo "<p class='jumbotexte'>Affichage de la liste des membres premium possédant la même activité que vous. Il est possible de les ajouter à votre groupe ou de rejoindre leur groupe </p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'creerGroupe') {
-                echo "<p class='jumbotexte'>Créez votre groupe ! Vous pourrez ensuite inviter d'autres membres dedans pour leur partager votre activité ensemble !</p>";
+                echo "<p class='jumbotexte'>Créez votre groupe ! Vous pourrez ensuite inviter d'autres membres dedans pour leur partager votre activité ensemble </p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'listeGroupe') {
-                echo "<p class='jumbotexte'>Vous pouvez choisir un groupe et le rejoindre selon vos préférences et envies !</p>";
+                echo "<p class='jumbotexte'>Vous pouvez choisir un groupe et le rejoindre selon vos préférences et envies </p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'ajouter') {
-            echo "<p class='jumbotexte'>Vous pouvez ajouter cette personne à votre groupe, une invitation lui sera envoyée !</p>";
+            echo "<p class='jumbotexte'>Vous pouvez ajouter cette personne à votre groupe, une invitation lui sera envoyée </p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'rejoindre') {
-                echo "<p class='jumbotexte'>Vous pouvez rejoindre ce groupe ! Toutes vos invitations seront supprimées et vous aurez accès à la page du groupe !</p>";
+                echo "<p class='jumbotexte'>Vous pouvez rejoindre ce groupe ! Toutes vos invitations seront supprimées et vous aurez accès à la page du groupe </p>";
             } else if (isset($_GET['to']) && $_GET['to'] == 'voirGroupe') {
-                echo "<p class='jumbotexte'> Voici la page de votre groupe ! Vous pouvez voir les différents membres, les ajouter en ami ou discuter avec eux via la messagerie du groupe !";
+                echo "<p class='jumbotexte'> Vous pouvez voir les différents membres, les ajouter en ami ou discuter avec eux via la messagerie du groupe ";
             } else if (isset($_GET['to']) && $_GET['to'] == 'invitation') {
-            echo "<p class='jumbotexte'> Acceptez ou refusez les invitations que les membres d'autres groupes vous ont envoyées !";
+            echo "<p class='jumbotexte'> Acceptez ou refusez les invitations que les membres d'autres groupes vous ont envoyées ";
         }
 
 

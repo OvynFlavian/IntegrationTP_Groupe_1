@@ -51,7 +51,7 @@ $configIni = getConfigFile();
     </div>
     <section class="col-lg-8 jumbotron">
         <h1> <img class="jumbotitre" src="../Images/bannieres/signalement.png" alt="logo" /></h1>
-        <p class="jumbotexte"> Affichage de la liste des activités signalées actuellement sur le site.</p>
+        <p class="jumbotexte"> Affichage de la liste des activités signalées actuellement sur le site</p>
     </section>
     <section class="row">
         <article class="col-sm-12">

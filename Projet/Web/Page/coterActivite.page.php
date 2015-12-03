@@ -56,7 +56,7 @@ if (!isConnect()) {
 
     <section class="col-lg-8 jumbotron">
         <h1> <img class="jumbotitre" src="../Images/bannieres/coteractivite.png" alt="logo" /></h1>
-        <p class="jumbotexte">Cela fait plus de six heures que vous avez la même activité ! Que diriez-vous de la coter ?</p>
+        <p class="jumbotexte">Cela fait plus de deux heures que vous avez la même activité ! Que diriez-vous de la coter ?</p>
 
     </section>
     <section class="row col-lg-12">

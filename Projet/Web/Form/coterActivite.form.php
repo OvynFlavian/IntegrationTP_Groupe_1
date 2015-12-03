@@ -6,11 +6,16 @@
  * Time: 23:42
  */
 
+$uam = new User_ActivityManager(connexionDb());
+$act = $uam->getActIdByUserId($_SESSION['User']);
+$am = new ActivityManager(connexionDb());
+$activity = $am->getActivityById($act[0]['id_activity']);
 ?>
 
 
 <form class="form-horizontal" action="coterActivite.page.php" method="post">
     <h1 align="center"> Donnez une note à l'activité que vous être en train d'effectuer !</h1>
+    <?php echo "<h1 align='center'> Votre activité est ".$activity->getLibelle()." </h1>"; ?>
     <h2 align="center"> La cotation va de 1 à 5 de gauche à droite (la troisième étoile vaut 3/5 par exemple)</h2>
     <br><br>
     <span class="radioCote">
