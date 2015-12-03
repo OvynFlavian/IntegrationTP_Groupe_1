@@ -603,7 +603,7 @@ public class AfficherActivite extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (session.isLoggedIn()) {
-            getMenuInflater().inflate(R.menu.menu_activite, menu);
+            getMenuInflater().inflate(R.menu.menu_activitesignaler, menu);
         }
         return true;
     }

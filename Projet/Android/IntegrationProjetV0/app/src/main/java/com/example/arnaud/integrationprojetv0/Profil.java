@@ -113,9 +113,17 @@ public class Profil extends ActionBarActivity {
         user.setText(user.getText() + session.getUsername());
         grade.setText(grade.getText() + session.getDroit());
         mail.setText(mail.getText() + session.getEmail());
-        tel.setText(tel.getText() + session.getTel());
+        if (session.getTel().equals("null")) {
+            tel.setText(tel.getText() + "N/A");
+        } else {
+            tel.setText(tel.getText() + session.getTel());
+        }
         lastConnect.setText(lastConnect.getText() + session.getLastConnect());
-        lastIdea.setText(lastIdea.getText() + session.getLastIdea());
+        if (session.getLastIdea().equals("null")) {
+            lastIdea.setText(lastIdea.getText() + "N/A");
+        } else {
+            lastIdea.setText(lastIdea.getText() + session.getLastIdea());
+        }
         dateInscr.setText(dateInscr.getText() + session.getInscription());
 
         btnmodif.setOnClickListener(new View.OnClickListener() {
