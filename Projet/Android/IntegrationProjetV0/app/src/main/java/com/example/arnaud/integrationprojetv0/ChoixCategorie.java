@@ -124,13 +124,12 @@ public class ChoixCategorie extends AppCompatActivity {
         try {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/afficherActiviteChoisie.php");
-
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("userId", session.getId().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
+
             System.out.println("Response : " + response);
             JSONObject jObj = new JSONObject(response);
             final Boolean error = jObj.getBoolean("error");
@@ -326,10 +325,37 @@ public class ChoixCategorie extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (session.isLoggedIn() && !activiteChoisie.getText().equals("")) {
+        if (session.isLoggedIn() && !activiteChoisie.getText().equals("") && checkTime()) {
             getMenuInflater().inflate(R.menu.menu_noteractivite, menu);
         }
         return true;
+    }
+
+    public Boolean checkTime() {
+        if (!activiteChoisie.getText().equals("")) {
+            try {
+
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkTime.php");
+                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("userId", session.getId().toString().trim()));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                final String response = httpclient.execute(httppost, responseHandler);
+                System.out.println("Response : " + response);
+                JSONObject jObj = new JSONObject(response);
+
+                Boolean check = jObj.getBoolean("check");
+
+                return check;
+
+            } catch (Exception e) {
+                System.out.println("Exception : " + e.getMessage());
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
