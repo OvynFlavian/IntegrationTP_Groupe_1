@@ -54,46 +54,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ChoixCategorie.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ChoixCategorie.java">
+      <file leaf-file-name="Messagerie.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Messagerie.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="346" column="0" selection-start-line="346" selection-start-column="0" selection-end-line="346" selection-end-column="0" />
-              <folding>
-                <element signature="e#4417#4432#0" expanded="true" />
-                <element signature="e#11361#11381#0" expanded="true" />
-                <element signature="e#11383#11404#0" expanded="true" />
-                <element signature="e#13280#13295#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccepterAmis.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterAmis.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35906643">
-              <caret line="278" column="10" selection-start-line="278" selection-start-column="10" selection-end-line="278" selection-end-column="10" />
+              <caret line="186" column="10" selection-start-line="186" selection-start-column="10" selection-end-line="186" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MainActivity.java">
+      <file leaf-file-name="ModifProfil.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ModifProfil.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="182" column="106" selection-start-line="182" selection-start-column="24" selection-end-line="182" selection-end-column="106" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AfficherActivite.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherActivite.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="344" column="59" selection-start-line="344" selection-start-column="59" selection-end-line="344" selection-end-column="59" />
+              <caret line="286" column="10" selection-start-line="286" selection-start-column="10" selection-end-line="286" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -107,56 +82,78 @@
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4355#4370#0" expanded="true" />
-                <element signature="e#16320#16340#0" expanded="true" />
-                <element signature="e#16342#16363#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActiviteFromListe.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiviteFromListe.java">
+      <file leaf-file-name="PopupActivite.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/PopupActivite.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="200" column="57" selection-start-line="200" selection-start-column="57" selection-end-line="200" selection-end-column="57" />
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Accueil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Accueil.java">
+      <file leaf-file-name="Profil.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Profil.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="62" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
+              <caret line="247" column="10" selection-start-line="247" selection-start-column="10" selection-end-line="247" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="noteractivite_layout.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/noteractivite_layout.xml">
+      <file leaf-file-name="Register.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Register.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.0689654">
-              <caret line="80" column="39" selection-start-line="80" selection-start-column="39" selection-end-line="80" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="248" column="10" selection-start-line="248" selection-start-column="10" selection-end-line="248" selection-end-column="10" />
               <folding />
             </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activite_layout.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activite_layout.xml">
+      <file leaf-file-name="RequeteAmis.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/RequeteAmis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.5517242">
-              <caret line="135" column="61" selection-start-line="135" selection-start-column="61" selection-end-line="135" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="247" column="10" selection-start-line="247" selection-start-column="10" selection-end-line="247" selection-end-column="10" />
               <folding />
             </state>
           </provider>
-          <provider editor-type-id="android-designer">
-            <state />
+        </entry>
+      </file>
+      <file leaf-file-name="RequeteGroupe.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/RequeteGroupe.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="238" column="10" selection-start-line="238" selection-start-column="10" selection-end-line="238" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SupprFriend.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/SupprFriend.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="247" column="10" selection-start-line="247" selection-start-column="10" selection-end-line="247" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VoirGroupe.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/VoirGroupe.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.51166964">
+              <caret line="431" column="10" selection-start-line="431" selection-start-column="10" selection-end-line="431" selection-end-column="10" />
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -1516,9 +1513,26 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/modif_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/profil_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/SessionManager.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_accueil.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_activite.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_noteractivite.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/ajoutactivite_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/noteractivite_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/NoterActivite.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activite_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ChoixCategorie.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterAmis.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterGroupe.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Accueil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiAmis.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiviteFromListe.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherActivite.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherAmis.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherGroupe.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherProfilAmis.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutAmis.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutAmisGroupe.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjouterActivite.java" />
@@ -1530,6 +1544,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Groupe.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/GroupeAccueil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ListeActivite.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MdpOublie.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Messagerie.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ModifProfil.java" />
@@ -1539,24 +1554,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/RequeteGroupe.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/SupprFriend.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/VoirGroupe.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_accueil.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherAmis.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_activite.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_noteractivite.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherProfilAmis.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/ajoutactivite_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/noteractivite_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/NoterActivite.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Accueil.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiviteFromListe.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherActivite.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activite_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ChoixCategorie.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterAmis.java" />
       </list>
     </option>
   </component>
@@ -2005,7 +2002,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32555556" sideWeight="0.5021322" order="1" side_tool="true" content_ui="tabs" />
@@ -2123,201 +2120,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="292" column="29" selection-start-line="292" selection-start-column="29" selection-end-line="292" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="311" column="29" selection-start-line="311" selection-start-column="29" selection-end-line="311" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutAmis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="350" column="29" selection-start-line="350" selection-start-column="29" selection-end-line="350" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutAmisGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="347" column="29" selection-start-line="347" selection-start-column="29" selection-end-line="347" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjouterActivite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="407" column="29" selection-start-line="407" selection-start-column="29" selection-end-line="407" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="242" column="29" selection-start-line="242" selection-start-column="29" selection-end-line="242" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ConfirmAjout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="287" column="29" selection-start-line="287" selection-start-column="29" selection-end-line="287" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ConfirmAjoutGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="282" column="29" selection-start-line="282" selection-start-column="29" selection-end-line="282" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ConfJoinGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="282" column="29" selection-start-line="282" selection-start-column="29" selection-end-line="282" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/CreerGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="307" column="29" selection-start-line="307" selection-start-column="29" selection-end-line="307" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Groupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="286" column="29" selection-start-line="286" selection-start-column="29" selection-end-line="286" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/GroupeAccueil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="239" column="29" selection-start-line="239" selection-start-column="29" selection-end-line="239" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ListeActivite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="310" column="29" selection-start-line="310" selection-start-column="29" selection-end-line="310" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MdpOublie.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="278" column="29" selection-start-line="278" selection-start-column="29" selection-end-line="278" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Messagerie.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="223" column="29" selection-start-line="223" selection-start-column="29" selection-end-line="223" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ModifProfil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="240" column="29" selection-start-line="240" selection-start-column="29" selection-end-line="240" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/PopupActivite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Profil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="284" column="29" selection-start-line="284" selection-start-column="29" selection-end-line="284" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Register.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="285" column="29" selection-start-line="285" selection-start-column="29" selection-end-line="285" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/RequeteAmis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="281" column="29" selection-start-line="281" selection-start-column="29" selection-end-line="281" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/RequeteGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="272" column="29" selection-start-line="272" selection-start-column="29" selection-end-line="272" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/SupprFriend.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="284" column="29" selection-start-line="284" selection-start-column="29" selection-end-line="284" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/VoirGroupe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="465" column="29" selection-start-line="465" selection-start-column="29" selection-end-line="465" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiAmis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="380" column="29" selection-start-line="380" selection-start-column="29" selection-end-line="380" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2375,22 +2181,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherAmis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="47" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherProfilAmis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/categorie_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.413793">
@@ -2435,51 +2225,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="182" column="106" selection-start-line="182" selection-start-column="24" selection-end-line="182" selection-end-column="106" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/NoterActivite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="137" column="79" selection-start-line="137" selection-start-column="79" selection-end-line="137" selection-end-column="79" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4355#4370#0" expanded="true" />
-            <element signature="e#16320#16340#0" expanded="true" />
-            <element signature="e#16342#16363#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Accueil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="62" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiviteFromListe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="200" column="57" selection-start-line="200" selection-start-column="57" selection-end-line="200" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherActivite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="344" column="59" selection-start-line="344" selection-start-column="59" selection-end-line="344" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activite_layout.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -2491,10 +2236,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterAmis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="278" column="10" selection-start-line="278" selection-start-column="10" selection-end-line="278" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="255" column="10" selection-start-line="255" selection-start-column="10" selection-end-line="255" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiAmis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="346" column="10" selection-start-line="346" selection-start-column="10" selection-end-line="346" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ChoixCategorie.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="346" column="0" selection-start-line="346" selection-start-column="0" selection-end-line="346" selection-end-column="0" />
+          <caret line="369" column="34" selection-start-line="369" selection-start-column="34" selection-end-line="369" selection-end-column="34" />
           <folding>
             <element signature="e#4417#4432#0" expanded="true" />
             <element signature="e#11361#11381#0" expanded="true" />
@@ -2504,10 +2273,241 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AccepterAmis.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ActiviteFromListe.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35906643">
-          <caret line="278" column="10" selection-start-line="278" selection-start-column="10" selection-end-line="278" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="617" column="10" selection-start-line="617" selection-start-column="10" selection-end-line="617" selection-end-column="10" />
+          <folding>
+            <element signature="e#22018#22033#0" expanded="true" />
+            <element signature="e#24347#24367#0" expanded="true" />
+            <element signature="e#24369#24390#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Accueil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="196" column="45" selection-start-line="196" selection-start-column="38" selection-end-line="196" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherActivite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="603" column="9" selection-start-line="603" selection-start-column="9" selection-end-line="603" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherAmis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="321" column="10" selection-start-line="321" selection-start-column="10" selection-end-line="321" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="277" column="10" selection-start-line="277" selection-start-column="10" selection-end-line="277" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AfficherProfilAmis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="302" column="10" selection-start-line="302" selection-start-column="10" selection-end-line="302" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutAmis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="316" column="10" selection-start-line="316" selection-start-column="10" selection-end-line="316" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutAmisGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="313" column="10" selection-start-line="313" selection-start-column="10" selection-end-line="313" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjouterActivite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="453" column="10" selection-start-line="453" selection-start-column="10" selection-end-line="453" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/AjoutGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="205" column="10" selection-start-line="205" selection-start-column="10" selection-end-line="205" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ConfirmAjout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="250" column="10" selection-start-line="250" selection-start-column="10" selection-end-line="250" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ConfirmAjoutGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="245" column="10" selection-start-line="245" selection-start-column="10" selection-end-line="245" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ConfJoinGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="245" column="10" selection-start-line="245" selection-start-column="10" selection-end-line="245" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/CreerGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="270" column="10" selection-start-line="270" selection-start-column="10" selection-end-line="270" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Groupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="249" column="10" selection-start-line="249" selection-start-column="10" selection-end-line="249" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/GroupeAccueil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="202" column="10" selection-start-line="202" selection-start-column="10" selection-end-line="202" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ListeActivite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="273" column="10" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="283" column="10" selection-start-line="283" selection-start-column="10" selection-end-line="283" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/MdpOublie.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="241" column="10" selection-start-line="241" selection-start-column="10" selection-end-line="241" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Messagerie.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="186" column="10" selection-start-line="186" selection-start-column="10" selection-end-line="186" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/ModifProfil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="286" column="10" selection-start-line="286" selection-start-column="10" selection-end-line="286" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/NoterActivite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="137" column="79" selection-start-line="137" selection-start-column="79" selection-end-line="137" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4355#4370#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/PopupActivite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Profil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="247" column="10" selection-start-line="247" selection-start-column="10" selection-end-line="247" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/Register.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="248" column="10" selection-start-line="248" selection-start-column="10" selection-end-line="248" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/RequeteAmis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="247" column="10" selection-start-line="247" selection-start-column="10" selection-end-line="247" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/RequeteGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="238" column="10" selection-start-line="238" selection-start-column="10" selection-end-line="238" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/SupprFriend.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="247" column="10" selection-start-line="247" selection-start-column="10" selection-end-line="247" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/arnaud/integrationprojetv0/VoirGroupe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51166964">
+          <caret line="431" column="10" selection-start-line="431" selection-start-column="10" selection-end-line="431" selection-end-column="10" />
           <folding />
         </state>
       </provider>

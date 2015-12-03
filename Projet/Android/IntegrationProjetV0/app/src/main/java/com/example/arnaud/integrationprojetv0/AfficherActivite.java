@@ -601,8 +601,6 @@ public class AfficherActivite extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (session.isLoggedIn()) {
             getMenuInflater().inflate(R.menu.menu_activite, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.menu_main, menu);
         }
         return true;
     }
