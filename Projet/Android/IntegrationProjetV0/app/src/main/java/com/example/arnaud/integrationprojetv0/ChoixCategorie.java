@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -239,11 +240,13 @@ public class ChoixCategorie extends AppCompatActivity {
 
     //menu
     private void addDrawerItems() {
-        System.out.println("session droit " + session.getDroit());
-        String[] osArray;
+        final String[] osArray;
 
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Se déconnecter"};
+            if (!session.getDroit().equals("Premium")) {
+                osArray[1] = "Devenir Premium !";
+            }
         } else {
             osArray = new String[] {"Accueil", "Se connecter", "S'inscrire"};
         }
@@ -265,8 +268,15 @@ public class ChoixCategorie extends AppCompatActivity {
                 }
                 if (position == 1) {
                     if (session.isLoggedIn()) {
-                        Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
-                        startActivity(intent);
+                        if(osArray[1].equals("Groupe")) {
+                            Intent intent = new Intent(ChoixCategorie.this, GroupeAccueil.class);
+                            startActivity(intent);
+                        } else {
+                            String url = "http://www.everydayidea.be/Page/connexion.page.php";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
                     } else {
                         Intent intent = new Intent(ChoixCategorie.this, MainActivity.class);
                         startActivity(intent);

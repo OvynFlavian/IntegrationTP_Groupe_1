@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -498,10 +499,13 @@ public class AfficherActivite extends AppCompatActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray;
-        System.out.println("session " + session.isLoggedIn());
+        final String[] osArray;
+
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+            if (!session.getDroit().equals("Premium")) {
+                osArray[1] = "Devenir Premium !";
+            }
         } else {
             osArray = new String[] {"Accueil", "Activités", "Se connecter", "S'inscrire"};
         }
@@ -522,8 +526,15 @@ public class AfficherActivite extends AppCompatActivity {
                 }
                 if (position == 1) {
                     if (session.isLoggedIn()) {
-                        Intent intent = new Intent(AfficherActivite.this, GroupeAccueil.class);
-                        startActivity(intent);
+                        if(osArray[1].equals("Groupe")) {
+                            Intent intent = new Intent(AfficherActivite.this, GroupeAccueil.class);
+                            startActivity(intent);
+                        } else {
+                            String url = "http://www.everydayidea.be/Page/connexion.page.php";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
                     } else {
                         Intent intent = new Intent(AfficherActivite.this, ChoixCategorie.class);
                         startActivity(intent);
@@ -552,14 +563,6 @@ public class AfficherActivite extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-    private void AfficherMessage(){
-        Intent intent = new Intent(AfficherActivite.this, GroupeAccueil.class);
-        startActivity(intent);
-
-
     }
 
     private void setupDrawer() {

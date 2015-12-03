@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
@@ -196,7 +197,10 @@ public class AccepterAmis extends ActionBarActivity {
     //menu
     private void addDrawerItems() {
         System.out.println("session droit " + session.getDroit());
-        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        final String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        if (!session.getDroit().equals("Premium")) {
+            osArray[1] = "Devenir Premium !";
+        }
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -209,8 +213,20 @@ public class AccepterAmis extends ActionBarActivity {
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(AccepterAmis.this, GroupeAccueil.class);
-                    startActivity(intent);
+                    if (session.isLoggedIn()) {
+                        if(osArray[1].equals("Groupe")) {
+                            Intent intent = new Intent(AccepterAmis.this, GroupeAccueil.class);
+                            startActivity(intent);
+                        } else {
+                            String url = "http://www.everydayidea.be/Page/connexion.page.php";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                    } else {
+                        Intent intent = new Intent(AccepterAmis.this, ChoixCategorie.class);
+                        startActivity(intent);
+                    }
                 }
                 if (position == 2) {
                     Intent intent = new Intent(AccepterAmis.this, Profil.class);
