@@ -330,7 +330,7 @@ public class AfficherActivite extends AppCompatActivity {
 
             final String id = jObj.getString("idUser");
 
-            if(id == null) {
+            if(!id.equals("null")) {
                 Context context = getApplicationContext();
                 CharSequence s = "Activité enregistrée !";
                 int duration = Toast.LENGTH_SHORT;
@@ -342,6 +342,7 @@ public class AfficherActivite extends AppCompatActivity {
                     isLeader = checkLeader();
                     seulDansGroupe = checkSeul();
                 }
+                System.out.println("ne doit pas rentrer ici");
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animactivite);
                 confirmationActivite.startAnimation(animation);
                 confirmationActivite.setVisibility(View.VISIBLE);
@@ -350,7 +351,7 @@ public class AfficherActivite extends AppCompatActivity {
 
                 final String url;
 
-                if (!isLeader && !seulDansGroupe) {
+                if (dansGroupe && !isLeader && !seulDansGroupe) {
                     url = "http://www.everydayidea.be/scripts_android/deleteFromGroupe.php";
                     textConfirm.setText(textConfirm.getText() + "\nVous quitterez votre groupe.");
                 } else if (seulDansGroupe) {

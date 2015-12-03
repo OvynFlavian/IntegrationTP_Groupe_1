@@ -78,12 +78,12 @@
                     android:id="@+id/note"
                     android:layout_below="@id/noteTV"
                     android:layout_centerHorizontal="true"
-                    android:stepSize="0.5"/>
+                    android:stepSize="1"/>
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ajouterActivite"
+                    android:id="@+id/btnEnvoi"
                     android:background="@drawable/btnenvoyer"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/note"
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ajouterActivite"
+                    android:layout_below="@id/btnEnvoi"
                     android:text="Votre activité sera enlevée et vous quitterez votre groupe."
                     android:layout_centerHorizontal="true"
                     android:textAlignment="center"

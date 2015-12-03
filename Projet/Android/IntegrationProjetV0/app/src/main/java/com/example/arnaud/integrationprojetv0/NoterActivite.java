@@ -19,8 +19,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -49,6 +51,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class NoterActivite extends AppCompatActivity {
 
     private TextView titre, description;
+    private RatingBar note;
 
     private SessionManager session;
 
@@ -87,6 +90,7 @@ public class NoterActivite extends AppCompatActivity {
         description = (TextView) findViewById(R.id.description);
         layoutActivite = (RelativeLayout) findViewById(R.id.layoutActivite);
         imageActivite = (ImageView) findViewById(R.id.image);
+        note = (RatingBar) findViewById(R.id.note);
 
         session = new SessionManager(getApplicationContext());
         Intent intent = getIntent();
@@ -108,7 +112,126 @@ public class NoterActivite extends AppCompatActivity {
     }
 
     public void envoyerNote(View v) {
+        Float note = this.note.getRating();
+        String dansGroupe = checkGroupe();
+        String isLeader = checkLeader();
+        String isSeul = checkSeul();
 
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/setNote.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(7);
+            nameValuePairs.add(new BasicNameValuePair("idActivite", idActivite.trim()));
+            nameValuePairs.add(new BasicNameValuePair("userName", session.getUsername().trim()));
+            nameValuePairs.add(new BasicNameValuePair("note", String.valueOf(note).trim()));
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe)));
+            nameValuePairs.add(new BasicNameValuePair("dansGroupe", dansGroupe));
+            nameValuePairs.add(new BasicNameValuePair("isLeader", isLeader));
+            nameValuePairs.add(new BasicNameValuePair("isSeul", isSeul));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            httpclient.execute(httppost, responseHandler);
+
+            Toast.makeText(NoterActivite.this, "Votre avis a été enregistré !", Toast.LENGTH_SHORT).show();
+
+            startActivity(new Intent(NoterActivite.this, ChoixCategorie.class));
+
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
+
+    }
+
+    public String checkGroupe() {
+        try {
+            String dansGroupe = "false";
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getGroupe.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            idGroupe = jsonObject.getInt("idGroupe");
+
+            if (idGroupe == 0) {
+                dansGroupe = "false";
+            } else {
+                dansGroupe = "true";
+            }
+
+            return dansGroupe;
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return "";
+        }
+    }
+
+    public String checkLeader() {
+        try {
+            String retour;
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkLeader.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            int idLeader = 0;
+            idLeader = jsonObject.getInt("idLeader");
+            if (idLeader == Integer.valueOf(session.getId())) {
+                isLeader = true;
+                retour = "true";
+            } else {
+                isLeader = false;
+                retour = "false";
+            }
+
+            return retour;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public String checkSeul() {
+        try {
+            String retour = null;
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkSeul.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONObject jsonObject = new JSONObject(response);
+
+            int nbUsers = 0;
+            nbUsers = jsonObject.getInt("nbUsers");
+
+            if (nbUsers > 1) {
+                seulDansGroupe = false;
+                retour = "false";
+            } else if (nbUsers <= 1) {
+                seulDansGroupe = true;
+                retour = "true";
+            }
+
+            return retour;
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public void getNote(String libelle) {

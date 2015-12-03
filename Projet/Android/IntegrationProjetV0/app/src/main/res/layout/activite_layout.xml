@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
                         android:layout_below="@id/titre"
-                        android:text="Revenir en arrière"
+                        android:background="@drawable/btnback"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="40dp"
                         android:id="@+id/btnBack"/>
@@ -133,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/confirmationActivite"
-                        android:layout_below="@id/titre"
+                        android:layout_below="@id/description"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="30dp"
                         android:background="#5b82d8"

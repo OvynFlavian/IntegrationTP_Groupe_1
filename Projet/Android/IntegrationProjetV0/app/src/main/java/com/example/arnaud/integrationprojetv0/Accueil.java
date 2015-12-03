@@ -45,6 +45,15 @@ public class Accueil extends AppCompatActivity {
 
         session = new SessionManager(getApplicationContext());
         session.setLogin(false);
+        session.setEmail(null);
+        session.setPublics(null);
+        session.setUsername(null);
+        session.setId(null);
+        session.setLastIdea(null);
+        session.setInscription(null);
+        session.setDroit(null);
+        session.setLastConnect(null);
+        session.setTel(null);
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);

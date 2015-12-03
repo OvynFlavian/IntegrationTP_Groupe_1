@@ -194,6 +194,7 @@ public class ActiviteFromListe extends AppCompatActivity {
             note = Float.valueOf(jObj.getString("note"));
             categorie = jObj.getString("categorie");
             idActivite = jObj.getString("idActivite");
+            description.setText(jObj.getString("description"));
 
             if (note != 99) {
                 this.note.setVisibility(View.VISIBLE);
