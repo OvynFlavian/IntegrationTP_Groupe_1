@@ -32,7 +32,7 @@ echo "<form method='post' enctype='multipart/form-data' action='proposerActivite
     <div class="form-group col-sm-12">
         <label class="control-label col-sm-2" for="activite">Activité : <br> (5 à 100 caractères)</label>
         <div class="col-sm-10">
-           <input type="text" class="form-control" id="activite" name="activite" placeholder="Votre activité" <?php echo "value=".$act->getLibelle().""; ?> required>
+           <input type="text" class="form-control" id="activite" name="activite" placeholder="Votre activité" <?php echo "value='".str_replace("'", "&apos;",$act->getLibelle())."'"; ?> required>
         </div>
     </div>
 
