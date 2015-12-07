@@ -1,5 +1,6 @@
 package com.example.arnaud.integrationprojetv0;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import org.apache.http.HttpResponse;
@@ -24,6 +26,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,30 +35,41 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-
 /**
- * Created by nauna on 24-11-15.
+ * <b>MainActivity est la classe qui permet de se connecter à l'application.</b>
+ * <p>
+ * Une personne se connecte grâce aux informations suivantes :
+ * <ul>
+ * <li>Un nom d'utilisateur.</li>
+ * <li>Un mot de passe.</li>
+ * </ul>
+ * </p>
+ * @author Willame Arnaud
  */
-public class GroupeAccueil extends ActionBarActivity {
-
+public class GroupMessage extends ActionBarActivity {
     HttpPost httppost;
     HttpResponse response;
     HttpClient httpclient;
     List<NameValuePair> nameValuePairs;
 
+    private SessionManager session;
+    //menu
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
-    private SessionManager session;
-
-    private Button btnCreerGroupe;
-    private Button btnVoirGroupe;
-    private Button btnAffGroupe;
-    private Button btnMessage;
 
 
+    private EditText message;
+    private Button btnEnvoyer;
+    //lister les amis
+
+    private ListView amisList;
+    private DrawerLayout mDrawerAmisLayout;
+    private ArrayAdapter<String> mAmisAdapter;
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -62,61 +77,35 @@ public class GroupeAccueil extends ActionBarActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
-        setContentView(R.layout.groupe_accueil);
+        setContentView(R.layout.groupe_message);
         session = new SessionManager(getApplicationContext());
-        btnCreerGroupe = (Button) findViewById(R.id.btnCreerGroupe);
-
-        btnVoirGroupe = (Button) findViewById(R.id.btnVoirGroupe);
-        btnMessage = (Button) findViewById(R.id.btnMessage);
-        btnAffGroupe = (Button) findViewById(R.id.btnAffGroupe);
-
+        message = (EditText) findViewById(R.id.message);
+        btnEnvoyer = (Button) findViewById(R.id.btnEnvoyer);
         //menu
-        mDrawerList = (ListView) findViewById(R.id.amisList);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView)findViewById(R.id.navlist);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
-
         addDrawerItems();
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        //liste message
+        amisList = (ListView)findViewById(R.id.amisList);
+        mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        final Context context=getApplicationContext();
 
 
-        if(!isGroup()){
-            btnVoirGroupe.setVisibility(View.INVISIBLE);
-        }
+        ArrayList<String> liste = afficherMembre(context);
+        addOptionOnClick(liste);
 
-        btnCreerGroupe.setOnClickListener(new View.OnClickListener() {
+        btnEnvoyer .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // creerGroupe();
-                Intent intent = new Intent(GroupeAccueil.this, CreerGroupe.class);
+               envoiMessage(message);
+                Intent intent = new Intent(GroupMessage.this, GroupMessage.class);
                 startActivity(intent);
-            }
-        });
 
-        btnVoirGroupe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupeAccueil.this, VoirGroupe.class);
-                startActivity(intent);
-            }
-        });
-
-        btnAffGroupe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupeAccueil.this, AfficherGroupe.class);
-                startActivity(intent);
-            }
-        });
-
-        btnMessage .setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupeAccueil.this, GroupMessage.class);
-                startActivity(intent);
             }
         });
 
@@ -128,43 +117,96 @@ public class GroupeAccueil extends ActionBarActivity {
     }
 
 
-    public boolean isGroup(){
-        try {
-            // String [] liste = (String[]) list.toArray();
 
 
-            httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/isGroup.php"); // make sure the url is correct.
+    private void addOptionOnClick(final ArrayList<String> list) {
 
-            nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 " + session.getId().toString());
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
+        amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-            System.out.println("Response : 2"+session.getId().toString());
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
-            String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
+                //on click.... do...
 
-
-            System.out.println("Response : sisiiii ");
-
-            if (response2.equals("true")) return true;
-            else return false;
-
-
-        } catch (Exception e) {
-
-            System.out.println("Exception : " + e.getMessage());
-        }
-        return false;
+            }
+        });
     }
 
-    /**
-     * Ajoute des option dans le menu
-     */
+    public void envoiMessage(EditText message){
+        try{
+
+            httpclient=new DefaultHttpClient();
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/envoiMess.php"); // make sure the url is correct.
+
+            //Execute HTTP Post Request
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            nameValuePairs.add(new BasicNameValuePair("desc", message.getText().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+
+
+
+
+
+        }catch(Exception e){
+           /* dialog.dismiss();*/
+            System.out.println("Exception : " + e.getMessage());
+        }
+
+    }
+
+    public ArrayList<String> afficherMembre(Context context){
+        //modifier pour ajouter les amis du groupe.
+        try{
+
+            httpclient=new DefaultHttpClient();
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/affMessGroup.php"); // make sure the url is correct.
+
+            //Execute HTTP Post Request
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            System.out.println("Response : " + response);
+            JSONArray JsonArray = new JSONArray(response);
+
+            System.out.println("Response444 : " + JsonArray);
+            System.out.println("taille : " + JsonArray.length());
+
+
+            final ArrayList<String> list = new ArrayList<String>();
+            final String[] tbAmis = new String[120];
+
+            for (int i=0;i<JsonArray.length();i++) {
+                JSONObject jsonObject = JsonArray.getJSONObject(i);
+                System.out.println("taille : " + JsonArray.getJSONObject(i));
+                tbAmis[i] = (jsonObject.getString("userName")+" :" +"\n"+ jsonObject.getString("description")).toString();
+                list.add(tbAmis[i]);
+
+            }
+            mAmisAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, list);
+            amisList.setAdapter(mAmisAdapter);
+
+            return list;
+
+
+
+
+
+        }catch(Exception e){
+           /* dialog.dismiss();*/
+            System.out.println("Exception : " + e.getMessage());
+        }
+        return null;
+    }
+
+
+    //menu
     private void addDrawerItems() {
         String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
 
@@ -175,19 +217,19 @@ public class GroupeAccueil extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent intent = new Intent(GroupeAccueil.this, AfficherAmis.class);
+                    Intent intent = new Intent(GroupMessage.this, AfficherAmis.class);
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(GroupeAccueil.this, GroupeAccueil.class);
+                    Intent intent = new Intent(GroupMessage.this, GroupeAccueil.class);
                     startActivity(intent);
                 }
                 if (position == 2) {
-                    Intent intent = new Intent(GroupeAccueil.this, Profil.class);
+                    Intent intent = new Intent(GroupMessage.this, Profil.class);
                     startActivity(intent);
                 }
                 if (position == 3) {
-                    Intent intent = new Intent(GroupeAccueil.this, ChoixCategorie.class);
+                    Intent intent = new Intent(GroupMessage.this, ChoixCategorie.class);
                     startActivity(intent);
                 }
                 if (position == 4) {
@@ -197,16 +239,13 @@ public class GroupeAccueil extends ActionBarActivity {
         });
     }
 
-
     private void AfficherMessage(){
-        Intent intent = new Intent(GroupeAccueil.this, GroupeAccueil.class);
+        Intent intent = new Intent(GroupMessage.this, GroupeAccueil.class);
         startActivity(intent);
 
 
     }
-    /**
-     * Initialise le menu
-     */
+
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -229,10 +268,6 @@ public class GroupeAccueil extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-
-    /**
-     * Action après la création du menu
-     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -240,19 +275,12 @@ public class GroupeAccueil extends ActionBarActivity {
         mDrawerToggle.syncState();
     }
 
-    /**
-     * Action si la configuration est changée
-     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
-    /**
-     * Création du menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -260,9 +288,6 @@ public class GroupeAccueil extends ActionBarActivity {
         return true;
     }
 
-    /**
-     * Action en fonction de l'onglet selectionné
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -296,9 +321,10 @@ public class GroupeAccueil extends ActionBarActivity {
         session.setTel(null);
 
         // Launching the login activity
-        Intent intent = new Intent(GroupeAccueil.this, Accueil.class);
+        Intent intent = new Intent(GroupMessage.this, Accueil.class);
         startActivity(intent);
         finish();
     }
+
 
 }

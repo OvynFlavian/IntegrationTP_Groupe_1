@@ -166,6 +166,11 @@
             android:parentActivityName=".VoirGroupe">
         </activity>
 
+        <activity
+            android:name=".GroupMessage"
+            android:parentActivityName=".GroupeAccueil">
+        </activity>
+
     </application>
 
 </manifest>

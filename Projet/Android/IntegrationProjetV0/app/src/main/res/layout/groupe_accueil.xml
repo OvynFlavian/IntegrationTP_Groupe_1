@@ -18,9 +18,10 @@ android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout2"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/relativeLayout2">
+        android:layout_marginTop="100dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -45,6 +46,15 @@ android:layout_height="match_parent">
             android:layout_below="@+id/btnCreerGroupe"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnMessage"
+            android:layout_below="@+id/btnAffGroupe"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Messages" />
 
     </RelativeLayout>
 
