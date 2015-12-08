@@ -92,6 +92,9 @@ public class AfficherActivite extends AppCompatActivity {
     private RelativeLayout okSuivante = null;
     private Button btnBack = null;
 
+    //signalement
+    private int signalee = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,6 +206,7 @@ public class AfficherActivite extends AppCompatActivity {
             final String libelle = jObj.getString("titre");
             final String description = jObj.getString("description");
             Float note = Float.valueOf(jObj.getString("note"));
+            signalee = jObj.getInt("signalee");
             System.out.println("note lol : " + note);
             if (note != 99) {
                 this.note.setVisibility(View.VISIBLE);
@@ -603,7 +607,11 @@ public class AfficherActivite extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (session.isLoggedIn()) {
-            getMenuInflater().inflate(R.menu.menu_activitesignaler, menu);
+            if (signalee == 0) {
+                getMenuInflater().inflate(R.menu.menu_activitesignaler, menu);
+            } else {
+                getMenuInflater().inflate(R.menu.menu_activite, menu);
+            }
         }
         return true;
     }
@@ -619,12 +627,44 @@ public class AfficherActivite extends AppCompatActivity {
             startActivity(intent);
         }
 
+        if (id == R.id.signalerActivite) {
+            signalerActivite();
+
+            Context context = getApplicationContext();
+            CharSequence s = "L'activité a été signalée !";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, s, duration);
+            toast.show();
+
+            Intent intent = new Intent(AfficherActivite.this, ActiviteFromListe.class);
+            intent.putExtra("nom", titre.getText());
+            intent.putExtra("description", description.getText());
+            startActivity(intent);
+        }
+
         // Activate the navigation drawer toggle
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void signalerActivite() {
+        try {
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/signalerActivite.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("titre", titre.getText().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            httpclient.execute(httppost, responseHandler);
+
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
     }
 
     private void logoutUser() {

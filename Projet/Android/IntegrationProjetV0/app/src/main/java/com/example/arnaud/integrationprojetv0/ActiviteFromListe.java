@@ -89,6 +89,9 @@ public class ActiviteFromListe extends AppCompatActivity {
     private Boolean imageTrouvee = true;
     private RelativeLayout layoutActivite = null;
 
+    //signalement
+    private int signalee = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,6 +199,7 @@ public class ActiviteFromListe extends AppCompatActivity {
             categorie = jObj.getString("categorie");
             idActivite = jObj.getString("idActivite");
             description.setText(jObj.getString("description"));
+            signalee = jObj.getInt("signalee");
 
             if (note != 99) {
                 this.note.setVisibility(View.VISIBLE);
@@ -626,8 +630,13 @@ public class ActiviteFromListe extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_activite, menu);
+        if (session.isLoggedIn()) {
+            if (signalee == 0) {
+                getMenuInflater().inflate(R.menu.menu_activitesignaler, menu);
+            } else {
+                getMenuInflater().inflate(R.menu.menu_activite, menu);
+            }
+        }
         return true;
     }
 
@@ -639,12 +648,24 @@ public class ActiviteFromListe extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.listeActivite) {
-            System.out.println("liste activite " + categorie);
+        if (id == R.id.listeActivite) {
             Intent intent = new Intent(ActiviteFromListe.this, ListeActivite.class);
             intent.putExtra(intentCat, categorie);
+            startActivity(intent);
+        }
+
+        if (id == R.id.signalerActivite) {
+            signalerActivite();
+
+            Context context = getApplicationContext();
+            CharSequence s = "L'activité a été signalée !";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, s, duration);
+            toast.show();
+
+            Intent intent = new Intent(ActiviteFromListe.this, ActiviteFromListe.class);
+            intent.putExtra("nom", titre.getText());
+            intent.putExtra("description", description.getText());
             startActivity(intent);
         }
 
@@ -654,6 +675,23 @@ public class ActiviteFromListe extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void signalerActivite() {
+        try {
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/signalerActivite.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("titre", titre.getText().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            httpclient.execute(httppost, responseHandler);
+
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
     }
 
     private void logoutUser() {
