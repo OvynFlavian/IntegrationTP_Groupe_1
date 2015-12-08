@@ -357,7 +357,10 @@ public class AjouterActivite extends AppCompatActivity {
     }
     //menu
     private void addDrawerItems() {
-        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        final String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        if (!session.getDroit().equals("Premium")) {
+            osArray[1] = "Devenir Premium !";
+        }
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -370,8 +373,15 @@ public class AjouterActivite extends AppCompatActivity {
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(AjouterActivite.this, GroupeAccueil.class);
-                    startActivity(intent);
+                    if(osArray[1].equals("Groupe")) {
+                        Intent intent = new Intent(AjouterActivite.this, GroupeAccueil.class);
+                        startActivity(intent);
+                    } else {
+                        String url = "http://www.everydayidea.be/Page/connexion.page.php";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
                 }
                 if (position == 2) {
                     Intent intent = new Intent(AjouterActivite.this, Profil.class);

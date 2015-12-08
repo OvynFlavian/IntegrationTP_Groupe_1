@@ -3,6 +3,7 @@ package com.example.arnaud.integrationprojetv0;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
@@ -106,9 +107,12 @@ public class Accueil extends AppCompatActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray;
+        final String[] osArray;
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+            if (!session.getDroit().equals("Premium")) {
+                osArray[1] = "Devenir Premium !";
+            }
         } else {
             osArray = new String[] {"Activités", "Se connecter", "S'inscrire"};
         }
@@ -130,8 +134,15 @@ public class Accueil extends AppCompatActivity {
                 }
                 if (position == 1) {
                     if (session.isLoggedIn()) {
-                        Intent intent = new Intent(Accueil.this, GroupeAccueil.class);
-                        startActivity(intent);
+                        if(osArray[1].equals("Groupe")) {
+                            Intent intent = new Intent(Accueil.this, GroupeAccueil.class);
+                            startActivity(intent);
+                        } else {
+                            String url = "http://www.everydayidea.be/Page/connexion.page.php";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
                     } else {
                         Intent intent = new Intent(Accueil.this, MainActivity.class);
                         startActivity(intent);

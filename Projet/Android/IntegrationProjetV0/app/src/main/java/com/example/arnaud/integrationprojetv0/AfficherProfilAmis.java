@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
@@ -223,7 +224,10 @@ public class AfficherProfilAmis extends ActionBarActivity {
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
-        String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        final String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
+        if (!session.getDroit().equals("Premium")) {
+            osArray[1] = "Devenir Premium !";
+        }
 
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
@@ -236,8 +240,15 @@ public class AfficherProfilAmis extends ActionBarActivity {
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(AfficherProfilAmis.this, GroupeAccueil.class);
-                    startActivity(intent);
+                    if(osArray[1].equals("Groupe")) {
+                        Intent intent = new Intent(AfficherProfilAmis.this, GroupeAccueil.class);
+                        startActivity(intent);
+                    } else {
+                        String url = "http://www.everydayidea.be/Page/connexion.page.php";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
                 }
                 if (position == 2) {
                     Intent intent = new Intent(AfficherProfilAmis.this, Profil.class);

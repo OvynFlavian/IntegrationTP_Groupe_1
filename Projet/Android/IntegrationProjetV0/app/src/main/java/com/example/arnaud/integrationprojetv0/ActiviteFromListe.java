@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -204,6 +205,7 @@ public class ActiviteFromListe extends AppCompatActivity {
                 this.note2.setVisibility(View.VISIBLE);
             }
 
+            System.out.println("note : " + note);
             this.note.setStepSize(0.1f);
             this.note.setRating(note);
             activiteTrouvee = true;
@@ -547,7 +549,10 @@ public class ActiviteFromListe extends AppCompatActivity {
 
     //menu
     private void addDrawerItems() {
-        String[] osArray = {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter" };
+        final String[] osArray = {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter" };
+        if (!session.getDroit().equals("Premium")) {
+            osArray[1] = "Devenir Premium !";
+        }
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -559,8 +564,15 @@ public class ActiviteFromListe extends AppCompatActivity {
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Intent intent = new Intent(ActiviteFromListe.this, GroupeAccueil.class);
-                    startActivity(intent);
+                    if(osArray[1].equals("Groupe")) {
+                        Intent intent = new Intent(ActiviteFromListe.this, GroupeAccueil.class);
+                        startActivity(intent);
+                    } else {
+                        String url = "http://www.everydayidea.be/Page/connexion.page.php";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
                 }
                 if (position == 2) {
                     Intent intent = new Intent(ActiviteFromListe.this, Profil.class);
