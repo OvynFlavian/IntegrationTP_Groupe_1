@@ -127,6 +127,7 @@ public class ActiviteFromListe extends AppCompatActivity {
         titre.setText(libelle);
         description.setText(description1);
         getNote(libelle);
+        checkGroupe();
 
         //menu
         mDrawerList = (ListView)findViewById(R.id.amisList);mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -309,7 +310,7 @@ public class ActiviteFromListe extends AppCompatActivity {
         titre.setLayoutParams(p);
         titre.setTextSize(25);
         try{
-
+            textConfirm.setText(textBase);
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/activite.php");
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -356,15 +357,7 @@ public class ActiviteFromListe extends AppCompatActivity {
             downloadImage();
         } else {
             imageActivite.setVisibility(View.INVISIBLE);
-            // TODO si pas d'activité trouvée, affiché le message correspondant.
         }
-
-        //si décommenté, les images sont invisibles.
-        /*if (imageTrouvee) {
-            imageActivite.setVisibility(View.VISIBLE);
-        } else {
-            imageActivite.setVisibility(View.INVISIBLE);
-        }*/
     }
 
 
