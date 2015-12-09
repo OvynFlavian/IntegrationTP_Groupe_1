@@ -88,11 +88,8 @@ public class AccepterGroupe extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        // Session manager
-
 
         Intent intent = getIntent();
-// On suppose que tu as mis un String dans l'Intent via le putExtra()
 
         final String username = intent.getStringExtra("username");
 
@@ -112,7 +109,7 @@ public class AccepterGroupe extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 supprimerGroupe(username);
-                Intent intent = new Intent(AccepterGroupe.this, VoirGroupe.class);
+                Intent intent = new Intent(AccepterGroupe.this, RequeteGroupe.class);
                 startActivity(intent);
                 Toast.makeText(AccepterGroupe.this, "Demande refusée.", Toast.LENGTH_SHORT).show();
 
@@ -131,15 +128,11 @@ public class AccepterGroupe extends ActionBarActivity {
             httppost = new HttpPost("http://www.everydayidea.be/scripts_android/supprimerGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
-            System.out.println("Response 22:" + username);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 ");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            System.out.println("Response808 : 2");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
 
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
@@ -156,11 +149,8 @@ public class AccepterGroupe extends ActionBarActivity {
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            System.out.println("Response : 2");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
 
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());

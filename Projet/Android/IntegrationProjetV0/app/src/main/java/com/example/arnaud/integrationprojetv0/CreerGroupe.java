@@ -11,11 +11,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -58,7 +60,9 @@ public class CreerGroupe extends ActionBarActivity {
     private SessionManager session;
 
     private EditText descGroupe;
-    private Button b2;
+    private Button b;
+
+    private RelativeLayout layout;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,21 +85,23 @@ public class CreerGroupe extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-
-
         descGroupe=(EditText)findViewById(R.id.descrGroupe);
-        b2= (Button) findViewById((R.id.b2));
+        layout = (RelativeLayout) findViewById(R.id.layout);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
 
-        b2.setOnClickListener(new View.OnClickListener() {
+        b = (Button) findViewById((R.id.b2));
+
+        b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 creerGroupe();
-
-                finirCreation();
-
-                startActivity(new Intent(CreerGroupe.this, GroupeAccueil.class));
-                //setContentView(R.layout.register_layout);
+                startActivity(new Intent(CreerGroupe.this, VoirGroupe.class));
             }
         });
     }
@@ -106,70 +112,25 @@ public class CreerGroupe extends ActionBarActivity {
     }
 
     public void creerGroupe() {
-
-
         try {
-            // String [] liste = (String[]) list.toArray();
-
-
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/creerGroupe.php"); // make sure the url is correct.
-
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/creerGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 "+session.getId().toString());
             nameValuePairs.add(new BasicNameValuePair("desc", descGroupe.getText().toString().trim()));
              httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
-
-            System.out.println("Response : 2"+descGroupe.getText());
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
+            System.out.println("avant execute");
             String response = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response);
-            // JSONArray JsonArray = new JSONArray(response);
+            System.out.println("après execute");
 
-            System.out.println("Response : sisiiii ");
+            System.out.println("réponse du serveur lol : " + response);
+
             Toast.makeText(CreerGroupe.this, "Groupe Créé avec succès", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
-
             System.out.println("Exception : " + e.getMessage());
         }
-
-
-    }
-
-    public void finirCreation(){
-        try {
-            // String [] liste = (String[]) list.toArray();
-
-
-            httpclient2 = new DefaultHttpClient();
-            httppost2 = new HttpPost("http://www.everydayidea.be/scripts_android/finirCreationGroupe.php"); // make sure the url is correct.
-
-            nameValuePairs2 = new ArrayList<NameValuePair>(2);
-            nameValuePairs2.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 " + session.getId().toString());
-
-
-            httppost2.setEntity(new UrlEncodedFormEntity(nameValuePairs2));
-            //Execute HTTP Post Request
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
-            String response2 = httpclient2.execute(httppost2, responseHandler);
-            System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : sisiiii ");
-            Toast.makeText(CreerGroupe.this, "Groupe Créé avec succès", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-
-            System.out.println("Exception : " + e.getMessage());
-        }
-
-
     }
 
     /**

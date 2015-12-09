@@ -109,7 +109,7 @@ public class ConfirmAjoutGroupe extends ActionBarActivity {
         btnNon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ConfirmAjoutGroupe.this, VoirGroupe.class);
+                Intent intent = new Intent(ConfirmAjoutGroupe.this, AjoutAmisGroupe.class);
                 startActivity(intent);
                 Toast.makeText(ConfirmAjoutGroupe.this, "demande annulée.", Toast.LENGTH_SHORT).show();
             }
@@ -127,30 +127,19 @@ public class ConfirmAjoutGroupe extends ActionBarActivity {
             httppost = new HttpPost("http://www.everydayidea.be/scripts_android/AjouterGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("userName", username.trim()));
-            System.out.println("Response 22:" + username);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 ");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
-
-            System.out.println("Response : 2");
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
             String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : sisiiii ");
-
 
         } catch (Exception e) {
-
             System.out.println("Exception : " + e.getMessage());
         }
     }
+
     /*
-        * Ajoute des option dans le menu
-        */
+     * Ajoute des option dans le menu
+     */
     private void addDrawerItems() {
         final String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
         if (!session.getDroit().equals("Premium")) {

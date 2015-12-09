@@ -82,9 +82,6 @@ public class AfficherGroupe extends ActionBarActivity {
         );
         setContentView(R.layout.groupe_aff_possible);
 
-        addAmis = (Button) findViewById(R.id.btnAdd);
-        btnRequete=(Button) findViewById(R.id.btnRequete);
-        //btnRequete.setVisibility(View.INVISIBLE);
         session = new SessionManager(getApplicationContext());
 
         //menu
@@ -101,16 +98,6 @@ public class AfficherGroupe extends ActionBarActivity {
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         final Context context=getApplicationContext();
         // Session manager
-
-
-       /* addAmis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AfficherGroupe.this, AjoutAmis.class);
-                startActivity(intent);
-            }
-        });*/
-
 
         ArrayList<String> liste = afficherGroupe(context);
         addOptionOnClick(liste);
@@ -129,7 +116,6 @@ public class AfficherGroupe extends ActionBarActivity {
             }
         });
     }
-
 
     public void confAjoutGroupe(int position, ArrayList<String> list){
         String username = list.get(position).toString();

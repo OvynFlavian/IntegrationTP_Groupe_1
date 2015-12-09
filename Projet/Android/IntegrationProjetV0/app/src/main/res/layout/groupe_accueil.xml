@@ -24,16 +24,16 @@ android:layout_height="match_parent">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/btnvoirgroupe"
-            android:id="@+id/btnVoirGroupe"
-            android:layout_centerHorizontal="true"/>
+            android:id="@+id/btnListeUsers"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btnlisteusers" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btnnouveaugroupe"
             android:id="@+id/btnCreerGroupe"
-            android:layout_below="@id/btnVoirGroupe"
+            android:layout_below="@id/btnListeUsers"
             android:layout_marginTop="15dp"/>
 
         <Button
@@ -41,18 +41,27 @@ android:layout_height="match_parent">
             android:layout_height="wrap_content"
             android:background="@drawable/btnlistegroupes"
             android:id="@+id/btnAffGroupe"
-            android:layout_below="@+id/btnCreerGroupe"
+            android:layout_below="@id/btnCreerGroupe"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnMessage"
-            android:layout_below="@+id/btnAffGroupe"
+            android:id="@+id/btnRequete"
+            android:layout_below="@id/btnAffGroupe"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:background="@drawable/btnmessages" />
+            android:background="@drawable/btnrequeteajout" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnvoirgroupe"
+            android:id="@+id/btnVoirGroupe"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/btnListeUsers"
+            android:layout_marginTop="15dp"/>
 
     </RelativeLayout>
 

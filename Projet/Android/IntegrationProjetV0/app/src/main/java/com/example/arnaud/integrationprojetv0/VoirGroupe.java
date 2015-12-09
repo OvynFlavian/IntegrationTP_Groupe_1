@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -63,8 +64,7 @@ public class VoirGroupe extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private Button addAmis = null;
-    private Button btnRequete = null;
-    private Button btnQuit = null;
+    private Button btnMessage = null;
 
 
     private TextView desc,acti;
@@ -73,6 +73,11 @@ public class VoirGroupe extends ActionBarActivity {
     private ListView amisList;
     private DrawerLayout mDrawerAmisLayout;
     private ArrayAdapter<String> mAmisAdapter;
+
+    private Intent intent;
+    private int idGroupe;
+    private Boolean isLeader;
+    private Boolean seulDansGroupe;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,9 +90,7 @@ public class VoirGroupe extends ActionBarActivity {
         setContentView(R.layout.groupe_afficher);
         session = new SessionManager(getApplicationContext());
         addAmis = (Button) findViewById(R.id.btnAdd);
-        btnRequete=(Button) findViewById(R.id.btnRequete);
-        btnQuit=(Button) findViewById(R.id.btnQuit);
-        btnRequete.setVisibility(View.INVISIBLE);
+        btnMessage = (Button) findViewById(R.id.btnMessage);
         desc = (TextView) findViewById(R.id.desc);
         acti = (TextView) findViewById(R.id.acti);
         //menu
@@ -102,13 +105,17 @@ public class VoirGroupe extends ActionBarActivity {
         //liste amis
         amisList = (ListView)findViewById(R.id.amisList);
         mDrawerAmisLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        final Context context=getApplicationContext();
+        final Context context = getApplicationContext();
         
         //affichage description
         final String descritpion = afficherDesc();
         String activite = afficherActi();
-        desc.setText("description : "+descritpion);
+        desc.setText("description : " + descritpion);
         acti.setText("Activité : " + activite);
+
+        checkGroupe();
+        checkLeader();
+        checkSeul();
 
         addAmis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,30 +125,15 @@ public class VoirGroupe extends ActionBarActivity {
             }
         });
 
-        btnQuit.setOnClickListener(new View.OnClickListener() {
+        btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VoirGroupe.this, QuitGroupe.class);
+                Intent intent = new Intent(VoirGroupe.this, GroupMessage.class);
                 startActivity(intent);
             }
         });
 
-
-
-
-        final ArrayList<String> liste1;
-        if ((liste1=isRequete())!= null){
-            btnRequete.setVisibility(View.VISIBLE);
-            btnRequete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(VoirGroupe.this, RequeteGroupe.class);
-                    intent.putExtra("liste", liste1 );
-                    startActivity(intent);
-                }
-            });
-        }
-            ArrayList<String> liste = afficherMembre(context);
+        ArrayList<String> liste = afficherMembre(context);
         addOptionOnClick(liste);
     }
 
@@ -165,49 +157,29 @@ public class VoirGroupe extends ActionBarActivity {
             return  response2;
 
         } catch (Exception e) {
-
             System.out.println("Exception : " + e.getMessage());
-
         }
-
-
         return null;
-
-
     }
 
     public String afficherDesc() {
-
         try {
-            // String [] liste = (String[]) list.toArray();
-
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/voirGroupe.php"); // make sure the url is correct.
-
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/voirGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
             System.out.println("Response :1 " + session.getId().toString());
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
             String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
-            // JSONArray JsonArray = new JSONArray(response);
 
-            System.out.println("Response : sisiiii ");
             return  response2;
 
-
         } catch (Exception e) {
-
             System.out.println("Exception : " + e.getMessage());
-
         }
-
-
         return null;
     }
 
@@ -217,41 +189,21 @@ public class VoirGroupe extends ActionBarActivity {
         amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-               /*new Thread(new Runnable() {
-                   @Override
-                   public void run() {*/
                 afficherProfil(position, list);
-                 /*  }
-               }).start();
-*/
-
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    //modifier pour les requetes de groupe.
     public ArrayList<String> isRequete(){
         try{
-
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/affRequeteGroupe.php"); // make sure the url is correct.
-
-            //Execute HTTP Post Request
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/affRequeteGroupe.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
-
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             final String response = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response);
             JSONArray JsonArray = new JSONArray(response);
-
-            System.out.println("Response : " + JsonArray);
-            System.out.println("taille : " + JsonArray.length());
-
 
             final ArrayList<String> list = new ArrayList<String>();
             final String[] tbAmis = new String[35];
@@ -263,24 +215,13 @@ public class VoirGroupe extends ActionBarActivity {
                 list.add(tbAmis[i]);
 
             }
-
-
             return list;
 
-
-
-
-
         }catch(Exception e){
-           /* dialog.dismiss();*/
             System.out.println("Exception : " + e.getMessage());
         }
         return null;
-
     }
-
-
-
 
     public void afficherProfil(int position, ArrayList<String> list){
         String username = list.get(position).toString();
@@ -330,10 +271,6 @@ public class VoirGroupe extends ActionBarActivity {
 
             return list;
 
-
-
-
-
         }catch(Exception e){
            /* dialog.dismiss();*/
             System.out.println("Exception : " + e.getMessage());
@@ -341,26 +278,90 @@ public class VoirGroupe extends ActionBarActivity {
         return null;
     }
 
-    /**
-     * Affiche les erreurs
-     */
-    public void showAlert(){
-        VoirGroupe.this.runOnUiThread(new Runnable() {
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(VoirGroupe.this);
-                builder.setTitle("connexion erreur.");
-                builder.setMessage("utilisateur non trouvé.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
+    public boolean checkGroupe() {
+        try {
+            Boolean dansGroupe = false;
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getGroupe.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            idGroupe = jsonObject.getInt("idGroupe");
+
+            if (idGroupe == 0) {
+                dansGroupe = false;
+            } else {
+                dansGroupe = true;
             }
-        });
+
+            return dansGroupe;
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return false;
+        }
     }
 
+    public boolean checkLeader() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkLeader.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            int idLeader = 0;
+            idLeader = jsonObject.getInt("idLeader");
+            if (idLeader == Integer.valueOf(session.getId())) {
+                isLeader = true;
+            } else {
+                isLeader = false;
+            }
+
+            return isLeader;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Boolean checkSeul() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkSeul.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONObject jsonObject = new JSONObject(response);
+
+            int nbUsers = 0;
+            nbUsers = jsonObject.getInt("nbUsers");
+
+            if (nbUsers > 1) {
+                seulDansGroupe = false;
+            } else if (nbUsers <= 1) {
+                seulDansGroupe = true;
+            }
+
+            return seulDansGroupe;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     //menu
     private void addDrawerItems() {
@@ -380,7 +381,7 @@ public class VoirGroupe extends ActionBarActivity {
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    if(osArray[1].equals("Groupe")) {
+                    if (osArray[1].equals("Groupe")) {
                         Intent intent = new Intent(VoirGroupe.this, GroupeAccueil.class);
                         startActivity(intent);
                     } else {
@@ -403,13 +404,6 @@ public class VoirGroupe extends ActionBarActivity {
                 }
             }
         });
-    }
-
-    private void AfficherMessage(){
-        Intent intent = new Intent(VoirGroupe.this, GroupeAccueil.class);
-        startActivity(intent);
-
-
     }
 
     private void setupDrawer() {
@@ -451,6 +445,14 @@ public class VoirGroupe extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_main, menu);
+        intent = getIntent();
+        isLeader = intent.getBooleanExtra("isLeader", true);
+        seulDansGroupe = intent.getBooleanExtra("seulDansGroupe", true);
+        if (isLeader) {
+            getMenuInflater().inflate(R.menu.menu_groupe_leader, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_groupe, menu);
+        }
         return true;
     }
 
@@ -462,7 +464,37 @@ public class VoirGroupe extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.quitterGroupe) {
+            String url = "";
+            if (seulDansGroupe) {
+                url = "http://www.everydayidea.be/scripts_android/deleteGroupe.php";
+            } else if (isLeader) {
+                url = "http://www.everydayidea.be/scripts_android/deleteFromGroupeLeader.php";
+            } else {
+                url = "http://www.everydayidea.be/scripts_android/deleteFromGroupe.php";
+            }
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(url);
+                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+                nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+                nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+                nameValuePairs.add(new BasicNameValuePair("userName", session.getUsername().trim()));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                final String response = httpclient.execute(httppost, responseHandler);
+
+                Toast.makeText(VoirGroupe.this, "Vous avez quitté votre groupe", Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(VoirGroupe.this, GroupeAccueil.class));
+
+            } catch (Exception e) {
+                System.out.println("Exception : " + e.getMessage());
+            }
+        }
+
+        if (id == R.id.supprimerGroupe) {
             return true;
         }
 

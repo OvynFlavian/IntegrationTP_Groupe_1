@@ -25,6 +25,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +55,13 @@ public class GroupeAccueil extends ActionBarActivity {
     private Button btnCreerGroupe;
     private Button btnVoirGroupe;
     private Button btnAffGroupe;
-    private Button btnMessage;
+    private Button btnRequeteAjout;
+    private Button btnListeUsers;
 
+    private Boolean dansGroupe;
+    private int idGroupe;
+    private Boolean isLeader;
+    private Boolean seulDansGroupe;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,13 +70,20 @@ public class GroupeAccueil extends ActionBarActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
-        setContentView(R.layout.groupe_accueil);
         session = new SessionManager(getApplicationContext());
+
+        dansGroupe = checkGroupe();
+        checkSeul();
+        checkLeader();
+
+        setContentView(R.layout.groupe_accueil);
+
         btnCreerGroupe = (Button) findViewById(R.id.btnCreerGroupe);
 
         btnVoirGroupe = (Button) findViewById(R.id.btnVoirGroupe);
-        btnMessage = (Button) findViewById(R.id.btnMessage);
         btnAffGroupe = (Button) findViewById(R.id.btnAffGroupe);
+        btnRequeteAjout = (Button) findViewById(R.id.btnRequete);
+        btnListeUsers = (Button) findViewById(R.id.btnListeUsers);
 
         //menu
         mDrawerList = (ListView) findViewById(R.id.amisList);
@@ -84,14 +98,17 @@ public class GroupeAccueil extends ActionBarActivity {
 
 
 
-        if(!isGroup()){
+        if(!dansGroupe){
             btnVoirGroupe.setVisibility(View.INVISIBLE);
+        } else {
+            btnCreerGroupe.setVisibility(View.INVISIBLE);
+            btnAffGroupe.setVisibility(View.INVISIBLE);
+            btnRequeteAjout.setVisibility(View.INVISIBLE);
         }
 
         btnCreerGroupe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // creerGroupe();
                 Intent intent = new Intent(GroupeAccueil.this, CreerGroupe.class);
                 startActivity(intent);
             }
@@ -101,6 +118,8 @@ public class GroupeAccueil extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GroupeAccueil.this, VoirGroupe.class);
+                intent.putExtra("isLeader", isLeader);
+                intent.putExtra("seulDansGroupe", seulDansGroupe);
                 startActivity(intent);
             }
         });
@@ -113,13 +132,28 @@ public class GroupeAccueil extends ActionBarActivity {
             }
         });
 
-        btnMessage .setOnClickListener(new View.OnClickListener() {
+        btnListeUsers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroupeAccueil.this, GroupMessage.class);
+                Intent intent = new Intent(GroupeAccueil.this, AjoutAmisGroupe.class);
                 startActivity(intent);
             }
         });
+
+        final ArrayList<String> liste1;
+        if ((liste1 = isRequete()) != null){
+            btnRequeteAjout.setVisibility(View.VISIBLE);
+            btnRequeteAjout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(GroupeAccueil.this, RequeteGroupe.class);
+                    intent.putExtra("liste", liste1 );
+                    startActivity(intent);
+                }
+            });
+        } else {
+            btnRequeteAjout.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -128,36 +162,143 @@ public class GroupeAccueil extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public ArrayList<String> isRequete(){
+        try{
+            httpclient=new DefaultHttpClient();
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/affRequeteGroupe.php");
+            nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONArray JsonArray = new JSONArray(response);
+
+            final ArrayList<String> list = new ArrayList<String>();
+            final String[] tbAmis = new String[35];
+
+            if (!JsonArray.getJSONObject(0).getString("error").equals("TRUE")) {
+                for (int i = 0; i < JsonArray.length(); i++) {
+                    JSONObject jsonObject = JsonArray.getJSONObject(i);
+                    tbAmis[i] = ("Nom d'utilisateur: " + jsonObject.getString("userName") + "\n" + "Description: " + jsonObject.getString("description")).toString();
+                    list.add(tbAmis[i]);
+                }
+                return list;
+            } else {
+                tbAmis[0] = ("Aucune invitation trouvée");
+                list.add(tbAmis[0]);
+                return null;
+            }
+
+        }catch(Exception e){
+            System.out.println("Exception : " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean checkGroupe() {
+        try {
+            Boolean dansGroupe = false;
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getGroupe.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().toString().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            idGroupe = jsonObject.getInt("idGroupe");
+
+            if (idGroupe == 0) {
+                dansGroupe = false;
+            } else {
+                dansGroupe = true;
+            }
+
+            return dansGroupe;
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean checkLeader() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkLeader.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject jsonObject = new JSONObject(response);
+
+            int idLeader = 0;
+            idLeader = jsonObject.getInt("idLeader");
+            if (idLeader == Integer.valueOf(session.getId())) {
+                isLeader = true;
+            } else {
+                isLeader = false;
+            }
+
+            return isLeader;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Boolean checkSeul() {
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/checkSeul.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            nameValuePairs.add(new BasicNameValuePair("idGroupe", String.valueOf(idGroupe).trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
+            JSONObject jsonObject = new JSONObject(response);
+
+            int nbUsers = 0;
+            nbUsers = jsonObject.getInt("nbUsers");
+
+            if (nbUsers > 1) {
+                seulDansGroupe = false;
+            } else if (nbUsers <= 1) {
+                seulDansGroupe = true;
+            }
+
+            return seulDansGroupe;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public boolean isGroup(){
         try {
-            // String [] liste = (String[]) list.toArray();
-
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/isGroup.php"); // make sure the url is correct.
+            httppost = new HttpPost("http://www.everydayidea.be/scripts_android/isGroup.php");
 
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
-            System.out.println("Response :1 " + session.getId().toString());
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            //Execute HTTP Post Request
 
-            System.out.println("Response : 2"+session.getId().toString());
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            // httpclient.execute(httppost);
             String response2 = httpclient.execute(httppost, responseHandler);
-            System.out.println("Response : " + response2);
 
-
-            System.out.println("Response : sisiiii ");
-
-            if (response2.equals("true")) return true;
-            else return false;
-
+            if (response2.equals("true")) {
+                return true;
+            } else {
+                return false;
+            }
 
         } catch (Exception e) {
-
             System.out.println("Exception : " + e.getMessage());
         }
         return false;

@@ -69,6 +69,9 @@ public class AjoutAmisGroupe extends ActionBarActivity {
     private ListView amisList;
     private DrawerLayout mDrawerAmisLayout;
     private ArrayAdapter<String> mAmisAdapter;
+    private Boolean listeVide;
+
+    private int idGroupe;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,15 +128,43 @@ public class AjoutAmisGroupe extends ActionBarActivity {
     }
 
     private void addOptionOnClick(final ArrayList<String> list) {
+        if (!listeVide && checkGroupe()) {
+            amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    ajouterAmis(position, list);
+                }
+            });
+        }
+    }
 
-        amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+    public boolean checkGroupe() {
+        try {
+            Boolean dansGroupe = false;
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://www.everydayidea.be/scripts_android/getGroupe.php");
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("idUser", session.getId().trim()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-                ajouterAmis(position,list);
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            final String response = httpclient.execute(httppost, responseHandler);
 
+            JSONObject jsonObject = new JSONObject(response);
+
+            idGroupe = jsonObject.getInt("idGroupe");
+
+            if (idGroupe == 0) {
+                dansGroupe = false;
+            } else {
+                dansGroupe = true;
             }
-        });
+
+            return dansGroupe;
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+            return false;
+        }
     }
 
     public ArrayList<String> rechercheAmis(ArrayList<String> liste , String rech, Context context){
@@ -141,40 +172,28 @@ public class AjoutAmisGroupe extends ActionBarActivity {
         String search = rech;
         int searchListLength = liste.size();
         for (int i = 0; i < searchListLength; i++) {
-            if (liste.get(i).contains(search)) {
+            if (liste.get(i).toLowerCase().contains(search.toLowerCase())) {
                 liste2.add(liste.get(i));
             }
         }
-
-
         mAmisAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, liste2);
         amisList.setAdapter(mAmisAdapter);
 
         return liste2;
-
     }
 
     public void ajouterAmis(int position,  ArrayList<String> list){
         String username = list.get(position).toString();
 
-
         Intent intent = new Intent(this, ConfirmAjoutGroupe.class);
         intent.putExtra("username", username);
-
         startActivity(intent);
-
-
     }
 
     public ArrayList<String> afficheUserPublic(Context context){
-
         try{
-
             httpclient=new DefaultHttpClient();
-            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/afficherUserPublicPremium.php"); // make sure the url is correct.
-
-            //Execute HTTP Post Request
-            //response=httpclient.execute(httppost);
+            httppost= new HttpPost("http://www.everydayidea.be/scripts_android/afficherUserPublicPremium.php");
             nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("id", session.getId().toString().trim()));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -186,53 +205,30 @@ public class AjoutAmisGroupe extends ActionBarActivity {
             System.out.println("Response : " + JsonArray);
             System.out.println("taille : " + JsonArray.length());
 
-
             final ArrayList<String> list = new ArrayList<String>();
-            // final String[] tbAmis = new String[4];
 
-            for (int i=0;i<JsonArray.length();i++) {
-                JSONObject jsonObject = JsonArray.getJSONObject(i);
-                System.out.println("taille : " + JsonArray.getJSONObject(i));
-                // tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
-                list.add(("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString());
-
+            if (!JsonArray.getJSONObject(0).getString("error").equals("TRUE")) {
+                for (int i = 0; i < JsonArray.length(); i++) {
+                    JSONObject jsonObject = JsonArray.getJSONObject(i);
+                    // tbAmis[i] = ("Nom d'utilisateur: "+jsonObject.getString("userName") +"\n"+"Email: "+ jsonObject.getString("email")).toString();
+                    list.add(("Nom d'utilisateur: " + jsonObject.getString("userName") + "\n" + "Email: " + jsonObject.getString("email")).toString());
+                }
+                listeVide = false;
+            } else {
+                listeVide = true;
+                list.add("Aucun utilisateur n'a été trouvé");
             }
+
             mAmisAdapter = new ArrayAdapter<String>(context, R.layout.spinner_theme2, list);
             amisList.setAdapter(mAmisAdapter);
 
             return list;
 
-
-
-
-
         }catch(Exception e){
-           /* dialog.dismiss();*/
             System.out.println("Exception : " + e.getMessage());
         }
         return null;
     }
-
-    /**
-     * Affiche les erreurs
-     */
-    public void showAlert(){
-        AjoutAmisGroupe.this.runOnUiThread(new Runnable() {
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AjoutAmisGroupe.this);
-                builder.setTitle("connexion erreur.");
-                builder.setMessage("utilisateur non trouvé.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
-    }
-
 
     //menu
     private void addDrawerItems() {

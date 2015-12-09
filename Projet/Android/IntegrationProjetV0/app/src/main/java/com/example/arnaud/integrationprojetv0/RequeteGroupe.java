@@ -96,33 +96,25 @@ public class RequeteGroupe extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-
     private void addOptionOnClick(final ArrayList<String> list) {
 
         amisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AcceptDemande(position, list);
-
-                // Toast.makeText(Profil.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
     public void AcceptDemande(int position, ArrayList<String> list){
         String username = list.get(position).toString();
         Intent intent = new Intent(this, AccepterGroupe.class);
         intent.putExtra("username", username );
         startActivity(intent);
-
     }
 
-
     public ArrayList<String> afficherAmis(Context context){
-
         try{
-
             Intent intent = getIntent();
             final ArrayList<String> liste = intent.getStringArrayListExtra("liste");
 
