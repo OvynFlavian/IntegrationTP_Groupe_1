@@ -309,7 +309,7 @@ public class GroupeAccueil extends ActionBarActivity {
      */
     private void addDrawerItems() {
         final String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
-        if (!session.getDroit().equals("Premium")) {
+        if (session.getDroit().equals("Normal")) {
             osArray[1] = "Devenir Premium !";
         }
 

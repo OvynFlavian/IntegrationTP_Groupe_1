@@ -110,7 +110,7 @@ public class Accueil extends AppCompatActivity {
         final String[] osArray;
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
-            if (!session.getDroit().equals("Premium")) {
+            if (session.getDroit().equals("Normal")) {
                 osArray[1] = "Devenir Premium !";
             }
         } else {

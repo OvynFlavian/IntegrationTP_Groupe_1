@@ -162,7 +162,7 @@ public class AccepterGroupe extends ActionBarActivity {
      */
     private void addDrawerItems() {
         final String[] osArray = {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
-        if (!session.getDroit().equals("Premium")) {
+        if (session.getDroit().equals("Normal")) {
             osArray[1] = "Devenir Premium !";
         }
 

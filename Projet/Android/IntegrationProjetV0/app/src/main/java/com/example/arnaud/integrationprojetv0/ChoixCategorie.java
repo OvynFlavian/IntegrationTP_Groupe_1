@@ -244,7 +244,7 @@ public class ChoixCategorie extends AppCompatActivity {
 
         if(session.isLoggedIn()) {
             osArray = new String[] {"Amis", "Groupe", "Profil", "Se déconnecter"};
-            if (!session.getDroit().equals("Premium")) {
+            if (session.getDroit().equals("Normal")) {
                 osArray[1] = "Devenir Premium !";
             }
         } else {

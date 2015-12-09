@@ -85,7 +85,7 @@ public class CreerGroupe extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        descGroupe=(EditText)findViewById(R.id.descrGroupe);
+        descGroupe = (EditText)findViewById(R.id.descrGroupe);
         layout = (RelativeLayout) findViewById(R.id.layout);
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +101,7 @@ public class CreerGroupe extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 creerGroupe();
+                finirCreation();
                 startActivity(new Intent(CreerGroupe.this, VoirGroupe.class));
             }
         });
@@ -133,12 +134,30 @@ public class CreerGroupe extends ActionBarActivity {
         }
     }
 
+    public void finirCreation(){
+        try {
+            httpclient2 = new DefaultHttpClient();
+            httppost2 = new HttpPost("http://www.everydayidea.be/scripts_android/finirCreationGroupe.php");
+            nameValuePairs2 = new ArrayList<NameValuePair>(2);
+            nameValuePairs2.add(new BasicNameValuePair("id", session.getId().toString().trim()));
+            httppost2.setEntity(new UrlEncodedFormEntity(nameValuePairs2));
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            String response2 = httpclient2.execute(httppost2, responseHandler);
+            System.out.println("Response : " + response2);
+
+            Toast.makeText(CreerGroupe.this, "Groupe Créé avec succès", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
+    }
+
     /**
      * Ajoute des option dans le menu
      */
     private void addDrawerItems() {
         final String[] osArray = new String[] {"Amis", "Groupe", "Profil", "Activités", "Se déconnecter"};
-        if (!session.getDroit().equals("Premium")) {
+        if (session.getDroit().equals("Normal")) {
             osArray[1] = "Devenir Premium !";
         }
 
