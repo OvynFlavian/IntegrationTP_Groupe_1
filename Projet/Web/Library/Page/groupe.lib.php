@@ -34,12 +34,10 @@ function afficherMembres() {
             <?php
             foreach ($tab as $elem) {
                 #TODO TEST QUAND LA BASE DE DONNEES SERA CLEAN CAR BUG
-                if ($elem->getUserName() == $tab[$lenght-1]->getUserName())
-                    break;
                 $id = $elem->getId();
                 $actUser = $uam->getActIdByUserId($elem);
-                if ($id != $_SESSION['User']->getId()) {
-                        if ($elem->getDroit()[0]->getId() == 3 || $elem->getDroit()[0]->getId() == 2 || $elem->getDroit()[0]->getId() == 1) {
+                if (isset($id) && $id != $_SESSION['User']->getId()) {
+                        if (isset($elem->getDroit()[0]) && ($elem->getDroit()[0]->getId() == 3 || $elem->getDroit()[0]->getId() == 2 || $elem->getDroit()[0]->getId() == 1)) {
                             if ($actUser != NULL) {
                                 if ($actUser[0]['id_activity'] == $act[0]['id_activity']) {
                                     $groupe = $ugm->getGroupeIdByUserId($elem);

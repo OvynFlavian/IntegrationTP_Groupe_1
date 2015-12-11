@@ -49,7 +49,7 @@ $isConnect = isConnect();
         </div>
         <section class="col-lg-8 jumbotron">
             <h1> <img class="jumbotitre" src="../Images/bannieres/mdpoublie.png" alt="logo" id='image-media'></h1>
-            <p class="jumbotexte">Entrez votre l'adresse e-mail de votre compte afin de recevoir un message de récupération !</p>
+            <p class="jumbotexte">Entrez votre l'adresse e-mail de votre compte afin de recevoir un message de récupération </p>
         </section>
         <section class="alert-dismissible">
 

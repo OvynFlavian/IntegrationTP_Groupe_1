@@ -54,7 +54,7 @@
     </div>
     <section class="col-lg-8 jumbotron">
         <h1> <img class="jumbotitre" src="../Images/bannieres/inscription.png" alt="logo" id='image-media'></h1>
-        <p class="jumbotexte">Rentrez vos données personnelles afin de recevoir un code d'activation par mail !</p>
+        <p class="jumbotexte">Rentrez vos données personnelles afin de recevoir un code d'activation par mail </p>
     </section>
     <section class="row">
         <article class="col-sm-12">
