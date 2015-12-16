@@ -86,7 +86,7 @@ use \Entity\Activation as Activation;
                 $wrongCode = true;
             }
 
-            if ($wrongCode) {
+            if ($wrongCode && !isset($_POST['modifMdp'])) {
                 echo "<div class='alert alert-danger' role='alert'> Votre code n'est pas correct, cliquez bien sur le mail envoyé à cet effet ! <br>";
                 echo "<meta http-equiv='refresh' content='2; URL=../'>";
                 return false;
@@ -108,7 +108,7 @@ use \Entity\Activation as Activation;
             echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='userName'>Nom d'utilisateur :</label><div class='col-sm-10'><input class='form-control' id='userName' name='userName' type='text'></div></div>";
             echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='mdp'>Mot de passe :</label><div class='col-sm-10'><input class='form-control' id='mdp' name='mdp' type='password'></div></div>";
             echo "<div class='form-group col-sm-12'><label class='col-sm-2' for='verifmdp'>Vérification du mdp :</label><div class='col-sm-10'><input class='form-control' id='verifmdp' name='verifmdp' type='password'></div></div>";
-            echo "<div class='form-group col-sm-12'><div class='col-sm-10'><button type='submit' class='btn btn-default'>Soumettre</button></div></div> ";
+            echo "<div class='form-group col-sm-12'><div class='col-sm-offset-2 col-sm-10'><button type='submit' name='modifMdp' class='btn btn-default'>Soumettre</button></div></div> ";
             echo "</form>";
             echo "</div>";
         } else {

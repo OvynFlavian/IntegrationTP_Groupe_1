@@ -40,7 +40,7 @@
  * @return bool : true si le champ ne possède pas de caractères indésirables, false si il en contient.
  */
     function champsLoginValable($champ) {
-     if(preg_match('#^[a-zA-Z0-9 \ éàèîêâô! ]*$#', $champ)) {
+     if(preg_match('#^[a-zA-Z0-9 \ éàèîêâôç! ]*$#', $champ)) {
           return true;
      }
      else {

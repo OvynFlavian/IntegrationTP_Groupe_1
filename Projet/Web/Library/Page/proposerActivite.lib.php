@@ -158,7 +158,7 @@ function gererSignalement() {
         echo "<div align='center'>";
         echo "<form class='form-horizontal col-sm-12' name='gererSignalement' action='proposerActivite.page.php?categorie=$cat&activite=$id&to=signaler' method='post'>";
         echo "<h1 align='center'>Êtes-vous sûr de vouloir $do l'activité ?</h1><br><br>";
-        if ($do = 'supprimer') {
+        if ($do == 'supprimer') {
             echo "<h1 align='center'>Supprimer une activité supprime aussi tous les groupes liés à elle, pensez-y !</h1><br><br>";
         }
         echo "<input type='hidden'  name='idActivity'  value='" . $id . "''>";

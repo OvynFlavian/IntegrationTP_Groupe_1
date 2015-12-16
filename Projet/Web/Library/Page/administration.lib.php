@@ -33,6 +33,7 @@ function rechercheMembre()
  * @param $tab : le tableau de membres.
  */
 function afficherMembres($tab) {
+    $existe = false;
     ?>
     <section class="Membres">
     <div class="table-responsive">
@@ -50,9 +51,10 @@ function afficherMembres($tab) {
                 if ($id != $_SESSION['User']->getId()) {
                     echo "<tr> <td>" . $elem->getUserName() . " </td><td>" . $elem->getDateLastConnect() . "</td><td>" . $elem->getDateInscription() . "</td>";
                     echo "<td><a href='administration.page.php?to=voirProfil&membre=$id'> Voir le profil </a></td></tr>";
+                    $existe = true;
                 }
             }
-            if ($tab == NULL) {
+            if ($tab == NULL or !$existe) {
                 echo "<tr> <td> Aucun utilisateur trouvé !</td></tr>";
             }
             ?>

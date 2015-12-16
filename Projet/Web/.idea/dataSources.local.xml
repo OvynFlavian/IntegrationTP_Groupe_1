@@ -4,5 +4,11 @@
     <data-source name="MySQL - projetintegration@localhost" uuid="036780c2-9916-4379-b0d5-7b77b3d380f3">
       <user-name>root</user-name>
     </data-source>
+    <data-source name="MySQL - @localhost" uuid="e654957b-94c2-41ec-99cb-63bafc67923b">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>bdd.*</schema-pattern>
+      <default-schemas>bdd.*</default-schemas>
+    </data-source>
   </component>
 </project>

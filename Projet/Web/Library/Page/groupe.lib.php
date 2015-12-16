@@ -103,7 +103,7 @@ function afficherInvitation() {
                     $user = $um->getUserById($elem['id_user_envoi']);
                     $groupe = $gm->getGroupeByIdGroupe($elem['id_groupe']);
                     $id = $groupe->getIdGroupe();
-                    echo "<tr> <td>" . $user->getUserName() . " </td><td>" . $groupe->getDescription() . " </td><td>";
+                    echo "<tr> <td>" . $user->getUserName() . " </td><td>" . substr($groupe->getDescription(),0,80)."..." . " </td><td>";
                     echo "<form class='form-horizontal col-sm-12' name='accepter$id' action='groupe.page.php?to=invitation&action=gerer' method='post'>";
                     echo "<button class='btn btn-success col-sm-6' type='submit' id='formulaire' name='AccepterGroupe$id'>Accepter</button>";
                     echo "<button class='btn btn-warning col-sm-6' type='submit' id='formulaire' name='RefuserGroupe$id'>Refuser</button>";
@@ -303,7 +303,7 @@ function listeGroupe() {
             foreach ($tabGroupe as $elem) {
                 $user = $um->getUserById($elem->getIdLeader());
                 $id = $elem->getIdGroupe();
-                echo "<tr> <td>" . $elem->getDescription() . " </td><td>" . $user->getUserName() . " </td>";
+                echo "<tr> <td>" . substr($elem->getDescription(),0,120)."..." . " </td><td>" . $user->getUserName() . " </td>";
                 echo "<td><a href='groupe.page.php?to=rejoindre&groupe=" . $elem->getIdGroupe() . "'> Rejoindre le groupe </a></td>";
                 echo "</tr>";
                 $existe = true;

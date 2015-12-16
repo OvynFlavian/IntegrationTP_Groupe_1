@@ -31,6 +31,7 @@ function rechercheMembre()
  * @param $tab : le tableau de membres.
  */
 function afficherMembres($tab) {
+    $existe = false;
     ?>
     <div class="Membres">
     <div class="table-responsive">
@@ -47,9 +48,12 @@ function afficherMembres($tab) {
                     $id = $elem->getId();
                     if ($id != $_SESSION['User']->getId()) {
                         echo "<tr> <td>" . $elem->getUserName() . " </td><td>" . $elem->getDateLastConnect() . "</td><td>" . $elem->getDateInscription() . "</td><td><a href='demandeAmi.page.php?membre=$id'> Ajouter comme ami</a></td></tr>";
+                        $existe = true;
                     }
+
+
                 }
-                if ($tab == NULL) {
+                if ($tab == NULL or !$existe) {
                     echo "<tr> <td> Aucun utilisateur trouvé !</td></tr>";
                 }
              ?>

@@ -2223,4 +2223,213 @@
       <foreign-key name="user_droit_ibfk_2" columns="id_User" ref-table="user" ref-schema="" ref-catalog="projetintegration" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
   </data-source>
+  <data-source name="MySQL - @localhost" uuid="e654957b-94c2-41ec-99cb-63bafc67923b">
+    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="bdd"/>
+    <table name="assureur" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nom" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="adresse" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="num_tel" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="num_fax" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="assureur_contrat_ibfk_2" table="assureur_contrat" schema="" catalog="bdd" columns="idAssureur"/>
+      <exported-key name="contrat_ibfk_1" table="contrat" schema="" catalog="bdd" columns="assureur"/>
+      <index name="index_nom" unique="false" columns="nom"/>
+    </table>
+    <table name="assureur_contrat" schema="" catalog="bdd" type="TABLE">
+      <column name="idAssureur" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idContrat" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dateSignature" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="idAssureur,idContrat"/>
+      <foreign-key name="assureur_contrat_ibfk_2" columns="idAssureur" ref-table="assureur" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="assureur_contrat_ibfk_1" columns="idContrat" ref-table="contrat" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="classe_tarification" schema="" catalog="bdd" type="TABLE">
+      <column name="code" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="prixKm" sqlType="FLOAT" precision="12" scale="0" nullable="false" jdbcType="7"/>
+      <column name="amendeJourna" sqlType="FLOAT" precision="12" scale="0" nullable="false" jdbcType="7"/>
+      <primary-key name="PRIMARY" columns="code"/>
+      <exported-key name="contrat_classeforfaitaire_ibfk_2" table="contrat_classeforfaitaire" schema="" catalog="bdd" columns="id_classe"/>
+      <exported-key name="modele_classetarification_ibfk_2" table="modele_classetarification" schema="" catalog="bdd" columns="id_classe"/>
+      <index name="unique_code" unique="true" columns="code"/>
+    </table>
+    <table name="client" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nom" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prenom" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="adresse" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="client_reservation_ibfk_2" table="client_reservation" schema="" catalog="bdd" columns="idClient"/>
+      <exported-key name="reservation_ibfk_2" table="reservation" schema="" catalog="bdd" columns="idClient"/>
+      <index name="index_nom_client" unique="false" columns="nom"/>
+      <index name="index_prenom_client" unique="false" columns="prenom"/>
+    </table>
+    <table name="client_reservation" schema="" catalog="bdd" type="TABLE">
+      <column name="idClient" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idReservation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dateReservation" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="idClient,idReservation"/>
+      <foreign-key name="client_reservation_ibfk_2" columns="idClient" ref-table="client" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="client_reservation_ibfk_1" columns="idReservation" ref-table="reservation" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="contrat" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="typeContrat" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="assureur" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dateSignature" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="contrat_ibfk_1" columns="assureur" ref-table="assureur" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="assureur_contrat_ibfk_1" table="assureur_contrat" schema="" catalog="bdd" columns="idContrat"/>
+      <exported-key name="contrat_classeforfaitaire_ibfk_1" table="contrat_classeforfaitaire" schema="" catalog="bdd" columns="id_contrat"/>
+      <exported-key name="contrat_voiture_ibfk_2" table="contrat_voiture" schema="" catalog="bdd" columns="idContrat"/>
+      <index name="index_typeContrat_contratassurance" unique="false" columns="typeContrat"/>
+    </table>
+    <table name="contrat_classeforfaitaire" schema="" catalog="bdd" type="TABLE">
+      <column name="id_contrat" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="id_classe" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id_contrat,id_classe"/>
+      <foreign-key name="contrat_classeforfaitaire_ibfk_2" columns="id_classe" ref-table="classe_tarification" ref-schema="" ref-catalog="bdd" ref-columns="code" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="contrat_classeforfaitaire_ibfk_1" columns="id_contrat" ref-table="contrat" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="contrat_voiture" schema="" catalog="bdd" type="TABLE">
+      <column name="idContrat" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idVoiure" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dateAjout" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="idContrat,idVoiure"/>
+      <foreign-key name="contrat_voiture_ibfk_2" columns="idContrat" ref-table="contrat" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="contrat_voiture_ibfk_1" columns="idVoiure" ref-table="voiture" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="etat" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="label" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="reservation_etat_ibfk_1" table="reservation_etat" schema="" catalog="bdd" columns="idEtat"/>
+      <index name="index_label_etat" unique="false" columns="label"/>
+    </table>
+    <table name="facturation" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="idLocation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dedommagement" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="cautionPayee" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="montantForfaitaire" sqlType="FLOAT" precision="12" scale="0" nullable="false" jdbcType="7"/>
+      <column name="supplement" sqlType="DOUBLE" precision="22" scale="0" nullable="false" jdbcType="8"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="facturation_ibfk_1" columns="idLocation" ref-table="location" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="location" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="dateDepart" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="dateRetour" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="kmDepart" sqlType="DECIMAL" precision="6" scale="2" nullable="false" jdbcType="3"/>
+      <column name="caution" sqlType="DECIMAL" precision="5" scale="2" nullable="false" jdbcType="3"/>
+      <column name="numPermis" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="facturation_ibfk_1" table="facturation" schema="" catalog="bdd" columns="idLocation"/>
+      <exported-key name="reservation_ibfk_3" table="reservation" schema="" catalog="bdd" columns="idLocation"/>
+      <exported-key name="reservation_location_ibfk_1" table="reservation_location" schema="" catalog="bdd" columns="idLocation"/>
+      <index name="unique_numPermis" unique="true" columns="numPermis"/>
+    </table>
+    <table name="mode_location" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="libelle" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="kmForfaitaire" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="reservation_ibfk_4" table="reservation" schema="" catalog="bdd" columns="id_modeLocation"/>
+    </table>
+    <table name="modele" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="marque" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="type" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="puissance" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="modele_classetarification_ibfk_1" table="modele_classetarification" schema="" catalog="bdd" columns="id_modele"/>
+      <exported-key name="voiture_modele_ibfk_1" table="voiture_modele" schema="" catalog="bdd" columns="idModele"/>
+      <index name="index_marque_modele" unique="false" columns="marque"/>
+    </table>
+    <table name="modele_classetarification" schema="" catalog="bdd" type="TABLE">
+      <column name="id_modele" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="id_classe" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id_modele,id_classe"/>
+      <foreign-key name="modele_classetarification_ibfk_2" columns="id_classe" ref-table="classe_tarification" ref-schema="" ref-catalog="bdd" ref-columns="code" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="modele_classetarification_ibfk_1" columns="id_modele" ref-table="modele" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="unique_id_modele" unique="true" columns="id_modele"/>
+    </table>
+    <table name="optionvoiture" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="label" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="voiture_option_ibfk_1" table="voiture_option" schema="" catalog="bdd" columns="idOption"/>
+      <index name="index_label_optionvoiture" unique="false" columns="label"/>
+    </table>
+    <table name="reservation" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="idVoiture" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idClient" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idLocation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dateReservation" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="id_modeLocation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idNouvelleReservation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="reservation_ibfk_5" columns="idNouvelleReservation" ref-table="reservation" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reservation_ibfk_1" columns="idVoiture" ref-table="voiture" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reservation_ibfk_2" columns="idClient" ref-table="client" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reservation_ibfk_3" columns="idLocation" ref-table="location" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reservation_ibfk_4" columns="id_modeLocation" ref-table="mode_location" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="client_reservation_ibfk_1" table="client_reservation" schema="" catalog="bdd" columns="idReservation"/>
+      <exported-key name="reservation_ibfk_5" table="reservation" schema="" catalog="bdd" columns="idNouvelleReservation"/>
+      <exported-key name="reservation_etat_ibfk_2" table="reservation_etat" schema="" catalog="bdd" columns="idReservation"/>
+      <exported-key name="reservation_location_ibfk_2" table="reservation_location" schema="" catalog="bdd" columns="idReservation"/>
+    </table>
+    <table name="reservation_etat" schema="" catalog="bdd" type="TABLE">
+      <column name="idReservation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idEtat" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <primary-key name="PRIMARY" columns="idReservation,idEtat"/>
+      <foreign-key name="reservation_etat_ibfk_2" columns="idReservation" ref-table="reservation" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reservation_etat_ibfk_1" columns="idEtat" ref-table="etat" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="reservation_location" schema="" catalog="bdd" type="TABLE">
+      <column name="idReservation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idLocation" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dateCreation" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="idReservation,idLocation"/>
+      <foreign-key name="reservation_location_ibfk_2" columns="idReservation" ref-table="reservation" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="reservation_location_ibfk_1" columns="idLocation" ref-table="location" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="voiture" schema="" catalog="bdd" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="dateAchat" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="prixAchat" sqlType="DECIMAL" precision="6" scale="2" nullable="false" jdbcType="3"/>
+      <column name="dateRestitution" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="contrat_voiture_ibfk_1" table="contrat_voiture" schema="" catalog="bdd" columns="idVoiure"/>
+      <exported-key name="reservation_ibfk_1" table="reservation" schema="" catalog="bdd" columns="idVoiture"/>
+      <exported-key name="voiture_modele_ibfk_2" table="voiture_modele" schema="" catalog="bdd" columns="idVoiture"/>
+      <exported-key name="voiture_option_ibfk_2" table="voiture_option" schema="" catalog="bdd" columns="idVoiture"/>
+    </table>
+    <table name="voiture_modele" schema="" catalog="bdd" type="TABLE">
+      <column name="idVoiture" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idModele" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="label" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="idVoiture,idModele"/>
+      <foreign-key name="voiture_modele_ibfk_2" columns="idVoiture" ref-table="voiture" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="voiture_modele_ibfk_1" columns="idModele" ref-table="modele" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="voiture_modele_ibfk_2" unique="false" columns="idModele"/>
+    </table>
+    <table name="voiture_option" schema="" catalog="bdd" type="TABLE">
+      <column name="idVoiture" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idOption" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dateAjout" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="idVoiture,idOption"/>
+      <foreign-key name="voiture_option_ibfk_2" columns="idVoiture" ref-table="voiture" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="voiture_option_ibfk_1" columns="idOption" ref-table="optionvoiture" ref-schema="" ref-catalog="bdd" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+  </data-source>
 </component>
