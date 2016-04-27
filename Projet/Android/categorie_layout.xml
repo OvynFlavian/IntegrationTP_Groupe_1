@@ -1,0 +1,61 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".MainActivity"
+    android:background="@drawable/ampoule">
+
+    <TextView
+        android:text="@string/titreCat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titreCat"
+        style="@style/titre"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:layout_below="@id/titreCat"
+        android:background="@drawable/animaux"
+        android:id="@+id/animaux"
+        android:text="animaux"
+        android:textColor="#00000000"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:layout_below="@id/titreCat"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/famille"
+        android:id="@+id/famille"
+        android:text="famille"
+        android:textColor="#00000000"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:layout_below="@id/animaux"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/film"
+        android:id="@+id/film"
+        android:text="film"
+        android:textColor="#00000000"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:layout_below="@id/famille"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/visite"
+        android:id="@+id/visite"
+        android:text="visite"
+        android:textColor="#00000000"/>
+
+
+</RelativeLayout>
